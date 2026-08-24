@@ -33,16 +33,12 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `appointments` | 7 |
 | `billing` | 6 |
 | `bulkTasks` | 1 |
-| `campaigns` | 18 |
 | `communications` | 4 |
 | `contacts` | 36 |
 | `conversations` | 5 |
-| `crmImport` | 3 |
 | `deals` | 26 |
 | `forms` | 13 |
 | `notifications` | 4 |
-| `partnerships` | 7 |
-| `phoneNumbers` | 2 |
 | `properties` | 23 |
 | `tasks` | 8 |
 | `team` | 7 |
