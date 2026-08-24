@@ -1,0 +1,43 @@
+{
+  "name": "@goliath-data/sdk",
+  "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "description": "Official TypeScript SDK for the Goliath developer API (goliathdata.com)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GoliathData/sdk.git"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "docs"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsdown && tsc --project tsconfig.json --emitDeclarationOnly",
+    "typecheck": "tsc --project tsconfig.json --noEmit && tsc --project tsconfig.tests.json --noEmit",
+    "test": "vitest run",
+    "generate:docs": "node scripts/generate-docs.mjs",
+    "clean": "rm -rf dist",
+    "smoke:staging": "node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.9",
+    "tsdown": "0.22.14"
+  }
+}
