@@ -1556,7 +1556,7 @@
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "type:FilterType!,fieldIds:[String!]",
+    "variableSignature": "type:FilterType!,fieldIds:[String!]!",
     "responseShape": "{\"filterQuery\":{\"listFilterFields\":{\"fieldId\":true,\"label\":true,\"category\":true,\"description\":true,\"component\":true,\"acceptedValueKeys\":true,\"valueShapes\":{\"discriminatorKey\":true,\"discriminatorValue\":true,\"scalar\":{\"type\":true,\"acceptedValues\":true},\"keys\":{\"key\":true,\"required\":true,\"acceptedValues\":true}},\"options\":{\"label\":true,\"value\":true},\"hidden\":true}}}"
   },
   {

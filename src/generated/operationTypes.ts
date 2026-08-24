@@ -1964,7 +1964,7 @@ export type ListFilterFieldNamesQuery = { __typename?: 'RootQuery', filterQuery?
 
 export type ListFilterFieldsQueryVariables = Exact<{
   type: FilterType;
-  fieldIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  fieldIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 export type ListFilterFieldsQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', listFilterFields?: Array<{ __typename?: 'FilterFieldDescriptor', fieldId: string, label: string, category: string, description?: string | null, component: string, acceptedValueKeys?: Array<string> | null, hidden: boolean, valueShapes?: Array<{ __typename?: 'FilterFieldValueShape', discriminatorKey?: string | null, discriminatorValue?: string | null, scalar?: { __typename?: 'FilterFieldScalarShape', type: string, acceptedValues?: Array<string> | null } | null, keys: Array<{ __typename?: 'FilterFieldValueKey', key: string, required: boolean, acceptedValues?: Array<string> | null }> }> | null, options?: Array<{ __typename?: 'FilterFieldOption', label: string, value?: string | null }> | null }> | null } | null };
