@@ -962,7 +962,8 @@ export enum WorkflowDomain {
   Contact = 'CONTACT',
   Deal = 'DEAL',
   Event = 'EVENT',
-  Property = 'PROPERTY'
+  Property = 'PROPERTY',
+  Slack = 'SLACK'
 }
 
 /**
