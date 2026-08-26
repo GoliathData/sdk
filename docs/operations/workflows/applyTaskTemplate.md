@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Run a TASK template against a contact: creates one real task from the template, assigned to the acting user, linked to the contact (and any dealIds). Title/description render the template’s merge fields + spintax against that contact, and the RELATIVE dueOffset resolves from now, snapped to the template’s preferred time-of-day. Rejects a template that is not type TASK. This is how a saved checklist/SOP gets instantiated for a customer — apply each step template in order. Get template ids from listContentTemplates(type: TASK).
+Run a TASK template against a contact: creates one real task from the template, assigned to the acting user, linked to the contact (and any dealIds). Title/description render the template’s merge fields + spintax against that contact, and the RELATIVE dueOffset resolves from now, snapped to the template’s preferred time-of-day. Rejects a template that is not type TASK. Pass overrides { title?, description?, endDate?, timezone?, taskType?, autoCompleteOnNoteAdded?, autoCompleteOnReassignment? } to replace what the template would have produced for this one apply — an endDate override skips the relative due-date resolution entirely, and everything not overridable (origin, supporting-file links, the contact/deal links) still applies. Send timezone alongside any endDate override: it is the zone the task is stored in and read back against, and without it the task keeps the TEMPLATE’s preferred-time-of-day zone, so an instant chosen in one zone can render as a different day. Get template ids from listContentTemplates(type: TASK). To run a whole saved SOP at once, use applyTaskSet instead of calling this per step.
 
 ## Call
 
@@ -22,6 +22,7 @@ const result = await client.workflows.applyTaskTemplate({ templateId: '<id>', co
 | `templateId` | `ID!` | yes | — |
 | `contactId` | `ID!` | yes | — |
 | `dealIds` | `[ID!]` | no | — |
+| `overrides` | `ApplyTaskTemplateOverridesInput` | no | — |
 
 ## Gateway notes
 

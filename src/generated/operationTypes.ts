@@ -109,6 +109,32 @@ export enum AgentAnalyticsPeriod {
   YearToDate = 'YEAR_TO_DATE'
 }
 
+/**
+ * Per-apply overrides for `applyTaskTemplate`. Each field REPLACES the value the
+ * template would have produced; omitted fields keep the template's. `endDate`
+ * skips the relative due-date resolution entirely. Everything the template carries
+ * that is not overridable — origin, supporting-file links, the contact link —
+ * still applies, which is why an edited prefill submits through this rather than
+ * through a plain createTask.
+ */
+export type ApplyTaskTemplateOverridesInput = {
+  autoCompleteOnNoteAdded?: InputMaybe<Scalars['Boolean']['input']>;
+  autoCompleteOnReassignment?: InputMaybe<Scalars['Boolean']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  taskType?: InputMaybe<Scalars['String']['input']>;
+  /**
+   * The timezone the created task is stored in, and the zone `endDate` is read
+   * back against by the task editor. Send it alongside any `endDate` override:
+   * without it the task keeps the TEMPLATE's `preferredTimeOfDay.timezone`, so an
+   * instant chosen in US Eastern can render as the next day under a template
+   * authored in UTC+9. When present it always wins over the template's zone; when
+   * omitted the template's is kept.
+   */
+  timezone?: InputMaybe<Timezone>;
+  title?: InputMaybe<Scalars['String']['input']>;
+};
+
 export enum AppointmentCalendarSyncProvider {
   Google = 'GOOGLE',
   Microsoft = 'MICROSOFT'
@@ -234,13 +260,20 @@ export type ContentTemplateMutationInput = {
   name: Scalars['String']['input'];
   subjectContent?: InputMaybe<Scalars['String']['input']>;
   taskConfig?: InputMaybe<TaskTemplateConfigInput>;
+  taskSetSteps?: InputMaybe<Array<TaskSetStepInput>>;
 };
 
 export enum ContentTemplateType {
   Email = 'EMAIL',
   Note = 'NOTE',
   Sms = 'SMS',
-  Task = 'TASK'
+  Task = 'TASK',
+  /**
+   * A named collection of TASK templates, each with its own due offset and
+   * time-of-day, applied to a contact in one gesture. Carries no body and no
+   * taskConfig of its own — see `ContentTemplate.taskSetSteps`.
+   */
+  TaskSet = 'TASK_SET'
 }
 
 export type CreateContactCustomFieldInput = {
@@ -770,6 +803,18 @@ export enum SuppressionMedium {
   Sms = 'SMS',
   Voice = 'VOICE'
 }
+
+/**
+ * One step of a TASK_SET template. `taskTemplateId` must name a TASK template in
+ * the caller's organization — a TASK_SET is rejected (a set cannot contain a set).
+ * The same template may appear more than once. The timing here WINS over the
+ * referenced template's own `taskConfig` timing.
+ */
+export type TaskSetStepInput = {
+  dueOffset: TaskTemplateRelativeDateOffsetInput;
+  preferredTimeOfDay: TaskTemplateTimeOfDayInput;
+  taskTemplateId: Scalars['ID']['input'];
+};
 
 export enum TaskStatus {
   Future = 'FUTURE',
@@ -2126,14 +2171,14 @@ export type GetContentTemplateQueryVariables = Exact<{
   templateId: Scalars['ID']['input'];
 }>;
 
-export type GetContentTemplateQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', contentTemplate?: { __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, bodyContent: string, bodyFormat: string, subjectContent?: string | null, folderId?: string | null, createdAt: any, updatedAt: any } | null } | null };
+export type GetContentTemplateQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', contentTemplate?: { __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, bodyContent: string, bodyFormat: string, subjectContent?: string | null, folderId?: string | null, createdAt: any, updatedAt: any, taskSetSteps?: Array<{ __typename?: 'TaskSetStep', id: string, taskTemplate: { __typename?: 'ContentTemplate', id: string, name: string }, dueOffset: { __typename?: 'TaskTemplateRelativeDateOffset', amount: number, unit: TaskTemplateRelativeTimeUnit }, preferredTimeOfDay: { __typename?: 'TaskTemplateTimeOfDay', hour: number, minute: number, timezone: Timezone } }> | null } | null } | null };
 
 export type ListContentTemplatesQueryVariables = Exact<{
   type?: InputMaybe<ContentTemplateType>;
   folderId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type ListContentTemplatesQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listContentTemplates?: Array<{ __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, folderId?: string | null, updatedAt: any }> | null } | null };
+export type ListContentTemplatesQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listContentTemplates?: Array<{ __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, folderId?: string | null, updatedAt: any, taskSetSteps?: Array<{ __typename?: 'TaskSetStep', id: string, taskTemplate: { __typename?: 'ContentTemplate', id: string, name: string }, dueOffset: { __typename?: 'TaskTemplateRelativeDateOffset', amount: number, unit: TaskTemplateRelativeTimeUnit }, preferredTimeOfDay: { __typename?: 'TaskTemplateTimeOfDay', hour: number, minute: number, timezone: Timezone } }> | null }> | null } | null };
 
 export type ListContentTemplateFoldersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2283,13 +2328,13 @@ export type CreateContentTemplateMutationVariables = Exact<{
   input: CreateContentTemplateInput;
 }>;
 
-export type CreateContentTemplateMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', createContentTemplate?: { __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, folderId?: string | null } | null } | null };
+export type CreateContentTemplateMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', createContentTemplate?: { __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, folderId?: string | null, taskSetSteps?: Array<{ __typename?: 'TaskSetStep', id: string, taskTemplate: { __typename?: 'ContentTemplate', id: string, name: string }, dueOffset: { __typename?: 'TaskTemplateRelativeDateOffset', amount: number, unit: TaskTemplateRelativeTimeUnit }, preferredTimeOfDay: { __typename?: 'TaskTemplateTimeOfDay', hour: number, minute: number, timezone: Timezone } }> | null } | null } | null };
 
 export type UpdateContentTemplateMutationVariables = Exact<{
   input: UpdateContentTemplateInput;
 }>;
 
-export type UpdateContentTemplateMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateContentTemplate?: { __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, updatedAt: any } | null } | null };
+export type UpdateContentTemplateMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateContentTemplate?: { __typename?: 'ContentTemplate', id: string, name: string, type: ContentTemplateType, updatedAt: any, taskSetSteps?: Array<{ __typename?: 'TaskSetStep', id: string, taskTemplate: { __typename?: 'ContentTemplate', id: string, name: string }, dueOffset: { __typename?: 'TaskTemplateRelativeDateOffset', amount: number, unit: TaskTemplateRelativeTimeUnit }, preferredTimeOfDay: { __typename?: 'TaskTemplateTimeOfDay', hour: number, minute: number, timezone: Timezone } }> | null } | null } | null };
 
 export type DeleteContentTemplateMutationVariables = Exact<{
   templateId: Scalars['ID']['input'];
@@ -2373,6 +2418,15 @@ export type ApplyTaskTemplateMutationVariables = Exact<{
   templateId: Scalars['ID']['input'];
   contactId: Scalars['ID']['input'];
   dealIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  overrides?: InputMaybe<ApplyTaskTemplateOverridesInput>;
 }>;
 
 export type ApplyTaskTemplateMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', applyTaskTemplate?: { __typename?: 'Task', id: string, title?: string | null, description?: string | null, endDate?: any | null, completedAt?: any | null } | null } | null };
+
+export type ApplyTaskSetMutationVariables = Exact<{
+  templateId: Scalars['ID']['input'];
+  contactId: Scalars['ID']['input'];
+  dealIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+}>;
+
+export type ApplyTaskSetMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', applyTaskSet?: { __typename?: 'ApplyTaskSetPayload', tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, endDate?: any | null, completedAt?: any | null }>, failedStep?: { __typename?: 'ApplyTaskSetFailedStep', index: number, taskTemplateId: string, message: string } | null } | null } | null };

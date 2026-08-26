@@ -1268,7 +1268,16 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly workflows = {
     /**
-     * Run a TASK template against a contact: creates one real task from the template, assigned to the acting user, linked to the contact (and any dealIds). Title/description render the template’s merge fields + spintax against that contact, and the RELATIVE dueOffset resolves from now, snapped to the template’s preferred time-of-day. Rejects a template that is not type TASK. This is how a saved checklist/SOP gets instantiated for a customer — apply each step template in order. Get template ids from listContentTemplates(type: TASK).
+     * Run a whole TASK_SET against a contact: creates every step as a real task in one call, all assigned to the acting user and linked to the contact (and any dealIds). Each step’s due date is ITS OWN relative offset resolved from one shared “now” and snapped to its own preferred time-of-day — the referenced template’s own timing is ignored inside a set. Steps run in due order and stop at the FIRST failure, KEEPING what was already created: the payload then carries the tasks that landed plus failedStep { index, taskTemplateId, message }. It does NOT error for a step failure, so always read failedStep before reporting success. Rejects a template that is not type TASK_SET. Get set ids from listContentTemplates(type: TASK_SET).
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    applyTaskSet: (variables: T.ApplyTaskSetMutationVariables, options?: IdempotentRequestOptions): Promise<T.ApplyTaskSetMutation> =>
+      this.request('applyTaskSet', variables, options, { operationType: 'mutation' }),
+    /**
+     * Run a TASK template against a contact: creates one real task from the template, assigned to the acting user, linked to the contact (and any dealIds). Title/description render the template’s merge fields + spintax against that contact, and the RELATIVE dueOffset resolves from now, snapped to the template’s preferred time-of-day. Rejects a template that is not type TASK. Pass overrides { title?, description?, endDate?, timezone?, taskType?, autoCompleteOnNoteAdded?, autoCompleteOnReassignment? } to replace what the template would have produced for this one apply — an endDate override skips the relative due-date resolution entirely, and everything not overridable (origin, supporting-file links, the contact/deal links) still applies. Send timezone alongside any endDate override: it is the zone the task is stored in and read back against, and without it the task keeps the TEMPLATE’s preferred-time-of-day zone, so an instant chosen in one zone can render as a different day. Get template ids from listContentTemplates(type: TASK). To run a whole saved SOP at once, use applyTaskSet instead of calling this per step.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1295,7 +1304,7 @@ export class GoliathClient extends GoliathClientCore {
     bulkResumeWorkflowRuns: (variables: T.BulkResumeWorkflowRunsMutationVariables, options?: IdempotentRequestOptions): Promise<T.BulkResumeWorkflowRunsMutation> =>
       this.request('bulkResumeWorkflowRuns', variables, options, { operationType: 'mutation' }),
     /**
-     * Create a reusable template. type is EMAIL | SMS | NOTE | TASK. The nested input carries name, bodyContent (may include {{merge_fields}} and [a|b] spintax), and subjectContent (email only). TASK templates are the reusable checklist/SOP step the app shows under Automations → Templates: set type: TASK and pass input.taskConfig { title, taskType?, dueOffset { amount, unit }, preferredTimeOfDay { hour, minute, timezone }, autoCompleteOnNoteAdded?, autoCompleteOnReassignment? } — bodyContent holds the task description and the due date is RELATIVE, resolved when the template is applied. Build a multi-step SOP as one TASK template per step (stagger the dueOffsets), then run each with applyTaskTemplate.
+     * Create a reusable template. type is EMAIL | SMS | NOTE | TASK | TASK_SET. The nested input carries name, bodyContent (may include {{merge_fields}} and [a|b] spintax), and subjectContent (email only). TASK templates are the reusable checklist/SOP step the app shows under Automations → Templates: set type: TASK and pass input.taskConfig { title, taskType?, dueOffset { amount, unit }, preferredTimeOfDay { hour, minute, timezone }, autoCompleteOnNoteAdded?, autoCompleteOnReassignment? } — bodyContent holds the task description and the due date is RELATIVE, resolved when the template is applied. TASK_SET is the whole SOP as one saved thing: set type: TASK_SET, leave bodyContent empty and taskConfig unset, and pass input.taskSetSteps [{ taskTemplateId, dueOffset { amount, unit }, preferredTimeOfDay { hour, minute, timezone } }] (1–25 steps, each naming an existing TASK template; a step’s timing WINS over that template’s own, the same template may repeat, and a set may not contain a set). Apply the whole thing in one call with applyTaskSet.
      *
      * @remarks Requires the WRITE scope.
      *

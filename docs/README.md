@@ -42,7 +42,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `properties` | 23 |
 | `tasks` | 8 |
 | `team` | 7 |
-| `workflows` | 43 |
+| `workflows` | 44 |
 
 ## Live catalog (needs an API key)
 

@@ -37,7 +37,23 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "id": true,
       "name": true,
       "type": true,
-      "updatedAt": true
+      "updatedAt": true,
+      "taskSetSteps": {
+        "id": true,
+        "taskTemplate": {
+          "id": true,
+          "name": true
+        },
+        "dueOffset": {
+          "amount": true,
+          "unit": true
+        },
+        "preferredTimeOfDay": {
+          "hour": true,
+          "minute": true,
+          "timezone": true
+        }
+      }
     }
   }
 }
