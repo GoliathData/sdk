@@ -2006,7 +2006,7 @@ export type ListFilterFieldNamesQueryVariables = Exact<{
   type: FilterType;
 }>;
 
-export type ListFilterFieldNamesQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', listFilterFields?: Array<{ __typename?: 'FilterFieldDescriptor', fieldId: string, label: string, category: string, component: string, hidden: boolean }> | null } | null };
+export type ListFilterFieldNamesQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', listFilterFields?: Array<{ __typename?: 'FilterFieldDescriptor', fieldId: string, label: string, category: string, component: string }> | null } | null };
 
 export type ListFilterFieldsQueryVariables = Exact<{
   type: FilterType;

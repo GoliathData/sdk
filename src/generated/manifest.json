@@ -5728,8 +5728,7 @@
             "fieldId": true,
             "label": true,
             "category": true,
-            "component": true,
-            "hidden": true
+            "component": true
           }
         }
       }

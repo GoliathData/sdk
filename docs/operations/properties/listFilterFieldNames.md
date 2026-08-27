@@ -32,8 +32,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "fieldId": true,
       "label": true,
       "category": true,
-      "component": true,
-      "hidden": true
+      "component": true
     }
   }
 }
