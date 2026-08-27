@@ -5785,7 +5785,8 @@
               "label": true,
               "value": true
             },
-            "hidden": true
+            "hidden": true,
+            "retired": true
           }
         }
       }

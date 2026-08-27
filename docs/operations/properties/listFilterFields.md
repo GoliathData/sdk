@@ -53,7 +53,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "label": true,
         "value": true
       },
-      "hidden": true
+      "hidden": true,
+      "retired": true
     }
   }
 }
