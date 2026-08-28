@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-Get current per-credit prices (cents per unit) for skiptrace, property export, and email verification. Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
+Get current per-credit prices (cents per unit) for EVERY credit type an org can hold: skiptrace, property export, email verification, AND AI Agent Credits (aiAgentCreditPriceCents — 1 AI credit = 1 cent of AI cost; reads 0 until the Stripe price exists, which means "not priced yet", not "free"). Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
 
 ## Call
 
@@ -29,7 +29,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
     "getCreditPrices": {
       "skiptracePriceCents": true,
       "exportPropertiesPriceCents": true,
-      "emailVerificationPriceCents": true
+      "emailVerificationPriceCents": true,
+      "aiAgentCreditPriceCents": true
     }
   }
 }

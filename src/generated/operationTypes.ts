@@ -1127,7 +1127,7 @@ export type SetMyAvailabilityScheduleMutation = { __typename?: 'RootMutation', a
 
 export type GetCreditPricesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetCreditPricesQuery = { __typename?: 'RootQuery', billing?: { __typename?: 'BillingQuery', getCreditPrices?: { __typename?: 'CreditPrices', skiptracePriceCents: number, exportPropertiesPriceCents: number, emailVerificationPriceCents: number } | null } | null };
+export type GetCreditPricesQuery = { __typename?: 'RootQuery', billing?: { __typename?: 'BillingQuery', getCreditPrices?: { __typename?: 'CreditPrices', skiptracePriceCents: number, exportPropertiesPriceCents: number, emailVerificationPriceCents: number, aiAgentCreditPriceCents: number } | null } | null };
 
 export type GetCreditsPurchaseUrlQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1147,7 +1147,13 @@ export type GetAddOnPricesQuery = { __typename?: 'RootQuery', billing?: { __type
 
 export type GetBillingSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetBillingSummaryQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', getOrganizationBilling?: { __typename?: 'OrganizationBilling', id: string, planType?: PlanCode | null, status: OrganizationBillingStatus, isAnnualPlan?: boolean | null, featureLimits: { __typename?: 'FeatureLimits', seatsCap?: number | null, skiptraceCap?: number | null, emailVerificationCap?: number | null, exportPropertiesCap?: number | null }, creditLedger: Array<{ __typename?: 'CreditLedger', type: CreditType, unitBalance: number }> } | null } | null };
+export type GetBillingSummaryQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', getOrganizationBilling?: { __typename?: 'OrganizationBilling', id: string, planType?: PlanCode | null, status: OrganizationBillingStatus, isAnnualPlan?: boolean | null, isGrandfathered: boolean, currentUnitAmountCents?: number | null, trialEnds?: any | null, cancelAt?: any | null, pendingPlanCode?: PlanCode | null, pendingPlanIsAnnual?: boolean | null, pendingPlanEffectiveAt?: any | null, featureLimits: { __typename?: 'FeatureLimits', seatsCap?: number | null, skiptraceCap?: number | null, emailVerificationCap?: number | null, exportPropertiesCap?: number | null, aiCreditsCap?: number | null }, extraSeats?: { __typename?: 'ExtraSeatsBilling', seatsCap: number, seatsUsed: number, extraSeatQuantity: number, unusedPaidSeats?: number | null, unusedPaidSeatsReleaseAt?: any | null } | null, creditLedger: Array<{ __typename?: 'CreditLedger', type: CreditType, unitBalance: number }> } | null } | null };
+
+export type GetAiCreditUsageQueryVariables = Exact<{
+  windowDays?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetAiCreditUsageQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', aiCreditUsage?: { __typename?: 'AiCreditUsageSummary', windowDays: number, creditsConsumed: number, balanceCredits: number, outOfCredits: boolean } | null } | null };
 
 export type GetBulkTaskQueryVariables = Exact<{
   bulkTaskId: Scalars['ID']['input'];

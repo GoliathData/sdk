@@ -115,21 +115,28 @@ export class GoliathClient extends GoliathClientCore {
     getAddOnPrices: (options?: RequestOptions): Promise<T.GetAddOnPricesQuery> =>
       this.request('getAddOnPrices', undefined, options, { operationType: 'query' }),
     /**
-     * Read the organization's plan, feature limits, and credit balances (skiptrace, email verification, exports). Read-only — never spends.
+     * Why the AI employees stopped working. Returns AI-credit burn over a trailing window (optional `windowDays`, clamped 1..90, default 30; the window actually used comes back as `windowDays`), the live `balanceCredits`, and `outOfCredits`. THIS IS THE ONLY OPERATION THAT REPORTS THE AI PAYWALL, so it is the first thing to check for "why did our AI employee stop", "why is nothing happening", or a run that ends immediately. READ THE TWO SIGNALS DIFFERENTLY. `outOfCredits: true` is a CONFIRMED paywall — the org is gated, has real AI usage history, and its balance is at/below zero — report it as the answer. `outOfCredits: false` is NOT proof the agents are running: the flag is deliberately narrower than the predicate that actually refuses work (AiAgentBillingGateService.isOutOfCredits, which AgentSessionEngine and AgentSessionRunExecutor call), because that one omits the usage-history condition. So a gated org with a balance at/below zero and no prior AI usage has its runs REFUSED while this flag still reads false. TREAT `balanceCredits <= 0` AS THE STOP-CONDITION and `outOfCredits` as the confirmation — never tell a user their agents are fine on a false alone when the balance is not positive. `balanceCredits` can be NEGATIVE; that is normal (settlement never wedges), not a data error. 1 credit = 1 cent of AI cost. Read-only — never spends. The agent cannot buy credits: hand the user getCreditsPurchaseUrl.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getAiCreditUsage: (variables?: T.GetAiCreditUsageQueryVariables, options?: RequestOptions): Promise<T.GetAiCreditUsageQuery> =>
+      this.request('getAiCreditUsage', variables, options, { operationType: 'query' }),
+    /**
+     * Read the organization's plan, subscription lifecycle, seat utilization, feature limits and credit balances. Read-only — never spends. LIFECYCLE: answer "when does our trial end" and "are we set to cancel" from the dates, never from `status` alone — `status: TRIALING` is paired with `trialEnds`, and `cancelAt` is the scheduled cancel-at-period-end (null when nothing is scheduled). A deferred downgrade appears as the `pendingPlanCode` / `pendingPlanIsAnnual` / `pendingPlanEffectiveAt` trio, all null when nothing is pending: until `pendingPlanEffectiveAt` the org is STILL on `planType`, so report the current plan and the change date, not the pending plan as if it were live. `isGrandfathered` means the org holds a legacy price, so `currentUnitAmountCents` (what it actually pays for the core plan) can differ from today's published plan price. SEATS: compare `extraSeats.seatsUsed` against `extraSeats.seatsCap` DIRECTLY — that field is already TOTAL capacity (plan seats + purchased SEATS credits + paid extra seats). Do NOT add `extraSeatQuantity` to it: that quantity is already inside it, and adding it again understates utilization and tells the user they have more room than they do. `extraSeatQuantity` answers a different question — how many seats the org pays extra for. Note `featureLimits.seatsCap` is a DIFFERENT number under the same name: the plan's included seats, excluding add-ons. `extraSeats.unusedPaidSeats` is NULLABLE and null means UNKNOWN (a live Stripe read that did not answer), never zero — say nothing about wasted seats when it is null. CREDITS: `creditLedger` carries one row per credit type, AI_CREDITS included, and `featureLimits.aiCreditsCap` is the plan-included monthly AI allowance. For AI burn and the paywall flag use getAiCreditUsage, which is READ-scoped and answers "why did our AI employee stop working".
      *
      * @remarks Requires the ADMIN scope.
      */
     getBillingSummary: (options?: RequestOptions): Promise<T.GetBillingSummaryQuery> =>
       this.request('getBillingSummary', undefined, options, { operationType: 'query' }),
     /**
-     * Get current per-credit prices (cents per unit) for skiptrace, property export, and email verification. Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
+     * Get current per-credit prices (cents per unit) for EVERY credit type an org can hold: skiptrace, property export, email verification, AND AI Agent Credits (aiAgentCreditPriceCents — 1 AI credit = 1 cent of AI cost; reads 0 until the Stripe price exists, which means "not priced yet", not "free"). Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
      *
      * @remarks Requires the READ scope.
      */
     getCreditPrices: (options?: RequestOptions): Promise<T.GetCreditPricesQuery> =>
       this.request('getCreditPrices', undefined, options, { operationType: 'query' }),
     /**
-     * The in-app Billing > Credits page URL where a human buys more skiptrace / export / email-verification credits. The agent CANNOT purchase credits itself — when a balance is low (see getBillingSummary), send the user this link to complete checkout.
+     * The in-app Billing > Credits page URL where a human buys more skiptrace / export / email-verification / AI Agent credits. The agent CANNOT purchase credits itself — when a balance is low (see getBillingSummary) or the AI paywall has been hit (see getAiCreditUsage), send the user this link to complete checkout.
      *
      * @remarks Requires the READ scope.
      */
@@ -143,7 +150,7 @@ export class GoliathClient extends GoliathClientCore {
     getPhoneNumbersPurchaseUrl: (options?: RequestOptions): Promise<T.GetPhoneNumbersPurchaseUrlQuery> =>
       this.request('getPhoneNumbersPurchaseUrl', undefined, options, { operationType: 'query' }),
     /**
-     * The in-app Billing page URL where a human buys extra seats (Manage Seats dialog). The agent CANNOT buy seats itself — when the org is at its seat cap (see getBillingSummary featureLimits.seatsCap), send the user this link. Pair with getAddOnPrices for the per-seat price.
+     * The in-app Billing page URL where a human buys extra seats (Manage Seats dialog). The agent CANNOT buy seats itself — when the org is at its seat cap, send the user this link. DECIDE "at cap" FROM the `extraSeats.seatsUsed` vs `extraSeats.seatsCap` pair on getBillingSummary, which is TOTAL capacity including seats already purchased. Do NOT use `featureLimits.seatsCap` for this: that is the plan-included seat count only, so an org that has already bought extra seats reads as full and gets told to buy more it does not need. Pair with getAddOnPrices for the per-seat price.
      *
      * @remarks Requires the READ scope.
      */

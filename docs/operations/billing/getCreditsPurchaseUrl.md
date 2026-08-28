@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-The in-app Billing > Credits page URL where a human buys more skiptrace / export / email-verification credits. The agent CANNOT purchase credits itself — when a balance is low (see getBillingSummary), send the user this link to complete checkout.
+The in-app Billing > Credits page URL where a human buys more skiptrace / export / email-verification / AI Agent credits. The agent CANNOT purchase credits itself — when a balance is low (see getBillingSummary) or the AI paywall has been hit (see getAiCreditUsage), send the user this link to complete checkout.
 
 ## Call
 

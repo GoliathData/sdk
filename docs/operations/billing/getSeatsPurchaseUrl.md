@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-The in-app Billing page URL where a human buys extra seats (Manage Seats dialog). The agent CANNOT buy seats itself — when the org is at its seat cap (see getBillingSummary featureLimits.seatsCap), send the user this link. Pair with getAddOnPrices for the per-seat price.
+The in-app Billing page URL where a human buys extra seats (Manage Seats dialog). The agent CANNOT buy seats itself — when the org is at its seat cap, send the user this link. DECIDE "at cap" FROM the `extraSeats.seatsUsed` vs `extraSeats.seatsCap` pair on getBillingSummary, which is TOTAL capacity including seats already purchased. Do NOT use `featureLimits.seatsCap` for this: that is the plan-included seat count only, so an org that has already bought extra seats reads as full and gets told to buy more it does not need. Pair with getAddOnPrices for the per-seat price.
 
 ## Call
 

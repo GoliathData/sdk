@@ -156,6 +156,19 @@
     "responseShape": "{\"billing\":{\"getAddOnPrices\":{\"extraSeatPriceCents\":true}}}"
   },
   {
+    "operationId": "getAiCreditUsage",
+    "domain": "billing",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "windowDays:Int",
+    "responseShape": "{\"subscriptionQuery\":{\"aiCreditUsage\":{\"windowDays\":true,\"creditsConsumed\":true,\"balanceCredits\":true,\"outOfCredits\":true}}}"
+  },
+  {
     "operationId": "getBillingSummary",
     "domain": "billing",
     "operationType": "query",
@@ -166,7 +179,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"subscriptionQuery\":{\"getOrganizationBilling\":{\"id\":true,\"planType\":true,\"status\":true,\"isAnnualPlan\":true,\"featureLimits\":{\"seatsCap\":true,\"skiptraceCap\":true,\"emailVerificationCap\":true,\"exportPropertiesCap\":true},\"creditLedger\":{\"type\":true,\"unitBalance\":true}}}}"
+    "responseShape": "{\"subscriptionQuery\":{\"getOrganizationBilling\":{\"id\":true,\"planType\":true,\"status\":true,\"isAnnualPlan\":true,\"isGrandfathered\":true,\"currentUnitAmountCents\":true,\"trialEnds\":true,\"cancelAt\":true,\"pendingPlanCode\":true,\"pendingPlanIsAnnual\":true,\"pendingPlanEffectiveAt\":true,\"featureLimits\":{\"seatsCap\":true,\"skiptraceCap\":true,\"emailVerificationCap\":true,\"exportPropertiesCap\":true,\"aiCreditsCap\":true},\"extraSeats\":{\"seatsCap\":true,\"seatsUsed\":true,\"extraSeatQuantity\":true,\"unusedPaidSeats\":true,\"unusedPaidSeatsReleaseAt\":true},\"creditLedger\":{\"type\":true,\"unitBalance\":true}}}}"
   },
   {
     "operationId": "getCreditPrices",
@@ -179,7 +192,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"billing\":{\"getCreditPrices\":{\"skiptracePriceCents\":true,\"exportPropertiesPriceCents\":true,\"emailVerificationPriceCents\":true}}}"
+    "responseShape": "{\"billing\":{\"getCreditPrices\":{\"skiptracePriceCents\":true,\"exportPropertiesPriceCents\":true,\"emailVerificationPriceCents\":true,\"aiAgentCreditPriceCents\":true}}}"
   },
   {
     "operationId": "getCreditsPurchaseUrl",

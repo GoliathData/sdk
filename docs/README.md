@@ -31,7 +31,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 |---|---|
 | `account` | 4 |
 | `appointments` | 7 |
-| `billing` | 6 |
+| `billing` | 7 |
 | `bulkTasks` | 1 |
 | `communications` | 4 |
 | `contacts` | 36 |
