@@ -4,7 +4,7 @@
 
 query · domain `communications` · requires the READ scope
 
-Render a content template against a contact: collapse [a|b] spintax and substitute {{merge}} tokens. Returns the rendered subject/body plus missingVariables — every token that did NOT render, whether it had no value for this contact or could not render at all because contactId was omitted (contact tokens then remain as literal {{...}} text AND are listed as missing). Inspect missingVariables (empty = fully rendered). Sending itself happens in the app — the API does not offer send operations. Pass spintaxSeed for a deterministic variant. Omitting contactId previews spintax and user tokens only — never send a no-contact render of a template with contact tokens.
+Render a content template against a contact: collapse [a|b] spintax and substitute merge fields — the CONTACT vocabulary updateWorkflowGraph lists ({{firstName}}, {{contactPropertyAddress}}, {{userFirstName}}, …), matched exactly and case-sensitively. Returns the rendered subject/body plus missingVariables — every token that did NOT render, whether it had no value for this contact or could not render at all because contactId was omitted (contact tokens then remain as literal {{...}} text AND are listed as missing). Inspect missingVariables (empty = fully rendered). Sending itself happens in the app — the API does not offer send operations. Pass spintaxSeed for a deterministic variant. Omitting contactId previews spintax and user tokens only — never send a no-contact render of a template with contact tokens.
 
 ## Call
 

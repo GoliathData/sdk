@@ -2454,6 +2454,6 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!,workflowGraph:SuperJSON!",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationGraph\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"status\":true,\"stepKinds\":true}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationGraph\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"workflowGroup\":{\"id\":true,\"draftValidation\":{\"isValid\":true,\"errors\":true}}}}}"
   }
 ]

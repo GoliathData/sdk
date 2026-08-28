@@ -2243,7 +2243,7 @@ export type UpdateWorkflowGraphMutationVariables = Exact<{
   workflowGraph: Scalars['SuperJSON']['input'];
 }>;
 
-export type UpdateWorkflowGraphMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationGraph?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null } | null };
+export type UpdateWorkflowGraphMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationGraph?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, workflowGroup: { __typename?: 'WorkflowGroup', id: string, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null } } | null } | null };
 
 export type RenameWorkflowMutationVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
