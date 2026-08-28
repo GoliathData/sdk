@@ -1016,8 +1016,13 @@ export enum WorkflowDomain {
  * statuses of its child `WorkflowAutomation` versions:
  *
  *   - ACTIVE: at least one child is ACTIVE.
- *   - PAUSED: no ACTIVE child, but at least one PAUSED child.
+ *   - PAUSED: no ACTIVE child, but at least one PAUSED or SUSPENDED child.
  *   - DRAFT:  otherwise (only DRAFT/PENDING_REVIEW children, or none).
+ *
+ * There is deliberately no SUSPENDED bucket — at list altitude a system stop and
+ * a user pause are the same fact, "published and not running" — but a SUSPENDED
+ * child still has to REACH that bucket. Leaving it out of the ladder rolled a
+ * published-then-suspended group up to DRAFT, which says the opposite.
  *
  * Drives the single status pill in the Automations table.
  */
