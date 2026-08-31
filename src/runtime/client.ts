@@ -75,31 +75,23 @@ export class GoliathClientCore {
     meta: OperationMeta
   ): Promise<TData> {
     const idempotencyKey = options?.idempotencyKey
+    const signal = options?.signal
     const sideEffectRetrySafe = meta.operationType === 'query' || idempotencyKey !== undefined
 
     let attempt = 0
     for (;;) {
       let response: Response
       try {
-        response = await this.fetchImpl(`${this.baseUrl}${GOLIATH_API_PATH}`, {
-          method: 'POST',
-          headers: {
-            authorization: `Bearer ${this.apiKey}`,
-            'content-type': 'application/json',
-            ...(idempotencyKey !== undefined ? { 'idempotency-key': idempotencyKey } : {}),
-          },
-          body: JSON.stringify({ operationId, variables: variables ?? {} }),
-          signal: composeSignal(options?.signal, this.timeoutMs),
-        })
+        response = await this.fetchImpl(
+          `${this.baseUrl}${GOLIATH_API_PATH}`,
+          this.buildRequestInit({ operationId, variables, idempotencyKey, signal })
+        )
       } catch (err) {
         // A caller-initiated abort is not a failure of ours — rethrow untouched.
-        if (options?.signal?.aborted) throw err
-        const isTimeout = err instanceof Error && (err.name === 'TimeoutError' || err.name === 'AbortError')
-        const wrapped = isTimeout
-          ? new GoliathTimeoutError(`Operation "${operationId}" timed out after ${this.timeoutMs}ms`)
-          : new GoliathNetworkError(`Operation "${operationId}" failed to reach the API`, { cause: err })
+        if (signal?.aborted) throw err
+        const wrapped = wrapTransportError(operationId, err, this.timeoutMs)
         if (sideEffectRetrySafe && attempt < this.maxRetries) {
-          await sleep(backoffDelayMs(attempt, null), options?.signal)
+          await sleep(backoffDelayMs(attempt, null), signal)
           attempt += 1
           continue
         }
@@ -107,50 +99,39 @@ export class GoliathClientCore {
       }
 
       if (response.status === 200) {
-        let body: { data?: unknown; errors?: WireError[] }
-        try {
-          body = (await response.json()) as { data?: unknown; errors?: WireError[] }
-        } catch (err) {
-          throw new GoliathNetworkError(`Operation "${operationId}" returned a non-JSON response`, { cause: err })
-        }
-        // Surfaced for EVERY executed operation (any 200) — before the errors
-        // check can throw. A replayed response whose STORED body carries errors
-        // must still deliver replayed=true, or a caller retrying a timed-out
-        // idempotent send can't tell the failure is the original attempt's
-        // stored outcome rather than a fresh one.
-        options?.onMeta?.({
-          status: response.status,
-          replayed: response.headers.get('idempotency-replayed') === 'true',
-          retries: attempt,
-        })
-        if (body.errors !== undefined && body.errors.length > 0) {
-          const entries = body.errors.map(e => ({
-            message: typeof e.message === 'string' ? e.message : 'Unknown error',
-            code: typeof e.extensions?.code === 'string' ? e.extensions.code : 'ERROR',
-          }))
-          throw new GoliathOperationError(operationId, entries, body.data ?? null)
-        }
-        return body.data as TData
+        return await readSuccessBody<TData>(operationId, response, options, attempt)
       }
 
       const { code, message } = await parseRejection(response)
       const retryAfterSeconds = parseRetryAfter(response.headers.get('retry-after'))
       const error = apiErrorFrom(response.status, code, message, retryAfterSeconds)
 
-      const retryable =
-        // Both 429s are pre-execution rejections — nothing ran, safe for any op.
-        response.status === 429 ||
-        // The original idempotent request is still in flight; the same key
-        // replays its stored result once it completes.
-        (response.status === 409 && idempotencyKey !== undefined) ||
-        (response.status >= 500 && sideEffectRetrySafe)
+      const retryable = isRetryableRejection(response.status, { idempotencyKey, sideEffectRetrySafe })
       if (retryable && attempt < this.maxRetries) {
         const hinted = error instanceof GoliathRateLimitError ? error.retryAfterSeconds : null
-        await sleep(backoffDelayMs(attempt, hinted), options?.signal)
+        await sleep(backoffDelayMs(attempt, hinted), signal)
         attempt += 1
         continue
       }
       throw error
+    }
+  }
+
+  private buildRequestInit(args: {
+    operationId: string
+    variables: Record<string, unknown> | undefined
+    idempotencyKey: string | undefined
+    signal: AbortSignal | undefined
+  }): NonNullable<Parameters<typeof globalThis.fetch>[1]> {
+    return {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${this.apiKey}`,
+        'content-type': 'application/json',
+        ...(args.idempotencyKey !== undefined ? { 'idempotency-key': args.idempotencyKey } : {}),
+      },
+      body: JSON.stringify({ operationId: args.operationId, variables: args.variables ?? {} }),
+      signal: composeSignal(args.signal, this.timeoutMs),
     }
   }
 }
@@ -179,4 +160,57 @@ function parseRetryAfter(header: string | null): number | null {
   if (header === null) return null
   const seconds = Number(header)
   return Number.isFinite(seconds) && seconds >= 0 ? seconds : null
+}
+
+function wrapTransportError(operationId: string, err: unknown, timeoutMs: number): Error {
+  const isTimeout = err instanceof Error && (err.name === 'TimeoutError' || err.name === 'AbortError')
+  return isTimeout
+    ? new GoliathTimeoutError(`Operation "${operationId}" timed out after ${timeoutMs}ms`)
+    : new GoliathNetworkError(`Operation "${operationId}" failed to reach the API`, { cause: err })
+}
+
+async function readSuccessBody<TData>(
+  operationId: string,
+  response: Response,
+  options: IdempotentRequestOptions | undefined,
+  attempt: number
+): Promise<TData> {
+  let body: { data?: unknown; errors?: WireError[] }
+  try {
+    body = (await response.json()) as { data?: unknown; errors?: WireError[] }
+  } catch (err) {
+    throw new GoliathNetworkError(`Operation "${operationId}" returned a non-JSON response`, { cause: err })
+  }
+  // Surfaced for EVERY executed operation (any 200) — before the errors
+  // check can throw. A replayed response whose STORED body carries errors
+  // must still deliver replayed=true, or a caller retrying a timed-out
+  // idempotent send can't tell the failure is the original attempt's
+  // stored outcome rather than a fresh one.
+  options?.onMeta?.({
+    status: response.status,
+    replayed: response.headers.get('idempotency-replayed') === 'true',
+    retries: attempt,
+  })
+  if (body.errors !== undefined && body.errors.length > 0) {
+    const entries = body.errors.map(e => ({
+      message: typeof e.message === 'string' ? e.message : 'Unknown error',
+      code: typeof e.extensions?.code === 'string' ? e.extensions.code : 'ERROR',
+    }))
+    throw new GoliathOperationError(operationId, entries, body.data ?? null)
+  }
+  return body.data as TData
+}
+
+function isRetryableRejection(
+  status: number,
+  ctx: { idempotencyKey: string | undefined; sideEffectRetrySafe: boolean }
+): boolean {
+  return (
+    // Both 429s are pre-execution rejections — nothing ran, safe for any op.
+    status === 429 ||
+    // The original idempotent request is still in flight; the same key
+    // replays its stored result once it completes.
+    (status === 409 && ctx.idempotencyKey !== undefined) ||
+    (status >= 500 && ctx.sideEffectRetrySafe)
+  )
 }
