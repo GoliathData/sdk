@@ -1401,7 +1401,7 @@ export class GoliathClient extends GoliathClientCore {
     discardWorkflowDraft: (variables: T.DiscardWorkflowDraftMutationVariables, options?: IdempotentRequestOptions): Promise<T.DiscardWorkflowDraftMutation> =>
       this.request('discardWorkflowDraft', variables, options, { operationType: 'mutation' }),
     /**
-     * Duplicate a workflow into a fresh workflow group with the given name (copied as a paused/draft copy — it never starts running by itself).
+     * Duplicate a workflow into a fresh workflow group with the given name (copied as a paused/draft copy — it never starts running by itself). The copy inherits the source's `systemCategory`, so a duplicated "PROPERTY_SIGNAL_SKIP_TRACE" workflow is another one of those. The one exception is "APPOINTMENT_REMINDER", which is REFUSED: a reminder step's trigger discriminates on a lead group id that enrolled appointments point at, so a copy would fire for the source reminder's appointments. Create a new reminder instead.
      *
      * @remarks Requires the WRITE scope.
      *
