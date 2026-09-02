@@ -2011,7 +2011,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "templateId:ID!",
+    "variableSignature": "templateId:ID!,dependencyResolution:DependencyResolutionInput",
     "responseShape": "{\"workflowAutomationsMutation\":{\"deleteContentTemplate\":{\"listContentTemplates\":{\"id\":true,\"name\":true}}}}"
   },
   {

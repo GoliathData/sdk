@@ -661,7 +661,7 @@ export class GoliathClient extends GoliathClientCore {
     getDeal: (variables: T.GetDealQueryVariables, options?: RequestOptions): Promise<T.GetDealQuery> =>
       this.request('getDeal', variables, options, { operationType: 'query' }),
     /**
-     * Preview what deleting an org-owned record affects before you do it — it serves every delete op that takes a dependencyResolution, not just the deal ones. Pass targetKind + targetId; returns impactVersion (hand it back to the matching delete op), requiresReplacement, the dependent records grouped, and — when replacement is required — the replacementRequirements (what needs a new home and the valid options). Supported targetKinds: DEAL_PIPELINE / DEAL_STAGE (deletePipeline / deletePipelineStage), CONTACT_CUSTOM_FIELD (deleteContactCustomField), CONTACT_CUSTOM_FIELD_OPTION (a dropdown option being dropped by updateContactCustomField's optionDependencyResolutions), CONTACT_TAG (deleteContactTags), and CONTACT_LIST (deleteContactLists). Always call this first: those delete ops need the impactVersion, and it goes stale if anything changes in between — re-read it rather than reusing an old one.
+     * Preview what deleting an org-owned record affects before you do it — it serves every delete op that takes a dependencyResolution, not just the deal ones. Pass targetKind + targetId; returns impactVersion (hand it back to the matching delete op), requiresReplacement, the dependent records grouped, and — when replacement is required — the replacementRequirements (what needs a new home and the valid options). Supported targetKinds: DEAL_PIPELINE / DEAL_STAGE (deletePipeline / deletePipelineStage), CONTACT_CUSTOM_FIELD (deleteContactCustomField), CONTACT_CUSTOM_FIELD_OPTION (a dropdown option being dropped by updateContactCustomField's optionDependencyResolutions), CONTACT_TAG (deleteContactTags), CONTACT_LIST (deleteContactLists), and CONTENT_TEMPLATE (deleteContentTemplate). Always call this first: those delete ops need the impactVersion, and it goes stale if anything changes in between — re-read it rather than reusing an old one.
      *
      * @remarks Requires the READ scope.
      */
@@ -1356,7 +1356,7 @@ export class GoliathClient extends GoliathClientCore {
     createWorkflowFolder: (variables: T.CreateWorkflowFolderMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateWorkflowFolderMutation> =>
       this.request('createWorkflowFolder', variables, options, { operationType: 'mutation' }),
     /**
-     * Delete a template by id. Returns the remaining templates.
+     * Delete a template by id. Returns the remaining templates. A template that workflow steps or task sets still use is REFUSED unless you pass a dependencyResolution: call getDeletionImpact with targetKind CONTENT_TEMPLATE first, then hand back its impactVersion plus one replacement template (same type as the one being deleted) — every step and task set is repointed at it before the delete. Omit dependencyResolution for a template nothing references.
      *
      * @remarks Requires the WRITE scope.
      *

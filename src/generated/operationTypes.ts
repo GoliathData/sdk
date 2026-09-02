@@ -524,6 +524,7 @@ export enum DependencyImpactGroupKind {
   MarketingCampaign = 'MARKETING_CAMPAIGN',
   OrganizationApiKey = 'ORGANIZATION_API_KEY',
   Task = 'TASK',
+  TaskSetSteps = 'TASK_SET_STEPS',
   WorkflowAutomation = 'WORKFLOW_AUTOMATION'
 }
 
@@ -2371,6 +2372,7 @@ export type UpdateContentTemplateMutation = { __typename?: 'RootMutation', workf
 
 export type DeleteContentTemplateMutationVariables = Exact<{
   templateId: Scalars['ID']['input'];
+  dependencyResolution?: InputMaybe<DependencyResolutionInput>;
 }>;
 
 export type DeleteContentTemplateMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', deleteContentTemplate?: { __typename?: 'WorkflowAutomationsQuery', listContentTemplates?: Array<{ __typename?: 'ContentTemplate', id: string, name: string }> | null } | null } | null };
