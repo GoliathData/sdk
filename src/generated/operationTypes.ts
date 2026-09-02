@@ -507,13 +507,23 @@ export enum DealType {
 }
 
 export enum DependencyImpactGroupKind {
+  AgentConfig = 'AGENT_CONFIG',
+  AssignmentPolicy = 'ASSIGNMENT_POLICY',
+  AutomationTrigger = 'AUTOMATION_TRIGGER',
+  BulkTask = 'BULK_TASK',
+  CallRoundRobinPolicy = 'CALL_ROUND_ROBIN_POLICY',
   ContentTemplate = 'CONTENT_TEMPLATE',
-  EmailSignature = 'EMAIL_SIGNATURE',
+  CronJob = 'CRON_JOB',
+  DialerCampaignConfig = 'DIALER_CAMPAIGN_CONFIG',
   EmbedForm = 'EMBED_FORM',
   Filter = 'FILTER',
+  IncomingWebhook = 'INCOMING_WEBHOOK',
   LibraryFolderContents = 'LIBRARY_FOLDER_CONTENTS',
   LiveDeals = 'LIVE_DEALS',
   LiveStages = 'LIVE_STAGES',
+  MarketingCampaign = 'MARKETING_CAMPAIGN',
+  OrganizationApiKey = 'ORGANIZATION_API_KEY',
+  Task = 'TASK',
   WorkflowAutomation = 'WORKFLOW_AUTOMATION'
 }
 
@@ -529,10 +539,12 @@ export type DependencyResolutionInput = {
 };
 
 export enum DependencyTargetKind {
+  Agent = 'AGENT',
   ContactCustomField = 'CONTACT_CUSTOM_FIELD',
   ContactCustomFieldOption = 'CONTACT_CUSTOM_FIELD_OPTION',
   ContactList = 'CONTACT_LIST',
   ContactTag = 'CONTACT_TAG',
+  ContentTemplate = 'CONTENT_TEMPLATE',
   Deal = 'DEAL',
   DealCustomField = 'DEAL_CUSTOM_FIELD',
   DealCustomFieldOption = 'DEAL_CUSTOM_FIELD_OPTION',
@@ -540,10 +552,20 @@ export enum DependencyTargetKind {
   DealStage = 'DEAL_STAGE',
   DealStageDeals = 'DEAL_STAGE_DEALS',
   EmailIdentity = 'EMAIL_IDENTITY',
+  EmbedForm = 'EMBED_FORM',
+  Filter = 'FILTER',
   LibraryFolder = 'LIBRARY_FOLDER',
+  MarketingCampaign = 'MARKETING_CAMPAIGN',
   PropertyList = 'PROPERTY_LIST',
   PropertyTag = 'PROPERTY_TAG',
-  TwilioPhoneNumber = 'TWILIO_PHONE_NUMBER'
+  ScraperPipeline = 'SCRAPER_PIPELINE',
+  TwilioPhoneNumber = 'TWILIO_PHONE_NUMBER',
+  UploadedFile = 'UPLOADED_FILE',
+  User = 'USER',
+  UserGroup = 'USER_GROUP',
+  WorkflowAutomation = 'WORKFLOW_AUTOMATION',
+  WorkflowGroup = 'WORKFLOW_GROUP',
+  WorkflowWebhookCredential = 'WORKFLOW_WEBHOOK_CREDENTIAL'
 }
 
 export enum EmailProvider {
