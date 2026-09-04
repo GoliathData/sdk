@@ -511,6 +511,7 @@ export enum DependencyImpactGroupKind {
   AssignmentPolicy = 'ASSIGNMENT_POLICY',
   AutomationTrigger = 'AUTOMATION_TRIGGER',
   BulkTask = 'BULK_TASK',
+  CallList = 'CALL_LIST',
   CallRoundRobinPolicy = 'CALL_ROUND_ROBIN_POLICY',
   ContentTemplate = 'CONTENT_TEMPLATE',
   CronJob = 'CRON_JOB',
@@ -523,6 +524,7 @@ export enum DependencyImpactGroupKind {
   LiveStages = 'LIVE_STAGES',
   MarketingCampaign = 'MARKETING_CAMPAIGN',
   OrganizationApiKey = 'ORGANIZATION_API_KEY',
+  OrgPartnership = 'ORG_PARTNERSHIP',
   Task = 'TASK',
   TaskSetSteps = 'TASK_SET_STEPS',
   WorkflowAutomation = 'WORKFLOW_AUTOMATION'
