@@ -524,6 +524,7 @@ export enum DependencyImpactGroupKind {
   LiveStages = 'LIVE_STAGES',
   MarketingCampaign = 'MARKETING_CAMPAIGN',
   OrganizationApiKey = 'ORGANIZATION_API_KEY',
+  OrganizationSite = 'ORGANIZATION_SITE',
   OrgPartnership = 'ORG_PARTNERSHIP',
   Task = 'TASK',
   TaskSetSteps = 'TASK_SET_STEPS',
