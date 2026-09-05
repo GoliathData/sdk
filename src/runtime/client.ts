@@ -38,6 +38,15 @@ type OperationMeta = {
   operationType: 'query' | 'mutation'
 }
 
+// Everything one attempt's failure paths need: where we are in the retry
+// budget, the caller's abort signal, and what makes a re-send safe.
+type AttemptContext = {
+  attempt: number
+  signal: AbortSignal | undefined
+  idempotencyKey: string | undefined
+  sideEffectRetrySafe: boolean
+}
+
 export class GoliathClientCore {
   private readonly apiKey: string
   private readonly baseUrl: string
@@ -80,6 +89,7 @@ export class GoliathClientCore {
 
     let attempt = 0
     for (;;) {
+      const ctx: AttemptContext = { attempt, signal, idempotencyKey, sideEffectRetrySafe }
       let response: Response
       try {
         response = await this.fetchImpl(
@@ -87,34 +97,43 @@ export class GoliathClientCore {
           this.buildRequestInit({ operationId, variables, idempotencyKey, signal })
         )
       } catch (err) {
-        // A caller-initiated abort is not a failure of ours — rethrow untouched.
-        if (signal?.aborted) throw err
-        const wrapped = wrapTransportError(operationId, err, this.timeoutMs)
-        if (sideEffectRetrySafe && attempt < this.maxRetries) {
-          await sleep(backoffDelayMs(attempt, null), signal)
-          attempt += 1
-          continue
-        }
-        throw wrapped
+        await this.awaitTransportRetry(operationId, err, ctx)
+        attempt += 1
+        continue
       }
 
       if (response.status === 200) {
         return await readSuccessBody<TData>(operationId, response, options, attempt)
       }
 
-      const { code, message } = await parseRejection(response)
-      const retryAfterSeconds = parseRetryAfter(response.headers.get('retry-after'))
-      const error = apiErrorFrom(response.status, code, message, retryAfterSeconds)
-
-      const retryable = isRetryableRejection(response.status, { idempotencyKey, sideEffectRetrySafe })
-      if (retryable && attempt < this.maxRetries) {
-        const hinted = error instanceof GoliathRateLimitError ? error.retryAfterSeconds : null
-        await sleep(backoffDelayMs(attempt, hinted), signal)
-        attempt += 1
-        continue
-      }
-      throw error
+      await this.awaitRejectionRetry(response, ctx)
+      attempt += 1
     }
+  }
+
+  // A fetch that never produced a response. Returns only when the attempt is
+  // retry-safe and the backoff has been slept out; otherwise it throws, which
+  // is the terminal outcome of the request.
+  private async awaitTransportRetry(operationId: string, err: unknown, ctx: AttemptContext): Promise<void> {
+    // A caller-initiated abort is not a failure of ours — rethrow untouched.
+    if (ctx.signal?.aborted) throw err
+    const wrapped = wrapTransportError(operationId, err, this.timeoutMs)
+    if (!(ctx.sideEffectRetrySafe && ctx.attempt < this.maxRetries)) throw wrapped
+    await sleep(backoffDelayMs(ctx.attempt, null), ctx.signal)
+  }
+
+  // A non-200 response. Returns only when the rejection is retryable and the
+  // backoff (honoring a Retry-After hint) has been slept out; otherwise it
+  // throws the typed API error.
+  private async awaitRejectionRetry(response: Response, ctx: AttemptContext): Promise<void> {
+    const { code, message } = await parseRejection(response)
+    const retryAfterSeconds = parseRetryAfter(response.headers.get('retry-after'))
+    const error = apiErrorFrom(response.status, code, message, retryAfterSeconds)
+
+    const retryable = isRetryableRejection(response.status, ctx)
+    if (!(retryable && ctx.attempt < this.maxRetries)) throw error
+    const hinted = error instanceof GoliathRateLimitError ? error.retryAfterSeconds : null
+    await sleep(backoffDelayMs(ctx.attempt, hinted), ctx.signal)
   }
 
   private buildRequestInit(args: {

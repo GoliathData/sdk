@@ -38,9 +38,8 @@ describe('generated client surface', () => {
         extras.push(`${key}.* (entire domain not in snapshot)`)
         continue
       }
-      for (const method of Object.keys(value)) {
-        if (!ops.has(method)) extras.push(`${key}.${method}`)
-      }
+      const unexpected = Object.keys(value).filter(method => !ops.has(method))
+      extras.push(...unexpected.map(method => `${key}.${method}`))
     }
     expect(extras).toEqual([])
   })
