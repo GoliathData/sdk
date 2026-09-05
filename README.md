@@ -7,7 +7,9 @@
 
 Official TypeScript SDK for the [Goliath](https://goliathdata.com) developer API.
 
-The developer API is a persisted-operation gateway: one HTTP endpoint (`POST /api/v1/graphql`), a fixed catalog of named operations, and `Authorization: Bearer gsk_...` keys you create in the app under **Settings → API keys**. This SDK wraps it with one typed method per operation, namespaced by domain, plus transport, retries, typed errors, and idempotency handled for you.
+The developer API is a persisted-operation gateway: one HTTP endpoint (`POST /api/v1/call`), a fixed catalog of named operations, and `Authorization: Bearer gsk_...` keys you create in the app under **Settings → API keys**. This SDK wraps it with one typed method per operation, namespaced by domain, plus transport, retries, typed errors, and idempotency handled for you.
+
+`/api/v1/call` is the path every doc leads with. The original `/api/v1/graphql` is the same handler under an older name and stays mounted forever for existing integrations — including this SDK's own transport, which still posts there. Prefer `/api/v1/call` when you call the gateway directly: the `graphql` in the old name misleads callers, LLM agents especially, into sending raw GraphQL, which the gateway always refuses (`raw_query_forbidden`). It only ever accepts `{ operationId, variables }`.
 
 Full API documentation lives at [docs.goliathdata.com](https://docs.goliathdata.com/developer-api/overview).
 
