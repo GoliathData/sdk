@@ -959,7 +959,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "titleContains:String,contactId:ID,pipelineId:ID,stageId:ID,isArchived:Boolean,hasAssignedUsers:Boolean,userIds:[ID!],limit:Int=20,offset:Int=0",
-    "responseShape": "{\"dealQuery\":{\"findDeals\":{\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"closeDate\":true,\"isArchived\":true,\"updatedAt\":true,\"commissionCents\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"stage\":{\"id\":true,\"name\":true},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"customFieldValues\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
+    "responseShape": "{\"dealQuery\":{\"findDeals\":{\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"closeDate\":true,\"isArchived\":true,\"createdAt\":true,\"updatedAt\":true,\"commissionCents\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"stage\":{\"id\":true,\"name\":true},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"customFieldValues\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
   },
   {
     "operationId": "getDeal",

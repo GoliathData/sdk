@@ -48,6 +48,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "priceCents": true,
         "closeDate": true,
         "isArchived": true,
+        "createdAt": true,
         "updatedAt": true,
         "commissionCents": true,
         "commissionAmountCents": true,
