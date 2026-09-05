@@ -515,6 +515,7 @@ export enum DependencyImpactGroupKind {
   CallRoundRobinPolicy = 'CALL_ROUND_ROBIN_POLICY',
   ContentTemplate = 'CONTENT_TEMPLATE',
   CronJob = 'CRON_JOB',
+  DealPipelineLayout = 'DEAL_PIPELINE_LAYOUT',
   DialerCampaignConfig = 'DIALER_CAMPAIGN_CONFIG',
   EmbedForm = 'EMBED_FORM',
   Filter = 'FILTER',
