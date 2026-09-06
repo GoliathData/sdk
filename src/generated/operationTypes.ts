@@ -1535,6 +1535,20 @@ export type FindDealsQueryVariables = Exact<{
 
 export type FindDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'DealQuery', findDeals?: { __typename?: 'FindDealsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, stage?: { __typename?: 'DealStage', id: string, name: string } | null, pipeline?: { __typename?: 'DealPipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, customFieldValues?: Array<{ __typename?: 'DealCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'DealCustomField', name: string } }> | null }> } | null } | null };
 
+export type SurveyDealsQueryVariables = Exact<{
+  titleContains?: InputMaybe<Scalars['String']['input']>;
+  contactId?: InputMaybe<Scalars['ID']['input']>;
+  pipelineId?: InputMaybe<Scalars['ID']['input']>;
+  stageId?: InputMaybe<Scalars['ID']['input']>;
+  isArchived?: InputMaybe<Scalars['Boolean']['input']>;
+  hasAssignedUsers?: InputMaybe<Scalars['Boolean']['input']>;
+  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type SurveyDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'DealQuery', findDeals?: { __typename?: 'FindDealsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, isArchived: boolean, stage?: { __typename?: 'DealStage', name: string } | null, pipeline?: { __typename?: 'DealPipeline', name: string } | null, users?: Array<{ __typename?: 'User', firstName?: string | null, lastName?: string | null }> | null, customFieldValues?: Array<{ __typename?: 'DealCustomFieldValue', textValue?: string | null, numberValue?: number | null, dateValue?: any | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'DealCustomField', name: string } }> | null }> } | null } | null };
+
 export type ListStalledDealsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;

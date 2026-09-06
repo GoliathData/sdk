@@ -1131,6 +1131,19 @@
     "responseShape": "{\"dealMutation\":{\"reorderDealStages\":{\"id\":true,\"name\":true,\"stages\":{\"id\":true,\"name\":true,\"order\":true}}}}"
   },
   {
+    "operationId": "surveyDeals",
+    "domain": "deals",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": 50,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "titleContains:String,contactId:ID,pipelineId:ID,stageId:ID,isArchived:Boolean,hasAssignedUsers:Boolean,userIds:[ID!],limit:Int=17,offset:Int=0",
+    "responseShape": "{\"dealQuery\":{\"findDeals\":{\"deals\":{\"id\":true,\"title\":true,\"isArchived\":true,\"stage\":{\"name\":true},\"pipeline\":{\"name\":true},\"users\":{\"firstName\":true,\"lastName\":true},\"customFieldValues\":{\"textValue\":true,\"numberValue\":true,\"dateValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
+  },
+  {
     "operationId": "updateDeal",
     "domain": "deals",
     "operationType": "mutation",
