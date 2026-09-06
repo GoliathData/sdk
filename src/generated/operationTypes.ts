@@ -514,6 +514,7 @@ export enum DependencyImpactGroupKind {
   BulkTask = 'BULK_TASK',
   CallList = 'CALL_LIST',
   CallRoundRobinPolicy = 'CALL_ROUND_ROBIN_POLICY',
+  CallWorkspaceConfig = 'CALL_WORKSPACE_CONFIG',
   ContentTemplate = 'CONTENT_TEMPLATE',
   CronJob = 'CRON_JOB',
   DealPipelineLayout = 'DEAL_PIPELINE_LAYOUT',
