@@ -68,7 +68,8 @@ export function exampleCall(op) {
 // reader who has the page, not the type, in front of them.
 function notesFor(op) {
   const notes = []
-  if (op.resultCap !== null) notes.push(`The \`limit\` variable is clamped server-side to a maximum of ${op.resultCap}.`)
+  if (op.resultCap !== null)
+    notes.push(`The \`limit\` variable is clamped server-side to a maximum of ${op.resultCap}.`)
   if (op.orgIdVariable !== null) {
     notes.push(
       `The organization is derived from your API key — do not send an \`${op.orgIdVariable}\` variable (any value sent is ignored).`
