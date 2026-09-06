@@ -1013,6 +1013,7 @@ export enum VerificationStatus {
 export enum WorkflowAutomationRunStatus {
   Completed = 'COMPLETED',
   Failed = 'FAILED',
+  NotEnrolled = 'NOT_ENROLLED',
   Paused = 'PAUSED',
   Pending = 'PENDING',
   Running = 'RUNNING',
