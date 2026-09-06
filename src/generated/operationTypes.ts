@@ -1031,6 +1031,15 @@ export enum WorkflowAutomationStatus {
   Suspended = 'SUSPENDED'
 }
 
+/**
+ * Channel of a run's communication sender lane. Mirrors the raw
+ * `WorkflowCommSenderState.channel` string (`TEXT` | `EMAIL`).
+ */
+export enum WorkflowCommChannel {
+  Email = 'EMAIL',
+  Text = 'TEXT'
+}
+
 export enum WorkflowDomain {
   Appointment = 'APPOINTMENT',
   Contact = 'CONTACT',
@@ -2204,13 +2213,13 @@ export type GetWorkflowQueryVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
 }>;
 
-export type GetWorkflowQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, workflowType?: WorkflowType | null, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, versions?: Array<{ __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, createdAt: any, updatedAt: any }> | null, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null } | null } | null };
+export type GetWorkflowQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, workflowType?: WorkflowType | null, channels?: Array<WorkflowCommChannel> | null, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, versions?: Array<{ __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, createdAt: any, updatedAt: any }> | null, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null } | null } | null };
 
 export type GetWorkflowVersionGraphQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
 }>;
 
-export type GetWorkflowVersionGraphQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomation?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, description?: string | null, status: WorkflowAutomationStatus, workflowType: WorkflowType, workflowDomain: WorkflowDomain, stepKinds?: Array<string> | null, graph?: any | null } | null } | null };
+export type GetWorkflowVersionGraphQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomation?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, description?: string | null, status: WorkflowAutomationStatus, workflowType?: WorkflowType | null, channels?: Array<WorkflowCommChannel> | null, workflowDomain: WorkflowDomain, stepKinds?: Array<string> | null, graph?: any | null } | null } | null };
 
 export type ListWorkflowRunsQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
@@ -2267,13 +2276,13 @@ export type GetWorkflowThrottleUsageQuery = { __typename?: 'RootQuery', workflow
 export type CreateWorkflowMutationVariables = Exact<{
   name: Scalars['String']['input'];
   description?: InputMaybe<Scalars['String']['input']>;
-  workflowType: WorkflowType;
+  workflowType?: InputMaybe<WorkflowType>;
   workflowDomain: WorkflowDomain;
   templateId?: InputMaybe<Scalars['String']['input']>;
   systemCategory?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type CreateWorkflowMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', createWorkflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, workflowType?: WorkflowType | null, workflowDomain?: WorkflowDomain | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus } | null } | null } | null };
+export type CreateWorkflowMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', createWorkflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, workflowType?: WorkflowType | null, channels?: Array<WorkflowCommChannel> | null, workflowDomain?: WorkflowDomain | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus } | null } | null } | null };
 
 export type CreateOrReturnWorkflowDraftMutationVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
@@ -2327,7 +2336,7 @@ export type DuplicateWorkflowMutationVariables = Exact<{
   name: Scalars['String']['input'];
 }>;
 
-export type DuplicateWorkflowMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', duplicateWorkflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, workflowType?: WorkflowType | null, workflowDomain?: WorkflowDomain | null } | null } | null };
+export type DuplicateWorkflowMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', duplicateWorkflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, workflowType?: WorkflowType | null, channels?: Array<WorkflowCommChannel> | null, workflowDomain?: WorkflowDomain | null } | null } | null };
 
 export type DeleteWorkflowMutationVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
