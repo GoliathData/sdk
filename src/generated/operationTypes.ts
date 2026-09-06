@@ -507,6 +507,7 @@ export enum DealType {
 }
 
 export enum DependencyImpactGroupKind {
+  ActionSuggestion = 'ACTION_SUGGESTION',
   AgentConfig = 'AGENT_CONFIG',
   AssignmentPolicy = 'ASSIGNMENT_POLICY',
   AutomationTrigger = 'AUTOMATION_TRIGGER',
