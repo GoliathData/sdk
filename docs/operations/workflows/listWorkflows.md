@@ -39,7 +39,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "name": true,
         "description": true,
         "status": true,
-        "workflowType": true,
         "workflowDomain": true,
         "systemCategory": true,
         "folderId": true,

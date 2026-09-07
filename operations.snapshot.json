@@ -1998,8 +1998,8 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "name:String!,description:String,workflowType:WorkflowType,workflowDomain:WorkflowDomain!,templateId:String,systemCategory:String",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"createWorkflowGroup\":{\"id\":true,\"name\":true,\"status\":true,\"workflowType\":true,\"channels\":true,\"workflowDomain\":true,\"pendingDraft\":{\"id\":true,\"name\":true,\"status\":true}}}}"
+    "variableSignature": "name:String!,description:String,workflowDomain:WorkflowDomain!,templateId:String,systemCategory:String",
+    "responseShape": "{\"workflowAutomationsMutation\":{\"createWorkflowGroup\":{\"id\":true,\"name\":true,\"status\":true,\"channels\":true,\"workflowDomain\":true,\"pendingDraft\":{\"id\":true,\"name\":true,\"status\":true}}}}"
   },
   {
     "operationId": "createWorkflowFolder",
@@ -2090,7 +2090,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "workflowGroupId:ID!,name:String!",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"duplicateWorkflowGroup\":{\"id\":true,\"name\":true,\"status\":true,\"workflowType\":true,\"channels\":true,\"workflowDomain\":true}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"duplicateWorkflowGroup\":{\"id\":true,\"name\":true,\"status\":true,\"channels\":true,\"workflowDomain\":true}}}"
   },
   {
     "operationId": "getContentTemplate",
@@ -2116,7 +2116,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "workflowGroupId:ID!",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroup\":{\"id\":true,\"name\":true,\"description\":true,\"status\":true,\"workflowType\":true,\"channels\":true,\"workflowDomain\":true,\"systemCategory\":true,\"folderId\":true,\"createdAt\":true,\"updatedAt\":true,\"archivedAt\":true,\"currentVersion\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true},\"pendingDraft\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true},\"versions\":{\"id\":true,\"name\":true,\"status\":true,\"createdAt\":true,\"updatedAt\":true},\"draftValidation\":{\"isValid\":true,\"errors\":true}}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroup\":{\"id\":true,\"name\":true,\"description\":true,\"status\":true,\"channels\":true,\"workflowDomain\":true,\"systemCategory\":true,\"folderId\":true,\"createdAt\":true,\"updatedAt\":true,\"archivedAt\":true,\"currentVersion\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true},\"pendingDraft\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true},\"versions\":{\"id\":true,\"name\":true,\"status\":true,\"createdAt\":true,\"updatedAt\":true},\"draftValidation\":{\"isValid\":true,\"errors\":true}}}}"
   },
   {
     "operationId": "getWorkflowStats",
@@ -2155,7 +2155,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomation\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"description\":true,\"status\":true,\"workflowType\":true,\"channels\":true,\"workflowDomain\":true,\"stepKinds\":true,\"graph\":true}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomation\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"description\":true,\"status\":true,\"channels\":true,\"workflowDomain\":true,\"stepKinds\":true,\"graph\":true}}}"
   },
   {
     "operationId": "getWorkflowVersionStats",
@@ -2220,7 +2220,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "limit:Int=20,offset:Int=0",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroupsPage\":{\"items\":{\"id\":true,\"name\":true,\"status\":true,\"workflowType\":true,\"workflowDomain\":true,\"stats\":{\"totalRuns\":true,\"activeRuns\":true,\"completedRuns\":true,\"replyRate\":true,\"lastRunAt\":true}},\"total\":true}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroupsPage\":{\"items\":{\"id\":true,\"name\":true,\"status\":true,\"workflowDomain\":true,\"stats\":{\"totalRuns\":true,\"activeRuns\":true,\"completedRuns\":true,\"replyRate\":true,\"lastRunAt\":true}},\"total\":true}}}"
   },
   {
     "operationId": "listWorkflowRuns",
@@ -2246,7 +2246,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "limit:Int=20,offset:Int=0",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroupsPage\":{\"items\":{\"id\":true,\"name\":true,\"description\":true,\"status\":true,\"workflowType\":true,\"workflowDomain\":true,\"systemCategory\":true,\"folderId\":true,\"createdAt\":true,\"updatedAt\":true,\"archivedAt\":true},\"total\":true}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroupsPage\":{\"items\":{\"id\":true,\"name\":true,\"description\":true,\"status\":true,\"workflowDomain\":true,\"systemCategory\":true,\"folderId\":true,\"createdAt\":true,\"updatedAt\":true,\"archivedAt\":true},\"total\":true}}}"
   },
   {
     "operationId": "moveContentTemplateToFolder",

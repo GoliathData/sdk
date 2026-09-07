@@ -37,7 +37,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "id": true,
       "name": true,
       "status": true,
-      "workflowType": true,
       "channels": true,
       "workflowDomain": true
     }
