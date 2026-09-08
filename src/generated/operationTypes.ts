@@ -2209,13 +2209,13 @@ export type ListWorkflowsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type ListWorkflowsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroupsPage?: { __typename?: 'WorkflowGroupPage', total: number, items: Array<{ __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null }> } | null } | null };
+export type ListWorkflowsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroupsPage?: { __typename?: 'WorkflowGroupPage', total: number, items: Array<{ __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, channelsAcrossVersions: Array<WorkflowCommChannel>, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null }> } | null } | null };
 
 export type GetWorkflowQueryVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
 }>;
 
-export type GetWorkflowQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, channels?: Array<WorkflowCommChannel> | null, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, versions?: Array<{ __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, createdAt: any, updatedAt: any }> | null, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null } | null } | null };
+export type GetWorkflowQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, channels?: Array<WorkflowCommChannel> | null, channelsAcrossVersions: Array<WorkflowCommChannel>, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null } | null, versions?: Array<{ __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, createdAt: any, updatedAt: any }> | null, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null } | null } | null };
 
 export type GetWorkflowVersionGraphQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
@@ -2266,7 +2266,7 @@ export type ListWorkflowPerformanceQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type ListWorkflowPerformanceQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroupsPage?: { __typename?: 'WorkflowGroupPage', total: number, items: Array<{ __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, workflowDomain?: WorkflowDomain | null, stats: { __typename?: 'WorkflowGroupStats', totalRuns: number, activeRuns: number, completedRuns: number, replyRate?: number | null, lastRunAt?: any | null } }> } | null } | null };
+export type ListWorkflowPerformanceQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroupsPage?: { __typename?: 'WorkflowGroupPage', total: number, items: Array<{ __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, channelsAcrossVersions: Array<WorkflowCommChannel>, workflowDomain?: WorkflowDomain | null, stats: { __typename?: 'WorkflowGroupStats', totalRuns: number, activeRuns: number, completedRuns: number, replyRate?: number | null, lastRunAt?: any | null } }> } | null } | null };
 
 export type GetWorkflowThrottleUsageQueryVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
