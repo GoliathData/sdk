@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Fetch one property by id — address, skip-trace status, and signal recency.
+Fetch one property by id — address, skip-trace status, signal recency, and visible `tags` and `lists` (each `{ id, name, isEditable }`). Lists include read-only system ingestion lists alongside your organization lists. Read `lists` BEFORE addPropertiesToList / removePropertiesFromList to answer "is it already on that list?"; only reuse a list ID for mutations when `isEditable` is true. Other organizations' private tags and lists are excluded.
 
 ## Call
 
@@ -43,7 +43,17 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "lastSkiptracedAt": true,
       "isStaleSkiptrace": true,
       "lastPropertySignalDate": true,
-      "spicyLeadScore": true
+      "spicyLeadScore": true,
+      "tags": {
+        "id": true,
+        "name": true,
+        "isEditable": true
+      },
+      "lists": {
+        "id": true,
+        "name": true,
+        "isEditable": true
+      }
     }
   }
 }

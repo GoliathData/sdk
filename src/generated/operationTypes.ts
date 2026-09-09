@@ -195,6 +195,16 @@ export enum BulkTaskStatus {
   Processing = 'PROCESSING'
 }
 
+/**
+ * Source of a BusySlot returned by availabilityForSlot. Mirrors
+ * the BusySlotSource union in server/src/service/app/availability/types.ts.
+ */
+export enum BusySlotSource {
+  Google = 'GOOGLE',
+  Local = 'LOCAL',
+  Microsoft = 'MICROSOFT'
+}
+
 export enum CallDisposition {
   BadNumber = 'BadNumber',
   Callback = 'Callback',
@@ -688,6 +698,11 @@ export enum OrganizationCapability {
   ViewAllPhones = 'VIEW_ALL_PHONES'
 }
 
+export enum OrganizationMembershipStatus {
+  Active = 'ACTIVE',
+  Suspended = 'SUSPENDED'
+}
+
 export enum OrganizationToUserMappingType {
   Admin = 'ADMIN',
   Isa = 'ISA',
@@ -1080,15 +1095,17 @@ export enum WorkflowGroupStatus {
 
 export type GetMyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetMyProfileQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, phoneNumber?: string | null } | null };
+export type GetMyProfileQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, phoneNumber?: string | null, profilePictureUrl?: string | null, organizationRole?: OrganizationToUserMappingType | null, organizationMembershipStatus?: OrganizationMembershipStatus | null, timezone?: string | null, resolvedTimezone?: string | null, organization?: { __typename?: 'Organization', id: string, name?: string | null, timezone?: string | null } | null } | null };
 
 export type UpdateMyProfileMutationVariables = Exact<{
   firstName: Scalars['String']['input'];
   lastName: Scalars['String']['input'];
   phoneNumber: Scalars['String']['input'];
+  profilePictureUrl?: InputMaybe<Scalars['String']['input']>;
+  howDidYouHearAboutUs?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type UpdateMyProfileMutation = { __typename?: 'RootMutation', users?: { __typename?: 'UsersMutation', updateUserProfile?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, phoneNumber?: string | null } | null } | null };
+export type UpdateMyProfileMutation = { __typename?: 'RootMutation', users?: { __typename?: 'UsersMutation', updateUserProfile?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, phoneNumber?: string | null, profilePictureUrl?: string | null } | null } | null };
 
 export type GetMyCapabilitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1105,9 +1122,19 @@ export type ListAppointmentsQueryVariables = Exact<{
   completed?: InputMaybe<Scalars['Boolean']['input']>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
+  cursor?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type ListAppointmentsQuery = { __typename?: 'RootQuery', users?: { __typename?: 'UsersQuery', getUserAppointments?: { __typename?: 'PaginateTaskResponse', total: number, tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, startDate?: any | null, endDate?: any | null, timezone?: Timezone | null, location?: string | null, description?: string | null, outcome?: string | null, completedAt?: any | null, appointmentReminderWorkflowGroupId?: string | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null }> } | null } | null };
+export type ListAppointmentsQuery = { __typename?: 'RootQuery', users?: { __typename?: 'UsersQuery', getUserAppointments?: { __typename?: 'PaginateTaskResponse', total: number, canFetchNext: boolean, tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, startDate?: any | null, endDate?: any | null, timezone?: Timezone | null, location?: string | null, description?: string | null, outcome?: string | null, completedAt?: any | null, appointmentReminderWorkflowGroupId?: string | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null }> } | null } | null };
+
+export type CheckAvailabilityQueryVariables = Exact<{
+  userIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+  startDate: Scalars['DateTime']['input'];
+  endDate: Scalars['DateTime']['input'];
+  excludeAppointmentId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type CheckAvailabilityQuery = { __typename?: 'RootQuery', availabilityQuery?: { __typename?: 'AvailabilityQuery', availabilityForSlot?: { __typename?: 'AvailabilityResult', available: boolean, conflicts: Array<{ __typename?: 'BusySlot', start: any, end: any, source: BusySlotSource, title?: string | null, appointmentId?: string | null }> } | null } | null };
 
 export type ListAppointmentRemindersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1919,7 +1946,7 @@ export type GetPropertyQueryVariables = Exact<{
   propertyId: Scalars['ID']['input'];
 }>;
 
-export type GetPropertyQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', fetchProperty?: { __typename?: 'Property', id: string, skipTraceStatus?: SkipTraceStatus | null, lastSkiptracedAt?: any | null, isStaleSkiptrace?: boolean | null, lastPropertySignalDate?: any | null, spicyLeadScore?: number | null, address?: { __typename?: 'Address', line1: string, line2?: string | null, city: string, state: string, zip: string, countyName?: string | null, addressFull?: string | null } | null } | null } | null };
+export type GetPropertyQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', fetchProperty?: { __typename?: 'Property', id: string, skipTraceStatus?: SkipTraceStatus | null, lastSkiptracedAt?: any | null, isStaleSkiptrace?: boolean | null, lastPropertySignalDate?: any | null, spicyLeadScore?: number | null, address?: { __typename?: 'Address', line1: string, line2?: string | null, city: string, state: string, zip: string, countyName?: string | null, addressFull?: string | null } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string, isEditable: boolean }> | null, lists?: Array<{ __typename?: 'Tag', id: string, name: string, isEditable: boolean }> | null } | null } | null };
 
 export type GetPropertyOwnersQueryVariables = Exact<{
   propertyId: Scalars['ID']['input'];
@@ -1943,13 +1970,15 @@ export type GetFilterQueryVariables = Exact<{
   filterId: Scalars['ID']['input'];
 }>;
 
-export type GetFilterQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', getFilter?: { __typename?: 'Filter', id: string, name: string, type: FilterType, description?: string | null, folderId?: string | null, root: any, isPrivate: boolean, isDefault: boolean, userId?: string | null, createdAt: any, updatedAt: any } | null } | null };
+export type GetFilterQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', getFilter?: { __typename?: 'Filter', id: string, name: string, type: FilterType, description?: string | null, folderId?: string | null, root: any, queryOptions?: any | null, isPrivate: boolean, isDefault: boolean, userId?: string | null, createdAt: any, updatedAt: any } | null } | null };
 
 export type FilterPropertiesQueryVariables = Exact<{
   filterId?: InputMaybe<Scalars['ID']['input']>;
   filterTree?: InputMaybe<Scalars['JSON']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Sort>;
+  includeIncompleteRecords?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 export type FilterPropertiesQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', applyPropertyFilter?: { __typename?: 'FilteredPropertiesResponse', items: Array<{ __typename?: 'Property', id: string, skipTraceStatus?: SkipTraceStatus | null, lastSkiptracedAt?: any | null, isStaleSkiptrace?: boolean | null, lastPropertySignalDate?: any | null, spicyLeadScore?: number | null, address?: { __typename?: 'Address', line1: string, line2?: string | null, city: string, state: string, zip: string, countyName?: string | null, addressFull?: string | null } | null }>, pagination: { __typename?: 'FilterPaginationResponse', total?: number | null, hasMore?: boolean | null } } | null } | null };
@@ -2019,12 +2048,32 @@ export type RemovePropertyTagMutationVariables = Exact<{
 export type RemovePropertyTagMutation = { __typename?: 'RootMutation', propertyMutation?: { __typename?: 'PropertyMutation', removeTagFromProperty?: { __typename?: 'Property', id: string, tags?: Array<{ __typename?: 'Tag', id: string, name: string, folderId?: string | null }> | null } | null } | null };
 
 export type AddPropertiesToListMutationVariables = Exact<{
-  propertyIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  propertyIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectAll?: InputMaybe<Scalars['Boolean']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
+  excludeIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  includeIncompleteRecords?: InputMaybe<Scalars['Boolean']['input']>;
   listIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
   totalCount: Scalars['Int']['input'];
 }>;
 
 export type AddPropertiesToListMutation = { __typename?: 'RootMutation', propertyMutation?: { __typename?: 'PropertyMutation', addPropertiesToList?: { __typename?: 'AddPropertiesToListResponse', mode: AddPropertiesToListMode, bulkTaskId?: string | null } | null } | null };
+
+export type RemovePropertiesFromListMutationVariables = Exact<{
+  propertyIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectAll?: InputMaybe<Scalars['Boolean']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
+  excludeIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  includeIncompleteRecords?: InputMaybe<Scalars['Boolean']['input']>;
+  listId: Scalars['String']['input'];
+  totalCount: Scalars['Int']['input'];
+}>;
+
+export type RemovePropertiesFromListMutation = { __typename?: 'RootMutation', propertyMutation?: { __typename?: 'PropertyMutation', removePropertiesFromList?: { __typename?: 'AddPropertiesToListResponse', mode: AddPropertiesToListMode, bulkTaskId?: string | null } | null } | null };
 
 export type SaveFilterMutationVariables = Exact<{
   type: FilterType;
@@ -2089,9 +2138,10 @@ export type ListMyTasksQueryVariables = Exact<{
   participants?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   timezone?: InputMaybe<Timezone>;
   limit?: InputMaybe<Scalars['Int']['input']>;
+  cursor?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type ListMyTasksQuery = { __typename?: 'RootQuery', users?: { __typename?: 'UsersQuery', getUserTasks?: { __typename?: 'PaginateTaskResponse', total: number, tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, taskType?: string | null, timezone?: Timezone | null, completedAt?: any | null, dueDate?: any | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }> } | null } | null };
+export type ListMyTasksQuery = { __typename?: 'RootQuery', users?: { __typename?: 'UsersQuery', getUserTasks?: { __typename?: 'PaginateTaskResponse', total: number, canFetchNext: boolean, tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, taskType?: string | null, timezone?: Timezone | null, completedAt?: any | null, dueDate?: any | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }> } | null } | null };
 
 export type ListContactTasksQueryVariables = Exact<{
   contactId: Scalars['ID']['input'];
@@ -2161,9 +2211,18 @@ export type CompleteTaskMutation = { __typename?: 'RootMutation', tasksMutation?
 
 export type ListTeammatesQueryVariables = Exact<{
   searchTerm?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 export type ListTeammatesQuery = { __typename?: 'RootQuery', teamQuery?: { __typename?: 'TeamQuery', getTeamAutocomplete?: Array<{ __typename?: 'UserAutocompleteMatch', userId: string, firstName?: string | null, lastName?: string | null, email?: string | null, phoneNumber?: string | null }> | null } | null };
+
+export type ListTeamMembersQueryVariables = Exact<{
+  searchTerm?: InputMaybe<Scalars['String']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListTeamMembersQuery = { __typename?: 'RootQuery', teamQuery?: { __typename?: 'TeamQuery', listTeamMembers?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, phoneNumber?: string | null, organizationRole?: OrganizationToUserMappingType | null, organizationMembershipStatus?: OrganizationMembershipStatus | null, createdAt?: any | null }> | null } | null };
 
 export type GetTeammatesByIdsQueryVariables = Exact<{
   userIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
@@ -2189,6 +2248,18 @@ export type RevokeTeamInviteMutationVariables = Exact<{
 }>;
 
 export type RevokeTeamInviteMutation = { __typename?: 'RootMutation', organizationMutation?: { __typename?: 'OrganizationMutation', revokeInvitation?: { __typename?: 'InvitationLink', id: string, isAlive?: boolean | null } | null } | null };
+
+export type ResendTeamInviteMutationVariables = Exact<{
+  invitationId: Scalars['ID']['input'];
+}>;
+
+export type ResendTeamInviteMutation = { __typename?: 'RootMutation', organizationMutation?: { __typename?: 'OrganizationMutation', resendInvitation?: { __typename?: 'InvitationLink', id: string, isAlive?: boolean | null, isPermanent?: boolean | null, email?: string | null } | null } | null };
+
+export type EmailPermanentTeamInviteMutationVariables = Exact<{
+  emails: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+export type EmailPermanentTeamInviteMutation = { __typename?: 'RootMutation', organizationMutation?: { __typename?: 'OrganizationMutation', emailPermanentLink?: { __typename?: 'InvitationLink', id: string, isAlive?: boolean | null, isPermanent?: boolean | null } | null } | null };
 
 export type GetTeamAnalyticsOverviewQueryVariables = Exact<{
   orgId: Scalars['ID']['input'];

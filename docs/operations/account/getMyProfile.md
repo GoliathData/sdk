@@ -4,7 +4,7 @@
 
 query · domain `account` · requires the READ scope
 
-Fetch the key owner's own profile — name, email, and phone number. Use before updateMyProfile to read the current values (that mutation requires all of firstName, lastName, and phoneNumber together).
+Fetch the key owner's own profile — id, name, email, phone number, profile picture URL — plus WHO THEY ARE IN THE ORGANIZATION and WHICH CLOCK THEY READ ON. organizationRole is their role (ADMIN | MEMBER | ISA): every ADMIN-scoped operation requires the key owner to be an ADMIN, so CHECK THIS BEFORE attempting one and, when it is not ADMIN, say that a team admin has to do it instead of relaying a refusal. organizationMembershipStatus is ACTIVE or SUSPENDED. organization carries the org's id, name and its own timezone (null = never set, NOT UTC). timezone is the zone the key owner CHOSE (null = never chosen, again not UTC); resolvedTimezone is the zone their times are ACTUALLY rendered on after the fallbacks (their availability schedule, then the organization's) — use resolvedTimezone whenever you state or interpret a time for them, and never assume UTC from a null. Permissions are a separate read: getMyCapabilities. Use this before updateMyProfile to read the current values (that mutation requires all of firstName, lastName, and phoneNumber together).
 
 ## Call
 
@@ -30,7 +30,17 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
     "firstName": true,
     "lastName": true,
     "email": true,
-    "phoneNumber": true
+    "phoneNumber": true,
+    "profilePictureUrl": true,
+    "organizationRole": true,
+    "organizationMembershipStatus": true,
+    "timezone": true,
+    "resolvedTimezone": true,
+    "organization": {
+      "id": true,
+      "name": true,
+      "timezone": true
+    }
   }
 }
 ```

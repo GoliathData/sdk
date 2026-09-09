@@ -30,7 +30,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | Domain | Operations |
 |---|---|
 | `account` | 4 |
-| `appointments` | 7 |
+| `appointments` | 8 |
 | `billing` | 7 |
 | `bulkTasks` | 1 |
 | `communications` | 4 |
@@ -39,9 +39,9 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `deals` | 27 |
 | `forms` | 13 |
 | `notifications` | 4 |
-| `properties` | 23 |
+| `properties` | 24 |
 | `tasks` | 8 |
-| `team` | 7 |
+| `team` | 10 |
 | `workflows` | 44 |
 
 ## Live catalog (needs an API key)

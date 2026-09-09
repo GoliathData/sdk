@@ -4,7 +4,7 @@
 
 query · domain `tasks` · requires the READ scope
 
-The key owner's OWN working queue — CRM to-do tasks (follow-ups, call-backs; appointments live under listAppointments). WHOSE TASKS: with no participants filter, the key owner's, for every role — the gateway defaults participants to the key owner, so the name is true. Pass userIds in participants (listTeammates, same-org) for someone else's queue or a team backlog; a MEMBER/ISA key stays narrowed to itself regardless, and a team-admin key sees only tasks on contacts THE KEY OWNER CAN ACCESS, never a complete backlog. A task with no participants is unassigned and appears in neither. Every row carries participants — WHO IT BELONGS TO; read them before acting, never assume the reader owns what came back. OVERDUE IS A CALENDAR-DAY BUCKET: due before TODAY in the given timezone, so a task due 9am that it is now 8pm on is TODAY, not OVERDUE — though the user would call it overdue. For 'past due right now' read completed: false with dueBefore at the current instant, and say which you used. Also filter by taskStatus TODAY/FUTURE, completed, a dueBefore/dueAfter window, searchTerm; pass timezone for correct day boundaries. Rows carry dueDate, completedAt, and the linked contact (id + name) — the contactId completeTask and listContactTasks need. Returns the unpaged total; page by narrowing the dueBefore/dueAfter window — THIS OPERATION threads no cursor variable. The underlying feed IS cursor-paginated and the app's task list scrolls the whole backlog, so deep paging is a capability this API does not expose, NOT a missing product feature — send the user to the app for a long scroll.
+The key owner's OWN working queue — CRM to-do tasks (follow-ups, call-backs; appointments live under listAppointments). WHOSE TASKS: with no participants filter, the key owner's, for every role — the gateway defaults participants to the key owner, so the name is true. Pass userIds in participants (listTeammates, same-org) for someone else's queue or a team backlog; a MEMBER/ISA key stays narrowed to itself regardless, and a team-admin key sees only tasks on contacts THE KEY OWNER CAN ACCESS, never a complete backlog. A task with no participants is unassigned and appears in neither. Every row carries participants — WHO IT BELONGS TO; read them before acting, never assume the reader owns what came back. OVERDUE IS A CALENDAR-DAY BUCKET: due before TODAY in the given timezone, so a task due 9am that it is now 8pm on is TODAY, not OVERDUE — though the user would call it overdue. For 'past due right now' read completed: false with dueBefore at the current instant, and say which you used. Also filter by taskStatus TODAY/FUTURE, completed, a dueBefore/dueAfter window, searchTerm; pass timezone for correct day boundaries. Rows carry dueDate, completedAt, and the linked contact (id + name) — the contactId completeTask and listContactTasks need. PAGING: this operation IS cursor-paginated, so "show me the rest" is answerable here. When canFetchNext is true, re-call with the SAME filters and cursor set to the LAST row's id to get the rows after it; repeat until canFetchNext is false. Forward only — there is no backwards page, so to revisit earlier rows restart from the top. Keep every filter identical between pages; changing one restarts the walk. total is the unpaged match count for the filters, so nothing is silently truncated. Rows come in the feed's own order (upcoming soonest-first; overdue and completed reads most-recent-first), so a dueBefore/dueAfter window narrows, and the cursor walks.
 
 ## Call
 
@@ -27,6 +27,7 @@ const result = await client.tasks.listMyTasks()
 | `participants` | `[String!]` | no | — |
 | `timezone` | `Timezone` | no | — |
 | `limit` | `Int` | no | 25 |
+| `cursor` | `String` | no | — |
 
 ## Gateway notes
 
@@ -58,7 +59,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
           "lastName": true
         }
       },
-      "total": true
+      "total": true,
+      "canFetchNext": true
     }
   }
 }

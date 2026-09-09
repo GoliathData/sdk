@@ -4,7 +4,7 @@
 
 query · domain `team` · requires the READ scope
 
-List teammates in your organization (optionally filtered by a search term). Use the returned userId with updateContact (addCollaborators).
+Fuzzy-search ACTIVE teammates by name, email or phone (optional searchTerm; omit it for an alphabetical page). This is the PICKER, not the roster: it returns at most `limit` rows (default 20, maximum 50), ranked by match quality, and SUSPENDED members are excluded at the query — so a page that comes back full may be a truncated page, and a person missing from it may be removed rather than absent. For the whole team, for anyone's role, or to tell a current member from a removed one, use listTeamMembers; to resolve a bare user id, use getTeammatesByIds. Use the returned userId with updateContact (addCollaborators), assignContact, and the userIds filter on findDeals.
 
 ## Call
 
@@ -20,6 +20,11 @@ const result = await client.team.listTeammates()
 | Name | Type | Required | Default |
 |---|---|---|---|
 | `searchTerm` | `String` | no | — |
+| `limit` | `Int` | no | 20 |
+
+## Gateway notes
+
+- The `limit` variable is clamped server-side to a maximum of 50.
 
 ## Response shape
 

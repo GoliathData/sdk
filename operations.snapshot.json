@@ -36,7 +36,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"currentUser\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true,\"phoneNumber\":true}}"
+    "responseShape": "{\"currentUser\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true,\"phoneNumber\":true,\"profilePictureUrl\":true,\"organizationRole\":true,\"organizationMembershipStatus\":true,\"timezone\":true,\"resolvedTimezone\":true,\"organization\":{\"id\":true,\"name\":true,\"timezone\":true}}}"
   },
   {
     "operationId": "updateMyProfile",
@@ -48,8 +48,21 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "firstName:String!,lastName:String!,phoneNumber:String!",
-    "responseShape": "{\"users\":{\"updateUserProfile\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true,\"phoneNumber\":true}}}"
+    "variableSignature": "firstName:String!,lastName:String!,phoneNumber:String!,profilePictureUrl:String,howDidYouHearAboutUs:String",
+    "responseShape": "{\"users\":{\"updateUserProfile\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true,\"phoneNumber\":true,\"profilePictureUrl\":true}}}"
+  },
+  {
+    "operationId": "checkAvailability",
+    "domain": "appointments",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "userIds:[ID!]!,startDate:DateTime!,endDate:DateTime!,excludeAppointmentId:ID",
+    "responseShape": "{\"availabilityQuery\":{\"availabilityForSlot\":{\"available\":true,\"conflicts\":{\"start\":true,\"end\":true,\"source\":true,\"appointmentId\":true,\"title\":true}}}}"
   },
   {
     "operationId": "createAppointment",
@@ -113,8 +126,8 @@
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "participants:[String!],startDate:DateTime,endDate:DateTime,completed:Boolean,searchTerm:String,limit:Int=25",
-    "responseShape": "{\"users\":{\"getUserAppointments\":{\"tasks\":{\"id\":true,\"title\":true,\"startDate\":true,\"endDate\":true,\"timezone\":true,\"location\":true,\"description\":true,\"outcome\":true,\"completedAt\":true,\"appointmentReminderWorkflowGroupId\":true,\"participants\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true}},\"total\":true}}}"
+    "variableSignature": "participants:[String!],startDate:DateTime,endDate:DateTime,completed:Boolean,searchTerm:String,limit:Int=25,cursor:String",
+    "responseShape": "{\"users\":{\"getUserAppointments\":{\"tasks\":{\"id\":true,\"title\":true,\"startDate\":true,\"endDate\":true,\"timezone\":true,\"location\":true,\"description\":true,\"outcome\":true,\"completedAt\":true,\"appointmentReminderWorkflowGroupId\":true,\"participants\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true}},\"total\":true,\"canFetchNext\":true}}}"
   },
   {
     "operationId": "setMyAvailabilitySchedule",
@@ -1413,7 +1426,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "propertyIds:[String!]!,listIds:[String!]!,totalCount:Int!",
+    "variableSignature": "propertyIds:[String!],filterId:ID,filterTree:JSON,selectAll:Boolean=false,selectCount:Int,excludeIds:[String!],includeIncompleteRecords:Boolean,listIds:[String!]!,totalCount:Int!",
     "responseShape": "{\"propertyMutation\":{\"addPropertiesToList\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -1452,7 +1465,7 @@
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "filterId:ID,filterTree:JSON,limit:Int=25,offset:Int=0",
+    "variableSignature": "filterId:ID,filterTree:JSON,limit:Int=25,offset:Int=0,sort:Sort,includeIncompleteRecords:Boolean",
     "responseShape": "{\"filterQuery\":{\"applyPropertyFilter\":{\"items\":{\"id\":true,\"address\":{\"line1\":true,\"line2\":true,\"city\":true,\"state\":true,\"zip\":true,\"countyName\":true,\"addressFull\":true},\"skipTraceStatus\":true,\"lastSkiptracedAt\":true,\"isStaleSkiptrace\":true,\"lastPropertySignalDate\":true,\"spicyLeadScore\":true},\"pagination\":{\"total\":true,\"hasMore\":true}}}}"
   },
   {
@@ -1505,7 +1518,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "filterId:ID!",
-    "responseShape": "{\"filterQuery\":{\"getFilter\":{\"id\":true,\"name\":true,\"type\":true,\"description\":true,\"folderId\":true,\"root\":true,\"isPrivate\":true,\"isDefault\":true,\"userId\":true,\"createdAt\":true,\"updatedAt\":true}}}"
+    "responseShape": "{\"filterQuery\":{\"getFilter\":{\"id\":true,\"name\":true,\"type\":true,\"description\":true,\"folderId\":true,\"root\":true,\"queryOptions\":true,\"isPrivate\":true,\"isDefault\":true,\"userId\":true,\"createdAt\":true,\"updatedAt\":true}}}"
   },
   {
     "operationId": "getProperty",
@@ -1518,7 +1531,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "propertyId:ID!",
-    "responseShape": "{\"property\":{\"fetchProperty\":{\"id\":true,\"address\":{\"line1\":true,\"line2\":true,\"city\":true,\"state\":true,\"zip\":true,\"countyName\":true,\"addressFull\":true},\"skipTraceStatus\":true,\"lastSkiptracedAt\":true,\"isStaleSkiptrace\":true,\"lastPropertySignalDate\":true,\"spicyLeadScore\":true}}}"
+    "responseShape": "{\"property\":{\"fetchProperty\":{\"id\":true,\"address\":{\"line1\":true,\"line2\":true,\"city\":true,\"state\":true,\"zip\":true,\"countyName\":true,\"addressFull\":true},\"skipTraceStatus\":true,\"lastSkiptracedAt\":true,\"isStaleSkiptrace\":true,\"lastPropertySignalDate\":true,\"spicyLeadScore\":true,\"tags\":{\"id\":true,\"name\":true,\"isEditable\":true},\"lists\":{\"id\":true,\"name\":true,\"isEditable\":true}}}}"
   },
   {
     "operationId": "getPropertyOwners",
@@ -1610,6 +1623,19 @@
     "hasAuthorize": false,
     "variableSignature": "input:ManualSkipTraceRequestInput!",
     "responseShape": "{\"skiptraceMutation\":{\"manualSkiptrace\":{\"id\":true,\"ownerFirstName\":true,\"ownerLastName\":true,\"line1\":true,\"line2\":true,\"city\":true,\"state\":true,\"zip\":true,\"phoneNumbers\":{\"number\":true,\"type\":true,\"dncStatus\":{\"isDnc\":true,\"isLitigator\":true}}}}}"
+  },
+  {
+    "operationId": "removePropertiesFromList",
+    "domain": "properties",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "propertyIds:[String!],filterId:ID,filterTree:JSON,selectAll:Boolean=false,selectCount:Int,excludeIds:[String!],includeIncompleteRecords:Boolean,listId:String!,totalCount:Int!",
+    "responseShape": "{\"propertyMutation\":{\"removePropertiesFromList\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
     "operationId": "removePropertyTag",
@@ -1790,8 +1816,8 @@
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "taskStatus:TaskStatus,completed:Boolean,dueBefore:DateTime,dueAfter:DateTime,searchTerm:String,participants:[String!],timezone:Timezone,limit:Int=25",
-    "responseShape": "{\"users\":{\"getUserTasks\":{\"tasks\":{\"id\":true,\"title\":true,\"description\":true,\"taskType\":true,\"dueDate\":true,\"timezone\":true,\"completedAt\":true,\"contact\":{\"id\":true,\"name\":true},\"participants\":{\"id\":true,\"firstName\":true,\"lastName\":true}},\"total\":true}}}"
+    "variableSignature": "taskStatus:TaskStatus,completed:Boolean,dueBefore:DateTime,dueAfter:DateTime,searchTerm:String,participants:[String!],timezone:Timezone,limit:Int=25,cursor:String",
+    "responseShape": "{\"users\":{\"getUserTasks\":{\"tasks\":{\"id\":true,\"title\":true,\"description\":true,\"taskType\":true,\"dueDate\":true,\"timezone\":true,\"completedAt\":true,\"contact\":{\"id\":true,\"name\":true},\"participants\":{\"id\":true,\"firstName\":true,\"lastName\":true}},\"total\":true,\"canFetchNext\":true}}}"
   },
   {
     "operationId": "updateTask",
@@ -1818,6 +1844,19 @@
     "hasAuthorize": false,
     "variableSignature": "userType:OrganizationToUserMappingType,emails:[String!],isPermanent:Boolean,phoneRequired:Boolean",
     "responseShape": "{\"organizationMutation\":{\"createInvitationLink\":{\"id\":true,\"isAlive\":true,\"isPermanent\":true,\"phoneRequired\":true,\"userType\":true,\"email\":true,\"createdAt\":true}}}"
+  },
+  {
+    "operationId": "emailPermanentTeamInvite",
+    "domain": "team",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "emails:[String!]!",
+    "responseShape": "{\"organizationMutation\":{\"emailPermanentLink\":{\"id\":true,\"isAlive\":true,\"isPermanent\":true}}}"
   },
   {
     "operationId": "getTeamActivityTimeseries",
@@ -1876,13 +1915,39 @@
     "domain": "team",
     "operationType": "query",
     "requiredScope": "READ",
-    "resultCap": null,
+    "resultCap": 50,
     "rateLimited": false,
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "searchTerm:String",
+    "variableSignature": "searchTerm:String,limit:Int=20",
     "responseShape": "{\"teamQuery\":{\"getTeamAutocomplete\":{\"userId\":true,\"firstName\":true,\"lastName\":true,\"email\":true,\"phoneNumber\":true}}}"
+  },
+  {
+    "operationId": "listTeamMembers",
+    "domain": "team",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": 100,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "searchTerm:String,offset:Int=0,limit:Int=50",
+    "responseShape": "{\"teamQuery\":{\"listTeamMembers\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true,\"phoneNumber\":true,\"organizationRole\":true,\"organizationMembershipStatus\":true,\"createdAt\":true}}}"
+  },
+  {
+    "operationId": "resendTeamInvite",
+    "domain": "team",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "invitationId:ID!",
+    "responseShape": "{\"organizationMutation\":{\"resendInvitation\":{\"id\":true,\"isAlive\":true,\"isPermanent\":true,\"email\":true}}}"
   },
   {
     "operationId": "revokeTeamInvite",

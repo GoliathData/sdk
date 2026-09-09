@@ -4,7 +4,7 @@
 
 query · domain `team` · requires the READ scope
 
-Resolve teammate USER IDS to names — pass userIds, get back id, firstName, lastName, email for each. This is the id → person lookup, and the ONLY one: listTeammates searches names, emails and phone numbers and returns at most 20 rows, so it cannot answer "who is <uuid>" in an organization larger than that. Reach for this whenever you are about to REPORT a bare user id to someone — a filter's `userId`, a task's `participants`, a note author — because "owned by 4f3c…" is not an answer a person can act on. Ids outside your organization are rejected; nothing here reveals a user in another org.
+Resolve teammate USER IDS to names — pass userIds, get back id, firstName, lastName, email for each. This is the id → person lookup, and the ONLY one: listTeammates searches names, emails and phone numbers and returns at most 50 rows, so it cannot answer "who is <uuid>" in an organization larger than that. Reach for this whenever you are about to REPORT a bare user id to someone — a filter's `userId`, a task's `participants`, a note author — because "owned by 4f3c…" is not an answer a person can act on. Ids outside your organization are rejected; nothing here reveals a user in another org.
 
 ## Call
 

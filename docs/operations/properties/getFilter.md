@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Fetch ONE saved filter by id, including its full `root` criteria tree — the only operation that returns the tree (listPropertyFilters / listContactFilters return metadata only). Works for both contact and property filters. Call this BEFORE updateFilter whenever you are changing PART of a filter: updateFilter replaces `root` wholesale, so without reading the current tree first you would be re-authoring it blind and would silently drop every condition you didn't know was there. Read it, modify the one condition you mean to change, and send the modified tree back. The tree is the same group/condition DSL saveFilter documents; treat its shape as expert-level and unstable rather than a frozen contract.
+Fetch ONE saved filter by id, including its full `root` criteria tree — the only operation that returns the tree (listPropertyFilters / listContactFilters return metadata only). Works for both contact and property filters. Call this BEFORE updateFilter whenever you are changing PART of a filter: updateFilter replaces `root` wholesale, so without reading the current tree first you would be re-authoring it blind and would silently drop every condition you didn't know was there. Read it, modify the one condition you mean to change, and send the modified tree back. The tree is the same group/condition DSL saveFilter documents; treat its shape as expert-level and unstable rather than a frozen contract. `queryOptions` (PROPERTY only) holds execution options outside the tree — `{ includeIncompleteRecords: true }` runs the filter with the completeness gate OFF (~39% more of the index), which is why a count can exceed what the tree explains.
 
 ## Call
 
@@ -39,6 +39,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "description": true,
       "folderId": true,
       "root": true,
+      "queryOptions": true,
       "isPrivate": true,
       "isDefault": true,
       "userId": true,

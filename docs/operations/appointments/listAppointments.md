@@ -4,7 +4,7 @@
 
 query · domain `appointments` · requires the READ scope
 
-List appointments — org-wide for a team-admin key, the key owner's own otherwise (MEMBER/ISA keys always see only their own regardless of filters). Optionally filter by participants (userIds from listTeammates, same-org only), a startDate/endDate window, completed, and a searchTerm. Returns each appointment with times, location, linked contacts, and participants, plus the unpaged total. To page beyond the limit, narrow the startDate/endDate window (calendar-style) — THIS OPERATION threads no cursor variable. The underlying feed IS cursor-paginated, so deep paging is a capability this API does not expose, NOT a missing product feature.
+List appointments — org-wide for a team-admin key, the key owner's own otherwise (MEMBER/ISA keys always see only their own regardless of filters). Optionally filter by participants (userIds from listTeammates, same-org only), a startDate/endDate window, completed, and a searchTerm. Returns each appointment with times, location, linked contacts, and participants. A startDate/endDate window is still the natural calendar-style read; the cursor is for walking a long list to its end. PAGING: this operation IS cursor-paginated, so "show me the rest" is answerable here. When canFetchNext is true, re-call with the SAME filters and cursor set to the LAST row's id to get the rows after it; repeat until canFetchNext is false. Forward only — there is no backwards page, so to revisit earlier rows restart from the top. Keep every filter identical between pages; changing one restarts the walk. total is the unpaged match count for the filters, so nothing is silently truncated. This is a LIST, not a conflict check — it sees only what Goliath has recorded as an appointment; use checkAvailability to find out whether a slot is actually free.
 
 ## Call
 
@@ -25,6 +25,7 @@ const result = await client.appointments.listAppointments()
 | `completed` | `Boolean` | no | — |
 | `searchTerm` | `String` | no | — |
 | `limit` | `Int` | no | 25 |
+| `cursor` | `String` | no | — |
 
 ## Gateway notes
 
@@ -59,7 +60,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
           "name": true
         }
       },
-      "total": true
+      "total": true,
+      "canFetchNext": true
     }
   }
 }

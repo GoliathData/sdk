@@ -4,7 +4,7 @@
 
 mutation · domain `account` · requires the WRITE scope
 
-Update the key owner's own profile. All three of firstName, lastName, and phoneNumber are required together (send the current values for the ones you're not changing — read them with getMyProfile). The phone number is normalized and must be unique across users; email is not editable here (parity with the app). Returns the updated profile.
+Update the key owner's own profile. All three of firstName, lastName, and phoneNumber are required together (send the current values for the ones you're not changing — read them with getMyProfile); an EMPTY phoneNumber clears the number. Two more fields are OPTIONAL and PARTIAL: profilePictureUrl (an https URL to the new picture) and howDidYouHearAboutUs (free text) — omit either and the stored value is left untouched, send it to set it. The phone number is normalized and must be unique across users; email is not editable here (parity with the app). Returns the updated profile including profilePictureUrl, so quote what came back rather than assuming the picture took.
 
 ## Call
 
@@ -22,6 +22,8 @@ const result = await client.account.updateMyProfile({ firstName: '<text>', lastN
 | `firstName` | `String!` | yes | — |
 | `lastName` | `String!` | yes | — |
 | `phoneNumber` | `String!` | yes | — |
+| `profilePictureUrl` | `String` | no | — |
+| `howDidYouHearAboutUs` | `String` | no | — |
 
 ## Gateway notes
 
@@ -39,7 +41,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "firstName": true,
       "lastName": true,
       "email": true,
-      "phoneNumber": true
+      "phoneNumber": true,
+      "profilePictureUrl": true
     }
   }
 }
