@@ -695,7 +695,8 @@ export enum OrganizationCapability {
   CanWorkflow = 'CAN_WORKFLOW',
   ViewAllContacts = 'VIEW_ALL_CONTACTS',
   ViewAllDeals = 'VIEW_ALL_DEALS',
-  ViewAllPhones = 'VIEW_ALL_PHONES'
+  ViewAllPhones = 'VIEW_ALL_PHONES',
+  ViewTeamDirectory = 'VIEW_TEAM_DIRECTORY'
 }
 
 export enum OrganizationMembershipStatus {
@@ -705,6 +706,11 @@ export enum OrganizationMembershipStatus {
 
 export enum OrganizationToUserMappingType {
   Admin = 'ADMIN',
+  /**
+   * Works their own book only. Holds no VIEW_TEAM_DIRECTORY capability, so every
+   * surface that would name a teammate answers with a placeholder instead.
+   */
+  IndependentOperator = 'INDEPENDENT_OPERATOR',
   Isa = 'ISA',
   Member = 'MEMBER'
 }
