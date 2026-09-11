@@ -192,7 +192,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"subscriptionQuery\":{\"getOrganizationBilling\":{\"id\":true,\"planType\":true,\"status\":true,\"isAnnualPlan\":true,\"isGrandfathered\":true,\"currentUnitAmountCents\":true,\"trialEnds\":true,\"cancelAt\":true,\"pendingPlanCode\":true,\"pendingPlanIsAnnual\":true,\"pendingPlanEffectiveAt\":true,\"featureLimits\":{\"seatsCap\":true,\"skiptraceCap\":true,\"emailVerificationCap\":true,\"exportPropertiesCap\":true,\"aiCreditsCap\":true},\"extraSeats\":{\"seatsCap\":true,\"seatsUsed\":true,\"extraSeatQuantity\":true,\"unusedPaidSeats\":true,\"unusedPaidSeatsReleaseAt\":true},\"creditLedger\":{\"type\":true,\"unitBalance\":true}}}}"
+    "responseShape": "{\"subscriptionQuery\":{\"getOrganizationBilling\":{\"id\":true,\"planType\":true,\"status\":true,\"isAnnualPlan\":true,\"isGrandfathered\":true,\"currentUnitAmountCents\":true,\"trialEnds\":true,\"cancelAt\":true,\"pendingPlanCode\":true,\"pendingPlanIsAnnual\":true,\"pendingPlanEffectiveAt\":true,\"featureLimits\":{\"seatsCap\":true,\"skiptraceCap\":true,\"emailVerificationCap\":true,\"exportPropertiesCap\":true,\"aiCreditsCap\":true,\"smsCreditsCap\":true},\"extraSeats\":{\"seatsCap\":true,\"seatsUsed\":true,\"extraSeatQuantity\":true,\"unusedPaidSeats\":true,\"unusedPaidSeatsReleaseAt\":true},\"creditLedger\":{\"type\":true,\"unitBalance\":true}}}}"
   },
   {
     "operationId": "getCreditPrices",
@@ -205,7 +205,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"billing\":{\"getCreditPrices\":{\"skiptracePriceCents\":true,\"exportPropertiesPriceCents\":true,\"emailVerificationPriceCents\":true,\"aiAgentCreditPriceCents\":true}}}"
+    "responseShape": "{\"billing\":{\"getCreditPrices\":{\"skiptracePriceCents\":true,\"exportPropertiesPriceCents\":true,\"emailVerificationPriceCents\":true,\"aiAgentCreditPriceCents\":true,\"smsCreditPriceCents\":true}}}"
   },
   {
     "operationId": "getCreditsPurchaseUrl",

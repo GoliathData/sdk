@@ -667,7 +667,7 @@
       "domain": "billing",
       "operationType": "query",
       "requiredScope": "ADMIN",
-      "description": "Read the organization's plan, subscription lifecycle, seat utilization, feature limits and credit balances. Read-only — never spends. LIFECYCLE: answer \"when does our trial end\" and \"are we set to cancel\" from the dates, never from `status` alone — `status: TRIALING` is paired with `trialEnds`, and `cancelAt` is the scheduled cancel-at-period-end (null when nothing is scheduled). A deferred downgrade appears as the `pendingPlanCode` / `pendingPlanIsAnnual` / `pendingPlanEffectiveAt` trio, all null when nothing is pending: until `pendingPlanEffectiveAt` the org is STILL on `planType`, so report the current plan and the change date, not the pending plan as if it were live. `isGrandfathered` means the org holds a legacy price, so `currentUnitAmountCents` (what it actually pays for the core plan) can differ from today's published plan price. SEATS: compare `extraSeats.seatsUsed` against `extraSeats.seatsCap` DIRECTLY — that field is already TOTAL capacity (plan seats + purchased SEATS credits + paid extra seats). Do NOT add `extraSeatQuantity` to it: that quantity is already inside it, and adding it again understates utilization and tells the user they have more room than they do. `extraSeatQuantity` answers a different question — how many seats the org pays extra for. Note `featureLimits.seatsCap` is a DIFFERENT number under the same name: the plan's included seats, excluding add-ons. `extraSeats.unusedPaidSeats` is NULLABLE and null means UNKNOWN (a live Stripe read that did not answer), never zero — say nothing about wasted seats when it is null. CREDITS: `creditLedger` carries one row per credit type, AI_CREDITS included, and `featureLimits.aiCreditsCap` is the plan-included monthly AI allowance. For AI burn and the paywall flag use getAiCreditUsage, which is READ-scoped and answers \"why did our AI employee stop working\".",
+      "description": "Read the organization's plan, subscription lifecycle, seat utilization, feature limits and credit balances. Read-only — never spends. LIFECYCLE: answer \"when does our trial end\" and \"are we set to cancel\" from the dates, never from `status` alone — `status: TRIALING` is paired with `trialEnds`, and `cancelAt` is the scheduled cancel-at-period-end (null when nothing is scheduled). A deferred downgrade appears as the `pendingPlanCode` / `pendingPlanIsAnnual` / `pendingPlanEffectiveAt` trio, all null when nothing is pending: until `pendingPlanEffectiveAt` the org is STILL on `planType`, so report the current plan and the change date, not the pending plan as if it were live. `isGrandfathered` means the org holds a legacy price, so `currentUnitAmountCents` (what it actually pays for the core plan) can differ from today's published plan price. SEATS: compare `extraSeats.seatsUsed` against `extraSeats.seatsCap` DIRECTLY — that field is already TOTAL capacity (plan seats + purchased SEATS credits + paid extra seats). Do NOT add `extraSeatQuantity` to it: that quantity is already inside it, and adding it again understates utilization and tells the user they have more room than they do. `extraSeatQuantity` answers a different question — how many seats the org pays extra for. Note `featureLimits.seatsCap` is a DIFFERENT number under the same name: the plan's included seats, excluding add-ons. `extraSeats.unusedPaidSeats` is NULLABLE and null means UNKNOWN (a live Stripe read that did not answer), never zero — say nothing about wasted seats when it is null. CREDITS: `creditLedger` carries one row per credit type, AI_CREDITS and SMS_CREDITS included; `featureLimits.aiCreditsCap` is the plan-included monthly AI allowance and `featureLimits.smsCreditsCap` the plan-included monthly text-message credits (1 credit = up to 3 SMS segments of one message). For AI burn and the paywall flag use getAiCreditUsage, which is READ-scoped and answers \"why did our AI employee stop working\".",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -693,7 +693,8 @@
               "skiptraceCap": true,
               "emailVerificationCap": true,
               "exportPropertiesCap": true,
-              "aiCreditsCap": true
+              "aiCreditsCap": true,
+              "smsCreditsCap": true
             },
             "extraSeats": {
               "seatsCap": true,
@@ -715,7 +716,7 @@
       "domain": "billing",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Get current per-credit prices (cents per unit) for EVERY credit type an org can hold: skiptrace, property export, email verification, AND AI Agent Credits (aiAgentCreditPriceCents — 1 AI credit = 1 cent of AI cost; reads 0 until the Stripe price exists, which means \"not priced yet\", not \"free\"). Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.",
+      "description": "Get current per-credit prices (cents per unit) for EVERY credit type an org can hold: skiptrace, property export, email verification, AI Agent Credits (aiAgentCreditPriceCents — 1 AI credit = 1 cent of AI cost), AND Text Messages (smsCreditPriceCents — 1 credit covers up to 3 SMS segments of one message). Any price reads 0 until its Stripe price exists, which means \"not priced yet\", not \"free\". Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -728,7 +729,8 @@
             "skiptracePriceCents": true,
             "exportPropertiesPriceCents": true,
             "emailVerificationPriceCents": true,
-            "aiAgentCreditPriceCents": true
+            "aiAgentCreditPriceCents": true,
+            "smsCreditPriceCents": true
           }
         }
       }
