@@ -589,6 +589,8 @@ export enum DependencyTargetKind {
   UserGroup = 'USER_GROUP',
   WorkflowAutomation = 'WORKFLOW_AUTOMATION',
   WorkflowGroup = 'WORKFLOW_GROUP',
+  WorkflowTable = 'WORKFLOW_TABLE',
+  WorkflowTableColumn = 'WORKFLOW_TABLE_COLUMN',
   WorkflowWebhookCredential = 'WORKFLOW_WEBHOOK_CREDENTIAL'
 }
 
