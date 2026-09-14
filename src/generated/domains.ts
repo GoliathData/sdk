@@ -78,7 +78,7 @@ export class GoliathClient extends GoliathClientCore {
     getMyAvailabilitySchedule: (options?: RequestOptions): Promise<T.GetMyAvailabilityScheduleQuery> =>
       this.request('getMyAvailabilitySchedule', undefined, options, { operationType: 'query' }),
     /**
-     * List the organization's appointment reminders (SMS sent to the contact before an appointment starts — message, amountBefore + unitBefore). Use a reminder's id as appointmentReminderWorkflowGroupId in createAppointment/updateAppointment to attach it (the appointment responses echo it under the same name).
+     * List the organization's appointment reminders. Each reminder carries its `steps` — one SMS per step, each with its own message and amountBefore + unitBefore lead time, ordered longest lead time first. Use a reminder's id as appointmentReminderWorkflowGroupId in createAppointment/updateAppointment to attach it (the appointment responses echo it under the same name).
      *
      * @remarks Requires the READ scope.
      */
@@ -1506,7 +1506,7 @@ export class GoliathClient extends GoliathClientCore {
     getWorkflowVersionStats: (variables: T.GetWorkflowVersionStatsQueryVariables, options?: RequestOptions): Promise<T.GetWorkflowVersionStatsQuery> =>
       this.request('getWorkflowVersionStats', variables, options, { operationType: 'query' }),
     /**
-     * List the organization's template folders (id, name, template count).
+     * List the organization's shared content-library folders (id, name, parentFolderId, displayOrder) with per-kind template counts and a file count. Counts are DIRECT — what is filed in that folder itself, not its subtree — so a parent's own counts do not include its children's.
      *
      * @remarks Requires the READ scope.
      */
@@ -1599,7 +1599,7 @@ export class GoliathClient extends GoliathClientCore {
     pauseWorkflowRun: (variables: T.PauseWorkflowRunMutationVariables, options?: IdempotentRequestOptions): Promise<T.PauseWorkflowRunMutation> =>
       this.request('pauseWorkflowRun', variables, options, { operationType: 'mutation' }),
     /**
-     * Ship it: promote the workflow's current DRAFT to ACTIVE (live). Pauses the previously-active version; pauseInFlightRuns=true (the default) also pauses that version's in-flight runs. Fails if there is no draft or the draft is invalid (see getWorkflow.draftValidation).
+     * Ship it: promote the workflow's current DRAFT to ACTIVE (live). Pauses the previously-active version AND its in-flight runs. Fails if there is no draft or the draft is invalid (see getWorkflow.draftValidation).
      *
      * @remarks Requires the WRITE scope.
      *

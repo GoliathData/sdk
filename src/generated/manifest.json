@@ -338,7 +338,7 @@
       "domain": "appointments",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "List the organization's appointment reminders (SMS sent to the contact before an appointment starts — message, amountBefore + unitBefore). Use a reminder's id as appointmentReminderWorkflowGroupId in createAppointment/updateAppointment to attach it (the appointment responses echo it under the same name).",
+      "description": "List the organization's appointment reminders. Each reminder carries its `steps` — one SMS per step, each with its own message and amountBefore + unitBefore lead time, ordered longest lead time first. Use a reminder's id as appointmentReminderWorkflowGroupId in createAppointment/updateAppointment to attach it (the appointment responses echo it under the same name).",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -349,9 +349,11 @@
         "appointmentReminderQuery": {
           "listAppointmentReminders": {
             "id": true,
-            "message": true,
-            "amountBefore": true,
-            "unitBefore": true,
+            "steps": {
+              "message": true,
+              "amountBefore": true,
+              "unitBefore": true
+            },
             "createdAt": true
           }
         }
@@ -7710,7 +7712,7 @@
       ],
       "responseShape": {
         "workflowAutomationsMutation": {
-          "createContentTemplateFolder": {
+          "createLibraryFolder": {
             "id": true,
             "name": true,
             "parentFolderId": true,
@@ -7899,8 +7901,8 @@
       ],
       "responseShape": {
         "workflowAutomationsMutation": {
-          "deleteContentTemplateFolder": {
-            "listContentTemplateFolders": {
+          "deleteLibraryFolder": {
+            "libraryFolders": {
               "id": true,
               "name": true
             }
@@ -8331,7 +8333,7 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "List the organization's template folders (id, name, template count).",
+      "description": "List the organization's shared content-library folders (id, name, parentFolderId, displayOrder) with per-kind template counts and a file count. Counts are DIRECT — what is filed in that folder itself, not its subtree — so a parent's own counts do not include its children's.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -8340,11 +8342,18 @@
       "variables": [],
       "responseShape": {
         "workflowAutomationsQuery": {
-          "listContentTemplateFolders": {
+          "libraryFolders": {
             "id": true,
             "name": true,
             "parentFolderId": true,
-            "templateCount": true,
+            "templateCounts": {
+              "email": true,
+              "sms": true,
+              "note": true,
+              "task": true,
+              "taskSet": true
+            },
+            "fileCount": true,
             "displayOrder": true
           }
         }
@@ -8758,7 +8767,7 @@
       "domain": "workflows",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Ship it: promote the workflow's current DRAFT to ACTIVE (live). Pauses the previously-active version; pauseInFlightRuns=true (the default) also pauses that version's in-flight runs. Fails if there is no draft or the draft is invalid (see getWorkflow.draftValidation).",
+      "description": "Ship it: promote the workflow's current DRAFT to ACTIVE (live). Pauses the previously-active version AND its in-flight runs. Fails if there is no draft or the draft is invalid (see getWorkflow.draftValidation).",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -8770,12 +8779,6 @@
           "type": "ID!",
           "required": true,
           "defaultValue": null
-        },
-        {
-          "name": "pauseInFlightRuns",
-          "type": "Boolean!",
-          "required": true,
-          "defaultValue": "true"
         }
       ],
       "responseShape": {
@@ -8820,7 +8823,7 @@
       ],
       "responseShape": {
         "workflowAutomationsMutation": {
-          "renameContentTemplateFolder": {
+          "renameLibraryFolder": {
             "id": true,
             "name": true
           }

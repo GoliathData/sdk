@@ -4,7 +4,7 @@
 
 query · domain `appointments` · requires the READ scope
 
-List the organization's appointment reminders (SMS sent to the contact before an appointment starts — message, amountBefore + unitBefore). Use a reminder's id as appointmentReminderWorkflowGroupId in createAppointment/updateAppointment to attach it (the appointment responses echo it under the same name).
+List the organization's appointment reminders. Each reminder carries its `steps` — one SMS per step, each with its own message and amountBefore + unitBefore lead time, ordered longest lead time first. Use a reminder's id as appointmentReminderWorkflowGroupId in createAppointment/updateAppointment to attach it (the appointment responses echo it under the same name).
 
 ## Call
 
@@ -28,9 +28,11 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
   "appointmentReminderQuery": {
     "listAppointmentReminders": {
       "id": true,
-      "message": true,
-      "amountBefore": true,
-      "unitBefore": true,
+      "steps": {
+        "message": true,
+        "amountBefore": true,
+        "unitBefore": true
+      },
       "createdAt": true
     }
   }

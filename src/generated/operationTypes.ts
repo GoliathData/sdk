@@ -1148,7 +1148,7 @@ export type CheckAvailabilityQuery = { __typename?: 'RootQuery', availabilityQue
 
 export type ListAppointmentRemindersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type ListAppointmentRemindersQuery = { __typename?: 'RootQuery', appointmentReminderQuery?: { __typename?: 'AppointmentReminderQuery', listAppointmentReminders?: Array<{ __typename?: 'AppointmentReminder', id: string, message: string, amountBefore: number, unitBefore: AppointmentReminderTimeUnit, createdAt: any }> | null } | null };
+export type ListAppointmentRemindersQuery = { __typename?: 'RootQuery', appointmentReminderQuery?: { __typename?: 'AppointmentReminderQuery', listAppointmentReminders?: Array<{ __typename?: 'AppointmentReminder', id: string, createdAt: any, steps: Array<{ __typename?: 'AppointmentReminderStep', message: string, amountBefore: number, unitBefore: AppointmentReminderTimeUnit }> }> | null } | null };
 
 export type GetMyAvailabilityScheduleQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2328,7 +2328,7 @@ export type ListContentTemplatesQuery = { __typename?: 'RootQuery', workflowAuto
 
 export type ListContentTemplateFoldersQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type ListContentTemplateFoldersQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listContentTemplateFolders?: Array<{ __typename?: 'ContentTemplateFolder', id: string, name: string, parentFolderId?: string | null, templateCount: number, displayOrder: number }> | null } | null };
+export type ListContentTemplateFoldersQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', libraryFolders?: Array<{ __typename?: 'LibraryFolder', id: string, name: string, parentFolderId?: string | null, fileCount: number, displayOrder: number, templateCounts: { __typename?: 'LibraryTemplateCounts', email: number, sms: number, note: number, task: number, taskSet: number } }> | null } | null };
 
 export type GetWorkflowStatsQueryVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
@@ -2389,7 +2389,6 @@ export type RenameWorkflowMutation = { __typename?: 'RootMutation', workflowAuto
 
 export type PromoteWorkflowDraftMutationVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
-  pauseInFlightRuns?: Scalars['Boolean']['input'];
 }>;
 
 export type PromoteWorkflowDraftMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', promoteWorkflowGroupDraftToLive?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus } | null } | null } | null };
@@ -2500,20 +2499,20 @@ export type CreateContentTemplateFolderMutationVariables = Exact<{
   parentFolderId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type CreateContentTemplateFolderMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', createContentTemplateFolder?: { __typename?: 'ContentTemplateFolder', id: string, name: string, parentFolderId?: string | null, displayOrder: number } | null } | null };
+export type CreateContentTemplateFolderMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', createLibraryFolder?: { __typename?: 'LibraryFolder', id: string, name: string, parentFolderId?: string | null, displayOrder: number } | null } | null };
 
 export type RenameContentTemplateFolderMutationVariables = Exact<{
   folderId: Scalars['ID']['input'];
   name: Scalars['String']['input'];
 }>;
 
-export type RenameContentTemplateFolderMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', renameContentTemplateFolder?: { __typename?: 'ContentTemplateFolder', id: string, name: string } | null } | null };
+export type RenameContentTemplateFolderMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', renameLibraryFolder?: { __typename?: 'LibraryFolder', id: string, name: string } | null } | null };
 
 export type DeleteContentTemplateFolderMutationVariables = Exact<{
   folderId: Scalars['ID']['input'];
 }>;
 
-export type DeleteContentTemplateFolderMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', deleteContentTemplateFolder?: { __typename?: 'WorkflowAutomationsQuery', listContentTemplateFolders?: Array<{ __typename?: 'ContentTemplateFolder', id: string, name: string }> | null } | null } | null };
+export type DeleteContentTemplateFolderMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', deleteLibraryFolder?: { __typename?: 'WorkflowAutomationsQuery', libraryFolders?: Array<{ __typename?: 'LibraryFolder', id: string, name: string }> | null } | null } | null };
 
 export type ListWorkflowFoldersQueryVariables = Exact<{ [key: string]: never; }>;
 

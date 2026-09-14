@@ -34,7 +34,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
 ```json
 {
   "workflowAutomationsMutation": {
-    "renameContentTemplateFolder": {
+    "renameLibraryFolder": {
       "id": true,
       "name": true
     }

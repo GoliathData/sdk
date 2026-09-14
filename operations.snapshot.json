@@ -114,7 +114,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"appointmentReminderQuery\":{\"listAppointmentReminders\":{\"id\":true,\"message\":true,\"amountBefore\":true,\"unitBefore\":true,\"createdAt\":true}}}"
+    "responseShape": "{\"appointmentReminderQuery\":{\"listAppointmentReminders\":{\"id\":true,\"steps\":{\"message\":true,\"amountBefore\":true,\"unitBefore\":true},\"createdAt\":true}}}"
   },
   {
     "operationId": "listAppointments",
@@ -2038,7 +2038,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "name:String!,parentFolderId:ID",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"createContentTemplateFolder\":{\"id\":true,\"name\":true,\"parentFolderId\":true,\"displayOrder\":true}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"createLibraryFolder\":{\"id\":true,\"name\":true,\"parentFolderId\":true,\"displayOrder\":true}}}"
   },
   {
     "operationId": "createOrReturnWorkflowDraft",
@@ -2103,7 +2103,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "folderId:ID!",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"deleteContentTemplateFolder\":{\"listContentTemplateFolders\":{\"id\":true,\"name\":true}}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"deleteLibraryFolder\":{\"libraryFolders\":{\"id\":true,\"name\":true}}}}"
   },
   {
     "operationId": "deleteWorkflow",
@@ -2246,7 +2246,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"listContentTemplateFolders\":{\"id\":true,\"name\":true,\"parentFolderId\":true,\"templateCount\":true,\"displayOrder\":true}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"libraryFolders\":{\"id\":true,\"name\":true,\"parentFolderId\":true,\"templateCounts\":{\"email\":true,\"sms\":true,\"note\":true,\"task\":true,\"taskSet\":true},\"fileCount\":true,\"displayOrder\":true}}}"
   },
   {
     "operationId": "listContentTemplates",
@@ -2388,7 +2388,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "workflowGroupId:ID!,pauseInFlightRuns:Boolean!=true",
+    "variableSignature": "workflowGroupId:ID!",
     "responseShape": "{\"workflowAutomationsMutation\":{\"promoteWorkflowGroupDraftToLive\":{\"id\":true,\"name\":true,\"status\":true,\"currentVersion\":{\"id\":true,\"name\":true,\"status\":true}}}}"
   },
   {
@@ -2402,7 +2402,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "folderId:ID!,name:String!",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"renameContentTemplateFolder\":{\"id\":true,\"name\":true}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"renameLibraryFolder\":{\"id\":true,\"name\":true}}}"
   },
   {
     "operationId": "renameWorkflow",

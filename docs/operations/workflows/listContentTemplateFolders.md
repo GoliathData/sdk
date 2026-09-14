@@ -4,7 +4,7 @@
 
 query · domain `workflows` · requires the READ scope
 
-List the organization's template folders (id, name, template count).
+List the organization's shared content-library folders (id, name, parentFolderId, displayOrder) with per-kind template counts and a file count. Counts are DIRECT — what is filed in that folder itself, not its subtree — so a parent's own counts do not include its children's.
 
 ## Call
 
@@ -26,11 +26,18 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
 ```json
 {
   "workflowAutomationsQuery": {
-    "listContentTemplateFolders": {
+    "libraryFolders": {
       "id": true,
       "name": true,
       "parentFolderId": true,
-      "templateCount": true,
+      "templateCounts": {
+        "email": true,
+        "sms": true,
+        "note": true,
+        "task": true,
+        "taskSet": true
+      },
+      "fileCount": true,
       "displayOrder": true
     }
   }

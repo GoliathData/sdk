@@ -4,12 +4,12 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Ship it: promote the workflow's current DRAFT to ACTIVE (live). Pauses the previously-active version; pauseInFlightRuns=true (the default) also pauses that version's in-flight runs. Fails if there is no draft or the draft is invalid (see getWorkflow.draftValidation).
+Ship it: promote the workflow's current DRAFT to ACTIVE (live). Pauses the previously-active version AND its in-flight runs. Fails if there is no draft or the draft is invalid (see getWorkflow.draftValidation).
 
 ## Call
 
 ```ts
-const result = await client.workflows.promoteWorkflowDraft({ workflowGroupId: '<id>', pauseInFlightRuns: false }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.workflows.promoteWorkflowDraft({ workflowGroupId: '<id>' }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<PromoteWorkflowDraftMutation>
 ```
 
@@ -20,7 +20,6 @@ const result = await client.workflows.promoteWorkflowDraft({ workflowGroupId: '<
 | Name | Type | Required | Default |
 |---|---|---|---|
 | `workflowGroupId` | `ID!` | yes | — |
-| `pauseInFlightRuns` | `Boolean!` | yes | true |
 
 ## Gateway notes
 
