@@ -543,7 +543,8 @@ export enum DependencyImpactGroupKind {
   OrgPartnership = 'ORG_PARTNERSHIP',
   Task = 'TASK',
   TaskSetSteps = 'TASK_SET_STEPS',
-  WorkflowAutomation = 'WORKFLOW_AUTOMATION'
+  WorkflowAutomation = 'WORKFLOW_AUTOMATION',
+  WorkflowTableRow = 'WORKFLOW_TABLE_ROW'
 }
 
 export type DependencyReplacementSelectionInput = {
