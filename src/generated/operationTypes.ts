@@ -1974,7 +1974,7 @@ export type FindPropertiesQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type FindPropertiesQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', autocompleteProperties?: { __typename?: 'PropertyAutocompleteResponse', totalCount: number, hasMore: boolean, results: Array<{ __typename?: 'PropertyAutocompleteSuggestion', esId: string, fullAddress: string, line1: string, line2?: string | null, city: string, state: string, zipCode: string, parcelId: string, mlsStatus?: PropertyMlsStatus | null }> } | null } | null };
+export type FindPropertiesQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', autocompleteProperties?: { __typename?: 'PropertyAutocompleteResponse', totalCount: number, hasMore: boolean, results: Array<{ __typename?: 'PropertyAutocompleteSuggestion', esId: string, fullAddress: string, line1: string, line2?: string | null, city: string, state: string, zipCode: string, parcelId?: string | null, mlsStatus?: PropertyMlsStatus | null }> } | null } | null };
 
 export type ListPropertyFiltersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -2009,7 +2009,7 @@ export type FindPropertiesByParcelQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type FindPropertiesByParcelQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', autocompletePropertiesByParcel?: { __typename?: 'PropertyAutocompleteResponse', totalCount: number, hasMore: boolean, results: Array<{ __typename?: 'PropertyAutocompleteSuggestion', esId: string, fullAddress: string, line1: string, line2?: string | null, city: string, state: string, zipCode: string, parcelId: string, mlsStatus?: PropertyMlsStatus | null }> } | null } | null };
+export type FindPropertiesByParcelQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', autocompletePropertiesByParcel?: { __typename?: 'PropertyAutocompleteResponse', totalCount: number, hasMore: boolean, results: Array<{ __typename?: 'PropertyAutocompleteSuggestion', esId: string, fullAddress: string, line1: string, line2?: string | null, city: string, state: string, zipCode: string, parcelId?: string | null, mlsStatus?: PropertyMlsStatus | null }> } | null } | null };
 
 export type FindPropertiesByMlsIdQueryVariables = Exact<{
   mlsId: Scalars['String']['input'];
@@ -2017,7 +2017,7 @@ export type FindPropertiesByMlsIdQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type FindPropertiesByMlsIdQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', autocompletePropertiesByMlsId?: { __typename?: 'PropertyAutocompleteResponse', totalCount: number, hasMore: boolean, results: Array<{ __typename?: 'PropertyAutocompleteSuggestion', esId: string, fullAddress: string, line1: string, line2?: string | null, city: string, state: string, zipCode: string, parcelId: string, mlsStatus?: PropertyMlsStatus | null }> } | null } | null };
+export type FindPropertiesByMlsIdQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', autocompletePropertiesByMlsId?: { __typename?: 'PropertyAutocompleteResponse', totalCount: number, hasMore: boolean, results: Array<{ __typename?: 'PropertyAutocompleteSuggestion', esId: string, fullAddress: string, line1: string, line2?: string | null, city: string, state: string, zipCode: string, parcelId?: string | null, mlsStatus?: PropertyMlsStatus | null }> } | null } | null };
 
 export type GetRelatedPropertiesQueryVariables = Exact<{
   propertyIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
