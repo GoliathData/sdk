@@ -1087,21 +1087,24 @@ export enum WorkflowDomain {
  * Rolled-up lifecycle status for a `WorkflowGroup`, derived from the
  * statuses of its child `WorkflowAutomation` versions:
  *
- *   - ACTIVE: at least one child is ACTIVE.
- *   - PAUSED: no ACTIVE child, but at least one PAUSED or SUSPENDED child.
- *   - DRAFT:  otherwise (only DRAFT/PENDING_REVIEW children, or none).
+ *   - ACTIVE:    at least one child is ACTIVE.
+ *   - SUSPENDED: no ACTIVE child, and the head of the publication lineage (the
+ *                newest published version — never a draft) is SUSPENDED.
+ *   - PAUSED:    otherwise, at least one PAUSED or SUSPENDED child.
+ *   - DRAFT:     otherwise (only DRAFT/PENDING_REVIEW children, or none).
  *
- * There is deliberately no SUSPENDED bucket — at list altitude a system stop and
- * a user pause are the same fact, "published and not running" — but a SUSPENDED
- * child still has to REACH that bucket. Leaving it out of the ladder rolled a
- * published-then-suspended group up to DRAFT, which says the opposite.
+ * SUSPENDED is decided by the head, not by "any suspended child": a group whose
+ * owner published over a suspension and then paused the new version is paused by
+ * a person, and its old SUSPENDED sibling is history. Suspension is a group fact:
+ * a draft being edited never hides it (see `WorkflowAutomation.groupSuspension`).
  *
  * Drives the single status pill in the Automations table.
  */
 export enum WorkflowGroupStatus {
   Active = 'ACTIVE',
   Draft = 'DRAFT',
-  Paused = 'PAUSED'
+  Paused = 'PAUSED',
+  Suspended = 'SUSPENDED'
 }
 
 export type GetMyProfileQueryVariables = Exact<{ [key: string]: never; }>;
