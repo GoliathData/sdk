@@ -3,8 +3,9 @@
 // server/src/cli/scripts/accounts/mintDeveloperApiKeys.ts, or Settings → API
 // keys in the staging app) and GOLIATH_SDK_STAGING_URL (the staging API host)
 // are both set. READ-scope operations only — running this must never mutate
-// staging data. Not part of CI; mirrors scripts/dev/developer-api-matrix.sh's
-// read slice.
+// staging data. Not part of CI. It mirrors the read slice of the former
+// `scripts/dev/developer-api-matrix.sh`, deleted in the 2026-09 docs refresh once
+// it had gone stale; this suite and `sdk/scripts/smoke.mjs` are what remain of it.
 import { describe, expect, it } from 'vitest'
 import { GoliathBadRequestError, GoliathClient } from '../index'
 

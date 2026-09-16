@@ -1,7 +1,11 @@
 // End-to-end smoke of the BUILT package against the staging developer API —
 // the dogfood run: imports from dist/ (run `yarn build` first), authenticates
-// with a real key, and exercises typed reads + the discovery endpoint. Ports
-// the read slice of scripts/dev/developer-api-matrix.sh onto the SDK.
+// with a real key, and exercises typed reads + the discovery endpoint. It began
+// as a port of the read slice of `scripts/dev/developer-api-matrix.sh`, which was
+// deleted in this repo's 2026-09 docs refresh once it had gone stale (pre-ADMIN
+// rename, no IMPORT scope, and an org-isolation check expecting the `null` answer
+// a declared guard now answers `403 forbidden` to). This file is that check's
+// only surviving form.
 //
 //   GOLIATH_SDK_STAGING_KEY=gsk_... GOLIATH_SDK_STAGING_URL=https://<api-host> yarn --cwd sdk smoke:staging
 //
