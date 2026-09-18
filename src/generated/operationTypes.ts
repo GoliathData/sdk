@@ -424,7 +424,7 @@ export enum CreditType {
   EmailVerification = 'EMAIL_VERIFICATION',
   ExportProperties = 'EXPORT_PROPERTIES',
   Skiptrace = 'SKIPTRACE',
-  /** Text messages. 1 credit covers up to 3 SMS segments of one outbound message; sold at 3 cents. */
+  /** Texting credits. One credit equals one outbound carrier text segment. */
   SmsCredits = 'SMS_CREDITS'
 }
 

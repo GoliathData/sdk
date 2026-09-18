@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-Get current per-credit prices (cents per unit) for EVERY credit type an org can hold: skiptrace, property export, email verification, AI Agent Credits (aiAgentCreditPriceCents — 1 AI credit = 1 cent of AI cost), AND Text Messages (smsCreditPriceCents — 1 credit covers up to 3 SMS segments of one message). Any price reads 0 until its Stripe price exists, which means "not priced yet", not "free". Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
+Get current per-credit prices (cents per unit) for EVERY credit type an org can hold: skiptrace, property export, email verification, AI Agent Credits (aiAgentCreditPriceCents — 1 AI credit = 1 cent of AI cost), AND Texting Credits (smsCreditPriceCents — 1 credit = 1 outbound carrier text segment). Inbound texts never consume texting credits. Any price reads 0 until its Stripe price exists, which means "not priced yet", not "free". Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
 
 ## Call
 
