@@ -1208,7 +1208,7 @@ export type SetMyAvailabilityScheduleMutation = { __typename?: 'RootMutation', a
 
 export type GetCreditPricesQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetCreditPricesQuery = { __typename?: 'RootQuery', billing?: { __typename?: 'BillingQuery', getCreditPrices?: { __typename?: 'CreditPrices', skiptracePriceCents: number, exportPropertiesPriceCents: number, emailVerificationPriceCents: number, aiAgentCreditPriceCents: number, smsCreditPriceCents: number } | null } | null };
+export type GetCreditPricesQuery = { __typename?: 'RootQuery', billing?: { __typename?: 'BillingQuery', getCreditPrices?: { __typename?: 'CreditPrices', skiptracePriceCents: number, exportPropertiesPriceCents: number, emailVerificationPriceCents: number, aiAgentCreditPriceCents: number, smsCreditPriceCents: number, packs: Array<{ __typename?: 'CreditPackPrice', creditType: CreditType, code: string, units: number, priceCents: number, available: boolean }> } | null } | null };
 
 export type GetCreditsPurchaseUrlQueryVariables = Exact<{ [key: string]: never; }>;
 

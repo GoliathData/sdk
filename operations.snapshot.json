@@ -205,7 +205,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"billing\":{\"getCreditPrices\":{\"skiptracePriceCents\":true,\"exportPropertiesPriceCents\":true,\"emailVerificationPriceCents\":true,\"aiAgentCreditPriceCents\":true,\"smsCreditPriceCents\":true}}}"
+    "responseShape": "{\"billing\":{\"getCreditPrices\":{\"skiptracePriceCents\":true,\"exportPropertiesPriceCents\":true,\"emailVerificationPriceCents\":true,\"aiAgentCreditPriceCents\":true,\"smsCreditPriceCents\":true,\"packs\":{\"creditType\":true,\"code\":true,\"units\":true,\"priceCents\":true,\"available\":true}}}}"
   },
   {
     "operationId": "getCreditsPurchaseUrl",

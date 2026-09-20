@@ -136,7 +136,7 @@ export class GoliathClient extends GoliathClientCore {
     getBillingSummary: (options?: RequestOptions): Promise<T.GetBillingSummaryQuery> =>
       this.request('getBillingSummary', undefined, options, { operationType: 'query' }),
     /**
-     * Get current per-credit prices (cents per unit) for EVERY credit type an org can hold: skiptrace, property export, email verification, AI Agent Credits (aiAgentCreditPriceCents — 1 AI credit = 1 cent of AI cost), AND Texting Credits (smsCreditPriceCents — 1 credit = 1 outbound carrier text segment). Inbound texts never consume texting credits. Any price reads 0 until its Stripe price exists, which means "not priced yet", not "free". Live from Stripe. Pair with getBillingSummary to tell the user what topping up costs — the agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
+     * Get the current fixed credit packs for EVERY credit type an org can hold. `packs` is the sellable catalog: each row has its credit type, code, units, whole-pack price in cents, and `available` (false means its Stripe Price is unavailable or mismatched, so do not quote or offer it). Use packs—not the legacy per-credit fields—to tell a user what a top-up costs. The legacy fields remain for compatibility and do not describe sellable prices. AI Agent Credits consume at 1 credit = 1 cent of AI cost; Texting Credits consume at 1 credit = 1 outbound carrier text segment; inbound texts never consume texting credits. The agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
      *
      * @remarks Requires the READ scope.
      */
