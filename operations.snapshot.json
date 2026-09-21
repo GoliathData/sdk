@@ -179,7 +179,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "windowDays:Int",
-    "responseShape": "{\"subscriptionQuery\":{\"aiCreditUsage\":{\"windowDays\":true,\"creditsConsumed\":true,\"balanceCredits\":true,\"outOfCredits\":true}}}"
+    "responseShape": "{\"subscriptionQuery\":{\"aiCreditUsage\":{\"windowDays\":true,\"creditsConsumed\":true,\"balanceCredits\":true,\"outOfCredits\":true,\"lowOnCredits\":true,\"lowCreditThresholdCredits\":true}}}"
   },
   {
     "operationId": "getBillingSummary",

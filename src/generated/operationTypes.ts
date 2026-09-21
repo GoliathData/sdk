@@ -1234,7 +1234,7 @@ export type GetAiCreditUsageQueryVariables = Exact<{
   windowDays?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type GetAiCreditUsageQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', aiCreditUsage?: { __typename?: 'AiCreditUsageSummary', windowDays: number, creditsConsumed: number, balanceCredits: number, outOfCredits: boolean } | null } | null };
+export type GetAiCreditUsageQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', aiCreditUsage?: { __typename?: 'AiCreditUsageSummary', windowDays: number, creditsConsumed: number, balanceCredits: number, outOfCredits: boolean, lowOnCredits: boolean, lowCreditThresholdCredits: number } | null } | null };
 
 export type GetBulkTaskQueryVariables = Exact<{
   bulkTaskId: Scalars['ID']['input'];
