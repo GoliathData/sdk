@@ -539,7 +539,6 @@ export enum DependencyImpactGroupKind {
   LibraryFolderContents = 'LIBRARY_FOLDER_CONTENTS',
   LiveDeals = 'LIVE_DEALS',
   LiveStages = 'LIVE_STAGES',
-  MarketingCampaign = 'MARKETING_CAMPAIGN',
   OrganizationApiKey = 'ORGANIZATION_API_KEY',
   OrganizationSite = 'ORGANIZATION_SITE',
   OrgPartnership = 'ORG_PARTNERSHIP',
