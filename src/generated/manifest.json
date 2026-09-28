@@ -698,7 +698,8 @@
               "emailVerificationCap": true,
               "exportPropertiesCap": true,
               "aiCreditsCap": true,
-              "smsCreditsCap": true
+              "smsCreditsCap": true,
+              "phoneNumbersCap": true
             },
             "extraSeats": {
               "seatsCap": true,

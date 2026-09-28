@@ -44,7 +44,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "emailVerificationCap": true,
         "exportPropertiesCap": true,
         "aiCreditsCap": true,
-        "smsCreditsCap": true
+        "smsCreditsCap": true,
+        "phoneNumbersCap": true
       },
       "extraSeats": {
         "seatsCap": true,
