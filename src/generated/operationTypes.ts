@@ -447,6 +447,7 @@ export enum DealActivityEventType {
   DealRestored = 'DEAL_RESTORED',
   FileAdded = 'FILE_ADDED',
   FileRemoved = 'FILE_REMOVED',
+  ScraperHealthMoved = 'SCRAPER_HEALTH_MOVED',
   StageChanged = 'STAGE_CHANGED',
   TaskAdded = 'TASK_ADDED',
   TaskCompleted = 'TASK_COMPLETED',
@@ -688,6 +689,20 @@ export type ManualSkipTraceRequestInput = {
   zip?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type MoveScraperHealthCardInput = {
+  dealId: Scalars['ID']['input'];
+  event: ScraperHealthEventInput;
+  /**
+   * The card's `updatedAt` from the read you decided on — always send it. A token that
+   * is not the card's current version writes nothing and answers CONFLICT. Omitted,
+   * the server guards on its own read, which only catches an edit landing between that
+   * read and the write.
+   */
+  expectedUpdatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  /** A stage of the card's own pipeline. */
+  toStageId: Scalars['ID']['input'];
+};
+
 export enum OrganizationBillingStatus {
   Active = 'ACTIVE',
   Negative = 'NEGATIVE',
@@ -771,6 +786,37 @@ export enum ReplySentiment {
   Positive = 'POSITIVE',
   Unreachable = 'UNREACHABLE'
 }
+
+/**
+ * Which kind of mover took a Scraper Health card to its stage. Separate from the
+ * event's `actor` (always the calling key's owner), since every mover writes through
+ * the same fleet key.
+ */
+export enum ScraperHealthActor {
+  Doctor = 'DOCTOR',
+  Monitor = 'MONITOR',
+  Person = 'PERSON'
+}
+
+/**
+ * Why a Scraper Health card is moving. Stage names, the event type and the acting
+ * key owner are filled in by the server. `why` is required (1-4000 chars); `checked`,
+ * `found` and `nextTime` are optional and capped at 4000; `handoffSummary` (max 600) is
+ * the short "what happened, where it stands" a person reads first. `delivered`,
+ * `expected` and `windowDays` are the evidence at this moment.
+ */
+export type ScraperHealthEventInput = {
+  checked?: InputMaybe<Scalars['String']['input']>;
+  delivered?: InputMaybe<Scalars['Int']['input']>;
+  /** Fractional allowed: a monthly benchmark prorated over the window. */
+  expected?: InputMaybe<Scalars['Float']['input']>;
+  found?: InputMaybe<Scalars['String']['input']>;
+  handoffSummary?: InputMaybe<Scalars['String']['input']>;
+  healthActor: ScraperHealthActor;
+  nextTime?: InputMaybe<Scalars['String']['input']>;
+  why: Scalars['String']['input'];
+  windowDays?: InputMaybe<Scalars['Int']['input']>;
+};
 
 export enum SkipTraceStatus {
   Failed = 'FAILED',
@@ -1036,6 +1082,21 @@ export type UpdateContentTemplateInput = {
 export type UpsertCustomFieldOptionInput = {
   id?: InputMaybe<Scalars['ID']['input']>;
   label: Scalars['String']['input'];
+};
+
+export type UpsertScraperHealthCardInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  /** The creation event. Not written when the card already exists. */
+  event: ScraperHealthEventInput;
+  /**
+   * The benchmark's key: 1-200 chars of lowercase letters, digits and `: _ . -`,
+   * starting with a letter or digit. Namespaced by organization on the server.
+   */
+  key: Scalars['String']['input'];
+  pipelineId: Scalars['ID']['input'];
+  /** Where a NEW card starts. Ignored when the card already exists. */
+  stageId: Scalars['ID']['input'];
+  title: Scalars['String']['input'];
 };
 
 export enum VerificationStatus {
@@ -1776,6 +1837,24 @@ export type RemoveDealFileMutationVariables = Exact<{
 }>;
 
 export type RemoveDealFileMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'DealMutation', removeDealFiles?: { __typename?: 'Deal', id: string } | null } | null };
+
+export type GetScraperHealthCardQueryVariables = Exact<{
+  key: Scalars['String']['input'];
+}>;
+
+export type GetScraperHealthCardQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'DealQuery', getScraperHealthCard?: { __typename?: 'ScraperHealthCard', id: string, title: string, pipelineId: string, stageId: string, stageName: string, updatedAt: any, sourceKey: string } | null } | null };
+
+export type UpsertScraperHealthCardMutationVariables = Exact<{
+  input: UpsertScraperHealthCardInput;
+}>;
+
+export type UpsertScraperHealthCardMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'DealMutation', upsertScraperHealthCard: { __typename?: 'UpsertScraperHealthCardResult', created: boolean, card: { __typename?: 'ScraperHealthCard', id: string, title: string, pipelineId: string, stageId: string, stageName: string, updatedAt: any, sourceKey: string } } } | null };
+
+export type MoveScraperHealthCardMutationVariables = Exact<{
+  input: MoveScraperHealthCardInput;
+}>;
+
+export type MoveScraperHealthCardMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'DealMutation', moveScraperHealthCard: { __typename?: 'ScraperHealthCard', id: string, title: string, pipelineId: string, stageId: string, stageName: string, updatedAt: any, sourceKey: string } } | null };
 
 export type ListFormsQueryVariables = Exact<{ [key: string]: never; }>;
 

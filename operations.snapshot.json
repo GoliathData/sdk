@@ -1014,6 +1014,19 @@
     "responseShape": "{\"teamAnalyticsQuery\":{\"agentPipelineInventory\":{\"asOfDate\":true,\"period\":true,\"reportingPeriod\":true,\"startDate\":true,\"endDate\":true,\"pipelines\":{\"pipelineId\":true,\"pipelineName\":true,\"wonDeals\":true,\"lostDeals\":true,\"activeDealsCount\":true,\"avgStageDurationDays\":true,\"currentStageMix\":{\"stageName\":true,\"dealCount\":true}}}}}"
   },
   {
+    "operationId": "getScraperHealthCard",
+    "domain": "deals",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "key:String!",
+    "responseShape": "{\"dealQuery\":{\"getScraperHealthCard\":{\"id\":true,\"title\":true,\"pipelineId\":true,\"stageId\":true,\"stageName\":true,\"updatedAt\":true,\"sourceKey\":true}}}"
+  },
+  {
     "operationId": "listDealActivity",
     "domain": "deals",
     "operationType": "query",
@@ -1118,6 +1131,19 @@
     "responseShape": "{\"pipelineSummaryQuery\":{\"stalledDealsPage\":{\"deals\":{\"id\":true,\"name\":true,\"value\":true,\"stage\":true,\"pipelineId\":true,\"contactName\":true,\"contactId\":true,\"inactiveDays\":true},\"totalCount\":true,\"hasMore\":true}}}"
   },
   {
+    "operationId": "moveScraperHealthCard",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "input:MoveScraperHealthCardInput!",
+    "responseShape": "{\"dealMutation\":{\"moveScraperHealthCard\":{\"id\":true,\"title\":true,\"pipelineId\":true,\"stageId\":true,\"stageName\":true,\"updatedAt\":true,\"sourceKey\":true}}}"
+  },
+  {
     "operationId": "removeDealFile",
     "domain": "deals",
     "operationType": "mutation",
@@ -1194,6 +1220,19 @@
     "hasAuthorize": true,
     "variableSignature": "stageId:ID!,name:String,description:String,isTerminal:Boolean,terminalType:DealStageTerminalType,winProbability:Int",
     "responseShape": "{\"dealMutation\":{\"updateDealStage\":{\"id\":true,\"name\":true,\"order\":true,\"description\":true,\"isTerminal\":true,\"terminalType\":true,\"winProbability\":true}}}"
+  },
+  {
+    "operationId": "upsertScraperHealthCard",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "input:UpsertScraperHealthCardInput!",
+    "responseShape": "{\"dealMutation\":{\"upsertScraperHealthCard\":{\"created\":true,\"card\":{\"id\":true,\"title\":true,\"pipelineId\":true,\"stageId\":true,\"stageName\":true,\"updatedAt\":true,\"sourceKey\":true}}}}"
   },
   {
     "operationId": "createForm",

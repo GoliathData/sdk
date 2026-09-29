@@ -36,7 +36,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `communications` | 4 |
 | `contacts` | 36 |
 | `conversations` | 5 |
-| `deals` | 27 |
+| `deals` | 30 |
 | `forms` | 13 |
 | `notifications` | 4 |
 | `properties` | 24 |

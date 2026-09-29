@@ -3568,11 +3568,44 @@
       }
     },
     {
+      "operationId": "getScraperHealthCard",
+      "domain": "deals",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "Your organization's Scraper Health card for one benchmark key (the same `key` upsertScraperHealthCard opened it with), or null when there is none. Returns id, title, pipelineId, stageId, stageName, updatedAt (pass it back as expectedUpdatedAt on your next move) and sourceKey. Keys are namespaced by organization, so a key only ever names your own card. The card's reasoning history is its activity feed: listDealActivity with eventTypes [SCRAPER_HEALTH_MOVED].",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "key",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealQuery": {
+          "getScraperHealthCard": {
+            "id": true,
+            "title": true,
+            "pipelineId": true,
+            "stageId": true,
+            "stageName": true,
+            "updatedAt": true,
+            "sourceKey": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "listDealActivity",
       "domain": "deals",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "One deal's activity feed, most-recent-first — the audit trail behind \"who changed the price on this deal, and when did it get reassigned?\". Each event carries eventType, createdAt, actor (the person, null for system/automation), and a SuperJSON `payload` whose `json` object holds the per-eventType detail. Pass `eventTypes` to narrow to the types you care about — a narrowed read pages at the DATABASE, so a sparse type's full history stays reachable however busy the rest of the feed is; omit it for the mixed feed, which caps at the 200 most recent events. Page with `offset`. THE FULL eventType VOCABULARY, with the payload keys under `payload.json` for each (there is no schema expansion for a SuperJSON scalar, so this text is the only description of the shape). Money keys are cents, `*Bps` are basis points, dates are ISO 8601, and a `from*` key is null when the field had no previous value: `STAGE_CHANGED` (fromStageId, fromStageName, toStageId, toStageName — names are snapshotted at write time, so they stay correct after a stage is renamed); `VALUE_CHANGED` (fromCents, toCents — the deal price); `COMMISSION_CHANGED` and `TEAM_SPLIT_CHANGED` (fromCents, toCents, fromBps, toBps — the pair that answers commission-history questions); `CLOSE_DATE_CHANGED` (fromDate, toDate); `ASSIGNED` and `UNASSIGNED` (userId, userName — the person the deal was assigned to or taken from, NOT the actor who did it); `CONTACT_LINKED` and `CONTACT_UNLINKED` (contactId, contactName); `TASK_ADDED` and `TASK_COMPLETED` (taskId, taskTitle, isAppointment — true means it was an appointment, not a to-do); `FILE_ADDED` and `FILE_REMOVED` (fileId, fileName); `DEAL_CREATED`, `DEAL_ARCHIVED`, `DEAL_RESTORED` (no payload keys beyond actor); `COMMENT` (body — the comment text; listDealComments is the same feed pre-narrowed to this type). Those seventeen are the whole vocabulary: an eventType outside this list does not exist. What the feed does NOT record is edits to a deal's title, description or custom-field values — no event type covers them, so their history is not reconstructable here.",
+      "description": "One deal's activity feed, most-recent-first — the audit trail behind \"who changed the price on this deal, and when did it get reassigned?\". Each event carries eventType, createdAt, actor (the person, null for system/automation), and a SuperJSON `payload` whose `json` object holds the per-eventType detail. Pass `eventTypes` to narrow to the types you care about — a narrowed read pages at the DATABASE, so a sparse type's full history stays reachable however busy the rest of the feed is; omit it for the mixed feed, which caps at the 200 most recent events. Page with `offset`. THE FULL eventType VOCABULARY, with the payload keys under `payload.json` for each (there is no schema expansion for a SuperJSON scalar, so this text is the only description of the shape). Money keys are cents, `*Bps` are basis points, dates are ISO 8601, and a `from*` key is null when the field had no previous value: `STAGE_CHANGED` (fromStageId, fromStageName, toStageId, toStageName — names are snapshotted at write time, so they stay correct after a stage is renamed); `VALUE_CHANGED` (fromCents, toCents — the deal price); `COMMISSION_CHANGED` and `TEAM_SPLIT_CHANGED` (fromCents, toCents, fromBps, toBps — the pair that answers commission-history questions); `CLOSE_DATE_CHANGED` (fromDate, toDate); `ASSIGNED` and `UNASSIGNED` (userId, userName — the person the deal was assigned to or taken from, NOT the actor who did it); `CONTACT_LINKED` and `CONTACT_UNLINKED` (contactId, contactName); `TASK_ADDED` and `TASK_COMPLETED` (taskId, taskTitle, isAppointment — true means it was an appointment, not a to-do); `FILE_ADDED` and `FILE_REMOVED` (fileId, fileName); `DEAL_CREATED`, `DEAL_ARCHIVED`, `DEAL_RESTORED` (no payload keys beyond actor); `COMMENT` (body — the comment text; listDealComments is the same feed pre-narrowed to this type); `SCRAPER_HEALTH_MOVED` (only on Scraper Health cards — the reasoning written with each move by moveScraperHealthCard / upsertScraperHealthCard: healthActor (monitor | doctor | person — which kind of mover, since `actor` is always the key owner), fromStage and toStage (stage NAMES, fromStage null on the event that opened the card), why, checked, found, nextTime (free text, null when not given), delivered, expected, windowDays (the numbers at that moment), handoffSummary (the short \"what happened, where it stands\" a person reads first)). Those eighteen are the whole vocabulary: an eventType outside this list does not exist. What the feed does NOT record is edits to a deal's title, description or custom-field values — no event type covers them, so their history is not reconstructable here.",
       "resultCap": 50,
       "rateLimited": false,
       "idempotent": false,
@@ -3896,6 +3929,39 @@
             },
             "totalCount": true,
             "hasMore": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "moveScraperHealthCard",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Move a Scraper Health card to another stage of its OWN pipeline and record why — the stage change and its SCRAPER_HEALTH_MOVED event commit together or not at all, so a card never sits in a stage without its reasoning. input: { dealId, toStageId, expectedUpdatedAt?, event } with `event` exactly as on upsertScraperHealthCard. fromStage and toStage are the stage NAMES as the server reads them — never sent by you. ALWAYS pass expectedUpdatedAt — the card's updatedAt from the read you decided on (getScraperHealthCard or your previous write): when it is not the card's current version nothing is written and you get CONFLICT — re-read the card and its history, then decide again. Omitted, the server guards on its OWN read, which only catches an edit landing in the milliseconds before the write; a move someone made after your read would be silently overridden. After a failed or timed-out call, re-read the card before retrying: the move may have committed, and a retry that finds the card already in toStage records the verdict a second time. Moving to the stage the card is already in writes the event and changes no stage — how a verdict that leaves a card where it is gets recorded. A stage from another pipeline, or a deal that is not a Scraper Health card, is refused (BAD_USER_INPUT); an oversized or malformed event is refused before anything is written. It is an ordinary stage move underneath: the STAGE_CHANGED feed entry and the destination stage's workflow wake still happen. Returns the card with its new updatedAt.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "input",
+          "type": "MoveScraperHealthCardInput!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "moveScraperHealthCard": {
+            "id": true,
+            "title": true,
+            "pipelineId": true,
+            "stageId": true,
+            "stageName": true,
+            "updatedAt": true,
+            "sourceKey": true
           }
         }
       }
@@ -4262,6 +4328,42 @@
             "isTerminal": true,
             "terminalType": true,
             "winProbability": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "upsertScraperHealthCard",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Open the Scraper Health card for one scraper benchmark, or get the one already open. input: { key, pipelineId, stageId, title, description?, event }. `key` names the benchmark (1-200 chars of lowercase letters, digits and : _ . -, starting with a letter or digit) and is namespaced by your organization. When your organization has no card for the key, one is created in stageId (which must be a stage of pipelineId) together with its first SCRAPER_HEALTH_MOVED event, in ONE transaction — so two callers racing on the same key still leave one card. When the card exists it is returned UNTOUCHED with created: false: no event is written and it is not moved, whatever stageId you sent — use moveScraperHealthCard to move it. `event` is { healthActor: MONITOR | DOCTOR | PERSON, why (required, max 4000 chars), checked?, found?, nextTime? (max 4000 each), delivered?, expected? (may be fractional), windowDays?, handoffSummary? (max 600 — the short \"what happened, where it stands\" a person reads first) }; stage names and the acting key owner are filled in by the server. An oversized or malformed event is rejected (BAD_USER_INPUT) before anything is written. Returns { created, card { id, title, pipelineId, stageId, stageName, updatedAt, sourceKey } }. A new card wakes the stage-entry workflows of its stage like any other new deal.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "input",
+          "type": "UpsertScraperHealthCardInput!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "upsertScraperHealthCard": {
+            "created": true,
+            "card": {
+              "id": true,
+              "title": true,
+              "pipelineId": true,
+              "stageId": true,
+              "stageName": true,
+              "updatedAt": true,
+              "sourceKey": true
+            }
           }
         }
       }
