@@ -1086,6 +1086,11 @@ export type UpsertCustomFieldOptionInput = {
   label: Scalars['String']['input'];
 };
 
+export type UpsertDealCustomFieldOptionInput = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  label: Scalars['String']['input'];
+};
+
 export type UpsertScraperHealthCardInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   /** The creation event. Not written when the card already exists. */
@@ -1825,6 +1830,16 @@ export type CreateDealCustomFieldMutationVariables = Exact<{
 }>;
 
 export type CreateDealCustomFieldMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'DealCustomFieldMutation', createCustomField?: { __typename?: 'DealCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'DealCustomField', id: string, name: string, type: DealCustomFieldType }> | null } | null } | null };
+
+export type UpdateDealCustomFieldMutationVariables = Exact<{
+  customFieldId: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  options?: InputMaybe<Array<UpsertDealCustomFieldOptionInput> | UpsertDealCustomFieldOptionInput>;
+  defaultValue?: InputMaybe<Scalars['String']['input']>;
+  optionDependencyResolutions?: InputMaybe<Array<DependencyResolutionInput> | DependencyResolutionInput>;
+}>;
+
+export type UpdateDealCustomFieldMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'DealCustomFieldMutation', updateCustomField?: { __typename?: 'DealCustomField', id: string, name: string, type: DealCustomFieldType, displayOrder: number, allowMultiple: boolean, defaultValue?: string | null, options?: Array<{ __typename?: 'DealCustomFieldOption', id: string, label: string }> | null } | null } | null };
 
 export type AttachDealFileMutationVariables = Exact<{
   dealId: Scalars['ID']['input'];

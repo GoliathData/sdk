@@ -1196,6 +1196,19 @@
     "responseShape": "{\"dealMutation\":{\"updateDeal\":{\"id\":true,\"title\":true,\"priceCents\":true,\"closeDate\":true,\"isArchived\":true,\"updatedAt\":true,\"lastStageChangeAt\":true,\"commissionCents\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"participantSplits\":{\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"splitAmountCents\":true,\"splitPercentBps\":true},\"customFieldValues\":{\"id\":true,\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"id\":true,\"name\":true,\"type\":true}},\"stage\":{\"id\":true,\"name\":true},\"pipeline\":{\"id\":true,\"name\":true},\"contacts\":{\"id\":true,\"name\":true},\"properties\":{\"id\":true,\"address\":{\"addressFull\":true}}}}}"
   },
   {
+    "operationId": "updateDealCustomField",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "customFieldId:ID!,name:String,options:[UpsertDealCustomFieldOptionInput!],defaultValue:String,optionDependencyResolutions:[DependencyResolutionInput!]",
+    "responseShape": "{\"dealCustomFieldMutation\":{\"updateCustomField\":{\"id\":true,\"name\":true,\"type\":true,\"options\":{\"id\":true,\"label\":true},\"displayOrder\":true,\"allowMultiple\":true,\"defaultValue\":true}}}"
+  },
+  {
     "operationId": "updatePipeline",
     "domain": "deals",
     "operationType": "mutation",
