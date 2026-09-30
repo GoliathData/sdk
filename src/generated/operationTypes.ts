@@ -714,6 +714,8 @@ export enum OrganizationCapability {
   CanExport = 'CAN_EXPORT',
   CanSkiptrace = 'CAN_SKIPTRACE',
   CanWorkflow = 'CAN_WORKFLOW',
+  ContractsManage = 'CONTRACTS_MANAGE',
+  ContractsView = 'CONTRACTS_VIEW',
   ViewAllContacts = 'VIEW_ALL_CONTACTS',
   ViewAllDeals = 'VIEW_ALL_DEALS',
   ViewAllPhones = 'VIEW_ALL_PHONES',
