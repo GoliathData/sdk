@@ -423,6 +423,8 @@ export type CreateTaskInput = {
 export enum CreditType {
   /** AI agent usage (AI Agent Credits). Purchase-only: 1 credit = 1 cent. */
   AiCredits = 'AI_CREDITS',
+  /** Calling minutes: talk minutes on managed lines, both directions, rounded up per call. Never sold; the balance can be negative. */
+  CallingMinutes = 'CALLING_MINUTES',
   EmailVerification = 'EMAIL_VERIFICATION',
   ExportProperties = 'EXPORT_PROPERTIES',
   Skiptrace = 'SKIPTRACE',
@@ -1297,7 +1299,7 @@ export type GetAddOnPricesQuery = { __typename?: 'RootQuery', billing?: { __type
 
 export type GetBillingSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetBillingSummaryQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', getOrganizationBilling?: { __typename?: 'OrganizationBilling', id: string, planType?: PlanCode | null, status: OrganizationBillingStatus, isAnnualPlan?: boolean | null, isGrandfathered: boolean, currentUnitAmountCents?: number | null, trialEnds?: any | null, cancelAt?: any | null, pendingPlanCode?: PlanCode | null, pendingPlanIsAnnual?: boolean | null, pendingPlanEffectiveAt?: any | null, featureLimits: { __typename?: 'FeatureLimits', seatsCap?: number | null, skiptraceCap?: number | null, emailVerificationCap?: number | null, exportPropertiesCap?: number | null, aiCreditsCap?: number | null, smsCreditsCap?: number | null, phoneNumbersCap?: number | null }, extraSeats?: { __typename?: 'ExtraSeatsBilling', seatsCap: number, seatsUsed: number, extraSeatQuantity: number, unusedPaidSeats?: number | null, unusedPaidSeatsReleaseAt?: any | null } | null, creditLedger: Array<{ __typename?: 'CreditLedger', type: CreditType, unitBalance: number }> } | null } | null };
+export type GetBillingSummaryQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', getOrganizationBilling?: { __typename?: 'OrganizationBilling', id: string, planType?: PlanCode | null, status: OrganizationBillingStatus, isAnnualPlan?: boolean | null, isGrandfathered: boolean, currentUnitAmountCents?: number | null, trialEnds?: any | null, cancelAt?: any | null, pendingPlanCode?: PlanCode | null, pendingPlanIsAnnual?: boolean | null, pendingPlanEffectiveAt?: any | null, featureLimits: { __typename?: 'FeatureLimits', seatsCap?: number | null, skiptraceCap?: number | null, emailVerificationCap?: number | null, exportPropertiesCap?: number | null, aiCreditsCap?: number | null, smsCreditsCap?: number | null, phoneNumbersCap?: number | null, callingMinutesCap?: number | null }, extraSeats?: { __typename?: 'ExtraSeatsBilling', seatsCap: number, seatsUsed: number, extraSeatQuantity: number, unusedPaidSeats?: number | null, unusedPaidSeatsReleaseAt?: any | null } | null, creditLedger: Array<{ __typename?: 'CreditLedger', type: CreditType, unitBalance: number }> } | null } | null };
 
 export type GetAiCreditUsageQueryVariables = Exact<{
   windowDays?: InputMaybe<Scalars['Int']['input']>;

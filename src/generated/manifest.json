@@ -699,7 +699,8 @@
               "exportPropertiesCap": true,
               "aiCreditsCap": true,
               "smsCreditsCap": true,
-              "phoneNumbersCap": true
+              "phoneNumbersCap": true,
+              "callingMinutesCap": true
             },
             "extraSeats": {
               "seatsCap": true,
