@@ -1,6 +1,6 @@
 // GENERATED FILE — do not edit. Regenerate with `yarn generate` in sdk/
 // (server manifest snapshot → typed client surface; see scripts/generate-client.mjs).
-/** biome-ignore-all lint: generated code */
+/* oxlint-disable -- generated code */
 
 import { GoliathClientCore } from '../runtime/client'
 import type { IdempotentRequestOptions, RequestOptions } from '../runtime/types'
