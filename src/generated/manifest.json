@@ -2753,7 +2753,7 @@
       "domain": "conversations",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "The inbox: text conversations, calls and email threads in ONE most-recent-first feed. This is the org-side read for \"did they text back\", \"what is unread\", \"who has not been replied to\" — questions that name no contact, which is exactly what listContactActivities (per-contact, needs a contactId) cannot answer. Each row carries the channel in `type` (MESSAGE | CALL | EMAIL) and only the fields that channel has: a MESSAGE row carries mostRecentMessage (with its full body) + messagesCount + replySentiment; a CALL row carries status/durationSeconds/summary/hasRecording and, for a grouped day of calls, groupCount + groupedCallIds; an EMAIL row carries subject/snippet/fromEmail/toEmails + emailThreadId. Rows are PREVIEWS — one message deep. To read a whole conversation, follow the id: a MESSAGE row's id is the conversationId for getTextThreadMessages, an EMAIL row's emailThreadId is the threadId for getEmailThread, and a CALL row (or an id from groupedCallIds) goes to getCallRecording. FILTERS: `seen: false` is unread (one flag across all three channels — a text conversation's seen, a call's seen, an email's isRead); `channel` narrows to CALLS | MESSAGES | EMAILS | MISSED_CALLS | UNRESPONDED | NEEDS_RESPONSE (the contact spoke last, less threads a teammate marked handled since); `respondedOnly: true` keeps only threads the contact has replied on at least once; `sentBy` keeps threads with an outbound message from HUMAN, AI_EMPLOYEE and/or WORKFLOW (a campaign) — `sentBy: [WORKFLOW], respondedOnly: true` is \"who replied to a campaign\"; `replySentiments` keeps threads whose most recent inbound reply was classified POSITIVE | NEUTRAL | NEGATIVE | OPT_OUT | UNREACHABLE. WHICH FILTERS REACH CALLS: `respondedOnly` and `replySentiments` do not apply to a call at all (a call has no reply to classify), so setting either drops CALL rows from the feed entirely. `sentBy` DOES filter calls — a call is AI_EMPLOYEE when it carries an AI-employee author and HUMAN when it does not — with one structural gap: a call carries no campaign linkage, so `sentBy: [WORKFLOW]` matches no call and that query returns texts and emails only. `searchTerm` matches message/email text and participant names. PAGING is keyset and per channel: the response returns nextCallCursor, nextSmsCursor and nextEmailCursor, and the next page passes each one back as callCursor/smsCursor/emailCursor. Pass ALL THREE back exactly as received — dropping a NON-NULL cursor restarts that channel from the top and repeats rows you already read. Do NOT read a single null cursor as \"that channel is finished\": a channel also comes back null when `channel` filtered it out, and when its rows were all older than this page's newest so it has not served you anything yet. Sending a null back as null is correct in every one of those cases and repeats nothing. THE FEED IS DONE only when a response carries ALL THREE cursors null — keep requesting while any one of them is non-null, and do not stop on an empty page while a cursor remains. limit is per page across the merged feed (default 25, max 50). SCOPE: with no `userIds` this is the KEY OWNER'S OWN inbox — their lines, their mailbox — which is the same thing the app shows them, not an org-wide firehose. Naming a teammate in `userIds` reads their inbox only if the key owner holds VIEW_ALL_PHONES; without it the request is REFUSED (an error), which is different from an empty page. An EMPTY items list means nothing in your own inbox matched these filters — it never means the org has no messages, and it is not a permission failure. Teammate ids come from listTeammates.",
+      "description": "The inbox: text conversations, calls and email threads in ONE most-recent-first feed. This is the org-side read for \"did they text back\", \"what is unread\", \"who has not been replied to\" — questions that name no contact, which is exactly what listContactActivities (per-contact, needs a contactId) cannot answer. Each row carries the channel in `type` (MESSAGE | CALL | EMAIL) and only the fields that channel has: a MESSAGE row carries mostRecentMessage (with its full body) + replySentiment; a CALL row carries status/durationSeconds/summary/hasRecording and, for a grouped day of calls, groupCount + groupedCallIds; an EMAIL row carries subject/snippet/fromEmail/toEmails + emailThreadId. Rows are PREVIEWS — one message deep. To read a whole conversation, follow the id: a MESSAGE row's id is the conversationId for getTextThreadMessages, an EMAIL row's emailThreadId is the threadId for getEmailThread, and a CALL row (or an id from groupedCallIds) goes to getCallRecording. WHO THE CONTACT IS: on MESSAGE and CALL rows `potentialContacts` (`{ id, name }`) lists the contacts on that number — one entry names the contact; several mean the number is shared, so name them all or open the thread rather than picking the first; empty means none matches. `contactName` is caller-ID only, set for an unmatched inbound CALL, and is null on every text row, so a null `contactName` never means the contact is unknown. FILTERS: `seen: false` is unread (one flag across all three channels — a text conversation's seen, a call's seen, an email's isRead); `channel` narrows to CALLS | MESSAGES | EMAILS | MISSED_CALLS | UNRESPONDED | NEEDS_RESPONSE (the contact spoke last, less threads a teammate marked handled since); `respondedOnly: true` keeps only threads the contact has replied on at least once; `sentBy` keeps threads with an outbound message from HUMAN, AI_EMPLOYEE and/or WORKFLOW (a campaign) — `sentBy: [WORKFLOW], respondedOnly: true` is \"who replied to a campaign\"; `replySentiments` keeps threads whose most recent inbound reply was classified POSITIVE | NEUTRAL | NEGATIVE | OPT_OUT | UNREACHABLE. WHICH FILTERS REACH CALLS: `respondedOnly` and `replySentiments` do not apply to a call at all (a call has no reply to classify), so setting either drops CALL rows from the feed entirely. `sentBy` DOES filter calls — a call is AI_EMPLOYEE when it carries an AI-employee author and HUMAN when it does not — with one structural gap: a call carries no campaign linkage, so `sentBy: [WORKFLOW]` matches no call and that query returns texts and emails only. `searchTerm` matches message/email text and participant names. PAGING is keyset and per channel: the response returns nextCallCursor, nextSmsCursor and nextEmailCursor, and the next page passes each one back as callCursor/smsCursor/emailCursor. Pass ALL THREE back exactly as received — dropping a NON-NULL cursor restarts that channel from the top and repeats rows you already read. Do NOT read a single null cursor as \"that channel is finished\": a channel also comes back null when `channel` filtered it out, and when its rows were all older than this page's newest so it has not served you anything yet. Sending a null back as null is correct in every one of those cases and repeats nothing. THE FEED IS DONE only when a response carries ALL THREE cursors null — keep requesting while any one of them is non-null, and do not stop on an empty page while a cursor remains. limit is per page across the merged feed (default 25, max 50). SCOPE: with no `userIds` this is the KEY OWNER'S OWN inbox — their lines, their mailbox — which is the same thing the app shows them, not an org-wide firehose. Naming a teammate in `userIds` reads their inbox only if the key owner holds VIEW_ALL_PHONES; without it the request is REFUSED (an error), which is different from an empty page. An EMPTY items list means nothing in your own inbox matched these filters — it never means the org has no messages, and it is not a permission failure. Teammate ids come from listTeammates.",
       "resultCap": 50,
       "rateLimited": false,
       "idempotent": false,
@@ -2850,7 +2850,6 @@
                 "name": true
               },
               "direction": true,
-              "messagesCount": true,
               "mostRecentMessage": {
                 "id": true,
                 "message": true,
@@ -3286,7 +3285,7 @@
       "domain": "deals",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Search deals org-wide — optional title substring, contact, pipeline, stage, and archived filters. Pass stageId (from listPipelineStages) to read one column directly instead of paging a whole pipeline. IMPORTANT — archived deals are INCLUDED BY DEFAULT: omitting isArchived applies no archive filter at all, so results mix active and archived deals (archived ones merely sort last). Pass isArchived: false for active-only — do that whenever you are answering \"what is in my pipeline\" — or isArchived: true to find archived deals (e.g. to restore one with archiveDeal). Check each result's isArchived field before reporting a deal as current. Each deal carries its assigned users — an empty array means the deal is UNASSIGNED, nobody owns it — and its linked contacts (id + name). For the ownership-gap audit (\"deals nobody owns, whose contact does have someone on it\"), pass hasAssignedUsers: false — the filter runs server-side over the WHOLE pipeline, so the returned totalCount IS the number of unowned deals and you can report it without paging everything to prove it (hasAssignedUsers: true is the inverse; omit it to get both). Never answer \"how many deals have nobody on them\" by counting a page — take the totalCount off a hasAssignedUsers: false query. To answer \"what is assigned to a particular person\", pass userIds (their userId from listTeammates) — server-side as well, so its totalCount is that person's real workload rather than a page count, and it composes with stageId / isArchived / hasAssignedUsers. It must name at least one user: an empty list is rejected, not silently ignored. The CONTACT half is not: whether anyone is on a contact comes from getContact, one call per contact, because this page does not carry it. Do NOT infer the contact side from anything here, and do not report the audit as complete after only paging deals. One wrinkle to report rather than swallow: a deal on your pipeline can link a contact belonging to a PARTNER org (they can write to a pipeline you shared with them), and getContact will refuse that id — that is \"not visible to you\", NOT \"nobody is on it\", so count those separately instead of folding them into either bucket. Org-pinned in the service layer; returns a capped page plus the unpaged total. Each row also carries the deal's commission figures — commissionCents (the derived total, i.e. the GCI) plus the stored sources commissionAmountCents / commissionPercentBps / teamSplitAmountCents / teamSplitPercentBps — so a portfolio money question (\"what is our GCI on everything closing this month\") is answerable from one page rather than a getDeal per deal. Read them exactly as getDeal documents: amount XOR percent per side, and all-null means no commission RECORDED, not zero. participantSplits is NOT on this page; call getDeal for that. `customFieldValues` IS on this page, so a board-wide survey — who holds which card, which cards have no Difficulty set — is one call rather than a getDeal per card. It is LEANER here than on getDeal: each entry carries the value plus the field NAME (`dealCustomField { name }`) and drops the ids and the type, because this page is for surveying rather than for writing back. Read the value from the ONE sub-field matching the field type exactly as getDeal documents. Same absent-not-null rule too: a field the deal has never been given a value for is missing from the list, so an empty list means nothing is filled in, never that the pipeline has no fields. Custom fields multiply per row, so if a page comes back `truncated`, lower `limit` rather than assuming the missing deals have no values.",
+      "description": "Search deals org-wide — optional title substring, contact, pipeline, stage, and archived filters. Pass stageId (from listPipelineStages) to read one column directly instead of paging a whole pipeline. IMPORTANT — archived deals are INCLUDED BY DEFAULT: omitting isArchived applies no archive filter at all, so results mix active and archived deals (archived ones merely sort last). Pass isArchived: false for active-only — do that whenever you are answering \"what is in my pipeline\" — or isArchived: true to find archived deals (e.g. to restore one with archiveDeal). Check each result's isArchived field before reporting a deal as current. Each deal carries its assigned users — an empty array means the deal is UNASSIGNED, nobody owns it — and its linked contacts (id + name). For the ownership-gap audit (\"deals nobody owns, whose contact does have someone on it\"), pass hasAssignedUsers: false — the filter runs server-side over the WHOLE pipeline, so the returned totalCount IS the number of unowned deals and you can report it without paging everything to prove it (hasAssignedUsers: true is the inverse; omit it to get both). Never answer \"how many deals have nobody on them\" by counting a page — take the totalCount off a hasAssignedUsers: false query. To answer \"what is assigned to a particular person\", pass userIds (their userId from listTeammates) — server-side as well, so its totalCount is that person's real workload rather than a page count, and it composes with stageId / isArchived / hasAssignedUsers. It must name at least one user: an empty list is rejected, not silently ignored. The CONTACT half is not: whether anyone is on a contact comes from getContact, one call per contact, because this page does not carry it. Do NOT infer the contact side from anything here, and do not report the audit as complete after only paging deals. One wrinkle to report rather than swallow: a deal on your pipeline can link a contact belonging to a PARTNER org (they can write to a pipeline you shared with them), and getContact will refuse that id — that is \"not visible to you\", NOT \"nobody is on it\", so count those separately instead of folding them into either bucket. Org-pinned in the service layer; returns a capped page plus the unpaged total. Each row also carries the deal's commission figures — commissionCents (the derived total, i.e. the GCI) plus the stored sources commissionAmountCents / commissionPercentBps / teamSplitAmountCents / teamSplitPercentBps — so a portfolio money question (\"what is our GCI on everything closing this month\") is answerable from one page rather than a getDeal per deal. Read them exactly as getDeal documents: amount XOR percent per side, and all-null means no commission RECORDED, not zero. participantSplits is NOT on this page; call getDeal for that. `customFieldValues` IS on this page, so a board-wide survey — who holds which card, which cards have no Difficulty set — is one call rather than a getDeal per card. It is LEANER here than on getDeal: each entry carries the value plus the field NAME (`dealCustomField { name }`) and drops the ids and the type, because this page is for surveying rather than for writing back. Read the value from the ONE sub-field matching the field type exactly as getDeal documents. Same absent-not-null rule too: a field the deal has never been given a value for is missing from the list, so an empty list means nothing is filled in, never that the pipeline has no fields. Custom fields multiply per row, so if a page comes back `truncated`, lower `limit` rather than assuming the missing deals have no values. TASKS — `taskSummary { openTaskCount openAppointmentCount }` counts the open tasks and appointments linked to the DEAL (not tasks on its contacts). taskSummary.openTaskCount = 0 means the deal has no open task, so \"which deals have no task\" is answered from this page, never by a listDealActivity call per deal.",
       "resultCap": 50,
       "rateLimited": false,
       "idempotent": false,
@@ -3380,6 +3379,10 @@
               "contacts": {
                 "id": true,
                 "name": true
+              },
+              "taskSummary": {
+                "openTaskCount": true,
+                "openAppointmentCount": true
               },
               "customFieldValues": {
                 "textValue": true,
@@ -3480,7 +3483,7 @@
       "domain": "deals",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Preview what deleting an org-owned record affects before you do it — it serves every delete op that takes a dependencyResolution, not just the deal ones. Pass targetKind + targetId; returns impactVersion (hand it back to the matching delete op), requiresReplacement, the dependent records grouped, and — when replacement is required — the replacementRequirements (what needs a new home and the valid options). Supported targetKinds: DEAL_PIPELINE / DEAL_STAGE (deletePipeline / deletePipelineStage), CONTACT_CUSTOM_FIELD (deleteContactCustomField), CONTACT_CUSTOM_FIELD_OPTION (a dropdown option being dropped by updateContactCustomField's optionDependencyResolutions), CONTACT_TAG (deleteContactTags), CONTACT_LIST (deleteContactLists), and CONTENT_TEMPLATE (deleteContentTemplate). Always call this first: those delete ops need the impactVersion, and it goes stale if anything changes in between — re-read it rather than reusing an old one.",
+      "description": "Preview what deleting an org-owned record affects before you do it — it serves every delete op that takes a dependencyResolution, not just the deal ones. Pass targetKind + targetId; returns impactVersion (hand it back to the matching delete op), requiresReplacement, the dependent records grouped, and — when replacement is required — the replacementRequirements (what needs a new home and the valid options). Supported targetKinds: DEAL_PIPELINE / DEAL_STAGE (deletePipeline / deletePipelineStage), CONTACT_CUSTOM_FIELD (deleteContactCustomField), CONTACT_CUSTOM_FIELD_OPTION (a dropdown option being dropped by updateContactCustomField's optionDependencyResolutions), CONTACT_TAG (deleteContactTags), CONTACT_LIST (deleteContactLists), and CONTENT_TEMPLATE (deleteContentTemplate). WORKFLOW_GROUP (a workflow's group id) is read-only here: it says what references that workflow, and deleteWorkflow takes no impactVersion. Always call this first: those delete ops need the impactVersion, and it goes stale if anything changes in between — re-read it rather than reusing an old one.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -4044,8 +4047,8 @@
       "domain": "deals",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Survey deals org-wide — the SAME search as findDeals (same filters, same org scoping) with a deliberately LEAN row: deal id, title, isArchived, stage NAME, pipeline NAME, assigned users by NAME, and custom-field values. Use this whenever the question is about MANY deals rather than about a few in full — \"who holds which card\", \"which cards have no Difficulty set\", \"what is on this board\", any board-wide count or grouping. Use findDeals instead when you need money (commission / team split), linked contacts, close date, price, createdAt/updatedAt, or the ids inside a row; use getDeal for one deal in full. WHY IT EXISTS: a result handed to an agent is capped at 16,000 characters and the cap DROPS WHOLE DEALS rather than erroring, so a findDeals row — 685 characters before any custom field, 1,313 with four — fits only 23 deals, or 12, under its own default limit of 20. A shortened page looks exactly like a complete one. This row is roughly a third of that, so `limit` defaults to 17 — a page that fits a TYPICAL board carrying four custom fields — and may be raised to 50, which fits when the board has none. Neither number is a guarantee: titles, custom-field names and values, and how many fields and assignees a deal carries are all unbounded, so a heavy board can truncate even at the default. ALWAYS check `truncated` on the response, and when it is true lower `limit` and page rather than reading the survivors as the whole board — the response also carries an `__omittedItems` count saying how many rows were dropped. `totalCount` is the UNPAGED total and is the number to quote for \"how many\", never the length of a page. IDS — the row carries names, not ids, for everything except the deal itself, because an id costs the same bytes on every row and is one cheap call away: stage ids from listPipelineStages, user ids from listTeammates, custom-field ids and types from listDealCustomFields. The deal `id` IS here — pass it to getDeal or updateDeal to act on a row. ARCHIVED DEALS ARE INCLUDED BY DEFAULT, exactly as in findDeals: omitting isArchived applies no archive filter, so results mix active and archived deals. Pass isArchived: false for active-only, and check each row's isArchived before reporting a deal as current. ASSIGNEES — `users` is the assigned-user list and an EMPTY array means the deal is UNASSIGNED, nobody owns it. For a count of unowned deals pass hasAssignedUsers: false and quote totalCount rather than counting a page; pass userIds (from listTeammates) for one person's workload. It does NOT carry linked contacts, and whether anyone is on a contact still comes from getContact — one call per contact — so an ownership audit is not complete after paging deals alone. CUSTOM FIELDS — each entry carries the value plus the field NAME (no id, no type). Read the value from the ONE slot matching the field type: TEXT/LINK -> textValue, NUMBER/DOLLAR -> numberValue (a plain number, NOT cents), DATE -> dateValue (ISO 8601), DROPDOWN -> dropdownSelectedValues (the option LABEL strings). A field the deal has never been given a value for is ABSENT from the list rather than present-and-null, so an empty list means nothing is filled in on that deal — never that the pipeline has no fields (get the definitions from listDealCustomFields(pipelineId)).",
-      "resultCap": 50,
+      "description": "Survey deals org-wide — the SAME search as findDeals (same filters, same org scoping) with a deliberately LEAN row: deal id, title, isArchived, stage NAME, pipeline NAME, assigned users by NAME, open-task counts, and custom-field values. Use this whenever the question is about MANY deals rather than about a few in full — \"who holds which card\", \"which cards have no Difficulty set\", \"what is on this board\", any board-wide count or grouping. Use findDeals instead when you need money (commission / team split), linked contacts, close date, price, createdAt/updatedAt, or the ids inside a row; use getDeal for one deal in full. WHY IT EXISTS: a result handed to an agent is capped in size and the cap DROPS WHOLE DEALS rather than erroring, so a findDeals page at its own default limit does not fit a board carrying custom fields, and a shortened page looks exactly like a complete one. This row is a fraction of a findDeals row (about half with no custom fields, two-thirds with four), so the default `limit` is a page that fits a TYPICAL board carrying custom fields, and raising it to the resultCap fits a board with none. Neither is a guarantee: titles, custom-field names and values, and how many fields and assignees a deal carries are all unbounded, so a heavy board can truncate even at the default. ALWAYS check `truncated` on the response, and when it is true lower `limit` and page rather than reading the survivors as the whole board — the response also carries an `__omittedItems` count saying how many rows were dropped. `totalCount` is the UNPAGED total and is the number to quote for \"how many\", never the length of a page. IDS — the row carries names, not ids, for everything except the deal itself, because an id costs the same bytes on every row and is one cheap call away: stage ids from listPipelineStages, user ids from listTeammates, custom-field ids and types from listDealCustomFields. The deal `id` IS here — pass it to getDeal or updateDeal to act on a row. ARCHIVED DEALS ARE INCLUDED BY DEFAULT, exactly as in findDeals: omitting isArchived applies no archive filter, so results mix active and archived deals. Pass isArchived: false for active-only, and check each row's isArchived before reporting a deal as current. ASSIGNEES — `users` is the assigned-user list and an EMPTY array means the deal is UNASSIGNED, nobody owns it. For a count of unowned deals pass hasAssignedUsers: false and quote totalCount rather than counting a page; pass userIds (from listTeammates) for one person's workload. It does NOT carry linked contacts, and whether anyone is on a contact still comes from getContact — one call per contact — so an ownership audit is not complete after paging deals alone. CUSTOM FIELDS — each entry carries the value plus the field NAME (no id, no type). Read the value from the ONE slot matching the field type: TEXT/LINK -> textValue, NUMBER/DOLLAR -> numberValue (a plain number, NOT cents), DATE -> dateValue (ISO 8601), DROPDOWN -> dropdownSelectedValues (the option LABEL strings). A field the deal has never been given a value for is ABSENT from the list rather than present-and-null, so an empty list means nothing is filled in on that deal — never that the pipeline has no fields (get the definitions from listDealCustomFields(pipelineId)). TASKS — `taskSummary { openTaskCount openAppointmentCount }` counts the open tasks and appointments linked to the DEAL (not tasks on its contacts). taskSummary.openTaskCount = 0 means the deal has no open task, so \"which deals have no task\" is answered from this page, never by a listDealActivity call per deal.",
+      "resultCap": 45,
       "rateLimited": false,
       "idempotent": false,
       "orgIdVariable": null,
@@ -4097,7 +4100,7 @@
           "name": "limit",
           "type": "Int",
           "required": false,
-          "defaultValue": "17"
+          "defaultValue": "16"
         },
         {
           "name": "offset",
@@ -4122,6 +4125,10 @@
               "users": {
                 "firstName": true,
                 "lastName": true
+              },
+              "taskSummary": {
+                "openTaskCount": true,
+                "openAppointmentCount": true
               },
               "customFieldValues": {
                 "textValue": true,
@@ -7259,6 +7266,75 @@
       }
     },
     {
+      "operationId": "countOutboundTexts",
+      "domain": "team",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "HOW MANY TEXTS WENT OUT in a time window — one call, exact, live (not a nightly snapshot). Use it for \"how many texts did we send this week\" instead of paging listInboxThreads, which is a preview feed and cannot count. WINDOW: startDate (inclusive) and endDate (exclusive) as ISO datetimes WITH an offset — resolve \"this week\"/\"today\"/\"since 9/28\" in the USER's timezone yourself (getMyProfile.resolvedTimezone, or the organization timezone) before calling; an offset-less time is read in the server zone. At most 93 calendar days; a wider window is REFUSED with a message (split it and add the parts). WHAT IS COUNTED: OUTBOUND texts created in the window on a line your organization owns or owned — the organization's texts whoever sent them, never another organization's. INBOUND texts are never counted. SKIPPED sends (the product declined to send — opt-out, Do-Not-Contact, throttle) are NOT counted. Each bucket reports sent (PENDING + SENT + DELIVERED: accepted for dispatch), delivered (the carrier-confirmed subset of sent) and failed (FAILED). byUser is each member's OWN sends: a text with an AI-employee or workflow stamp is never a member's, even when it went out on that member's line. otherSenders holds the rest: aiEmployees (texts an AI employee authored), workflows (texts a workflow or campaign step sent) and unattributed (a person's sends whose user was since removed). total is every bucket summed, so on an org-wide read it IS the whole organization's outbound volume. byUser is ranked by sent + failed, and a row's name is null when the user is gone; on an org-wide read only members with at least one counted text appear, while every member you NAME in userIds appears (zeros included). VISIBILITY (the inbox rule): with no userIds, a key owner holding VIEW_ALL_PHONES (org admins hold it) gets the WHOLE organization and otherSenders; anyone else gets ONLY THEIR OWN row and otherSenders null — so a non-admin's total is their own sends, not the team's; say so rather than reporting it as the org total. Naming a teammate in userIds without VIEW_ALL_PHONES is REFUSED (an error, not zeros); with it, userIds narrows to those members and otherSenders is null. getMyCapabilities says whether the key owner holds VIEW_ALL_PHONES. Teammate ids come from listTeammates.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "startDate",
+          "type": "DateTime!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "endDate",
+          "type": "DateTime!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "userIds",
+          "type": "[ID!]",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "teamAnalyticsQuery": {
+          "outboundTextCounts": {
+            "startDate": true,
+            "endDate": true,
+            "total": {
+              "sent": true,
+              "delivered": true,
+              "failed": true
+            },
+            "byUser": {
+              "userId": true,
+              "name": true,
+              "sent": true,
+              "delivered": true,
+              "failed": true
+            },
+            "otherSenders": {
+              "aiEmployees": {
+                "sent": true,
+                "delivered": true,
+                "failed": true
+              },
+              "workflows": {
+                "sent": true,
+                "delivered": true,
+                "failed": true
+              },
+              "unattributed": {
+                "sent": true,
+                "delivered": true,
+                "failed": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "operationId": "createTeamInvite",
       "domain": "team",
       "operationType": "mutation",
@@ -7454,6 +7530,62 @@
               "wonDealsCount": true,
               "lostDealsCount": true,
               "commissionEarnedCents": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "getTeamCallStats",
+      "domain": "team",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "Per-member CALL COUNTS AND TALK TIME in a time window — one call, exact, live (not a nightly snapshot). The answer to \"break down team talk time this week\" and \"who made the most calls\". WINDOW: startDate (inclusive) and endDate (exclusive) as ISO datetimes WITH an offset — resolve \"this week\"/\"since 9/28\" in the USER's timezone yourself (getMyProfile.resolvedTimezone, or the organization timezone) before calling. At most 93 calendar days; a wider window is REFUSED with a message. WHAT IS COUNTED, per member, over the organization's calls created in the window and handled by that member: outboundCalls and inboundCalls (every status, missed and unanswered included); connectedCalls = status COMPLETED, the same \"connects\" the team analytics pages count as completedCalls; conversationCalls = connected AND (lasted at least 120 seconds, or a transcript or AI summary exists), team analytics' conversationCalls; talkSeconds = summed duration of the connected calls (a connected call with no recorded duration adds 0) — divide by 60 or 3600 yourself. A call an AI EMPLOYEE handled is not counted for any member, even when it carries one (a screened call the AI took over), and calls with no member at all (imported dialer history) are not counted — so these are human calling numbers, and can be lower than the analytics pages, which credit AI-handled calls to the member. byUser is ranked by talkSeconds (name null when the user is gone); totals sums the rows. On an org-wide read only members with at least one call appear; every member you NAME in userIds appears (zeros included). VISIBILITY (the inbox rule): with no userIds, a key owner holding VIEW_ALL_PHONES (org admins hold it) gets every member; anyone else gets ONLY THEIR OWN row — say so rather than presenting it as the team. Naming a teammate in userIds without VIEW_ALL_PHONES is REFUSED (an error, not zeros). getMyCapabilities says whether the key owner holds VIEW_ALL_PHONES. Teammate ids come from listTeammates.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "startDate",
+          "type": "DateTime!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "endDate",
+          "type": "DateTime!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "userIds",
+          "type": "[ID!]",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "teamAnalyticsQuery": {
+          "callStats": {
+            "startDate": true,
+            "endDate": true,
+            "totals": {
+              "outboundCalls": true,
+              "inboundCalls": true,
+              "connectedCalls": true,
+              "conversationCalls": true,
+              "talkSeconds": true
+            },
+            "byUser": {
+              "userId": true,
+              "name": true,
+              "outboundCalls": true,
+              "inboundCalls": true,
+              "connectedCalls": true,
+              "conversationCalls": true,
+              "talkSeconds": true
             }
           }
         }
@@ -8275,7 +8407,7 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Fetch one workflow automation by group id — status, versions (a workflow is a stable group holding versioned definitions), the live version, the pending draft, and draft validation state. BOTH channel answers are here, and they are different questions. `channels` reads exactly ONE version — the most recently PUBLISHED one whatever status it now holds (active, paused or suspended), or the pending draft when nothing has ever published — and is null when that version's graph could not be read, [] when the group has no version at all. `channelsAcrossVersions` reads EVERY version that has not been deleted, superseded ones and unpublished drafts included; it is the field the paginated listings carry and the app's Channel filter matches on, and it is never null. They differ whenever any non-deleted version messages on a channel the published one does not. Both report CONFIGURED channels, not sending: a paused or suspended head still answers the channel it is configured for while sending nothing, so read `status` before describing a workflow as actively texting or emailing.",
+      "description": "Fetch one workflow automation by group id — status, versions (a workflow is a stable group holding versioned definitions), the live version, the pending draft, and draft validation state. BOTH channel answers are here, and they are different questions. `channels` reads exactly ONE version — the most recently PUBLISHED one whatever status it now holds (active, paused or suspended), or the pending draft when nothing has ever published — and is null when that version's graph could not be read, [] when the group has no version at all. `channelsAcrossVersions` reads EVERY version that has not been deleted, superseded ones and unpublished drafts included; it is the field the paginated listings carry and the app's Channel filter matches on, and it is never null. They differ whenever any non-deleted version messages on a channel the published one does not. Both report CONFIGURED channels, not sending: a paused or suspended head still answers the channel it is configured for while sending nothing, so read `status` before describing a workflow as actively texting or emailing. TRIGGERS ARE NOT THE ONLY WAY IN. Steps in OTHER workflows enroll records into this one: a PROPERTY `create_contact_action` (enrolls the contact it creates), a `trigger_contact_workflow_action` (start another workflow), and an EVENT `find_create_contact_action` / `event_find_property_action`. A workflow whose only trigger is {type: \"manual\"} is normal when it is fed that way — never call it idle or unreachable from its triggers alone. getDeletionImpact(targetKind: WORKFLOW_GROUP, targetId: <this group id>) says whether anything references it: its WORKFLOW_AUTOMATION group counts REFERENCES — each step, trigger or filter in each live version that names this one, so one workflow can count more than once. That is a count, not names — to see WHICH workflows feed it, scan other workflows' graphs (getWorkflowVersionGraph) for a step naming this group id. TO CHANGE WHAT A WORKFLOW DOES (add a condition, change a trigger, narrow who it acts on), edit its graph: createOrReturnWorkflowDraft → updateWorkflowGraph → promoteWorkflowDraft, then resumeWorkflow if it was paused. Pausing only stops it. Example: a PROPERTY workflow can require a motivation signal before it creates or texts anyone — put a `conditional` step on the `hasSignal` or `propertySignalTypes` property filter fields (listFilterFieldNames lists them) ahead of the `create_contact_action` step. Never tell a user that restricting outreach this way needs human review: it is a graph edit.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -8420,7 +8552,7 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Fetch one workflow VERSION by its workflowAutomationId (from getWorkflow.versions/currentVersion/pendingDraft) including its full node/edge graph — the superjson-serialized WorkflowGraph the editor reads and updateWorkflowGraph writes back. The graph's `triggers` array shows what starts runs (see updateWorkflowGraph for the trigger config shapes, the FULL authorable node vocabulary — far more than text steps — and how to add/remove them). Read `graph.config` too before answering anything about BEHAVIOUR rather than steps: exit conditions, send window / quiet hours, sender selection and the trigger operator all live there, not on any node — updateWorkflowGraph documents the vocabulary. WEBHOOK SECRETS ARE REDACTED. A `send_webhook_action` step's `config.auth.secret` comes back as the literal `__GOLIATH_WEBHOOK_SECRET_REDACTED__` — never the real credential, and never something to quote to a user or reason about as a value. Send that exact string BACK UNCHANGED in updateWorkflowGraph and the stored secret is kept; send a different string only when the user is deliberately rotating it. Do NOT invent, guess or complete a replacement: that overwrites a working credential. A redacted secret on a step with no stored secret behind it (a step you just added, or a graph read long enough ago that its node ids have rotated) is REFUSED, so re-read the graph and carry the sentinel from the fresh copy. ",
+      "description": "Fetch one workflow VERSION by its workflowAutomationId (from getWorkflow.versions/currentVersion/pendingDraft) including its full node/edge graph — the superjson-serialized WorkflowGraph the editor reads and updateWorkflowGraph writes back. The graph's `triggers` array shows what starts runs (see updateWorkflowGraph for the trigger config shapes, the FULL authorable node vocabulary — far more than text steps — and how to add/remove them). Read `graph.config` too before answering anything about BEHAVIOUR rather than steps: exit conditions, send window / quiet hours, sender selection and the trigger operator all live there, not on any node — updateWorkflowGraph documents the vocabulary. TRIGGERS ARE NOT THE ONLY WAY IN. Steps in OTHER workflows enroll records into this one: a PROPERTY `create_contact_action` (enrolls the contact it creates), a `trigger_contact_workflow_action` (start another workflow), and an EVENT `find_create_contact_action` / `event_find_property_action`. A workflow whose only trigger is {type: \"manual\"} is normal when it is fed that way — never call it idle or unreachable from its triggers alone. getDeletionImpact(targetKind: WORKFLOW_GROUP, targetId: <this group id>) says whether anything references it: its WORKFLOW_AUTOMATION group counts REFERENCES — each step, trigger or filter in each live version that names this one, so one workflow can count more than once. That is a count, not names — to see WHICH workflows feed it, scan other workflows' graphs (getWorkflowVersionGraph) for a step naming this group id. TO CHANGE WHAT A WORKFLOW DOES (add a condition, change a trigger, narrow who it acts on), edit its graph: createOrReturnWorkflowDraft → updateWorkflowGraph → promoteWorkflowDraft, then resumeWorkflow if it was paused. Pausing only stops it. Example: a PROPERTY workflow can require a motivation signal before it creates or texts anyone — put a `conditional` step on the `hasSignal` or `propertySignalTypes` property filter fields (listFilterFieldNames lists them) ahead of the `create_contact_action` step. Never tell a user that restricting outreach this way needs human review: it is a graph edit. WEBHOOK SECRETS ARE REDACTED. A `send_webhook_action` step's `config.auth.secret` comes back as the literal `__GOLIATH_WEBHOOK_SECRET_REDACTED__` — never the real credential, and never something to quote to a user or reason about as a value. Send that exact string BACK UNCHANGED in updateWorkflowGraph and the stored secret is kept; send a different string only when the user is deliberately rotating it. Do NOT invent, guess or complete a replacement: that overwrites a working credential. A redacted secret on a step with no stored secret behind it (a step you just added, or a graph read long enough ago that its node ids have rotated) is REFUSED, so re-read the graph and carry the sentinel from the fresh copy. ",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -8455,7 +8587,7 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Performance summary for one specific VERSION (by workflowAutomationId, from getWorkflow.versions). Same shape as getWorkflowStats, scoped to a single version — use it to compare a new version against the one it replaced.",
+      "description": "Performance summary for one specific VERSION (by workflowAutomationId, from getWorkflow.versions). Same shape as getWorkflowStats, scoped to a single version — use it to compare a new version against the one it replaced. Also carries `sendingCapacity` — how many of this version's runs are queued behind sending capacity right now (`queuedRuns`), the soonest `nextAttemptAt`, and the main `reason` (DAILY_CAP | SEND_WINDOW | WINDOW_LIMIT | OUT_OF_SMS_CREDITS). Null when nothing is queued; it is how a workflow that is PACING is told apart from one that has stopped.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -8496,6 +8628,11 @@
               "genuineReplyCount": true,
               "optOutReplyCount": true,
               "unreachableReplyCount": true
+            },
+            "sendingCapacity": {
+              "queuedRuns": true,
+              "nextAttemptAt": true,
+              "reason": true
             }
           }
         }
@@ -8664,8 +8801,8 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "List runs of one workflow version (by workflowAutomationId), optionally filtered by run status (PENDING | RUNNING | COMPLETED | PAUSED | STOPPED | FAILED). Returns run ids for pauseWorkflowRun / resumeWorkflowRun / stopWorkflowRun.",
-      "resultCap": 50,
+      "description": "List runs of one workflow version (by workflowAutomationId), optionally filtered by run status (PENDING | RUNNING | COMPLETED | PAUSED | STOPPED | FAILED | NOT_ENROLLED). Returns run ids for pauseWorkflowRun / resumeWorkflowRun / stopWorkflowRun. Runs carry the reason their status has one for — report those per run rather than saying reasons are unavailable: a NOT_ENROLLED run was refused at the door and never entered the workflow, and its `stoppedReason` says why enrollment was refused (a STOPPED run's says why it was withdrawn); a PAUSED run carries `pausedReason`, plus `sendFailureCode` (the carrier code, e.g. 30007) when a failed text paused it; a PENDING run whose next send is waiting carries `queuedSend.reason` (only a PENDING run's is current — on a PAUSED run go by `pausedReason`) — what it waits on: DAILY_CAP | SEND_WINDOW | WINDOW_LIMIT | OUT_OF_SMS_CREDITS (null when the wait has no nameable cause) — and `queuedSend.nextAttemptAt`. A FAILED run carries no reason field, and an older STOPPED run's `stoppedReason` can be null: say the reason is not recorded rather than inventing one. Reasons are raw codes.",
+      "resultCap": 34,
       "rateLimited": false,
       "idempotent": false,
       "orgIdVariable": null,
@@ -8705,6 +8842,13 @@
             "createdAt": true,
             "updatedAt": true,
             "scheduledExecution": true,
+            "stoppedReason": true,
+            "pausedReason": true,
+            "sendFailureCode": true,
+            "queuedSend": {
+              "reason": true,
+              "nextAttemptAt": true
+            },
             "contact": {
               "id": true,
               "name": true
@@ -8877,7 +9021,7 @@
       "domain": "workflows",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Pause the ACTIVE version of a workflow — no new runs will start. pauseInFlightRuns=true also pauses runs already in flight; false lets them finish. No-op if nothing is active.",
+      "description": "Pause the ACTIVE version of a workflow — no new runs will start. pauseInFlightRuns=true also pauses runs already in flight; false lets them finish. No-op if nothing is active. TO CHANGE WHAT A WORKFLOW DOES (add a condition, change a trigger, narrow who it acts on), edit its graph: createOrReturnWorkflowDraft → updateWorkflowGraph → promoteWorkflowDraft, then resumeWorkflow if it was paused. Pausing only stops it. Example: a PROPERTY workflow can require a motivation signal before it creates or texts anyone — put a `conditional` step on the `hasSignal` or `propertySignalTypes` property filter fields (listFilterFieldNames lists them) ahead of the `create_contact_action` step. Never tell a user that restricting outreach this way needs human review: it is a graph edit.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,

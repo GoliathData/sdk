@@ -1178,6 +1178,20 @@ export enum WorkflowGroupStatus {
   Suspended = 'SUSPENDED'
 }
 
+/**
+ * Why a run's next comm send is sitting in the sending queue. DAILY_CAP: the
+ * sending line/org spent its daily allowance. SEND_WINDOW: the recipient's local
+ * clock is outside the allowed sending hours. WINDOW_LIMIT: the per-window
+ * sending rate limit is saturated. OUT_OF_SMS_CREDITS: the organization has no
+ * texting credits; the send probes until a top-up or renewal clears it.
+ */
+export enum WorkflowQueuedSendReason {
+  DailyCap = 'DAILY_CAP',
+  OutOfSmsCredits = 'OUT_OF_SMS_CREDITS',
+  SendWindow = 'SEND_WINDOW',
+  WindowLimit = 'WINDOW_LIMIT'
+}
+
 export type GetMyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetMyProfileQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null, phoneNumber?: string | null, profilePictureUrl?: string | null, organizationRole?: OrganizationToUserMappingType | null, organizationMembershipStatus?: OrganizationMembershipStatus | null, timezone?: string | null, resolvedTimezone?: string | null, organization?: { __typename?: 'Organization', id: string, name?: string | null, timezone?: string | null } | null } | null };
@@ -1606,7 +1620,7 @@ export type ListInboxThreadsQueryVariables = Exact<{
   emailCursor?: InputMaybe<CursorInput>;
 }>;
 
-export type ListInboxThreadsQuery = { __typename?: 'RootQuery', inboxQuery?: { __typename?: 'InboxQuery', paginateInbox?: { __typename?: 'InboxCursorPage', items?: Array<{ __typename?: 'InboxItem', id: string, type: InboxItemType, createdAt: any, seen: boolean, contactName?: string | null, contactE164PhoneNumber?: string | null, twilioPhoneNumberId?: string | null, emailThreadId?: string | null, direction?: CommunicationDirection | null, messagesCount?: number | null, replySentiment?: ReplySentiment | null, status?: CallStatus | null, durationSeconds?: number | null, summary?: string | null, hasRecording?: boolean | null, groupCount?: number | null, groupedCallIds?: Array<string> | null, subject?: string | null, snippet?: string | null, fromEmail?: string | null, fromName?: string | null, toEmails?: Array<string> | null, isRead?: boolean | null, potentialContacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, mostRecentMessage?: { __typename?: 'TwilioMessage', id: string, message?: string | null, direction?: CommunicationDirection | null, status?: TextMessageStatus | null, createdAt?: any | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null } | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null, nextCallCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextSmsCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextEmailCursor?: { __typename?: 'Cursor', date: any, id: string } | null } | null } | null };
+export type ListInboxThreadsQuery = { __typename?: 'RootQuery', inboxQuery?: { __typename?: 'InboxQuery', paginateInbox?: { __typename?: 'InboxCursorPage', items?: Array<{ __typename?: 'InboxItem', id: string, type: InboxItemType, createdAt: any, seen: boolean, contactName?: string | null, contactE164PhoneNumber?: string | null, twilioPhoneNumberId?: string | null, emailThreadId?: string | null, direction?: CommunicationDirection | null, replySentiment?: ReplySentiment | null, status?: CallStatus | null, durationSeconds?: number | null, summary?: string | null, hasRecording?: boolean | null, groupCount?: number | null, groupedCallIds?: Array<string> | null, subject?: string | null, snippet?: string | null, fromEmail?: string | null, fromName?: string | null, toEmails?: Array<string> | null, isRead?: boolean | null, potentialContacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, mostRecentMessage?: { __typename?: 'TwilioMessage', id: string, message?: string | null, direction?: CommunicationDirection | null, status?: TextMessageStatus | null, createdAt?: any | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null } | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null, nextCallCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextSmsCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextEmailCursor?: { __typename?: 'Cursor', date: any, id: string } | null } | null } | null };
 
 export type GetTextThreadMessagesQueryVariables = Exact<{
   contactPhoneNumber: Scalars['String']['input'];
@@ -1657,7 +1671,7 @@ export type FindDealsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type FindDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'DealQuery', findDeals?: { __typename?: 'FindDealsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, stage?: { __typename?: 'DealStage', id: string, name: string } | null, pipeline?: { __typename?: 'DealPipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, customFieldValues?: Array<{ __typename?: 'DealCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'DealCustomField', name: string } }> | null }> } | null } | null };
+export type FindDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'DealQuery', findDeals?: { __typename?: 'FindDealsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, stage?: { __typename?: 'DealStage', id: string, name: string } | null, pipeline?: { __typename?: 'DealPipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, taskSummary: { __typename?: 'DealTaskSummary', openTaskCount: number, openAppointmentCount: number }, customFieldValues?: Array<{ __typename?: 'DealCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'DealCustomField', name: string } }> | null }> } | null } | null };
 
 export type SurveyDealsQueryVariables = Exact<{
   titleContains?: InputMaybe<Scalars['String']['input']>;
@@ -1671,7 +1685,7 @@ export type SurveyDealsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type SurveyDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'DealQuery', findDeals?: { __typename?: 'FindDealsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, isArchived: boolean, stage?: { __typename?: 'DealStage', name: string } | null, pipeline?: { __typename?: 'DealPipeline', name: string } | null, users?: Array<{ __typename?: 'User', firstName?: string | null, lastName?: string | null }> | null, customFieldValues?: Array<{ __typename?: 'DealCustomFieldValue', textValue?: string | null, numberValue?: number | null, dateValue?: any | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'DealCustomField', name: string } }> | null }> } | null } | null };
+export type SurveyDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'DealQuery', findDeals?: { __typename?: 'FindDealsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, isArchived: boolean, stage?: { __typename?: 'DealStage', name: string } | null, pipeline?: { __typename?: 'DealPipeline', name: string } | null, users?: Array<{ __typename?: 'User', firstName?: string | null, lastName?: string | null }> | null, taskSummary: { __typename?: 'DealTaskSummary', openTaskCount: number, openAppointmentCount: number }, customFieldValues?: Array<{ __typename?: 'DealCustomFieldValue', textValue?: string | null, numberValue?: number | null, dateValue?: any | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'DealCustomField', name: string } }> | null }> } | null } | null };
 
 export type ListStalledDealsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -2343,6 +2357,22 @@ export type GetTeammatesByIdsQueryVariables = Exact<{
 
 export type GetTeammatesByIdsQuery = { __typename?: 'RootQuery', teamQuery?: { __typename?: 'TeamQuery', getTeamMembersByIds?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null }> | null } | null };
 
+export type CountOutboundTextsQueryVariables = Exact<{
+  startDate: Scalars['DateTime']['input'];
+  endDate: Scalars['DateTime']['input'];
+  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+}>;
+
+export type CountOutboundTextsQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', outboundTextCounts?: { __typename?: 'OutboundTextCounts', startDate: any, endDate: any, total: { __typename?: 'TextSendTally', sent: number, delivered: number, failed: number }, byUser: Array<{ __typename?: 'MemberTextSendCount', userId: string, name?: string | null, sent: number, delivered: number, failed: number }>, otherSenders?: { __typename?: 'OtherTextSenders', aiEmployees: { __typename?: 'TextSendTally', sent: number, delivered: number, failed: number }, workflows: { __typename?: 'TextSendTally', sent: number, delivered: number, failed: number }, unattributed: { __typename?: 'TextSendTally', sent: number, delivered: number, failed: number } } | null } | null } | null };
+
+export type GetTeamCallStatsQueryVariables = Exact<{
+  startDate: Scalars['DateTime']['input'];
+  endDate: Scalars['DateTime']['input'];
+  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+}>;
+
+export type GetTeamCallStatsQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', callStats?: { __typename?: 'TeamCallStats', startDate: any, endDate: any, totals: { __typename?: 'CallTally', outboundCalls: number, inboundCalls: number, connectedCalls: number, conversationCalls: number, talkSeconds: number }, byUser: Array<{ __typename?: 'MemberCallStats', userId: string, name?: string | null, outboundCalls: number, inboundCalls: number, connectedCalls: number, conversationCalls: number, talkSeconds: number }> } | null } | null };
+
 export type ListTeamInvitesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ListTeamInvitesQuery = { __typename?: 'RootQuery', organization?: { __typename?: 'Organization', id: string, invitations?: Array<{ __typename?: 'InvitationLink', id: string, isAlive?: boolean | null, isPermanent?: boolean | null, phoneRequired?: boolean | null, userType?: OrganizationToUserMappingType | null, email?: string | null, createdAt?: any | null }> | null } | null };
@@ -2414,7 +2444,7 @@ export type ListWorkflowRunsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type ListWorkflowRunsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listWorkflowRuns?: Array<{ __typename?: 'WorkflowAutomationRun', id: string, status: WorkflowAutomationRunStatus, dryRun: boolean, createdAt: any, updatedAt: any, scheduledExecution?: any | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null }> | null } | null };
+export type ListWorkflowRunsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listWorkflowRuns?: Array<{ __typename?: 'WorkflowAutomationRun', id: string, status: WorkflowAutomationRunStatus, dryRun: boolean, createdAt: any, updatedAt: any, scheduledExecution?: any | null, stoppedReason?: string | null, pausedReason?: string | null, sendFailureCode?: string | null, queuedSend?: { __typename?: 'WorkflowQueuedSend', reason?: WorkflowQueuedSendReason | null, nextAttemptAt?: any | null } | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null }> | null } | null };
 
 export type GetContentTemplateQueryVariables = Exact<{
   templateId: Scalars['ID']['input'];
@@ -2443,7 +2473,7 @@ export type GetWorkflowVersionStatsQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
 }>;
 
-export type GetWorkflowVersionStatsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomation?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stats: { __typename?: 'WorkflowAutomationStats', totalRuns: number, activeRuns: number, completedRuns: number, pausedRuns: number, stoppedRuns: number, failedRuns: number, messagesSent: number, sentEmailCount: number, sentTextCount: number, bouncedEmailCount: number, failedTextCount: number, replyRate?: number | null, bounceRate?: number | null, positiveReplyRate?: number | null, negativeReplyRate?: number | null, positiveReplyCount: number, negativeReplyCount: number, genuineReplyCount: number, optOutReplyCount: number, unreachableReplyCount: number } } | null } | null };
+export type GetWorkflowVersionStatsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomation?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stats: { __typename?: 'WorkflowAutomationStats', totalRuns: number, activeRuns: number, completedRuns: number, pausedRuns: number, stoppedRuns: number, failedRuns: number, messagesSent: number, sentEmailCount: number, sentTextCount: number, bouncedEmailCount: number, failedTextCount: number, replyRate?: number | null, bounceRate?: number | null, positiveReplyRate?: number | null, negativeReplyRate?: number | null, positiveReplyCount: number, negativeReplyCount: number, genuineReplyCount: number, optOutReplyCount: number, unreachableReplyCount: number }, sendingCapacity?: { __typename?: 'WorkflowSendingCapacity', queuedRuns: number, nextAttemptAt?: any | null, reason?: WorkflowQueuedSendReason | null } | null } | null } | null };
 
 export type ListWorkflowPerformanceQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;

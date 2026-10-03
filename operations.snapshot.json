@@ -842,7 +842,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "limit:Int=25,sort:SortDirection=DESC,channel:InboxFilterType=ALL,seen:Boolean,respondedOnly:Boolean,sentBy:[InboxSentBy!],replySentiments:[ReplySentiment!],searchTerm:String,userIds:[ID!],callCursor:CursorInput,smsCursor:CursorInput,emailCursor:CursorInput",
-    "responseShape": "{\"inboxQuery\":{\"paginateInbox\":{\"items\":{\"id\":true,\"type\":true,\"createdAt\":true,\"seen\":true,\"contactName\":true,\"contactE164PhoneNumber\":true,\"twilioPhoneNumberId\":true,\"emailThreadId\":true,\"potentialContacts\":{\"id\":true,\"name\":true},\"direction\":true,\"messagesCount\":true,\"mostRecentMessage\":{\"id\":true,\"message\":true,\"direction\":true,\"status\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}},\"replySentiment\":true,\"status\":true,\"durationSeconds\":true,\"summary\":true,\"hasRecording\":true,\"groupCount\":true,\"groupedCallIds\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"subject\":true,\"snippet\":true,\"fromEmail\":true,\"fromName\":true,\"toEmails\":true,\"isRead\":true},\"nextCallCursor\":{\"date\":true,\"id\":true},\"nextSmsCursor\":{\"date\":true,\"id\":true},\"nextEmailCursor\":{\"date\":true,\"id\":true}}}}"
+    "responseShape": "{\"inboxQuery\":{\"paginateInbox\":{\"items\":{\"id\":true,\"type\":true,\"createdAt\":true,\"seen\":true,\"contactName\":true,\"contactE164PhoneNumber\":true,\"twilioPhoneNumberId\":true,\"emailThreadId\":true,\"potentialContacts\":{\"id\":true,\"name\":true},\"direction\":true,\"mostRecentMessage\":{\"id\":true,\"message\":true,\"direction\":true,\"status\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}},\"replySentiment\":true,\"status\":true,\"durationSeconds\":true,\"summary\":true,\"hasRecording\":true,\"groupCount\":true,\"groupedCallIds\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"subject\":true,\"snippet\":true,\"fromEmail\":true,\"fromName\":true,\"toEmails\":true,\"isRead\":true},\"nextCallCursor\":{\"date\":true,\"id\":true},\"nextSmsCursor\":{\"date\":true,\"id\":true},\"nextEmailCursor\":{\"date\":true,\"id\":true}}}}"
   },
   {
     "operationId": "addDealComment",
@@ -972,7 +972,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "titleContains:String,contactId:ID,pipelineId:ID,stageId:ID,isArchived:Boolean,hasAssignedUsers:Boolean,userIds:[ID!],limit:Int=20,offset:Int=0",
-    "responseShape": "{\"dealQuery\":{\"findDeals\":{\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"closeDate\":true,\"isArchived\":true,\"createdAt\":true,\"updatedAt\":true,\"commissionCents\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"stage\":{\"id\":true,\"name\":true},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"customFieldValues\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
+    "responseShape": "{\"dealQuery\":{\"findDeals\":{\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"closeDate\":true,\"isArchived\":true,\"createdAt\":true,\"updatedAt\":true,\"commissionCents\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"stage\":{\"id\":true,\"name\":true},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"taskSummary\":{\"openTaskCount\":true,\"openAppointmentCount\":true},\"customFieldValues\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
   },
   {
     "operationId": "getDeal",
@@ -1174,13 +1174,13 @@
     "domain": "deals",
     "operationType": "query",
     "requiredScope": "READ",
-    "resultCap": 50,
+    "resultCap": 45,
     "rateLimited": false,
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "titleContains:String,contactId:ID,pipelineId:ID,stageId:ID,isArchived:Boolean,hasAssignedUsers:Boolean,userIds:[ID!],limit:Int=17,offset:Int=0",
-    "responseShape": "{\"dealQuery\":{\"findDeals\":{\"deals\":{\"id\":true,\"title\":true,\"isArchived\":true,\"stage\":{\"name\":true},\"pipeline\":{\"name\":true},\"users\":{\"firstName\":true,\"lastName\":true},\"customFieldValues\":{\"textValue\":true,\"numberValue\":true,\"dateValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
+    "variableSignature": "titleContains:String,contactId:ID,pipelineId:ID,stageId:ID,isArchived:Boolean,hasAssignedUsers:Boolean,userIds:[ID!],limit:Int=16,offset:Int=0",
+    "responseShape": "{\"dealQuery\":{\"findDeals\":{\"deals\":{\"id\":true,\"title\":true,\"isArchived\":true,\"stage\":{\"name\":true},\"pipeline\":{\"name\":true},\"users\":{\"firstName\":true,\"lastName\":true},\"taskSummary\":{\"openTaskCount\":true,\"openAppointmentCount\":true},\"customFieldValues\":{\"textValue\":true,\"numberValue\":true,\"dateValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
   },
   {
     "operationId": "updateDeal",
@@ -1885,6 +1885,19 @@
     "responseShape": "{\"tasksMutation\":{\"updateTaskOnContact\":{\"id\":true,\"name\":true,\"tasks\":{\"id\":true,\"title\":true,\"description\":true,\"taskType\":true,\"dueDate\":true,\"timezone\":true,\"completedAt\":true,\"participants\":{\"id\":true,\"firstName\":true,\"lastName\":true}}}}}"
   },
   {
+    "operationId": "countOutboundTexts",
+    "domain": "team",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "startDate:DateTime!,endDate:DateTime!,userIds:[ID!]",
+    "responseShape": "{\"teamAnalyticsQuery\":{\"outboundTextCounts\":{\"startDate\":true,\"endDate\":true,\"total\":{\"sent\":true,\"delivered\":true,\"failed\":true},\"byUser\":{\"userId\":true,\"name\":true,\"sent\":true,\"delivered\":true,\"failed\":true},\"otherSenders\":{\"aiEmployees\":{\"sent\":true,\"delivered\":true,\"failed\":true},\"workflows\":{\"sent\":true,\"delivered\":true,\"failed\":true},\"unattributed\":{\"sent\":true,\"delivered\":true,\"failed\":true}}}}}"
+  },
+  {
     "operationId": "createTeamInvite",
     "domain": "team",
     "operationType": "mutation",
@@ -1935,6 +1948,19 @@
     "hasAuthorize": false,
     "variableSignature": "period:AgentAnalyticsPeriod=THIRTY_DAYS",
     "responseShape": "{\"teamAnalyticsQuery\":{\"agentTeamOverview\":{\"asOfDate\":true,\"period\":true,\"reportingPeriod\":true,\"startDate\":true,\"endDate\":true,\"summary\":{\"agentCount\":true,\"calls\":true,\"completedCalls\":true,\"conversationCalls\":true,\"callsDeltaPct\":true,\"texts\":true,\"textsDeltaPct\":true,\"emails\":true,\"emailsDeltaPct\":true,\"tasks\":true,\"tasksDeltaPct\":true,\"appointments\":true,\"appointmentsDeltaPct\":true,\"newLeads\":true,\"newLeadsDeltaPct\":true,\"notActedOnCount\":true,\"activeLeadsCount\":true,\"warmLeadsCount\":true,\"coolingLeadsCount\":true,\"coldLeadsCount\":true,\"deadLeadsCount\":true},\"agents\":{\"userId\":true,\"userName\":true,\"userEmail\":true,\"calls\":true,\"texts\":true,\"emails\":true,\"tasks\":true,\"appointments\":true,\"newLeads\":true,\"notActedOnCount\":true,\"avgSpeedToFirstCallMinutes\":true,\"avgSpeedToFirstMessageMinutes\":true,\"activeLeadsCount\":true,\"warmLeadsCount\":true,\"coolingLeadsCount\":true,\"coldLeadsCount\":true,\"deadLeadsCount\":true,\"score\":true,\"conversationRate\":true},\"pipelineExposure\":{\"pipelineId\":true,\"pipelineName\":true,\"userId\":true,\"userName\":true,\"wonDealsCount\":true,\"lostDealsCount\":true,\"commissionEarnedCents\":true}}}}"
+  },
+  {
+    "operationId": "getTeamCallStats",
+    "domain": "team",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "startDate:DateTime!,endDate:DateTime!,userIds:[ID!]",
+    "responseShape": "{\"teamAnalyticsQuery\":{\"callStats\":{\"startDate\":true,\"endDate\":true,\"totals\":{\"outboundCalls\":true,\"inboundCalls\":true,\"connectedCalls\":true,\"conversationCalls\":true,\"talkSeconds\":true},\"byUser\":{\"userId\":true,\"name\":true,\"outboundCalls\":true,\"inboundCalls\":true,\"connectedCalls\":true,\"conversationCalls\":true,\"talkSeconds\":true}}}}"
   },
   {
     "operationId": "getTeammatesByIds",
@@ -2285,7 +2311,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomation\":{\"id\":true,\"name\":true,\"status\":true,\"stats\":{\"totalRuns\":true,\"activeRuns\":true,\"completedRuns\":true,\"pausedRuns\":true,\"stoppedRuns\":true,\"failedRuns\":true,\"messagesSent\":true,\"sentEmailCount\":true,\"sentTextCount\":true,\"bouncedEmailCount\":true,\"failedTextCount\":true,\"replyRate\":true,\"bounceRate\":true,\"positiveReplyRate\":true,\"negativeReplyRate\":true,\"positiveReplyCount\":true,\"negativeReplyCount\":true,\"genuineReplyCount\":true,\"optOutReplyCount\":true,\"unreachableReplyCount\":true}}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomation\":{\"id\":true,\"name\":true,\"status\":true,\"stats\":{\"totalRuns\":true,\"activeRuns\":true,\"completedRuns\":true,\"pausedRuns\":true,\"stoppedRuns\":true,\"failedRuns\":true,\"messagesSent\":true,\"sentEmailCount\":true,\"sentTextCount\":true,\"bouncedEmailCount\":true,\"failedTextCount\":true,\"replyRate\":true,\"bounceRate\":true,\"positiveReplyRate\":true,\"negativeReplyRate\":true,\"positiveReplyCount\":true,\"negativeReplyCount\":true,\"genuineReplyCount\":true,\"optOutReplyCount\":true,\"unreachableReplyCount\":true},\"sendingCapacity\":{\"queuedRuns\":true,\"nextAttemptAt\":true,\"reason\":true}}}}"
   },
   {
     "operationId": "listContentTemplateFolders",
@@ -2344,13 +2370,13 @@
     "domain": "workflows",
     "operationType": "query",
     "requiredScope": "READ",
-    "resultCap": 50,
+    "resultCap": 34,
     "rateLimited": false,
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!,statuses:[WorkflowAutomationRunStatus!],limit:Int=20,offset:Int=0",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"listWorkflowRuns\":{\"id\":true,\"status\":true,\"dryRun\":true,\"createdAt\":true,\"updatedAt\":true,\"scheduledExecution\":true,\"contact\":{\"id\":true,\"name\":true}}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"listWorkflowRuns\":{\"id\":true,\"status\":true,\"dryRun\":true,\"createdAt\":true,\"updatedAt\":true,\"scheduledExecution\":true,\"stoppedReason\":true,\"pausedReason\":true,\"sendFailureCode\":true,\"queuedSend\":{\"reason\":true,\"nextAttemptAt\":true},\"contact\":{\"id\":true,\"name\":true}}}}"
   },
   {
     "operationId": "listWorkflows",

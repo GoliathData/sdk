@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Pause the ACTIVE version of a workflow — no new runs will start. pauseInFlightRuns=true also pauses runs already in flight; false lets them finish. No-op if nothing is active.
+Pause the ACTIVE version of a workflow — no new runs will start. pauseInFlightRuns=true also pauses runs already in flight; false lets them finish. No-op if nothing is active. TO CHANGE WHAT A WORKFLOW DOES (add a condition, change a trigger, narrow who it acts on), edit its graph: createOrReturnWorkflowDraft → updateWorkflowGraph → promoteWorkflowDraft, then resumeWorkflow if it was paused. Pausing only stops it. Example: a PROPERTY workflow can require a motivation signal before it creates or texts anyone — put a `conditional` step on the `hasSignal` or `propertySignalTypes` property filter fields (listFilterFieldNames lists them) ahead of the `create_contact_action` step. Never tell a user that restricting outreach this way needs human review: it is a graph edit.
 
 ## Call
 

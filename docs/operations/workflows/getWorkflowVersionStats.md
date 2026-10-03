@@ -4,7 +4,7 @@
 
 query · domain `workflows` · requires the READ scope
 
-Performance summary for one specific VERSION (by workflowAutomationId, from getWorkflow.versions). Same shape as getWorkflowStats, scoped to a single version — use it to compare a new version against the one it replaced.
+Performance summary for one specific VERSION (by workflowAutomationId, from getWorkflow.versions). Same shape as getWorkflowStats, scoped to a single version — use it to compare a new version against the one it replaced. Also carries `sendingCapacity` — how many of this version's runs are queued behind sending capacity right now (`queuedRuns`), the soonest `nextAttemptAt`, and the main `reason` (DAILY_CAP | SEND_WINDOW | WINDOW_LIMIT | OUT_OF_SMS_CREDITS). Null when nothing is queued; it is how a workflow that is PACING is told apart from one that has stopped.
 
 ## Call
 
@@ -57,6 +57,11 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "genuineReplyCount": true,
         "optOutReplyCount": true,
         "unreachableReplyCount": true
+      },
+      "sendingCapacity": {
+        "queuedRuns": true,
+        "nextAttemptAt": true,
+        "reason": true
       }
     }
   }
