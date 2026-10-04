@@ -841,7 +841,7 @@
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "limit:Int=25,sort:SortDirection=DESC,channel:InboxFilterType=ALL,seen:Boolean,respondedOnly:Boolean,sentBy:[InboxSentBy!],replySentiments:[ReplySentiment!],searchTerm:String,userIds:[ID!],callCursor:CursorInput,smsCursor:CursorInput,emailCursor:CursorInput",
+    "variableSignature": "limit:Int=25,sort:SortDirection=DESC,channel:InboxFilterType=ALL,seen:Boolean,respondedOnly:Boolean,sentBy:[InboxSentBy!],replySentiments:[ReplySentiment!],optedOut:InboxOptedOutScope=INCLUDE,searchTerm:String,userIds:[ID!],callCursor:CursorInput,smsCursor:CursorInput,emailCursor:CursorInput",
     "responseShape": "{\"inboxQuery\":{\"paginateInbox\":{\"items\":{\"id\":true,\"type\":true,\"createdAt\":true,\"seen\":true,\"contactName\":true,\"contactE164PhoneNumber\":true,\"twilioPhoneNumberId\":true,\"emailThreadId\":true,\"potentialContacts\":{\"id\":true,\"name\":true},\"direction\":true,\"mostRecentMessage\":{\"id\":true,\"message\":true,\"direction\":true,\"status\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}},\"replySentiment\":true,\"status\":true,\"durationSeconds\":true,\"summary\":true,\"hasRecording\":true,\"groupCount\":true,\"groupedCallIds\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"subject\":true,\"snippet\":true,\"fromEmail\":true,\"fromName\":true,\"toEmails\":true,\"isRead\":true},\"nextCallCursor\":{\"date\":true,\"id\":true},\"nextSmsCursor\":{\"date\":true,\"id\":true},\"nextEmailCursor\":{\"date\":true,\"id\":true}}}}"
   },
   {

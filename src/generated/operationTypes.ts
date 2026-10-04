@@ -674,6 +674,12 @@ export enum InboxItemType {
   Message = 'MESSAGE'
 }
 
+export enum InboxOptedOutScope {
+  Exclude = 'EXCLUDE',
+  Include = 'INCLUDE',
+  Only = 'ONLY'
+}
+
 export enum InboxSentBy {
   AiEmployee = 'AI_EMPLOYEE',
   Human = 'HUMAN',
@@ -1613,6 +1619,7 @@ export type ListInboxThreadsQueryVariables = Exact<{
   respondedOnly?: InputMaybe<Scalars['Boolean']['input']>;
   sentBy?: InputMaybe<Array<InboxSentBy> | InboxSentBy>;
   replySentiments?: InputMaybe<Array<ReplySentiment> | ReplySentiment>;
+  optedOut?: InputMaybe<InboxOptedOutScope>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
   userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
   callCursor?: InputMaybe<CursorInput>;
