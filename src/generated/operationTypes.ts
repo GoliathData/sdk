@@ -187,6 +187,8 @@ export enum ArtifactAuthorKind {
 
 /** Lifecycle status of a bulk task. Mirrors the Prisma BulkTaskStatus enum. */
 export enum BulkTaskStatus {
+  /** Withdrawn by the person who started it before any of it ran (an Undo). Nothing was changed. */
+  Cancelled = 'CANCELLED',
   /** The change has been fully applied. */
   Completed = 'COMPLETED',
   /** Queued — waiting for a worker slot (org-lane fairness can delay the start). */
