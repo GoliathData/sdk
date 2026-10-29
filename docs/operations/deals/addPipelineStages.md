@@ -9,7 +9,7 @@ Append one or more stages to a pipeline (by pipelineId). Each stage: name (requi
 ## Call
 
 ```ts
-const result = await client.deals.addPipelineStages({ pipelineId: '<id>', stages: [<DealStageCreateInput>] }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.deals.addPipelineStages({ pipelineId: '<id>', stages: [<PipelineStageCreateInput>] }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<AddPipelineStagesMutation>
 ```
 
@@ -20,7 +20,7 @@ const result = await client.deals.addPipelineStages({ pipelineId: '<id>', stages
 | Name | Type | Required | Default |
 |---|---|---|---|
 | `pipelineId` | `ID!` | yes | — |
-| `stages` | `[DealStageCreateInput!]!` | yes | — |
+| `stages` | `[PipelineStageCreateInput!]!` | yes | — |
 
 ## Gateway notes
 

@@ -4,7 +4,7 @@
 
 mutation · domain `team` · requires the ADMIN scope
 
-Create a team-member invitation link for the organization. userType is the role invited as (ADMIN | MEMBER | ISA; default MEMBER). Provide emails to notify specific recipients, or isPermanent: true for a reusable link. The returned id maps to the accept URL /accept-invite/{id} — share that link with the invitee.
+Create a team-member invitation. userType: ADMIN or MEMBER (default MEMBER). Either emails (each address is EMAILED its own single-use invite: say so) or isPermanent: true, the reusable link, which emails nobody and invites as MEMBER (a live older link is returned with its own role). No email-less one-time link exists. Never paste an acceptUrl in chat (it goes by email); show the permanent link only on request.
 
 ## Call
 
@@ -37,6 +37,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
   "organizationMutation": {
     "createInvitationLink": {
       "id": true,
+      "acceptUrl": true,
       "isAlive": true,
       "isPermanent": true,
       "phoneRequired": true,

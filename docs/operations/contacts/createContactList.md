@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Create an organization-wide contact list (segment). Applied synchronously. Returns the org list catalog; read the new list id back by matching the name you supplied (or use searchContactTags). To fix a name afterwards use renameContactList; to fill it, addContactsToList.
+Create an org-wide contact list (segment), synchronously. Returns the org list catalog: find the new id by the name you gave (or searchContactTags). Fix a name with renameContactList; fill it with addContactsToList.
 
 ## Call
 

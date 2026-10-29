@@ -4,7 +4,7 @@
 
 query · domain `team` · requires the ADMIN scope
 
-List the organization's team invitations — pending (isAlive: true) and spent/revoked (isAlive: false), single-use and permanent. Each id maps to the accept URL /accept-invite/{id}.
+List the organization's team invitations — pending (isAlive: true) and spent/revoked (isAlive: false), single-use and permanent; acceptUrl is a full link. A live single-use invite is someone not yet joined; remove one with revokeTeamInvite.
 
 ## Call
 
@@ -29,6 +29,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
     "id": true,
     "invitations": {
       "id": true,
+      "acceptUrl": true,
       "isAlive": true,
       "isPermanent": true,
       "phoneRequired": true,

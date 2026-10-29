@@ -4,7 +4,7 @@
 
 query · domain `deals` · requires the READ scope
 
-List deals going cold — no activity for a while, ordered by days inactive. Returns each deal with its stage, pipeline, linked contact, and inactiveDays.
+List deals going cold — no activity for a while, ordered by days inactive, of deals you can see. Returns each deal with its stage, pipeline, linked contact, and inactiveDays.
 
 ## Call
 

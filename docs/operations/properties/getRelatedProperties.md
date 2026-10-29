@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Fetch attributes for a batch of properties by id (esId) — beds/baths/size, year built, last sale, estimated value, occupancy. Use the property ids from a search or getProperty.
+Batch property attributes by id (esId): owner of record and mailing address, beds/baths/size, year built, last sale, value, occupancy, county, lat/long, years owned, `ownerPortfolioSize` (parcels the owner holds).
 
 ## Call
 
@@ -40,7 +40,17 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "estimatedValueDollars": true,
       "ownerOccupied": true,
       "mlsStatus": true,
-      "spicyLeadScore": true
+      "spicyLeadScore": true,
+      "nameOnDeedUnformatted": true,
+      "coOwnerNameOnDeedUnformatted": true,
+      "ownerAddressFull": true,
+      "addressFull": true,
+      "countyFips": true,
+      "countyName": true,
+      "latitude": true,
+      "longitude": true,
+      "yearsOfOwnership": true,
+      "ownerPortfolioSize": true
     }
   }
 }

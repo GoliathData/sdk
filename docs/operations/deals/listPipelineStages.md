@@ -4,7 +4,7 @@
 
 query · domain `deals` · requires the READ scope
 
-List the stages of a deal pipeline (by pipelineId from listPipelines), in order. Use a stage id with createDeal or updateDeal.
+One pipeline's stages, in order (all pipelines: listStagesOfPipelines).
 
 ## Call
 
@@ -37,6 +37,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "name": true,
       "order": true,
       "isTerminal": true,
+      "terminalType": true,
       "winProbability": true
     }
   }

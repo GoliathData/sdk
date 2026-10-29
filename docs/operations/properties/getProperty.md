@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Fetch one property by id — address, skip-trace status, signal recency, and visible `tags` and `lists` (each `{ id, name, isEditable }`). Lists include read-only system ingestion lists alongside your organization lists. Read `lists` BEFORE addPropertiesToList / removePropertiesFromList to answer "is it already on that list?"; only reuse a list ID for mutations when `isEditable` is true. Other organizations' private tags and lists are excluded.
+Fetch one property by id — address, skip-trace status, signal recency, owner of record and mailing address (`metadata`, as the page shows them), and visible `tags` and `lists` (each `{ id, name, isEditable }`). Lists include read-only system ingestion lists alongside your organization lists. Read `lists` BEFORE addPropertiesToList / removePropertiesFromList to answer "is it already on that list?"; only reuse a list ID for mutations when `isEditable` is true. Other organizations' private tags and lists are excluded.
 
 ## Call
 
@@ -53,6 +53,11 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "id": true,
         "name": true,
         "isEditable": true
+      },
+      "metadata": {
+        "nameOnDeedUnformatted": true,
+        "coOwnerNameOnDeedUnformatted": true,
+        "ownerAddressFull": true
       }
     }
   }

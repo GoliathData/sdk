@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the ADMIN scope
 
-Skip-trace a contact to discover phone numbers and emails. CONSUMES ONE SKIPTRACE CREDIT (real money) — requires the ADMIN scope, and the key owner must be a team admin.
+Skip-trace a contact to discover phone numbers and emails. CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
 
 ## Call
 

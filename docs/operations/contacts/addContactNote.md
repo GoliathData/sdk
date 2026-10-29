@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Add a text note to a contact. Applied synchronously (the note is returned by getContact right away). The response is the OWNING CONTACT, not the note — `id` and `name` are the contact's — so report the name it gives back, never the name you searched for. Those differ more often than they look: contactId normally comes from a findContacts identity search, which ranks and can return a near match for a name that has no exact one. A run that searched for one contact, wrote to whatever ranked first, and then told the user the note landed on the name it searched for has reported a record it did not touch, and nothing downstream can catch that. If the echoed name is not the contact the user named, say so and offer to move the note rather than restating the name you were given. Returns no noteId — re-read the contact if you need one (see editContactNote).
+Add a text note to a contact, synchronously (getContact returns it at once). The response is the OWNING CONTACT, not the note (`id` and `name` are the contact's), so report the name it gives back, never the name you searched for. They differ more often than they look: contactId usually comes from a findContacts search, which ranks and can return a near match for a name with no exact one. A run that wrote to the top row and told the user the note landed on the searched name has reported a record it did not touch, which nothing downstream catches. If the echoed name is not the contact the user named, say so and offer to move the note. Returns no noteId: re-read getContact notes[] for one (see editContactNote).
 
 ## Call
 

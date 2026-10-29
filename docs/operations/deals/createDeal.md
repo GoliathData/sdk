@@ -4,12 +4,12 @@
 
 mutation · domain `deals` · requires the WRITE scope
 
-Create a deal in a pipeline stage. Requires title and stageId (from listPipelineStages); optionally set priceCents, closeDate, and link contacts/properties/users by id. The stage must be in a pipeline owned by or shared with your organization, and any linked contactIds/userIds must belong to your organization. MONEY AND CUSTOM FIELDS, which the input accepts and no description named until now (the whole input is one variable, so the discovery docs cannot expand it). Commission takes ONE source per side, never both: `commissionAmountCents` (a fixed dollar figure in cents) XOR `commissionPercentBps` (basis points — 300 = 3% — applied to priceCents); and `teamSplitAmountCents` XOR `teamSplitPercentBps` (basis points applied to the resulting COMMISSION, not the price). Sending both halves of a pair with values is rejected; sending one explicitly as null CLEARS that side. Whichever you send, the server derives `commissionCents` (the deal’s GCI) and returns it in the response — read it there rather than computing it yourself, and note the percent form is live: a later priceCents change re-derives the commission, while an amount does not. `participantSplits` is [{ userId, splitAmountCents | splitPercentBps }] allocating what remains after the team fee, and it must not exceed the pool. `customFieldValues` is [{ customFieldId (from listDealCustomFields — deal fields are PER-PIPELINE), and exactly ONE of textValue (TEXT/LINK) | numberValue (NUMBER/DOLLAR, a plain number, NOT cents) | dateValue (DATE, ISO 8601) | dropdownSelectedValues (DROPDOWN — the option LABEL strings, not option ids) matching the field’s type }]. The response echoes the money fields and customFieldValues, so confirm the write from it instead of reporting an unverified success.
+Create a deal in a pipeline stage. Requires title and stageId (listPipelineStages); optional priceCents, closeDate, contact/property/user ids. Entering the stage can text or email a real person, as an updateDeal move can: confirm as updateDeal says. The stage must be in a pipeline owned by or shared with your organization, and any linked contactIds/userIds must belong to your organization. userIds is the deal’s TEAM, and My deals shows only deals the viewer is on. The app’s Create Deal form puts its creator on the team, so when acting for a person include the key owner (getMyProfile) unless they name a different team. MONEY AND CUSTOM FIELDS (the whole input is one variable, so discovery cannot expand it). Commission takes ONE source per side, never both: `commissionAmountCents` (a fixed dollar figure in cents) XOR `commissionPercentBps` (basis points — 300 = 3% — applied to priceCents); and `teamSplitAmountCents` XOR `teamSplitPercentBps` (basis points applied to the resulting COMMISSION, not the price). Sending both halves of a pair with values is rejected; sending one explicitly as null CLEARS that side. The server derives `commissionCents` (GCI) and returns it: read it there. A percent re-derives when priceCents changes; an amount does not. `participantSplits` is [{ userId, splitAmountCents | splitPercentBps }] allocating what remains after the team fee, and it must not exceed the pool. `customFieldValues` is [{ customFieldId (from listDealCustomFields — deal fields are PER-PIPELINE), and exactly ONE of textValue (TEXT/LINK) | numberValue (NUMBER/DOLLAR, a plain number, NOT cents) | dateValue (DATE, ISO 8601) | dropdownSelectedValues (DROPDOWN — the option LABEL strings, not option ids) matching the field’s type }]. The response echoes the money and custom fields: confirm the write from it.
 
 ## Call
 
 ```ts
-const result = await client.deals.createDeal({ input: <CreateDealInput> }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.deals.createDeal({ input: <CreatePipelineItemInput> }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<CreateDealMutation>
 ```
 
@@ -19,7 +19,7 @@ const result = await client.deals.createDeal({ input: <CreateDealInput> }, { ide
 
 | Name | Type | Required | Default |
 |---|---|---|---|
-| `input` | `CreateDealInput!` | yes | — |
+| `input` | `CreatePipelineItemInput!` | yes | — |
 
 ## Gateway notes
 

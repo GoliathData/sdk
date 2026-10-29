@@ -4,7 +4,7 @@
 
 query · domain `team` · requires the READ scope
 
-Fuzzy-search ACTIVE teammates by name, email or phone (optional searchTerm; omit it for an alphabetical page). This is the PICKER, not the roster: it returns at most `limit` rows (default 20, maximum 50), ranked by match quality, and SUSPENDED members are excluded at the query — so a page that comes back full may be a truncated page, and a person missing from it may be removed rather than absent. For the whole team, for anyone's role, or to tell a current member from a removed one, use listTeamMembers; to resolve a bare user id, use getTeammatesByIds. Use the returned userId with updateContact (addCollaborators), assignContact, and the userIds filter on findDeals.
+Fuzzy-search ACTIVE teammates by name, email or phone (optional searchTerm; omit it for an alphabetical page). This is the PICKER, not the roster: it returns at most `limit` rows (default 20, maximum 50), ranked by match quality, and SUSPENDED members are excluded at the query — so a page that comes back full may be a truncated page, and a person missing from it may be removed rather than absent. An empty or partial result is NOT 'no such person': they may be invited and not yet joined, so an admin reads listTeamInvites before saying nobody by that name is on the team. For the whole team, for anyone's role, or to tell a current member from a removed one, use listTeamMembers; to resolve a bare user id, use getTeammatesByIds. Use the returned userId with updateContact (addCollaborators), assignContact, and the userIds filter on findDeals.
 
 ## Call
 

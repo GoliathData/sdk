@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Apply existing tags (by tag id, from searchContactTags/createContactTag) to contacts. The removal twin is removeContactTags. Runs as an async bulk job — returns a bulkTaskId to poll with getBulkTask; the change is NOT visible to an immediate read-back. POTENTIALLY OUTBOUND: adding a tag publishes a contact tags-changed event, and a CONTACT workflow whose trigger names that tag starts a run — which can text or email the contact. Whether one exists is org state you have to check (listWorkflows → getWorkflow → getWorkflowVersionGraph, whose `triggers` name the tag), so on a large selection either check or confirm with the user first.
+Add tags to contacts: existing ones by `tagIds` (searchContactTags), new ones by exact name in `newTagNames`, created as this runs, never createContactTag first. removeContactTags is the twin. Async bulk job: poll `bulkTaskId` with getBulkTask; a read-back right away will NOT show it. POTENTIALLY OUTBOUND: a CONTACT workflow whose trigger names a tag starts a run that can text or email; on a large selection check first (listWorkflows { status: ACTIVE, triggerType: [MATCH, MUTATION] }, then their graph `triggers`).
 
 ## Call
 
@@ -21,6 +21,7 @@ const result = await client.contacts.addContactTags({ contactIds: ['<text>'], ta
 |---|---|---|---|
 | `contactIds` | `[String!]!` | yes | — |
 | `tagIds` | `[String!]!` | yes | — |
+| `newTagNames` | `[String!]` | no | — |
 
 ## Gateway notes
 

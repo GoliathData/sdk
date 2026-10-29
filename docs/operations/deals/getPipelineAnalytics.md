@@ -4,7 +4,7 @@
 
 query · domain `deals` · requires the ADMIN scope
 
-Per-pipeline outcome analytics for a reporting period (SEVEN_DAYS | FOURTEEN_DAYS | THIRTY_DAYS | YEAR_TO_DATE; default THIRTY_DAYS) — won/lost/active deal counts, average stage duration, and the current stage mix of each pipeline. Data is a nightly snapshot — see asOfDate. Requires the ADMIN scope (key owner must be a team admin).
+Per-pipeline TRENDS for a rolling period (SEVEN_DAYS | FOURTEEN_DAYS | THIRTY_DAYS | YEAR_TO_DATE; THIRTY_DAYS is the last 30 days, not this month) from a NIGHTLY snapshot (asOfDate): stage duration, stage mix, won/lost/active. wonDeals / lostDeals count EVENTS (moves into a won or lost stage in the window, archived deals included) and miss moves since the snapshot, so they can disagree with the deals as they stand: for "how many won", a win rate or money use findDeals `totals` (outcome WON / LOST, a stageChanged window). Requires the ADMIN scope.
 
 ## Call
 

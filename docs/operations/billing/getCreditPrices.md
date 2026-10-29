@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-Get the current fixed credit packs for EVERY credit type an org can hold. `packs` is the sellable catalog: each row has its credit type, code, units, whole-pack price in cents, and `available` (false means its Stripe Price is unavailable or mismatched, so do not quote or offer it). Use packs—not the legacy per-credit fields—to tell a user what a top-up costs. The legacy fields remain for compatibility and do not describe sellable prices. AI Agent Credits consume at 1 credit = 1 cent of AI cost; Texting Credits consume at 1 credit = 1 outbound carrier text segment; inbound texts never consume texting credits. The agent cannot buy credits; direct the user to getCreditsPurchaseUrl.
+Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. The agent cannot buy: hand over getCreditsPurchaseUrl.
 
 ## Call
 
@@ -27,11 +27,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
 {
   "billing": {
     "getCreditPrices": {
-      "skiptracePriceCents": true,
-      "exportPropertiesPriceCents": true,
-      "emailVerificationPriceCents": true,
-      "aiAgentCreditPriceCents": true,
-      "smsCreditPriceCents": true,
       "packs": {
         "creditType": true,
         "code": true,

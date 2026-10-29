@@ -4,7 +4,7 @@
 
 query · domain `team` · requires the ADMIN scope
 
-Daily team activity rows for a reporting period (same period values as getTeamAnalyticsOverview) — calls, texts, emails, tasks, appointments, active agents, and new leads per day. For charting trends. Data is a nightly snapshot — see asOfDate. Requires the ADMIN scope (key owner must be a team admin).
+Daily team activity rows for a reporting period (same period values as getTeamAnalyticsOverview) — calls, texts, emails, tasks, appointments, active agents, and new leads per day. For charting trends. Nightly (asOfDate), never today. Admins.
 
 ## Call
 

@@ -4,7 +4,7 @@
 
 mutation · domain `tasks` · requires the WRITE scope
 
-Mark a task complete by taskId + its linked contactId (both come back from listMyTasks or listContactTasks). USE THIS ONE whenever the task has a contact — it also writes the completion onto that contact's timeline, and the response echoes the contact's task list with completedAt set, so you can confirm the checkmark and show what's still open. Applied synchronously. Pass isCompleted: false to reopen a task completed by mistake. The task must belong to the given contact. If listMyTasks returned the task with contact: null there is NO contactId to pass and this op cannot complete it — use completeTaskById instead. Confirm with the user before completing anything on their behalf.
+Mark a task complete by taskId + its contactId (listMyTasks/listContactTasks). USE THIS whenever the task has a contact: it also writes the completion to the contact's timeline, and the response echoes the contact's tasks with completedAt, to confirm and show what's open. Synchronous. isCompleted: false reopens. The task must be on that contact. A task listed with contact: null has no contactId: use completeTaskById. Confirm with the user before completing anything for them.
 
 ## Call
 

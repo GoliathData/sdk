@@ -29,20 +29,35 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 
 | Domain | Operations |
 |---|---|
-| `account` | 4 |
-| `appointments` | 8 |
-| `billing` | 7 |
+| `account` | 33 |
+| `appointments` | 12 |
+| `askGoliath` | 8 |
+| `automationMap` | 4 |
+| `billing` | 10 |
 | `bulkTasks` | 1 |
-| `communications` | 4 |
-| `contacts` | 36 |
-| `conversations` | 5 |
-| `deals` | 31 |
-| `forms` | 13 |
-| `notifications` | 4 |
-| `properties` | 24 |
-| `tasks` | 8 |
-| `team` | 12 |
-| `workflows` | 44 |
+| `callLists` | 10 |
+| `communications` | 21 |
+| `contactImports` | 7 |
+| `contacts` | 89 |
+| `contracts` | 19 |
+| `conversations` | 9 |
+| `coverage` | 2 |
+| `crmImport` | 3 |
+| `deals` | 51 |
+| `employees` | 34 |
+| `files` | 16 |
+| `forms` | 15 |
+| `libraryFileRuns` | 5 |
+| `memory` | 1 |
+| `notifications` | 17 |
+| `partnerships` | 10 |
+| `phoneNumbers` | 16 |
+| `properties` | 45 |
+| `scheduledTasks` | 7 |
+| `spaces` | 54 |
+| `tasks` | 16 |
+| `team` | 38 |
+| `workflows` | 72 |
 
 ## Live catalog (needs an API key)
 

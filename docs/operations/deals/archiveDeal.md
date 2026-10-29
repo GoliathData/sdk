@@ -4,7 +4,7 @@
 
 mutation · domain `deals` · requires the WRITE scope
 
-Archive or RESTORE one deal by id — isArchived: true archives, false restores. Fully reversible and single-record (THIS API exposes no bulk/select-all form; archive several by calling this once per id — and the app's deal board DOES have multi-select and select-all archive, so hand the user that surface for a whole-filter archive rather than reporting it impossible). Archiving takes the deal off the pipeline BOARD in the app; nothing is deleted. It does NOT drop the deal from findDeals — that op applies no archive filter unless you pass one, so an archived deal still comes back in a default search (sorted last) with isArchived: true on it. Pass findDeals(isArchived: false) for active-only, or findDeals(isArchived: true) to list archived deals and pick one to restore. Unlike a stage move, archiving triggers NO workflow automations, so it can never send a message — no confirmation needed on that count. Re-archiving an already-archived deal is a no-op. The deal must be in a pipeline owned by or shared with your organization.
+Archive or RESTORE one deal by id (isArchived true or false); archiveDeals archives many. Reversible: archiving takes the deal off the pipeline BOARD and deletes nothing. findDeals finds archived ones with isArchived: true. Archiving triggers no workflow, so it never sends a message. The deal must be in a pipeline owned by or shared with your organization.
 
 ## Call
 

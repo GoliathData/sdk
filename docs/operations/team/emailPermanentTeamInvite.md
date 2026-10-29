@@ -4,7 +4,7 @@
 
 mutation · domain `team` · requires the ADMIN scope
 
-Email the organization's PERMANENT (reusable) invite link to 1–50 addresses per request; duplicates are sent once and the validated batch is queued as one notification event. The link must already exist — create it once with createTeamInvite (isPermanent: true), or find it in listTeamInvites (isPermanent: true, isAlive: true); when the organization has none this is refused rather than minting one. Returns the permanent invitation (id maps to /accept-invite/{id}).
+Email the organization's PERMANENT (reusable) invite link to 1–50 addresses per request; duplicates are sent once. The link must already exist — create it once with createTeamInvite (isPermanent: true), or find it in listTeamInvites (isPermanent: true, isAlive: true); when the organization has none this is refused rather than minting one. Returns the permanent invitation and its acceptUrl.
 
 ## Call
 
@@ -34,6 +34,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
   "organizationMutation": {
     "emailPermanentLink": {
       "id": true,
+      "acceptUrl": true,
       "isAlive": true,
       "isPermanent": true
     }

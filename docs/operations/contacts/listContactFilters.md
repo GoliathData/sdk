@@ -4,7 +4,7 @@
 
 query · domain `contacts` · requires the READ scope
 
-List the saved contact filters VISIBLE to the key owner. Use a filter id with filterContacts. The filter definition itself stays server-side — the API references it by id, never by raw query. To CREATE a saved contact filter, use the saveFilter operation (listed under the properties domain, but it saves BOTH contact and property filters — pass type: CONTACT). Every row carries `userId` (the OWNER) and `createdAt`. READ `userId` BEFORE ANY WRITE: this list is NOT just your filters — it is every SHARED filter in the organization whoever created it, plus your own private ones (`isPrivate: true`). A row whose `userId` is not the key owner's is a TEAMMATE'S filter, and updateFilter / deleteFilter will happily write to it when the key owner is an org admin. Get the key owner's id from getMyProfile (`currentUser.id`) and a teammate's name from getTeammatesByIds — not listTeammates, which searches names and caps at 50 rows, so it cannot answer who a bare uuid is. When a filter turns out to be someone else's, say whose it is before changing or deleting it.
+List the saved contact filters VISIBLE to the key owner; run one with filterContacts, delete one with deleteContactFilter. Rows are metadata plus `criteriaSummary`, the conditions in one line: answer what a filter does from it; getFilter `root` is the whole tree. Create one with saveFilter (a properties op; pass type: CONTACT). Every row carries `userId` (the OWNER) and `createdAt`. READ `userId` BEFORE ANY WRITE: the list is every SHARED filter in the organization, whoever made it, plus your own private ones (`isPrivate: true`). A row whose `userId` is not the key owner's is a TEAMMATE'S filter, and updateFilter / deleteContactFilter will write to it when the key owner is an org admin. The key owner's id is getMyProfile `currentUser.id`; name a teammate's id with getTeammatesByIds, not listTeammates. When a filter is someone else's, say whose before changing or deleting it.
 
 ## Call
 
@@ -34,7 +34,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "isPrivate": true,
       "isDefault": true,
       "userId": true,
-      "createdAt": true
+      "createdAt": true,
+      "criteriaSummary": true
     }
   }
 }

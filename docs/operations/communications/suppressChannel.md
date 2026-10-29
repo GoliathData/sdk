@@ -4,7 +4,7 @@
 
 mutation · domain `communications` · requires the WRITE scope
 
-Value-level opt-out: suppress a phone number or email address for your organization on one medium (SMS, VOICE, or EMAIL). The suppression is keyed on the normalized VALUE, not a contact — it blocks that channel for every contact carrying the value, present and future, and is enforced by the Do-Not-Contact guard on send. medium SMS/VOICE take a phone value (any format; normalized to 10-digit NANP or E.164), EMAIL takes an email address; an unparseable value is rejected with INVALID_PHONE_NUMBER / INVALID_INPUT. Idempotent — re-suppressing the same value+medium re-activates the row without duplicating it. Suppresses only the medium you name (no cross-medium broadening); to also opt a number out of calls, send a second request with medium VOICE. Returns the organizationId, the normalizedValue actually stored, and the medium.
+Value-level opt-out: block a phone number or email address for your organization on one medium (SMS, VOICE or EMAIL). Keyed on the normalized VALUE, not a contact: every contact carrying it, now and later, is blocked on send. SMS/VOICE take a phone in any format, EMAIL an address; an unparseable one is rejected (INVALID_PHONE_NUMBER / INVALID_INPUT). Idempotent. Blocks only the medium named (send VOICE too for calls). A person in the app clears it, or a developer-API key with clearChannelSuppression. Returns organizationId, normalizedValue, medium.
 
 ## Call
 

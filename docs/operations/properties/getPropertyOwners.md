@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Fetch a property's known people — owners and relatives assembled from deed records and public-record signals, merged with your organization's skip-trace results when it has run skipTraceProperty on the property. Names can appear without a trace (they come from public records); phone numbers (incl. DNC status) and emails are generally populated only by a prior skip trace. Reading NEVER consumes a credit.
+A property's people. `crmContacts`: your own contacts at it (linked, or at its street and ZIP), with `relation` (OWNS or null = owner; FORMER_OWNER, MAILING and the rest are not) and the phones and emails already on them. `people`: owners and relatives from public records, with phones and emails generally only after a skip trace. A crmContacts phone means you already have a number. Reading never spends a credit.
 
 ## Call
 
@@ -61,6 +61,24 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "ranking": true,
         "deceased": true,
         "isNameOnDeed": true
+      },
+      "crmContacts": {
+        "relation": true,
+        "matchedBy": true,
+        "contact": {
+          "id": true,
+          "name": true,
+          "doNotContact": true,
+          "phoneNumbers": {
+            "phoneNumber": true,
+            "dncStatus": {
+              "isDnc": true
+            }
+          },
+          "emails": {
+            "email": true
+          }
+        }
       }
     }
   }

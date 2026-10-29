@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Merge duplicate contacts into one surviving record. contactIds is the full set being merged (2 or more, from findContacts); primaryContactId is the survivor and MUST be one of contactIds — it keeps its own custom fields and agent while absorbing the others’ notes, tags, activities, and campaign slots, and the losers are retired — stamped as merged, removed from every list, search and API result, with no way to bring one back. name is the survivor’s resulting display name. pointPersonUserId optionally decides which agent survives when the merged contacts disagree (it must already be an agent on one of them; omit to keep the primary’s). Applied synchronously; returns the surviving contact. Detect duplicates first with findContacts, then confirm the merge with the user before calling — the losing records are retired permanently.
+Merge duplicate contacts into one survivor. contactIds: the full set (2+); primaryContactId MUST be one of them; it keeps its custom fields and agent, absorbing the others’ notes, tags, activities, campaign slots. name: its display name; optional pointPersonUserId picks the surviving agent. Returns the survivor. Losers are retired permanently: find them with findDuplicateContactGroups or findContacts. Delegate it with approvedIrreversible and bulkChange (count and contactIds: every contact merged; summary: the one kept); that card is the one yes.
 
 ## Call
 

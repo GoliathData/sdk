@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Delete a template by id. Returns the remaining templates. A template that workflow steps or task sets still use is REFUSED unless you pass a dependencyResolution: call getDeletionImpact with targetKind CONTENT_TEMPLATE first, then hand back its impactVersion plus one replacement template (same type as the one being deleted) — every step and task set is repointed at it before the delete. Omit dependencyResolution for a template nothing references.
+Delete a template by id; returns the remaining templates. One that workflow steps or task sets still use is REFUSED without a dependencyResolution: call getDeletionImpact (targetKind CONTENT_TEMPLATE) first, then pass its impactVersion and one replacement template of the same type; every step and task set is repointed at it before the delete. Omit it for a template nothing references.
 
 ## Call
 

@@ -4,7 +4,7 @@
 
 query · domain `team` · requires the ADMIN scope
 
-Team performance overview for a reporting period (SEVEN_DAYS | FOURTEEN_DAYS | THIRTY_DAYS | YEAR_TO_DATE; default THIRTY_DAYS): org-wide activity totals with prior-period deltas, per-agent rows (calls, texts, appointments, lead buckets, score), and per-agent pipeline outcomes. Data is a nightly snapshot — see asOfDate. Requires the ADMIN scope (key owner must be a team admin).
+Team performance (SEVEN_DAYS | FOURTEEN_DAYS | THIRTY_DAYS | YEAR_TO_DATE; default THIRTY_DAYS): totals, deltas, per-agent rows. NIGHTLY as of asOfDate, never today; say which numbers are nightly and which live (getTeamCallStats, countOutboundTexts). filterContacts awaitingReply: unanswered texts/emails. avgSpeedToFirst{Call,Message}Minutes: minutes from a lead being ASSIGNED to the member to their first call / text or email.
 
 ## Call
 

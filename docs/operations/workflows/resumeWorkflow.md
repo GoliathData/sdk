@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Resume the most-recently-paused version of a workflow. No-op if a version is already active or none is paused.
+Resume the most-recently-paused version of a workflow, and wake the runs the workflow pause parked (getWorkflow.runsPausedWithWorkflow counts them): each continues at the step it had reached, and runs paused for any other reason (by hand, a publish, a failed send, a reply) stay paused. With a version already active it flips nothing but still wakes that version's workflow-paused runs; no-op if none is paused.
 
 ## Call
 

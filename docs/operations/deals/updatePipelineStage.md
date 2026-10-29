@@ -23,7 +23,7 @@ const result = await client.deals.updatePipelineStage({ stageId: '<id>' }, { ide
 | `name` | `String` | no | — |
 | `description` | `String` | no | — |
 | `isTerminal` | `Boolean` | no | — |
-| `terminalType` | `DealStageTerminalType` | no | — |
+| `terminalType` | `PipelineStageTerminalType` | no | — |
 | `winProbability` | `Int` | no | — |
 
 ## Gateway notes

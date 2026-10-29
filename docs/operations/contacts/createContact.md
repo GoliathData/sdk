@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Create a contact. Requires sellerFirstName, sellerLastName, and type (LISTING | INVESTMENT | BUYER | UNDETERMINED); phones/emails optional.
+Create a contact; needs sellerFirstName, sellerLastName, and type (LISTING | INVESTMENT | BUYER | UNDETERMINED); phones/emails optional. Search findContacts by the name and each phone/email first: a match is a same-person-or-new question for the user BEFORE creating.
 
 ## Call
 

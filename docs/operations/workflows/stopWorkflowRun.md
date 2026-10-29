@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Permanently stop one run (terminal — a stopped run cannot be resumed).
+Permanently stop one run — PENDING, RUNNING or PAUSED (terminal: a stopped run cannot be resumed). A no-op on a run already STOPPED; an error on one that already COMPLETED, FAILED or was NOT_ENROLLED.
 
 ## Call
 

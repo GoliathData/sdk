@@ -4,7 +4,7 @@
 
 mutation · domain `tasks` · requires the WRITE scope
 
-Create a to-do task attached directly to a deal, with no contact required — for pipeline work that belongs to the deal itself (order the title search, chase the inspection report, send the addendum) rather than to a person. Requires dealId (from findDeals/getDeal), title, dueDate, and timezone; optionally description, taskType, and participants. The same rules as createTaskOnContact apply: timezone is the zone the due date's local day is read in, participants (user ids from getMyProfile/listTeammates) are what put the task in a real queue — omit them and the task is unassigned and invisible to listMyTasks — and THIS API has no bulk call, so a multi-step deal checklist is one call per step with staggered due dates. The response echoes the deal with its full linked-task list, so the last call confirms the whole set — and it is the only read-back available here, since a deal-only task has no contact and so never shows up in listContactTasks. Confirm with the user before creating tasks on their behalf.
+Create a to-do task on a deal with no contact: pipeline work that belongs to the deal (order the title search, chase the inspection report). dealId from findDeals/getDeal. createTaskOnContact's rules apply: timezone is the zone the due day is read in, participants (getMyProfile/listTeammates) put it in a real queue (none = unassigned, invisible to listMyTasks), and a multi-step checklist is one call per step with staggered due dates. The response echoes the deal's full task list; getDeal `tasks` reads it too (never listContactTasks). Edit or delete it with updateTaskOnDeal / deleteTaskOnDeal. From a chat, a deal holding an open task refuses the create and names it: ask whether to move that one or add another, then resend with alongsideOpenTasks: true. Confirm with the user before creating tasks for them.
 
 ## Call
 
@@ -26,6 +26,7 @@ const result = await client.tasks.createTaskOnDeal({ dealId: '<id>', title: '<te
 | `description` | `String` | no | — |
 | `taskType` | `String` | no | — |
 | `participants` | `[String!]` | no | — |
+| `alongsideOpenTasks` | `Boolean` | no | — |
 
 ## Gateway notes
 
@@ -41,7 +42,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
   "tasksMutation": {
     "createTaskOnDeal": {
       "id": true,
-      "title": true,
       "tasks": {
         "id": true,
         "title": true,

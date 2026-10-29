@@ -4,7 +4,7 @@
 
 mutation · domain `properties` · requires the ADMIN scope
 
-Skip-trace an explicitly-provided owner + mailing address (no property record needed). CONSUMES ONE SKIPTRACE CREDIT (real money) — requires the ADMIN scope, and the key owner must be a team admin.
+Skip-trace an explicitly-provided owner + mailing address (no property record needed). CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
 
 ## Call
 

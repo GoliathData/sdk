@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Delete a workflow (soft delete — the UI's "Delete" action). Archives the group, pauses any active version, and stops its in-flight runs. The re-queried group confirms deletion via archivedAt.
+Delete a workflow (the UI's "Delete"): archives the group, pauses any active version and PERMANENTLY stops its in-flight runs; everyone mid-sequence drops out and restoring the workflow does not bring them back. Confirm with the user first. The re-queried group shows archivedAt. restoreWorkflow undoes the archive (the workflow comes back paused).
 
 ## Call
 

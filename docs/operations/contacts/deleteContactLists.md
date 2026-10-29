@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Delete contact lists by id (created via createContactList); also drops their membership. IRREVERSIBLE — prefer renameContactList when the name is merely wrong, and removeContactsFromList when the list is right but should not hold those contacts; this op is only for retiring the list itself. A list referenced by filters/workflows needs a dependencyResolution from getDeletionImpact (targetKind CONTACT_LIST); an unreferenced list needs none.
+Delete contact lists by id (from createContactList), dropping their membership. IRREVERSIBLE: prefer renameContactList when only the name is wrong, and removeContactsFromList when the list should just not hold those contacts; this is for retiring the list. A list referenced by filters/workflows needs a dependencyResolution from getDeletionImpact (targetKind CONTACT_LIST); an unreferenced one needs none.
 
 ## Call
 

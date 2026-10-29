@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Take contacts OFF one or more lists by list id — the removal twin of addContactsToList, and the undo for a bulk add. The list itself survives with the rest of its membership intact; deleteContactLists is the destructive one. Async bulk job — returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact not on the list is skipped, not failed. Pass LIST ids only — a tag or custom-field id is refused at the gateway rather than silently dropped mid-job. POTENTIALLY OUTBOUND for the same reason as the add side: removal publishes a tags-changed event and a CONTACT workflow can be triggered by it. Check or confirm before a large selection.
+Take contacts OFF one or more lists by list id: the removal twin of addContactsToList and the undo for a bulk add. The list survives with the rest of its members; deleteContactLists is the destructive one. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact not on the list is skipped, not failed. LIST ids only: a tag or custom-field id is refused at the gateway rather than silently dropped mid-job. POTENTIALLY OUTBOUND like the add side: removal publishes a tags-changed event that can trigger a CONTACT workflow. Needs their yes (Ask Goliath: bulk card).
 
 ## Call
 

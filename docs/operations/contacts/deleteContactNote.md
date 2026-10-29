@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-PERMANENTLY delete a note (by noteId) — the note is removed from the contact's timeline and there is NO undo, so ALWAYS confirm with the user (quote the note's text back to them) before calling this. When the user only wants the wording changed, use editContactNote instead — an edit is reversible, a delete is not. noteIds come from getContact (notes[]) or from a NOTE entry in listContactActivities. One note per call; there is no bulk note delete. Returns the owning contact with its REMAINING notes — the deleted one is gone from that list — so you can confirm the removal and show what is left rather than asserting it worked. You can only delete a note you authored (or any note, if the key owner is a team admin) — a note whose `author.kind` is AI is someone else's, so a NON-ADMIN key is refused on one; a team-admin key can delete it like any other.
+PERMANENTLY delete a note (by noteId): it leaves the contact's timeline with NO undo, so ALWAYS show its text and get their yes; a card counts. When only the wording is wrong use editContactNote, which is reversible. noteIds come from getContact (notes[]) or a NOTE entry in listContactActivities. One note per call; no bulk delete. Returns the owning contact with its REMAINING notes (the deleted one gone), so confirm the removal and show what is left rather than assert it worked. You can only delete a note you authored (or any note, if the key owner is a team admin); a note whose `author.kind` is AI is someone else's, so a NON-ADMIN key is refused on one.
 
 ## Call
 

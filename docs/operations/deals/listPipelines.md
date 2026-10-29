@@ -4,7 +4,7 @@
 
 query · domain `deals` · requires the READ scope
 
-List the organization's deal pipelines with per-stage deal counts and values. Use the returned pipeline id with findDeals (its pipelineId filter) to list a pipeline's deals.
+List the organization's deal pipelines with per-stage deal counts and values. Counts cover only deals you can see. `total` and stage `value` are WHOLE DOLLARS, not cents (1355000 is $1,355,000). Archived deals are excluded; a date window or a won total is findDeals `totals`. `deals`/`total` include won/lost stages; open is `outcome` open. `sameNameCount` is how many pipelines share the row's name: quote it, never count rows. Use the returned pipeline id with findDeals (its pipelineId filter) to list a pipeline's deals.
 
 ## Call
 
@@ -29,10 +29,12 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
     "summaries": {
       "id": true,
       "name": true,
+      "sameNameCount": true,
       "total": true,
       "deals": true,
       "stages": {
         "name": true,
+        "outcome": true,
         "count": true,
         "value": true
       }

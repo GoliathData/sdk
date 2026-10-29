@@ -43,6 +43,11 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "dueDate": true,
         "timezone": true,
         "completedAt": true,
+        "createdAt": true,
+        "author": {
+          "kind": true,
+          "name": true
+        },
         "participants": {
           "id": true,
           "firstName": true,

@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-Why the AI employees stopped working. Returns AI-credit burn over a trailing window (optional `windowDays`, clamped 1..90, default 30; the window actually used comes back as `windowDays`), the live `balanceCredits`, and `outOfCredits`. THIS IS THE ONLY OPERATION THAT REPORTS THE AI PAYWALL, so it is the first thing to check for "why did our AI employee stop", "why is nothing happening", or a run that ends immediately. READ THE TWO SIGNALS DIFFERENTLY. `outOfCredits: true` is a CONFIRMED paywall — the org is gated, has real AI usage history, and its balance is at/below zero — report it as the answer. `outOfCredits: false` is NOT proof the agents are running: the flag is deliberately narrower than the predicate that actually refuses work (AiAgentBillingGateService.isOutOfCredits, which AgentSessionEngine and AgentSessionRunExecutor call), because that one omits the usage-history condition. So a gated org with a balance at/below zero and no prior AI usage has its runs REFUSED while this flag still reads false. TREAT `balanceCredits <= 0` AS THE STOP-CONDITION and `outOfCredits` as the confirmation — never tell a user their agents are fine on a false alone when the balance is not positive. `lowOnCredits` is the EARLY signal and is MUTUALLY EXCLUSIVE with `outOfCredits` — it means the balance is at or below `lowCreditThresholdCredits` but not yet spent, so the AI employees are still working and will stop soon; report it as a warning with the threshold, never as a stoppage. `balanceCredits` can be NEGATIVE; that is normal (settlement never wedges), not a data error. 1 credit = 1 cent of AI cost. Read-only — never spends. The agent cannot buy credits: hand the user getCreditsPurchaseUrl.
+Why the AI employees stopped, and what AI use costs: burn over a trailing window (`windowDays` 1..90, default 30), `balanceCredits`, `outOfCredits`, `planAllowance`. THIS IS THE ONLY OPERATION THAT REPORTS THE AI PAYWALL. `outOfCredits: true` is a CONFIRMED paywall. `outOfCredits: false` is NOT proof the agents are running: the flag is deliberately narrower than the predicate that actually refuses work (AiAgentBillingGateService.isOutOfCredits), which omits its usage-history condition. TREAT `balanceCredits <= 0` AS THE STOP-CONDITION and `outOfCredits` as the confirmation. `lowOnCredits` warns (still working); give `lowCreditThresholdCredits`. `balanceCredits` can be NEGATIVE, normally. COST: `creditsConsumed` is window burn, never a bill. `planAllowance` is this period: `usedThisPeriod` of `includedCredits` is in the plan; past it, or in a trial (`lockedDuringTrial`), use draws `purchasedBalance` (bought or granted). 1 credit = 1 cent of AI cost. What used them: `aiCreditUsageBySource`; name causes only from it. To buy: getCreditsPurchaseUrl.
 
 ## Call
 
@@ -34,7 +34,22 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "balanceCredits": true,
       "outOfCredits": true,
       "lowOnCredits": true,
-      "lowCreditThresholdCredits": true
+      "lowCreditThresholdCredits": true,
+      "planAllowance": {
+        "includedCredits": true,
+        "usedThisPeriod": true,
+        "includedRemaining": true,
+        "purchasedBalance": true,
+        "lockedDuringTrial": true,
+        "periodResetsAt": true
+      }
+    },
+    "aiCreditUsageBySource": {
+      "windowDays": true,
+      "sources": {
+        "label": true,
+        "credits": true
+      }
     }
   }
 }

@@ -4,7 +4,7 @@
 
 mutation · domain `deals` · requires the WRITE scope
 
-Attach a file to a deal — the write twin of listDealFiles. Pass the artifactId of a file your organization already holds: the id the chat assistant sees on its artifact shelf (`(artifactId: …) [origin] filename`). The server resolves it to the underlying file, org-scoped, links it to dealId, and returns the file (id, fileName, fileUrl, createdAt); read it back with listDealFiles. The deal must be in a pipeline owned by or shared with your organization, and the artifact's file must belong to your organization — a foreign artifact is refused, so you cannot link another org's bytes onto a deal you own. There is no raw-bytes upload op yet: the shared upload key is content-addressed and not org-scoped, so a signed-PUT op would let one org overwrite another org's file — deferred until that key is org-scoped.
+Attach a CHAT file to a deal — the write twin of listDealFiles. Pass the artifactId of a file your organization already holds: the id the chat assistant sees on its artifact shelf (`(artifactId: …) [origin] filename`). A Library item id is refused: use fileLibraryItemsOnDeal. The server resolves it to the underlying file, org-scoped, links it to dealId, and returns the file (id, fileName, fileUrl, createdAt); read it back with listDealFiles. The deal must be in a pipeline owned by or shared with your organization, and the artifact's file must belong to your organization — a foreign artifact is refused, so you cannot link another org's bytes onto a deal you own. There is no raw-bytes upload op yet (the shared upload key is not org-scoped).
 
 ## Call
 

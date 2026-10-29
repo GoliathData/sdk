@@ -4,7 +4,7 @@
 
 mutation · domain `team` · requires the ADMIN scope
 
-Revoke a team invitation by id (from createTeamInvite/listTeamInvites). The link stops working; isAlive becomes false. Only invitations in the caller's own organization can be revoked.
+Revoke a team invitation by id: the one this chat created, else match it in listTeamInvites. The permanent link only when named. The link stops working (isAlive false). Own organization only.
 
 ## Call
 

@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Delete free-form contact tags by id (created via createContactTag); also removes them from any contacts. IRREVERSIBLE and org-wide — prefer renameContactTag when the name is merely wrong, and removeContactTags when the tag is right but should come off some contacts; this op is only for retiring the tag itself. Only free-form tag ids are accepted — custom fields, lists, and system-defined rows are rejected. A single-tag delete requires a dependencyResolution from getDeletionImpact (targetKind CONTACT_TAG): the impactVersion plus any replacements. A multi-tag delete accepts only tags with no dependencies; delete a depended-on tag individually.
+Delete free-form contact tags by id (from createContactTag), removing them from every contact. IRREVERSIBLE and org-wide: prefer renameContactTag when the name is merely wrong, and removeContactTags when the tag should only come off some contacts; this is for retiring the tag itself. Free-form tag ids only (custom fields, lists and system-defined rows are rejected). A single-tag delete needs a dependencyResolution from getDeletionImpact (targetKind CONTACT_TAG): its impactVersion plus any replacements. A multi-tag delete accepts only tags with no dependencies; delete a depended-on tag on its own.
 
 ## Call
 

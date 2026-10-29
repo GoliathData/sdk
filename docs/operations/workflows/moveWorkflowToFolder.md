@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Move a workflow into a folder by folderId (from listWorkflowFolders), or pass folderId null to ungroup it. Creates nothing — an unknown id is NOT_FOUND, so make the folder with createWorkflowFolder first. Refuses a workflow the caller cannot edit, and one managed by a campaign — that sequence belongs to the Campaigns editor.
+Move a workflow into a folder by folderId (from listWorkflowFolders), or folderId null to ungroup it. Creates nothing: an unknown id is NOT_FOUND, so make the folder with createWorkflowFolder first. Refuses a workflow the caller cannot edit, and one a campaign manages (its sequence belongs to the Campaigns editor).
 
 ## Call
 

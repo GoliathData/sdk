@@ -4,7 +4,7 @@
 
 query · domain `contacts` · requires the READ scope
 
-MERGED IDS RESOLVE: if the id you pass was merged into another contact, this returns the SURVIVING record — so the `id` that comes back can differ from the one you sent. Use the returned id for anything that follows (it is the live record); do not re-send the old one and do not report the difference as an error. An id whose merge chain leads nowhere is not redirected and answers as not-found. Fetch one contact by id — the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties, tags, lists, CUSTOM-FIELD VALUES, assigned teammates + roles, teams, notes, linked deals, seller-intent score, and enrichment/archive flags. Each note carries `author` — { kind: USER | AI, id, name } — which is who WROTE it: read that, not `createdByUser`, which is null on a note an AI assistant wrote on a teammate’s behalf. CUSTOM FIELDS — this is the read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues, and the ONLY one (listContactCustomFields returns definitions, never values). `customFields` lists the organization’s custom fields — the catalog, not this contact’s answers — whether or not this contact has one, so the list length tells you nothing about the contact (fields sharing a normalized name are collapsed to one entry, so it is not always identical to listContactCustomFields either). The value is in `values`, and it is NULL when this contact has no recorded value for that field — null means UNSET, it does NOT mean the field is missing or unreadable, and it is not an error. Read the answer out of the ONE sub-field that matches the field `type`, because the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number, NOT cents — it is stored exactly as written); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, a list of the selected option LABELS (the option strings, NOT option ids), which holds at most one entry unless the field’s `allowMultiple` is true. A non-dropdown field never populates dropdownSelectedValues and a dropdown never populates textValue, so reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host comes back with its scheme), so compare what you wrote against what comes back rather than assuming byte equality.
+MERGED IDS RESOLVE: an id merged into another contact returns the SURVIVING record, so the `id` that comes back can differ from the one you sent. Use the returned id from then on, never the old one; it is not an error. A merge chain that leads nowhere answers as not-found. Fetch one contact by id, the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties (`property.id` feeds getRelatedProperties), tags, lists, CUSTOM-FIELD VALUES, teammates + roles, teams, notes (with `isPinned`, `isHidden` and `replies`), linked deals (`isArchived: true` is not live), seller-intent score, enrichment/archive flags. A note is the team's record, never a message from the contact; calls are not here (listContactActivities [CALL]). A note's or reply's `author` { kind: USER | AI, id, name } is who WROTE it; read that, not `createdByUser`, which is null on a note an AI assistant wrote for a teammate. A hidden note or reply is shown only to admins; `replies` also omits ones you may not see (e.g. an outside author's), so a missing reply is not proof it is gone. CUSTOM FIELDS: the ONLY read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues (listContactCustomFields returns definitions, never values). `customFields` is the organization's field catalog, not this contact's answers, listed whether or not the contact has one, so its length says nothing about the contact (fields sharing a normalized name collapse to one entry, so it can differ from listContactCustomFields). The value is in `values`, NULL when this contact has none: null means UNSET, not missing, unreadable or an error. Read the ONE sub-field matching the field `type`; the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number as written, NOT cents); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, the selected option LABELS (not option ids), at most one entry unless `allowMultiple` is true. Reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host gains its scheme), so compare what you wrote with what comes back rather than assume byte equality.
 
 ## Call
 
@@ -41,6 +41,12 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "sellerIntentScore": true,
       "doNotContact": true,
       "doNotContactReason": true,
+      "doNotContactSetAt": true,
+      "doNotContactSetBy": {
+        "id": true,
+        "firstName": true,
+        "lastName": true
+      },
       "emails": {
         "id": true,
         "email": true,
@@ -67,7 +73,11 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "properties": {
         "id": true,
         "propertyString": true,
-        "status": true
+        "status": true,
+        "verificationStatus": true,
+        "property": {
+          "id": true
+        }
       },
       "tags": {
         "id": true,
@@ -115,12 +125,26 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
           "id": true,
           "firstName": true,
           "lastName": true
+        },
+        "isPinned": true,
+        "isHidden": true,
+        "replies": {
+          "id": true,
+          "body": true,
+          "isHidden": true,
+          "author": {
+            "kind": true,
+            "id": true,
+            "name": true
+          }
         }
       },
       "deals": {
         "id": true,
         "title": true,
         "priceCents": true,
+        "isArchived": true,
+        "priceFormatted": true,
         "stage": {
           "id": true,
           "name": true

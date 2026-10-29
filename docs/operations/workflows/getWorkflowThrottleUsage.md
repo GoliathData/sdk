@@ -4,7 +4,7 @@
 
 query · domain `workflows` · requires the READ scope
 
-Daily send-limit usage for a throttle-backed workflow (by group id) — usedToday vs dailyCap plus a per-day history over the last `rangeDays` (1–90, clamped). Returns null for workflows with no throttle (only skip-trace-category workflows have one). Answers "am I near my sending limit?".
+Daily send-limit usage for a throttle-backed workflow (by group id): usedToday vs dailyCap and a per-day history over the last `rangeDays` (1–90, clamped). Null for a workflow with no throttle (only skip-trace-category workflows have one). Answers "am I near my sending limit?".
 
 ## Call
 

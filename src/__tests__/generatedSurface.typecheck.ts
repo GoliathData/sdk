@@ -40,3 +40,14 @@ void client.team.getTeamAnalyticsOverview({ ...analyticsVariables, orgId: 'someo
 
 // Fully-optional-variable operations are callable with no arguments at all.
 void client.deals.getPipelineAnalytics()
+
+// Enum inputs take their wire string literal: the package exports no enum
+// values, so a nominal TS enum here made every required enum input uncallable
+// without a cast (INT-13868).
+void client.contacts.createContact({
+  input: {
+    sellerFirstName: 'A',
+    sellerLastName: 'B',
+    addEmails: [{ email: 'a@b.co', verificationStatus: 'UNVERIFIED' }],
+  },
+})

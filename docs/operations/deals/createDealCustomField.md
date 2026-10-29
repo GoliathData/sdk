@@ -9,7 +9,7 @@ Create a custom-field DEFINITION on a deal pipeline you OWN (pipelineId from lis
 ## Call
 
 ```ts
-const result = await client.deals.createDealCustomField({ input: <CreateDealCustomFieldInput>, pipelineId: '<id>' }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.deals.createDealCustomField({ input: <CreatePipelineItemCustomFieldInput>, pipelineId: '<id>' }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<CreateDealCustomFieldMutation>
 ```
 
@@ -19,7 +19,7 @@ const result = await client.deals.createDealCustomField({ input: <CreateDealCust
 
 | Name | Type | Required | Default |
 |---|---|---|---|
-| `input` | `CreateDealCustomFieldInput!` | yes | — |
+| `input` | `CreatePipelineItemCustomFieldInput!` | yes | — |
 | `pipelineId` | `ID!` | yes | — |
 
 ## Gateway notes

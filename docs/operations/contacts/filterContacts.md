@@ -4,7 +4,7 @@
 
 query · domain `contacts` · requires the READ scope
 
-Run a contact filter and paginate the matches with limit/offset. Returns a page of contacts plus total and hasMore. Pass EITHER filterId (a saved filter from listContactFilters) OR filterTree (the same filter-tree DSL saveFilter takes) to run an UNSAVED tree — same execution path, same totals, nothing persisted. The filterTree form is how you verify a filter before creating it, and how you settle what a condition actually does: fetch a record that has no value for the field and check whether the tree returns it. NEVER save a filter in order to measure one — save only the final filter the user asked for. Sort with sort: { field, direction } (`ASC` / `DESC`); field is a CLOSED vocabulary: `SELLER_INTENT_SCORE`, `LAST_COMMUNICATION`, `LAST_ACTIVITY`, `DIAL_ATTEMPTS` (org-wide outbound dials), `MY_LAST_CALL`, `MY_LAST_TEXT`, `LAST_UPDATED`, `CREATED_AT`, `TASK_HIGHLIGHT`, `AUCTION_DATE` (earliest upcoming foreclosure auction or sale day; contacts with none sort last). Any other field is silently IGNORED (default order, no error).
+Run a contact filter and paginate the matches with limit/offset. Returns a page of contacts (name, tags, phones, emails, `doNotContact`, reason, date, linked `properties`: no getContact per row) plus total and hasMore. Pass EITHER filterId (a saved filter from listContactFilters) OR filterTree (saveFilter's filter-tree DSL; conditions key `fieldId`, not `field`) to run an UNSAVED tree: same path and totals, nothing saved. filterTree verifies a filter before creating it and settles what a condition does (fetch a record with no value for the field and see whether the tree returns it). NEVER save a filter to measure one; save only the one asked for. Sort with sort: { field, direction } (`ASC` / `DESC`); field is a CLOSED vocabulary: `NAME` (A–Z), `SELLER_INTENT_SCORE`, `LAST_COMMUNICATION`, `LAST_ACTIVITY`, `DIAL_ATTEMPTS` (org-wide dials), `MY_LAST_CALL`, `MY_LAST_TEXT`, `LAST_UPDATED`, `CREATED_AT`, `TASK_HIGHLIGHT`, `AUCTION_DATE` (earliest upcoming auction; none sort last). Any other field is silently IGNORED. `participants`: its assignees (REVOKED: no longer assigned).
 
 ## Call
 
@@ -42,9 +42,33 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "name": true,
         "sellerIntentScore": true,
         "isArchived": true,
+        "doNotContact": true,
+        "doNotContactReason": true,
+        "doNotContactSetAt": true,
         "tags": {
           "id": true,
           "name": true
+        },
+        "phoneNumbers": {
+          "phoneNumber": true,
+          "suppressedMediums": true
+        },
+        "emails": {
+          "email": true
+        },
+        "participants": {
+          "status": true,
+          "user": {
+            "firstName": true,
+            "lastName": true
+          }
+        },
+        "properties": {
+          "propertyString": true,
+          "verificationStatus": true,
+          "property": {
+            "id": true
+          }
         }
       },
       "pagination": {

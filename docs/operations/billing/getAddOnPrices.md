@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-Get current add-on prices (cents per unit) — the monthly price of one extra seat. Live from Stripe. Pair with getSeatsPurchaseUrl: quote the price, then hand the human the link; the agent never spends.
+The monthly price of one extra seat, in cents, live from Stripe. Quote it, then hand over getSeatsPurchaseUrl.
 
 ## Call
 

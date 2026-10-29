@@ -4,7 +4,7 @@
 
 query · domain `bulkTasks` · requires the READ scope
 
-Fetch the current status of an async bulk task by id (the bulkTaskId returned by async ops such as addPropertiesToList). Returns the task status (CREATED = queued, PROCESSING = being applied, COMPLETED, FAILED), progress (processedItemCount of estimatedItemCount), and a best-effort ETA (secondsRemaining; null means no estimate is available, not an error — status is authoritative). A FAILED status means the change was NOT applied. Returns null for ids that do not exist in your workspace. Suitable for polling (a 3-5 second interval is plenty).
+Status of an async bulk task by the bulkTaskId an async op returned (addPropertiesToList and the like): status (CREATED = queued, PROCESSING = being applied, COMPLETED, FAILED = the change was NOT applied), progress (processedItemCount of estimatedItemCount) and a best-effort ETA (secondsRemaining; null = no estimate, not an error; status is authoritative). Null for an id not in your workspace. Poll every 3-5 seconds.
 
 ## Call
 

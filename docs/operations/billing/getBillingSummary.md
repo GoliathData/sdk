@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the ADMIN scope
 
-Read the organization's plan, subscription lifecycle, seat utilization, feature limits and credit balances. Read-only — never spends. LIFECYCLE: answer "when does our trial end" and "are we set to cancel" from the dates, never from `status` alone — `status: TRIALING` is paired with `trialEnds`, and `cancelAt` is the scheduled cancel-at-period-end (null when nothing is scheduled). A deferred downgrade appears as the `pendingPlanCode` / `pendingPlanIsAnnual` / `pendingPlanEffectiveAt` trio, all null when nothing is pending: until `pendingPlanEffectiveAt` the org is STILL on `planType`, so report the current plan and the change date, not the pending plan as if it were live. `isGrandfathered` means the org holds a legacy price, so `currentUnitAmountCents` (what it actually pays for the core plan) can differ from today's published plan price. SEATS: compare `extraSeats.seatsUsed` against `extraSeats.seatsCap` DIRECTLY — that field is already TOTAL capacity (plan seats + purchased SEATS credits + paid extra seats). Do NOT add `extraSeatQuantity` to it: that quantity is already inside it, and adding it again understates utilization and tells the user they have more room than they do. `extraSeatQuantity` answers a different question — how many seats the org pays extra for. Note `featureLimits.seatsCap` is a DIFFERENT number under the same name: the plan's included seats, excluding add-ons. `extraSeats.unusedPaidSeats` is NULLABLE and null means UNKNOWN (a live Stripe read that did not answer), never zero — say nothing about wasted seats when it is null. CREDITS: `creditLedger` carries one row per credit type, AI_CREDITS and SMS_CREDITS included; `featureLimits.aiCreditsCap` is the plan-included monthly AI allowance and `featureLimits.smsCreditsCap` the plan-included monthly texting-credit allowance (1 credit = 1 outbound carrier text segment; inbound texts do not consume credits). For AI burn and the paywall flag use getAiCreditUsage, which is READ-scoped and answers "why did our AI employee stop working".
+Read the organization's plan, subscription lifecycle, seat utilization, feature limits and credit balances. Read-only. LIFECYCLE: answer "when does our trial end" and "are we set to cancel" from the dates, never from `status` alone — `status: TRIALING` is paired with `trialEnds`, and `cancelAt` is the scheduled cancel-at-period-end (null when nothing is scheduled). A deferred downgrade is the `pendingPlanCode` / `pendingPlanIsAnnual` / `pendingPlanEffectiveAt` trio (null when none): until `pendingPlanEffectiveAt` the org is STILL on `planType`, so report the current plan and the change date. `isGrandfathered`: a legacy price, so `currentUnitAmountCents` (the core plan) can differ from the published one. SEATS: compare `extraSeats.seatsUsed` against `extraSeats.seatsCap` DIRECTLY, which is already TOTAL capacity; never add `extraSeatQuantity` (the seats paid extra for, already inside it). Open seats = it − `seatsUsed` − live non-permanent invites (listTeamInvites `isAlive`, not `isPermanent`), min 0. `featureLimits.seatsCap` is a DIFFERENT number: plan-included seats only. `extraSeats.unusedPaidSeats` null means UNKNOWN, never zero. CREDITS: `creditLedger.unitBalance` is only the PURCHASED balance, so 0 there is not "none left". For what is left read `planUsage`, one row per credit type (AI_CREDITS and SMS_CREDITS included): plan `planCap`, `usedThisPeriod`, `planRemaining`, `purchasedBalance`, and `available` (spendable now; quote it), `periodResetsAt`, `planCreditsLocked` (only purchased credits spend). Before a skip trace, export or verification: checkBillingAction. 1 SMS credit = 1 outbound text segment; inbound is free. AI burn, sources, paywall: getAiCreditUsage (READ).
 
 ## Call
 
@@ -58,6 +58,16 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "creditLedger": {
         "type": true,
         "unitBalance": true
+      },
+      "planUsage": {
+        "type": true,
+        "planCap": true,
+        "usedThisPeriod": true,
+        "planRemaining": true,
+        "planCreditsLocked": true,
+        "purchasedBalance": true,
+        "available": true,
+        "periodResetsAt": true
       }
     }
   }

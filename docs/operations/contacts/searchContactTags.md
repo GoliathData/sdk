@@ -4,7 +4,7 @@
 
 query · domain `contacts` · requires the READ scope
 
-Search the organization-wide contact tags and lists by name. The response splits them: `tags` are free-form TAGS, `lists` are LISTS (segments) — they are different things and the operations that take them do not accept each other’s ids. A tag id feeds updateContact’s addTagIds/removeTagIds (one contact) or addContactTags/removeContactTags (a selection), and renameContactTag/deleteContactTags maintain the tag itself. A list id feeds updateContact’s addToListIds/removeFromListIds or addContactsToList/removeContactsFromList, and renameContactList/deleteContactLists maintain the list.
+Search contact tags and lists. `tags` are free-form TAGS; `lists`, `uploadTags` and `exportTags` are LISTS (the last two from imports and exports), each with `folderId` (listFilterFolders). Neither kind accepts the other’s ids. "The X list" may be either kind: an exact name wins, else offer both kinds and never pick. A tag id feeds updateContact addTagIds/removeTagIds or addContactTags/removeContactTags (renameContactTag/deleteContactTags maintain it); a list id feeds addToListIds/removeFromListIds or addContactsToList/removeContactsFromList (renameContactList/deleteContactLists).
 
 ## Call
 
@@ -35,6 +35,16 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "folderId": true
       },
       "lists": {
+        "id": true,
+        "name": true,
+        "folderId": true
+      },
+      "uploadTags": {
+        "id": true,
+        "name": true,
+        "folderId": true
+      },
+      "exportTags": {
         "id": true,
         "name": true,
         "folderId": true

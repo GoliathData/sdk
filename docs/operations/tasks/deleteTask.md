@@ -4,7 +4,7 @@
 
 mutation · domain `tasks` · requires the WRITE scope
 
-PERMANENTLY delete ONE task by taskId + its linked contactId — the task is gone from the contact and from the user's queue with NO undo, so ALWAYS confirm with the user (name the task) before calling this. Prefer the reversible alternatives: completeTask if the work is actually DONE (that keeps the record and the completedAt history), updateTask if the details were merely wrong. Delete is for a task that should never have existed. STRICTLY ONE TASK PER CALL — THIS API exposes no bulk-delete operation and no filter-based sweep, so a request like 'delete all my completed tasks' cannot be honored here as one action. Say that precisely: it is one-at-a-time THROUGH THE API, and the PRODUCT is not the limit — the app's own task list has multi-select delete and multi-select complete, so offer that surface for a large sweep. If the user still wants it done here, list the tasks with listMyTasks, get explicit confirmation, and delete them one id at a time. Returns the owning contact with its remaining tasks so you can show what's left. The task must belong to the given contact.
+PERMANENTLY delete ONE task by taskId + its contactId: gone from the contact and the queue with NO undo, so ALWAYS confirm with the user, naming the task. Prefer completeTask if the work is DONE (keeps the record and completedAt) or updateTask if details were wrong; delete is for a task that should never have existed. Many at once is deleteTasks: for a sweep ('delete my completed tasks') list them with listMyTasks, get explicit confirmation of the list, then delete. Returns the contact's remaining tasks. The task must belong to the given contact; a task with no contact is deleteTaskOnDeal.
 
 ## Call
 

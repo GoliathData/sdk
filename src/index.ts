@@ -6,6 +6,7 @@
 // covers operations added to the API before this SDK release.
 
 export { GoliathClient } from './generated/domains'
+export { type AskGoliathInput, type AskGoliathTurn, askGoliath } from './runtime/askGoliath'
 export { GOLIATH_API_PATH, GoliathClientCore } from './runtime/client'
 export {
   GATEWAY_ERROR_CODES,

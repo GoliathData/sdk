@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Resume a specific PAUSED version (by workflowAutomationId) — pauses the currently-active sibling first. Promotion is ONE-WAY, so this is NOT a roll-back: it REJECTS any version that is not PAUSED, and it REJECTS a SUPERSEDED version (one with a later-published sibling) with "Only the most recently published version can be resumed." The only version it can activate is therefore the most recently PUBLISHED paused one. Do not treat resumeWorkflow as an equivalent fallback: it selects the most recently PAUSED version (a different ordering — a version paused later can have been published earlier) and it NO-OPS when an active sibling already exists, where this op pauses that sibling first. To bring an OLDER version back, the app clones it into the group's draft and republishes it; that restore-as-draft path is not exposed here, so hand the user the workflow's version history in the app rather than retrying this op against the old version.
+Resume a specific PAUSED version (by workflowAutomationId), pausing the active sibling first. Promotion is ONE-WAY, so this is NOT a roll-back: it REJECTS a version that is not PAUSED, and it REJECTS a SUPERSEDED version (one with a later-published sibling) with "Only the most recently published version can be resumed." So it can only activate the most recently PUBLISHED paused version. Do not treat resumeWorkflow as an equivalent fallback: it picks the most recently PAUSED version (a different ordering: a version paused later may have been published earlier) and NO-OPS when an active sibling exists, where this op pauses that sibling first. To bring an OLDER version back, use restoreWorkflowVersionAsDraft, never a retry of this op.
 
 ## Call
 

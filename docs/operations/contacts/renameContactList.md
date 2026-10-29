@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Rename an existing contact LIST in place (listId from searchContactTags `lists`) — "rename Hot Leads to Priority Sellers". THIS IS THE CORRECT WAY TO FIX A LIST NAME: deleteContactLists plus createContactList is irreversible and drops every membership, while a rename keeps the id, so the members, and every saved filter and workflow pointing at the list, are untouched. Applied synchronously; returns the org list catalog with the new name. LIST ids only — a free-form tag or custom-field id is refused at the gateway (rename those with renameContactTag / updateContactCustomField). The name must be non-empty and at most 100 characters, and list names are unique within the organization, so renaming onto an existing list name is rejected. This changes only the label; it does not move, merge or re-evaluate membership.
+Rename a contact LIST in place (listId from searchContactTags `lists`): "rename Hot Leads to Priority Sellers". THIS IS THE CORRECT WAY TO FIX A LIST NAME: deleteContactLists plus createContactList is irreversible and drops every membership, while a rename keeps the id, so members and every saved filter and workflow pointing at the list are untouched. Applied synchronously; returns the org list catalog with the new name. LIST ids only: a free-form tag or custom-field id is refused at the gateway (renameContactTag / updateContactCustomField). The name must be non-empty, at most 100 characters, and unique among the organization's lists, or it is rejected. Only the label changes: membership is not moved, merged or re-evaluated.
 
 ## Call
 

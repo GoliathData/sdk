@@ -4,7 +4,7 @@
 
 mutation · domain `properties` · requires the WRITE scope
 
-PERMANENTLY delete a saved filter by id (any type — property, contact, or deal). The row is gone: there is no archive, no undo, and no way to recover the criteria. Get the id from listPropertyFilters / listContactFilters or the saveFilter response. Returns true when a row was deleted. The filter must belong to your organization (a foreign or unknown id is rejected). WHOSE FILTER IS IT: the list ops return `userId`, the owner. A shared filter belonging to a TEAMMATE is deletable here when the key owner is an org admin — check `userId` against getMyProfile (`currentUser.id`) BEFORE deleting, name the owner with getTeammatesByIds, and never delete someone else's filter without saying whose it is and being asked to. If the filter is merely wrong rather than unwanted, updateFilter fixes it in place instead. A teammate's PRIVATE filter is refused outright, admin or not.
+PERMANENTLY delete a saved filter by id (any type): no archive, no undo. Ids from listPropertyFilters / listContactFilters / saveFilter; returns true when a row was deleted, and a foreign or unknown id is rejected. WHOSE FILTER IS IT: an org admin can delete a teammate's SHARED filter here, so check `userId` against getMyProfile (`currentUser.id`) first, name the owner (getTeammatesByIds), and never delete someone else's filter unasked. A merely wrong filter is fixed with updateFilter. A teammate's PRIVATE filter is refused outright.
 
 ## Call
 

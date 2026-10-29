@@ -4,7 +4,7 @@
 
 mutation · domain `deals` · requires the WRITE scope
 
-Create a deal pipeline in your organization. Requires a title; optionally a description and an ordered list of initial stages (each: name, plus optional description, order, isTerminal, terminalType WON|LOST|NEUTRAL, winProbability 0-100). Returns your full pipeline list including the new one. To get the new id reliably, call listPipelines FIRST and diff: the created pipeline is the one whose id was not in the prior list (names are not unique and the list is not creation-ordered — never match by name alone or by position). If concurrent creates from your org are possible, more than one new id may appear — disambiguate by matching your submitted title among the NEW ids only, and use a distinct title per concurrent call.
+Create a deal pipeline in your organization. Requires a title; optionally a description and an ordered list of initial stages (each: name, plus optional description, order, isTerminal, terminalType WON|LOST|NEUTRAL, winProbability 0-100). Returns the created pipeline: its id, name, description and stages in order.
 
 ## Call
 
@@ -21,7 +21,7 @@ const result = await client.deals.createPipeline({ title: '<text>' }, { idempote
 |---|---|---|---|
 | `title` | `String!` | yes | — |
 | `description` | `String` | no | — |
-| `stages` | `[DealStageCreateInput!]` | no | — |
+| `stages` | `[PipelineStageCreateInput!]` | no | — |
 
 ## Gateway notes
 
@@ -34,13 +34,17 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
 ```json
 {
   "dealMutation": {
-    "createDealPipeline": {
+    "createPipeline": {
       "id": true,
-      "myPipelines": {
+      "name": true,
+      "description": true,
+      "stages": {
         "id": true,
         "name": true,
-        "description": true,
-        "dealsCount": true
+        "order": true,
+        "isTerminal": true,
+        "terminalType": true,
+        "winProbability": true
       }
     }
   }

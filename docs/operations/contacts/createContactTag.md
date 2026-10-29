@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Create an organization-wide free-form contact tag. Applied synchronously. Returns the org tag catalog; read the new tag id back by matching the name you supplied (or use searchContactTags). To fix a name afterwards use renameContactTag — do not create a second tag.
+Create an org-wide free-form contact tag, synchronously. Returns the org tag catalog: find the new id by the name you gave (or searchContactTags). To fix a name use renameContactTag, never a second tag.
 
 ## Call
 

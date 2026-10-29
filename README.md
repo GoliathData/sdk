@@ -11,7 +11,7 @@ The developer API is a persisted-operation gateway: one HTTP endpoint (`POST /ap
 
 `/api/v1/call` is the path every doc leads with. The original `/api/v1/graphql` is the same handler under an older name and stays mounted forever for existing integrations — including this SDK's own transport, which still posts there. Prefer `/api/v1/call` when you call the gateway directly: the `graphql` in the old name misleads callers, LLM agents especially, into sending raw GraphQL, which the gateway always refuses (`raw_query_forbidden`). It only ever accepts `{ operationId, variables }`.
 
-Full API documentation lives at [docs.goliathdata.com](https://docs.goliathdata.com/developer-api/overview).
+Full API documentation lives at [goliathdata.com/developers](https://goliathdata.com/developers/): a quickstart, guides, and a reference page for every operation.
 
 ## Install
 
@@ -39,7 +39,7 @@ const { dealQuery } = await goliath.deals.findDeals({ limit: 25 })
 
 // Idempotent writes — pass an Idempotency-Key so retries can never double-fire.
 await goliath.contacts.createContact(
-  { input: { firstName: 'Jane', lastName: 'Doe', phoneNumbers: ['+13235550100'] } },
+  { input: { sellerFirstName: 'Jane', sellerLastName: 'Doe' } },
   { idempotencyKey: crypto.randomUUID() }
 )
 
@@ -75,6 +75,8 @@ Everything throws — no error-shaped return values:
 | `GoliathOperationError` | The operation executed and returned `errors` (HTTP 200); carries every shaped error + partial `data` |
 | `GoliathNetworkError` / `GoliathTimeoutError` | No HTTP response at all |
 
+Branch on a code without string literals: `GATEWAY_ERROR_CODES` holds the gateway's own codes (`unauthorized`, `raw_query_forbidden`, `rate_limited`, …) and `OPERATION_ERROR_CODES` the codes an operation's `errors` carry (`UNAUTHENTICATED`, `BAD_USER_INPUT`, …).
+
 ## Retries (built in)
 
 - Both 429s are pre-execution rejections — retried for any operation, honoring `Retry-After` exactly.
@@ -84,7 +86,22 @@ Everything throws — no error-shaped return values:
 
 ## Idempotency
 
-Every mutation accepts `options.idempotencyKey` — always pass one on writes, since the client never re-sends an unkeyed mutation. Passing it on a read is a **compile error**, matching the gateway's 400. Replays surface via the `onMeta` callback (`meta.replayed === true`), including replays whose stored body carries errors.
+Every mutation accepts `options.idempotencyKey` — always pass one on writes, since the client never re-sends an unkeyed mutation. Passing it on a read is a **compile error**, matching the gateway's 400. Replays surface via the `onMeta` callback, which receives a `ResponseMeta` (`{ status, replayed, retries }`; `meta.replayed === true` on a replay), including replays whose stored body carries errors.
+
+## Ask Goliath
+
+Any `WRITE` key can talk to its owner's Ask Goliath, the agent inside the app, through `goliath.askGoliath.*` (start, send, answer its questions, read or cancel a turn, list chats). Each call holds at most 25 seconds; `askGoliath()` sends a message and polls until the reply is done:
+
+```ts
+import { askGoliath } from '@goliath-data/sdk'
+
+const turn = await askGoliath(goliath, { message: 'Which deals stalled this week?' })
+// turn.status: COMPLETED, WAITING_FOR_CALLER (answer turn.questions with answerAgentQuestions), FAILED or CANCELLED
+console.log(turn.reply)
+await askGoliath(goliath, { conversationId: turn.conversationId, message: 'Draft a follow-up for the first one.' })
+```
+
+It acts as the key's owner, under that person's trust settings, and the chat shows in their chat list labelled with the key's name. `goliath.askGoliath.submitFeedback({ kind: 'FEATURE_REQUEST', title, message })` sends a bug report, feature request or question to our team.
 
 ## Discovering operations
 

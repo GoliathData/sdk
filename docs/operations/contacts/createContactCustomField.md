@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Create an organization-wide contact custom-field DEFINITION (name + type: TEXT | NUMBER | DOLLAR | DATE | LINK | DROPDOWN; `options` required for DROPDOWN; `allowMultiple`/`defaultValue` optional). Applied synchronously. Returns the org custom-field catalog; read the new field id back by matching the name (or use listContactCustomFields), then write values via addCustomFieldValues on createContact / updateCustomFieldValues on updateContact.
+Create an org-wide contact custom-field DEFINITION (name + type: TEXT | NUMBER | DOLLAR | DATE | LINK | DROPDOWN; `options` required for DROPDOWN; `allowMultiple` optional), synchronously. Returns the org custom-field catalog: find the new id by name (or listContactCustomFields), then write values via addCustomFieldValues (createContact) / updateCustomFieldValues (updateContact). A defaultValue fills every contact lacking a value, archived too, and stays if later changed; nothing counts them: ask first.
 
 ## Call
 

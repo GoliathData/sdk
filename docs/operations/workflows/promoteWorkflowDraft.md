@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Ship it: promote the workflow's current DRAFT to ACTIVE (live). Pauses the previously-active version AND its in-flight runs. Fails if there is no draft or the draft is invalid (see getWorkflow.draftValidation).
+Ship it: promote the workflow's current DRAFT to ACTIVE (live). MIGRATE (default) moves in-flight runs to the new version: on a kept step they continue with the new copy, on a removed step they finish, held by a pause they wake. PAUSE keeps them on the old version, whose copy they send if resumed. Fails without a valid draft (see getWorkflow.draftValidation).
 
 ## Call
 
@@ -20,6 +20,7 @@ const result = await client.workflows.promoteWorkflowDraft({ workflowGroupId: '<
 | Name | Type | Required | Default |
 |---|---|---|---|
 | `workflowGroupId` | `ID!` | yes | — |
+| `inFlightRunsStrategy` | `InFlightRunsStrategy` | no | MIGRATE |
 
 ## Gateway notes
 

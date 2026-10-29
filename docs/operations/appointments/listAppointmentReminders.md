@@ -4,7 +4,7 @@
 
 query · domain `appointments` · requires the READ scope
 
-List the organization's appointment reminders. Each reminder carries its `steps` — one SMS per step, each with its own message and amountBefore + unitBefore lead time, ordered longest lead time first. Use a reminder's id as appointmentReminderWorkflowGroupId in createAppointment/updateAppointment to attach it (the appointment responses echo it under the same name).
+The organization's appointment reminders: each with its `steps` (one SMS each, its message and amountBefore + unitBefore lead time, longest lead first) and isGlobal (true on the flagged default). The org DEFAULT reminder ("Run for every appointment") is attached automatically to booking-page and AI-employee bookings and preselected in the app's appointment form; NOT to appointments created through this API (pass its id as appointmentReminderWorkflowGroupId on createAppointment) nor to existing ones (updateAppointment attaches it). With none flagged and exactly ONE reminder, that one is the default anyway. Attach one by passing its id as appointmentReminderWorkflowGroupId to createAppointment/updateAppointment (the responses echo it under that name).
 
 ## Call
 
@@ -33,6 +33,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "amountBefore": true,
         "unitBefore": true
       },
+      "isGlobal": true,
       "createdAt": true
     }
   }

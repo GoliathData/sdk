@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Set the DISPLAY ORDER of the organization's contact custom fields. Affects presentation only — where the fields sit on the contact record and in the app's field lists; no field definition, dropdown option, or recorded contact value is touched, and nothing about filtering or automations changes. You must pass EVERY custom-field id the organization has, in the order you want them shown (first id = first position): call listContactCustomFields immediately before, reorder that complete id list, and send all of it. A partial list is rejected for the ids it left out, an id that is not a current custom field is rejected as unknown, and a list that repeats any id is rejected naming the repeat — every field must appear exactly once. This op cannot be used to reorder a subset.
+Set the DISPLAY ORDER of the organization's contact custom fields. Presentation only (where fields sit on the record and in the app's field lists): no definition, option or recorded value is touched, and filtering and automations are unchanged. Pass EVERY custom-field id the organization has, in display order (first id = first position): call listContactCustomFields immediately before, reorder that complete list, send all of it. A partial list is rejected for the ids it left out, an id that is not a current custom field as unknown, and a repeated id naming the repeat: every field appears exactly once. It cannot reorder a subset.
 
 ## Call
 

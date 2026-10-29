@@ -4,7 +4,7 @@
 
 query · domain `workflows` · requires the READ scope
 
-Performance summary for one workflow (by group id), lifetime, dry runs excluded: run counts by outcome (active/completed/paused/stopped/failed), messages sent, reply rate + positive/negative split, bounce rate, and last-run time. The headline "how is this automation doing" answer.
+Performance summary for one workflow (by group id), lifetime, dry runs excluded: run counts by outcome (active/completed/paused/stopped/failed), messages sent, reply rate with its positive/negative split, bounce rate and last-run time. The headline "how is this automation doing" answer.
 
 ## Call
 

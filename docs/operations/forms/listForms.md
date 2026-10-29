@@ -4,7 +4,7 @@
 
 query · domain `forms` · requires the READ scope
 
-List your organization's lead-capture forms (embed forms) - name, slug, status (DRAFT | ACTIVE | INACTIVE), lifetime submission count, and public URL. Use the returned id with getForm, listFormSubmissions, and getFormAnalytics.
+The org's lead-capture forms (embed forms): name, slug, status (DRAFT | ACTIVE | INACTIVE), lifetime submissions, public URL, folderId. The id feeds getForm, listFormSubmissions and getFormAnalytics.
 
 ## Call
 
@@ -36,6 +36,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "publicUrl": true,
       "shortUrl": true,
       "submissionCount": true,
+      "folderId": true,
       "createdAt": true,
       "updatedAt": true
     }

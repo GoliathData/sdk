@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Archive (soft-delete) contacts by id. Runs as an async bulk job — returns a bulkTaskId to poll with getBulkTask. Archived contacts drop out of the CRM but are recoverable, and unarchiveContacts is what recovers them (bulk); updateContact(isArchived: false) does one. Nothing is destroyed: notes, activities, tags and deals survive the archive and come back with the contact.
+Archive (soft-delete) contacts by id. Async bulk job: returns a bulkTaskId to poll with getBulkTask. Archived contacts drop out of the CRM but are recoverable: unarchiveContacts restores them (bulk), updateContact(isArchived: false) one. Nothing is destroyed: notes, activities, tags and deals survive and come back with the contact.
 
 ## Call
 

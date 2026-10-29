@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Edit an existing contact custom-field DEFINITION in place (by id from listContactCustomFields). THIS IS THE CORRECT WAY TO FIX A FIELD you created with the wrong name, description, dropdown options, or default — do not create a second field. Every field except the id is optional; whatever you omit is left untouched. The field's TYPE cannot be changed (a TEXT field can never become a DROPDOWN) — delete it and create a new one instead. `options` applies to DROPDOWN fields ONLY (sending it for any other type is rejected) and REPLACES the whole option list rather than appending: send every option you want to keep, each existing one as { id, label } (its id from listContactCustomFields, which both preserves any contact values already recorded against it and lets you RENAME it by changing the label), and each new one as { label } with no id. Any existing option you leave out is REMOVED; if contacts, filters, or workflows still reference a removed option the call is rejected until you pass optionDependencyResolutions — call getDeletionImpact with targetKind CONTACT_CUSTOM_FIELD_OPTION and targetId the option id, then hand back its impactVersion plus a replacement option for each. Changing `defaultValue` fills the contacts that currently show no value; contacts that already hold a real value are never rewritten. A default that is no longer one of the options is cleared. Names must be unique within the organization — a rename onto an existing field name is rejected. System-defined fields (e.g. Buyer/Seller) cannot be renamed and cannot lose their built-in options.
+Edit a contact custom-field DEFINITION in place (id from listContactCustomFields). THIS IS THE CORRECT WAY TO FIX A FIELD created with the wrong name, description, dropdown options or default; do not create a second field. Every field but the id is optional; omitted ones are untouched. `type` retypes it in place (same id), sent alone or with the `options` of a new DROPDOWN; refused once a contact has a value, anything uses it, it has a default, or it is a dropdown. `options` is for DROPDOWN fields ONLY (rejected on any other type) and REPLACES the whole option list: send every option to keep, each existing one as { id, label } (its id from listContactCustomFields, which keeps contact values recorded against it and lets you RENAME it by changing the label), each new one as { label } with no id. An existing option you leave out is REMOVED; if contacts, filters or workflows still reference it the call is rejected until you pass optionDependencyResolutions: call getDeletionImpact with targetKind CONTACT_CUSTOM_FIELD_OPTION and targetId the option id, then hand back its impactVersion plus a replacement option for each. Changing `defaultValue` fills contacts that show no value; a contact holding a real value is never rewritten. A default no longer among the options is cleared. Names are unique in the organization: a rename onto an existing field name is rejected. System-defined fields (e.g. Buyer/Seller, Source) cannot be renamed, deleted or lose their built-in options; `hideOnContactRecord: true` takes any field, system ones too, off the contact record (display only, values kept).
 
 ## Call
 
@@ -21,10 +21,13 @@ const result = await client.contacts.updateContactCustomField({ customFieldId: '
 |---|---|---|---|
 | `customFieldId` | `ID!` | yes | — |
 | `name` | `String` | no | — |
+| `type` | `ContactCustomFieldType` | no | — |
 | `description` | `String` | no | — |
 | `options` | `[UpsertCustomFieldOptionInput!]` | no | — |
 | `defaultValue` | `String` | no | — |
 | `optionDependencyResolutions` | `[DependencyResolutionInput!]` | no | — |
+| `matchInboundTextsByValue` | `Boolean` | no | — |
+| `hideOnContactRecord` | `Boolean` | no | — |
 
 ## Gateway notes
 
@@ -45,7 +48,9 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "description": true,
       "displayOrder": true,
       "allowMultiple": true,
-      "defaultValue": true
+      "defaultValue": true,
+      "matchInboundTextsByValue": true,
+      "hideOnContactRecord": true
     }
   }
 }

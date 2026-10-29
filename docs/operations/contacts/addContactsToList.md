@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Add contacts to one or more LISTS (segments) by list id, from searchContactTags `lists` / createContactList. The selection-wide form of updateContact’s addToListIds; removeContactsFromList is the twin. Async bulk job — returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact already on the list is skipped, not failed, so re-running is harmless. Pass LIST ids only — a free-form tag or custom-field id is refused at the gateway rather than silently dropped by the worker (which is what the underlying action does with one, completing the task having changed nothing). POTENTIALLY OUTBOUND: list membership publishes the same contact tags-changed event tags do, so a CONTACT workflow triggered on this list can start a run and send. Check the org’s workflows or confirm with the user before a large selection.
+Add contacts to one or more LISTS (segments) by list id (searchContactTags `lists` / createContactList): the selection-wide form of updateContact’s addToListIds; removeContactsFromList is the twin. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact already on the list is skipped, not failed, so re-running is harmless. LIST ids only: a free-form tag or custom-field id is refused at the gateway (the underlying worker would silently drop it and complete having changed nothing). POTENTIALLY OUTBOUND: list membership publishes the same tags-changed event tags do, so a CONTACT workflow triggered on this list can start a run and send. Check the org’s workflows or confirm with the user before a large selection.
 
 ## Call
 

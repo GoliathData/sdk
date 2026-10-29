@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the ADMIN scope
 
-Create a CRM contact from a property (by id/esId). This triggers skip-trace enrichment on the property and CONSUMES ONE SKIPTRACE CREDIT (real money) — requires the ADMIN scope, and the key owner must be a team admin. Returns the property with its linked contacts, including the newly created one.
+Create a CRM contact from a property (id/esId). It runs skip-trace enrichment on the property and CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction): ADMIN scope, and the key owner must be a team admin. Returns the property with its linked contacts, the new one included.
 
 ## Call
 

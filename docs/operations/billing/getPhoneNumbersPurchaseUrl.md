@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-The in-app Team & Phones page URL where a human registers and purchases phone numbers (Twilio/Esendex provisioning). The agent CANNOT buy numbers itself — send the user this link to add or register a number.
+The in-app Team & Phones page URL where a human registers and buys phone numbers. The agent cannot buy numbers.
 
 ## Call
 

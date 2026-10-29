@@ -4,7 +4,7 @@
 
 query · domain `contacts` · requires the READ scope
 
-List the organization's contact custom-field DEFINITIONS (id, name, type — TEXT/NUMBER/DOLLAR/DATE/LINK/DROPDOWN, dropdown options, allowMultiple, defaultValue). DEFINITIONS ONLY — no contact's recorded value appears here, and none is missing: to read what a contact answered, call getContact and read `customFields[].values` (or updateContact's response, which echoes the same shape). Use each id as the `customFieldId` in the addCustomFieldValues (createContact) / updateCustomFieldValues (updateContact) inputs to write one contact's value, or in setContactsCustomField to set a DROPDOWN across a whole selection. Create new definitions with createContactCustomField.
+The organization's contact custom-field DEFINITIONS (id, name, type: TEXT/NUMBER/DOLLAR/DATE/LINK/DROPDOWN, dropdown options, allowMultiple, defaultValue). DEFINITIONS ONLY: no contact's value appears here, and none is missing; a contact's answer is getContact `customFields[].values` (updateContact echoes the same shape). Each id is the `customFieldId` for addCustomFieldValues (createContact) / updateCustomFieldValues (updateContact) on one contact, or setContactsCustomField for a DROPDOWN across a selection. Create definitions with createContactCustomField.
 
 ## Call
 
@@ -37,7 +37,9 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       },
       "displayOrder": true,
       "allowMultiple": true,
-      "defaultValue": true
+      "defaultValue": true,
+      "matchInboundTextsByValue": true,
+      "hideOnContactRecord": true
     }
   }
 }
