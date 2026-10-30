@@ -2019,12 +2019,34 @@ export type ReorderVoicemailTemplateItemInput = {
   id: Scalars['ID']['input'];
 };
 
-/**
- * Classification of an inbound reply's intent. Mirrors the Prisma `ReplySentiment`
- * enum 1:1. POSITIVE/NEUTRAL/NEGATIVE are the genuine-reply quality buckets;
- * OPT_OUT (a compliance event) and UNREACHABLE (wrong number / auto-reply / OOO)
- * are kept separate so they never fold into "negative".
- */
+/** The detailed reason behind a reply value. */
+export type ReplyClassificationReason =
+  | 'ACKNOWLEDGED'
+  | 'ALREADY_SOLD'
+  | 'ASKED_TO_STOP'
+  | 'AUTO_REPLY_ONLY'
+  /** Set by rule from an open deal, never by the AI. */
+  | 'IN_A_DEAL'
+  | 'NAMED_PRICE'
+  | 'NEVER_REPLIED'
+  | 'NO'
+  | 'NOT_NOW'
+  | 'NOT_THE_OWNER'
+  | 'OTHER'
+  | 'QUESTION'
+  | 'WANTS_OFFER'
+  | 'WANTS_TALK'
+  | 'WRONG_NUMBER';
+
+/** The simple reply value (the Reply label), fixed by its reason. */
+export type ReplyClassificationValue =
+  | 'INTERESTED'
+  | 'NEUTRAL'
+  | 'NOT_INTERESTED'
+  | 'NO_REPLY'
+  | 'WRONG_PERSON';
+
+/** Deprecated: the old reply sentiments, derived from the reply reading. Read ReplyClassificationValue. */
 export type ReplySentiment =
   | 'NEGATIVE'
   | 'NEUTRAL'
@@ -4671,6 +4693,7 @@ export type ListInboxThreadsQueryVariables = Exact<{
   seen?: InputMaybe<Scalars['Boolean']['input']>;
   respondedOnly?: InputMaybe<Scalars['Boolean']['input']>;
   sentBy?: InputMaybe<Array<InboxSentBy> | InboxSentBy>;
+  replyValues?: InputMaybe<Array<ReplyClassificationValue> | ReplyClassificationValue>;
   replySentiments?: InputMaybe<Array<ReplySentiment> | ReplySentiment>;
   optedOut?: InputMaybe<InboxOptedOutScope>;
   searchTerm?: InputMaybe<Scalars['String']['input']>;
@@ -4681,7 +4704,7 @@ export type ListInboxThreadsQueryVariables = Exact<{
   emailCursor?: InputMaybe<CursorInput>;
 }>;
 
-export type ListInboxThreadsQuery = { __typename?: 'RootQuery', inboxQuery?: { __typename?: 'InboxQuery', paginateInbox?: { __typename?: 'InboxCursorPage', items?: Array<{ __typename?: 'InboxItem', id: string, type: InboxItemType, createdAt: any, createdAtLocal?: string | null, seen: boolean, contactName?: string | null, contactE164PhoneNumber?: string | null, phoneLineId?: string | null, emailThreadId?: string | null, direction?: CommunicationDirection | null, replySentiment?: ReplySentiment | null, isStarred?: boolean | null, isNeedsReplyHandled?: boolean | null, status?: CallStatus | null, durationSeconds?: number | null, summary?: string | null, hasRecording?: boolean | null, groupCount?: number | null, groupedCallIds?: Array<string> | null, subject?: string | null, snippet?: string | null, fromEmail?: string | null, fromName?: string | null, toEmails?: Array<string> | null, isRead?: boolean | null, potentialContacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, mostRecentMessage?: { __typename?: 'TwilioMessage', id: string, message?: string | null, direction?: CommunicationDirection | null, status?: TextMessageStatus | null, createdAt?: any | null, createdAtLocal?: string | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null } | null, recentInbound?: Array<{ __typename?: 'InboxInboundText', body: string, at: any, atLocal?: string | null }> | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null, nextCallCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextSmsCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextEmailCursor?: { __typename?: 'Cursor', date: any, id: string } | null } | null } | null };
+export type ListInboxThreadsQuery = { __typename?: 'RootQuery', inboxQuery?: { __typename?: 'InboxQuery', paginateInbox?: { __typename?: 'InboxCursorPage', items?: Array<{ __typename?: 'InboxItem', id: string, type: InboxItemType, createdAt: any, createdAtLocal?: string | null, seen: boolean, contactName?: string | null, contactE164PhoneNumber?: string | null, phoneLineId?: string | null, emailThreadId?: string | null, direction?: CommunicationDirection | null, replySentiment?: ReplySentiment | null, isStarred?: boolean | null, isNeedsReplyHandled?: boolean | null, status?: CallStatus | null, durationSeconds?: number | null, summary?: string | null, hasRecording?: boolean | null, groupCount?: number | null, groupedCallIds?: Array<string> | null, subject?: string | null, snippet?: string | null, fromEmail?: string | null, fromName?: string | null, toEmails?: Array<string> | null, isRead?: boolean | null, potentialContacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, mostRecentMessage?: { __typename?: 'TwilioMessage', id: string, message?: string | null, direction?: CommunicationDirection | null, status?: TextMessageStatus | null, createdAt?: any | null, createdAtLocal?: string | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null } | null, recentInbound?: Array<{ __typename?: 'InboxInboundText', body: string, at: any, atLocal?: string | null }> | null, reply?: { __typename?: 'ReplyReading', value: ReplyClassificationValue, reason: ReplyClassificationReason, changedAt: any, reasonChangedAt: any, basedOn?: string | null } | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null, nextCallCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextSmsCursor?: { __typename?: 'Cursor', date: any, id: string } | null, nextEmailCursor?: { __typename?: 'Cursor', date: any, id: string } | null } | null } | null };
 
 export type GetTextThreadMessagesQueryVariables = Exact<{
   contactPhoneNumber: Scalars['String']['input'];
