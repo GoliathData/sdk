@@ -1054,6 +1054,7 @@ export type DependencyImpactGroupKind =
   | 'PIPELINE_LAYOUT'
   | 'TASK'
   | 'TASK_SET_STEPS'
+  | 'TEAM_BOARDS'
   | 'WORKFLOW_AUTOMATION'
   | 'WORKFLOW_TABLE_ROW';
 
