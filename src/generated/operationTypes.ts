@@ -431,6 +431,12 @@ export type AssignmentPolicyOwnerKind =
   | 'WORKFLOW';
 
 export type BeginSpaceUploadInput = {
+  /**
+   * Upload a picture this file's editor holds (an AI edit, a photo drawn with its edits): filed under
+   * the file, never listed, and trashed, moved and shared with it. It goes in the file's own space,
+   * whatever spaceId says.
+   */
+  assetOfItemId?: InputMaybe<Scalars['ID']['input']>;
   contentType?: InputMaybe<Scalars['String']['input']>;
   fileName: Scalars['String']['input'];
   folderId?: InputMaybe<Scalars['ID']['input']>;
