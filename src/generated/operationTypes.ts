@@ -2906,6 +2906,11 @@ export type WorkThroughFamily =
   | 'CONTRACT_HELD'
   /** A contract out for signature whose turn is the viewer's: signed on the signing page, opened over the card. */
   | 'CONTRACT_SIGNATURE'
+  /**
+   * Sales org only: a Customer Success request card in "Needs a person", with the reason it waits and its brief
+   * (`customerRequest`). Opened on the board; nothing is decided on the card.
+   */
+  | 'CUSTOMER_REQUEST'
   /** First run: the experiences card. */
   | 'GETTING_STARTED_EXPERIENCES'
   /** First run: watch the Dashboard tour video. */
