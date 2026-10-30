@@ -5684,7 +5684,7 @@ export type GetFormQueryVariables = Exact<{
   formId: Scalars['ID']['input'];
 }>;
 
-export type GetFormQuery = { __typename?: 'RootQuery', embedFormQuery?: { __typename?: 'EmbedFormQuery', get?: { __typename?: 'EmbedForm', id: string, name: string, slug?: string | null, status: EmbedFormStatus, publicUrl: string, shortUrl?: string | null, submissionCount: number, source?: string | null, ownerType: EmbedFormOwnerType, headerText?: string | null, descriptionText?: string | null, submitButtonLabel?: string | null, successMessage?: string | null, fieldConfig: any, styleConfig?: any | null, autoTagIds: Array<string>, autoListIds: Array<string>, allowDuplicateContact: boolean, dedupePrimaryField: EmbedFormDedupeField, dedupeSecondaryField?: EmbedFormDedupeField | null, enableEmailNotification: boolean, enableSmsNotification: boolean, enableSlackNotification: boolean, slackChannelId?: string | null, slackChannelName?: string | null, slackMessageTemplate?: string | null, collectSmsConsent: boolean, smsTransactionalConsentText?: string | null, smsMarketingConsentText?: string | null, smsDisclaimerText?: string | null, showMarketingConsent: boolean, marketingConsentText?: string | null, termsAndConditionsText?: string | null, privacyPolicyUrl?: string | null, termsOfServiceUrl?: string | null, privacyPolicyContent?: string | null, termsOfServiceContent?: string | null, showPoweredBy: boolean, gtmContainerId?: string | null, createdAt: any, updatedAt: any, triggerAgents?: Array<{ __typename?: 'EmbedFormTriggerAgent', id: string, name: string, status: ContactAgentStatus }> | null, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', teamIds: Array<string>, participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean } | null }> } } | null } | null };
+export type GetFormQuery = { __typename?: 'RootQuery', embedFormQuery?: { __typename?: 'EmbedFormQuery', get?: { __typename?: 'EmbedForm', id: string, name: string, slug?: string | null, status: EmbedFormStatus, publicUrl: string, shortUrl?: string | null, submissionCount: number, source?: string | null, ownerType: EmbedFormOwnerType, headerText?: string | null, descriptionText?: string | null, submitButtonLabel?: string | null, successMessage?: string | null, successSubtitle?: string | null, successIcon?: string | null, successIconColor?: string | null, fieldConfig: any, styleConfig?: any | null, autoTagIds: Array<string>, autoListIds: Array<string>, allowDuplicateContact: boolean, dedupePrimaryField: EmbedFormDedupeField, dedupeSecondaryField?: EmbedFormDedupeField | null, enableEmailNotification: boolean, enableSmsNotification: boolean, enableSlackNotification: boolean, slackChannelId?: string | null, slackChannelName?: string | null, slackMessageTemplate?: string | null, collectSmsConsent: boolean, smsTransactionalConsentText?: string | null, smsMarketingConsentText?: string | null, smsDisclaimerText?: string | null, showMarketingConsent: boolean, marketingConsentText?: string | null, termsAndConditionsText?: string | null, privacyPolicyUrl?: string | null, termsOfServiceUrl?: string | null, privacyPolicyContent?: string | null, termsOfServiceContent?: string | null, showPoweredBy: boolean, gtmContainerId?: string | null, createdAt: any, updatedAt: any, triggerAgents?: Array<{ __typename?: 'EmbedFormTriggerAgent', id: string, name: string, status: ContactAgentStatus }> | null, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', teamIds: Array<string>, participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean } | null }> } } | null } | null };
 
 export type ListFormSubmissionsQueryVariables = Exact<{
   formId?: InputMaybe<Scalars['ID']['input']>;
@@ -5752,6 +5752,9 @@ export type CreateFormMutationVariables = Exact<{
   descriptionText?: InputMaybe<Scalars['String']['input']>;
   submitButtonLabel?: InputMaybe<Scalars['String']['input']>;
   successMessage?: InputMaybe<Scalars['String']['input']>;
+  successSubtitle?: InputMaybe<Scalars['String']['input']>;
+  successIcon?: InputMaybe<Scalars['String']['input']>;
+  successIconColor?: InputMaybe<Scalars['String']['input']>;
   styleConfig?: InputMaybe<Scalars['JSON']['input']>;
   autoTagIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
   autoListIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
@@ -5792,6 +5795,9 @@ export type UpdateFormMutationVariables = Exact<{
   descriptionText?: InputMaybe<Scalars['String']['input']>;
   submitButtonLabel?: InputMaybe<Scalars['String']['input']>;
   successMessage?: InputMaybe<Scalars['String']['input']>;
+  successSubtitle?: InputMaybe<Scalars['String']['input']>;
+  successIcon?: InputMaybe<Scalars['String']['input']>;
+  successIconColor?: InputMaybe<Scalars['String']['input']>;
   styleConfig?: InputMaybe<Scalars['JSON']['input']>;
   autoTagIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
   autoListIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
