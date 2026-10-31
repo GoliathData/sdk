@@ -382,6 +382,8 @@ export type AppointmentCalendarSyncStatus =
 export type AppointmentReminderStepInput = {
   amountBefore: Scalars['Int']['input'];
   message: Scalars['String']['input'];
+  /** Send only while unconfirmed. Omitted: unchanged. */
+  onlyIfUnconfirmed?: InputMaybe<Scalars['Boolean']['input']>;
   unitBefore: AppointmentReminderTimeUnit;
 };
 
