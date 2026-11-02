@@ -2959,6 +2959,7 @@ export type WorkThroughFamily =
   | 'PROMPT_UPDATE'
   /** An open question an AI employee asked a person. */
   | 'QUESTION'
+  | 'QUIET_ACCOUNT'
   /** Outreach (A): buy more numbers so texts held by one number's daily limit go out. Spends money. */
   | 'SENDING_ROOM'
   /** Outreach (B): skip trace a saved property filter into a workflow. Spends skip trace credits (`costCredits`). */
