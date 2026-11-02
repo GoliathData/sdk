@@ -1869,7 +1869,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "filterId:ID,filterTree:JSON,limit:Int=25,offset:Int=0,sort:Sort",
-    "responseShape": "{\"contactQuery\":{\"paginateContacts\":{\"items\":{\"id\":true,\"name\":true,\"sellerIntentScore\":true,\"isArchived\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"tags\":{\"id\":true,\"name\":true},\"phoneNumbers\":{\"phoneNumber\":true,\"suppressedMediums\":true},\"emails\":{\"email\":true},\"participants\":{\"status\":true,\"user\":{\"firstName\":true,\"lastName\":true}},\"properties\":{\"propertyString\":true,\"verificationStatus\":true,\"property\":{\"id\":true}}},\"pagination\":{\"total\":true,\"hasMore\":true}}}}"
+    "responseShape": "{\"contactQuery\":{\"paginateContacts\":{\"items\":{\"id\":true,\"name\":true,\"lastOutboundTextAt\":true,\"lastOutboundCallAt\":true,\"lastOutboundEmailAt\":true,\"sellerIntentScore\":true,\"isArchived\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"tags\":{\"id\":true,\"name\":true},\"phoneNumbers\":{\"phoneNumber\":true,\"suppressedMediums\":true},\"emails\":{\"email\":true},\"participants\":{\"status\":true,\"user\":{\"firstName\":true,\"lastName\":true}},\"properties\":{\"propertyString\":true,\"verificationStatus\":true,\"property\":{\"id\":true}}},\"pagination\":{\"total\":true,\"hasMore\":true}}}}"
   },
   {
     "operationId": "findContactDataProblems",

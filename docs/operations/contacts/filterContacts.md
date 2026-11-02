@@ -40,6 +40,9 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "items": {
         "id": true,
         "name": true,
+        "lastOutboundTextAt": true,
+        "lastOutboundCallAt": true,
+        "lastOutboundEmailAt": true,
         "sellerIntentScore": true,
         "isArchived": true,
         "doNotContact": true,
