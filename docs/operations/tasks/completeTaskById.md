@@ -4,7 +4,7 @@
 
 mutation · domain `tasks` · requires the WRITE scope
 
-Complete a task by taskId ALONE, for tasks with NO contact (listMyTasks contact: null; typically deal tasks). Returns the task. isCompleted: false reopens. It REFUSES a task with a contact (it would skip the timeline entry): use completeTask. A contact-less APPOINTMENT completes too (type says so); no task count includes it. It only completes tasks YOU are on: a non-admin key gets a permission error for someone else's. Confirm with the user first.
+Complete a task by taskId ALONE. Returns the task. isCompleted: false reopens. A task with a contact is completed on your org's copy of that contact, which gets the timeline entry, so no contactId is needed. A contact-less APPOINTMENT completes too (type says so); no task count includes it. It only completes tasks YOU are on: a non-admin key gets a permission error for someone else's. Confirm with the user first.
 
 ## Call
 

@@ -4351,7 +4351,7 @@ export class GoliathClient extends GoliathClientCore {
     clearStaleWorkflowTasks: (variables: T.ClearStaleWorkflowTasksMutationVariables, options?: IdempotentRequestOptions): Promise<T.ClearStaleWorkflowTasksMutation> =>
       this.request('clearStaleWorkflowTasks', variables, options, { operationType: 'mutation' }),
     /**
-     * Mark a task complete by taskId + its contactId (listMyTasks/listContactTasks). USE THIS whenever the task has a contact: it also writes the completion to the contact's timeline, and the response echoes the contact's tasks with completedAt, to confirm and show what's open. Synchronous. isCompleted: false reopens. The task must be on that contact. A task listed with contact: null has no contactId: use completeTaskById. Confirm with the user before completing anything for them.
+     * Mark a task complete by taskId + its contactId (listMyTasks/listContactTasks): the completion goes on that contact's timeline, and the response echoes the contact's tasks with completedAt, to confirm and show what's open. Synchronous. isCompleted: false reopens. The task must be on that contact. A task listed with contact: null has no contactId: use completeTaskById, which also completes any task by id alone. Confirm with the user before completing anything for them.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4360,7 +4360,7 @@ export class GoliathClient extends GoliathClientCore {
     completeTask: (variables: T.CompleteTaskMutationVariables, options?: IdempotentRequestOptions): Promise<T.CompleteTaskMutation> =>
       this.request('completeTask', variables, options, { operationType: 'mutation' }),
     /**
-     * Complete a task by taskId ALONE, for tasks with NO contact (listMyTasks contact: null; typically deal tasks). Returns the task. isCompleted: false reopens. It REFUSES a task with a contact (it would skip the timeline entry): use completeTask. A contact-less APPOINTMENT completes too (type says so); no task count includes it. It only completes tasks YOU are on: a non-admin key gets a permission error for someone else's. Confirm with the user first.
+     * Complete a task by taskId ALONE. Returns the task. isCompleted: false reopens. A task with a contact is completed on your org's copy of that contact, which gets the timeline entry, so no contactId is needed. A contact-less APPOINTMENT completes too (type says so); no task count includes it. It only completes tasks YOU are on: a non-admin key gets a permission error for someone else's. Confirm with the user first.
      *
      * @remarks Requires the WRITE scope.
      *
