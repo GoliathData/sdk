@@ -1748,6 +1748,7 @@ export type PipelineItemActivityEventType =
   | 'DEAL_ARCHIVED'
   | 'DEAL_CREATED'
   | 'DEAL_RESTORED'
+  | 'DESCRIPTION_CHANGED'
   | 'FILE_ADDED'
   | 'FILE_REMOVED'
   | 'PIPELINE_ITEM_ARCHIVED'
