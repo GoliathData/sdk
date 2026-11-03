@@ -4,7 +4,7 @@
 
 query · domain `account` · requires the READ scope
 
-Your organization's profile and org-wide settings in one read: name, booking-link `slug`, `websiteUrl`, `timezone` (null = never set, not UTC), `alwaysExcludeDncTexts` (texts skip National DNC numbers), `aiCoOwnedLineHeadStartSeconds`, `textReplyLinePolicy` and `callLinePolicy` (which line a text or a manual dial defaults to), `inboxDefaultView`, `suggestionAudience`, `meetingNotetakerEnabled`, `outboundPause` (null = sending is on; else when and by whom everything was paused), `leadRouting.assigneeUserIds` (who gets new skip-traced leads; empty = nobody).
+Your organization's profile and org-wide settings in one read: name, booking-link `slug`, `websiteUrl`, `timezone` (null = never set, not UTC), `alwaysExcludeDncTexts` (texts skip National DNC numbers), `aiCoOwnedLineHeadStartSeconds`, `textReplyLinePolicy` and `callLinePolicy` (which line a text or a manual dial defaults to), `inboxDefaultView`, `suggestionAudience`, `meetingNotetakerEnabled`, `outboundPause` (null = sending is on; else when and by whom everything was paused), `leadRouting.assigneeUserIds` (who gets new skip-traced leads; empty = nobody). `meetingNotetakerEnabled` and `leadRouting` are null when the key owner does not hold VIEW_ORGANIZATION_SETTINGS (or CAN_MANAGE_SPENDING): withheld, not off or nobody, so say a team admin can show them.
 
 ## Call
 
