@@ -35,7 +35,7 @@
     "smoke:staging": "node scripts/smoke.mjs"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
+    "@types/node": "^26.6.6",
     "typescript": "^7.0.2",
     "vite": "^8.2.0",
     "vitest": "5.0.1",
