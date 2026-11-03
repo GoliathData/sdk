@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Delete a reply for good. Same authorship rule as editContactNote. Returns the replies left.
+Delete a reply for good. Same authorship rule as editContactNote. Returns the replies left, or null (still deleted) when you can no longer read the note.
 
 ## Call
 

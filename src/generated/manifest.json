@@ -5758,7 +5758,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Delete a reply for good. Same authorship rule as editContactNote. Returns the replies left.",
+      "description": "Delete a reply for good. Same authorship rule as editContactNote. Returns the replies left, or null (still deleted) when you can no longer read the note.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
