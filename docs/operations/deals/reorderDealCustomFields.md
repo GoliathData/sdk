@@ -4,7 +4,7 @@
 
 mutation · domain `deals` · requires the WRITE scope
 
-Set the display order of one pipeline's custom fields: pass every field id of that pipeline (listDealCustomFields), first = top. An id from another pipeline is refused. Presentation only: no value, filter or workflow changes.
+Set the display order of one pipeline's custom fields: pass every field id of that pipeline (listDealCustomFields), first = top. An id from another pipeline is refused. Presentation only: no value, filter or workflow changes. Org admins only.
 
 ## Call
 
