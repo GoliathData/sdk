@@ -16464,6 +16464,48 @@
       }
     },
     {
+      "operationId": "setQuietHours",
+      "domain": "notifications",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Your quiet hours, in minutes after local midnight (0 to 1410, multiples of 30; default 1260 to 480; start equal to end is no window). Scheduled task results wait until they end; answers to your own asks do not.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "enabled",
+          "type": "Boolean!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "startMinute",
+          "type": "Int!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "endMinute",
+          "type": "Int!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "notificationMutation": {
+          "setQuietHours": {
+            "id": true,
+            "quietHoursEnabled": true,
+            "quietHoursStartMinute": true,
+            "quietHoursEndMinute": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "skipOnToday",
       "domain": "notifications",
       "operationType": "mutation",
@@ -19653,7 +19695,7 @@
       "domain": "scheduledTasks",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, its chat (`sessionId`) and whether it is `running` now.",
+      "description": "One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, `pushResults` (a run with something to say pushes its owner), its chat (`sessionId`) and whether it is `running` now.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -19689,6 +19731,7 @@
             "tags": true,
             "expiresAt": true,
             "notifyOnlyOnChange": true,
+            "pushResults": true,
             "createdAt": true,
             "mine": true,
             "canEdit": true,
@@ -19872,6 +19915,12 @@
           "type": "Boolean",
           "required": false,
           "defaultValue": null
+        },
+        {
+          "name": "pushResults",
+          "type": "Boolean",
+          "required": false,
+          "defaultValue": null
         }
       ],
       "responseShape": {
@@ -19885,7 +19934,8 @@
             "nextRunAt": true,
             "tags": true,
             "expiresAt": true,
-            "notifyOnlyOnChange": true
+            "notifyOnlyOnChange": true,
+            "pushResults": true
           }
         }
       }

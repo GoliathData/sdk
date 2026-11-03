@@ -4732,6 +4732,19 @@
     "responseShape": "{\"notificationMutation\":{\"setEmailDigestCadence\":{\"id\":true,\"emailDigestCadence\":true}}}"
   },
   {
+    "operationId": "setQuietHours",
+    "domain": "notifications",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "enabled:Boolean!,startMinute:Int!,endMinute:Int!",
+    "responseShape": "{\"notificationMutation\":{\"setQuietHours\":{\"id\":true,\"quietHoursEnabled\":true,\"quietHoursStartMinute\":true,\"quietHoursEndMinute\":true}}}"
+  },
+  {
     "operationId": "skipOnToday",
     "domain": "notifications",
     "operationType": "mutation",
@@ -5730,7 +5743,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "taskId:ID!",
-    "responseShape": "{\"scheduledTaskQuery\":{\"scheduledTask\":{\"id\":true,\"title\":true,\"instruction\":true,\"status\":true,\"cadence\":true,\"cronExpression\":true,\"timezone\":true,\"oneOffAt\":true,\"schedule\":true,\"nextRunAt\":true,\"lastRunAt\":true,\"runCount\":true,\"ownerUserId\":true,\"ownerName\":true,\"sessionId\":true,\"abilities\":true,\"tags\":true,\"expiresAt\":true,\"notifyOnlyOnChange\":true,\"createdAt\":true,\"mine\":true,\"canEdit\":true,\"running\":true}}}"
+    "responseShape": "{\"scheduledTaskQuery\":{\"scheduledTask\":{\"id\":true,\"title\":true,\"instruction\":true,\"status\":true,\"cadence\":true,\"cronExpression\":true,\"timezone\":true,\"oneOffAt\":true,\"schedule\":true,\"nextRunAt\":true,\"lastRunAt\":true,\"runCount\":true,\"ownerUserId\":true,\"ownerName\":true,\"sessionId\":true,\"abilities\":true,\"tags\":true,\"expiresAt\":true,\"notifyOnlyOnChange\":true,\"pushResults\":true,\"createdAt\":true,\"mine\":true,\"canEdit\":true,\"running\":true}}}"
   },
   {
     "operationId": "listScheduledTasks",
@@ -5781,8 +5794,8 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "taskId:ID!,title:String,instruction:String,timing:ScheduledTaskTimingInput,tags:[String!],expiresAt:DateTime,clearExpiresAt:Boolean,notifyOnlyOnChange:Boolean",
-    "responseShape": "{\"scheduledTaskMutation\":{\"updateScheduledTask\":{\"id\":true,\"title\":true,\"instruction\":true,\"status\":true,\"schedule\":true,\"nextRunAt\":true,\"tags\":true,\"expiresAt\":true,\"notifyOnlyOnChange\":true}}}"
+    "variableSignature": "taskId:ID!,title:String,instruction:String,timing:ScheduledTaskTimingInput,tags:[String!],expiresAt:DateTime,clearExpiresAt:Boolean,notifyOnlyOnChange:Boolean,pushResults:Boolean",
+    "responseShape": "{\"scheduledTaskMutation\":{\"updateScheduledTask\":{\"id\":true,\"title\":true,\"instruction\":true,\"status\":true,\"schedule\":true,\"nextRunAt\":true,\"tags\":true,\"expiresAt\":true,\"notifyOnlyOnChange\":true,\"pushResults\":true}}}"
   },
   {
     "operationId": "addMemoryNote",

@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-625 operations across 29 domains — small enough to read whole. One line each:
+626 operations across 29 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -434,6 +434,7 @@ Full detail per operation (variables, call example, gateway notes, response shap
 - `markNotificationsRead` (mutation, WRITE) [idempotent] — Mark specific notifications read or unread by id. Pass isSeen: true to mark read (clears them from the unread badge) or false to mark unread. notificationIds come from listNotifications. Only your own notifications are affected — a notification id belonging to another user is a silent no-op, never an error. Returns the updated {id, seen} for each row that changed.
 - `markWrongOnToday` (mutation, WRITE) [idempotent] — "This is wrong": a hide with the person's reason and an optional note (at most 280 characters). subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY.
 - `setEmailDigestCadence` (mutation, WRITE) [idempotent] — When your notification emails go out: AS_IT_HAPPENS (one email a few minutes after a notification) or DAILY (one email each morning at 8am in your timezone; AI hand-offs and workflow pages still arrive right away). Yours only.
+- `setQuietHours` (mutation, WRITE) [idempotent] — Your quiet hours, in minutes after local midnight (0 to 1410, multiples of 30; default 1260 to 480; start equal to end is no window). Scheduled task results wait until they end; answers to your own asks do not.
 - `skipOnToday` (mutation, WRITE) [idempotent] — "Not now": the row leaves the key owner's Today until their next local day, or sooner when something newer happens (anchorAt: when the row's event happened). subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY.
 - `undoCatchUpDecision` (mutation, WRITE) [idempotent] — Take back a decideCatchUpCard: the same cardId and verb, `suggestionIds` the rows it decided (its ticked rows less `remainingIds`), and for an ACCEPT `setAsideIds` its unticked `shownIds` (only rows it set aside come back). Dismissals and set-asides come back; an applied row (a merge, a spend, a send) stands and is counted in `refused`. Card decisions only: trust and memory moves are the person's, in the app.
 - `unhideOnToday` (mutation, WRITE) [idempotent] — Show a row again: undoes a skip, hide or "this is wrong". subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY. To undo hideTaskSourceOnToday instead, send that source's GRN with kind TODAY_TASKS.
@@ -522,7 +523,7 @@ Full detail per operation (variables, call example, gateway notes, response shap
 
 - `createScheduledTask` (mutation, WRITE) [idempotent] — Schedule Ask Goliath to run `instruction` as the key owner: give exactly one of `cronExpression` (recurring, 5 fields) or `fireAt` (once), read in `timezone` (IANA). Optional `expiresAt` (it stops after). Each run asks the owner before any action (no abilities). Refused while scheduled tasks are off for the workspace.
 - `deleteScheduledTask` (mutation, WRITE) [idempotent] — Delete a scheduled task for good (its chat stays). To stop it for now, pauseScheduledTask. Only the task's owner or an org admin may change it (`canEdit`).
-- `getScheduledTask` (query, READ) — One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, its chat (`sessionId`) and whether it is `running` now.
+- `getScheduledTask` (query, READ) — One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, `pushResults` (a run with something to say pushes its owner), its chat (`sessionId`) and whether it is `running` now.
 - `listScheduledTasks` (query, READ) — Every scheduled task in your organization (yours first, then teammates', newest first), each a chat that runs Ask Goliath on a schedule as its owner: title, `status` (ACTIVE, PAUSED, PAUSED_ERRORS after repeated failures, EXHAUSTED when finished), `cadence` (ONE_OFF or RECURRING), `schedule` in words, `nextRunAt`, `lastRunAt`, `runCount`, owner, tags, and `canEdit`. Narrow by `ownerUserId`, `tag`, `statuses` or `cadence`. getScheduledTask reads one with its instruction.
 - `pauseScheduledTask` (mutation, WRITE) [idempotent] — Pause a scheduled task: it stops running until resumed. Only the task's owner or an org admin may change it (`canEdit`).
 - `resumeScheduledTask` (mutation, WRITE) [idempotent] — Resume a paused task from its next occurrence; missed runs are not made up. Only the task's owner or an org admin may change it (`canEdit`).

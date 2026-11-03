@@ -3175,6 +3175,15 @@ export class GoliathClient extends GoliathClientCore {
     setEmailDigestCadence: (variables: T.SetEmailDigestCadenceMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetEmailDigestCadenceMutation> =>
       this.request('setEmailDigestCadence', variables, options, { operationType: 'mutation' }),
     /**
+     * Your quiet hours, in minutes after local midnight (0 to 1410, multiples of 30; default 1260 to 480; start equal to end is no window). Scheduled task results wait until they end; answers to your own asks do not.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setQuietHours: (variables: T.SetQuietHoursMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetQuietHoursMutation> =>
+      this.request('setQuietHours', variables, options, { operationType: 'mutation' }),
+    /**
      * "Not now": the row leaves the key owner's Today until their next local day, or sooner when something newer happens (anchorAt: when the row's event happened). subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY.
      *
      * @remarks Requires the WRITE scope.
@@ -3823,7 +3832,7 @@ export class GoliathClient extends GoliathClientCore {
     deleteScheduledTask: (variables: T.DeleteScheduledTaskMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteScheduledTaskMutation> =>
       this.request('deleteScheduledTask', variables, options, { operationType: 'mutation' }),
     /**
-     * One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, its chat (`sessionId`) and whether it is `running` now.
+     * One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, `pushResults` (a run with something to say pushes its owner), its chat (`sessionId`) and whether it is `running` now.
      *
      * @remarks Requires the READ scope.
      */

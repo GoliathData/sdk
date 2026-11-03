@@ -5925,6 +5925,14 @@ export type SetEmailDigestCadenceMutationVariables = Exact<{
 
 export type SetEmailDigestCadenceMutation = { __typename?: 'RootMutation', notificationMutation?: { __typename?: 'NotificationMutation', setEmailDigestCadence?: { __typename?: 'UserNotificationPreference', id: string, emailDigestCadence: EmailDigestCadence } | null } | null };
 
+export type SetQuietHoursMutationVariables = Exact<{
+  enabled: Scalars['Boolean']['input'];
+  startMinute: Scalars['Int']['input'];
+  endMinute: Scalars['Int']['input'];
+}>;
+
+export type SetQuietHoursMutation = { __typename?: 'RootMutation', notificationMutation?: { __typename?: 'NotificationMutation', setQuietHours?: { __typename?: 'UserNotificationPreference', id: string, quietHoursEnabled: boolean, quietHoursStartMinute: number, quietHoursEndMinute: number } | null } | null };
+
 export type MarkAllNotificationsReadMutationVariables = Exact<{
   userId: Scalars['String']['input'];
   isSeen: Scalars['Boolean']['input'];
@@ -6464,7 +6472,7 @@ export type GetScheduledTaskQueryVariables = Exact<{
   taskId: Scalars['ID']['input'];
 }>;
 
-export type GetScheduledTaskQuery = { __typename?: 'RootQuery', scheduledTaskQuery?: { __typename?: 'ScheduledTaskQuery', scheduledTask?: { __typename?: 'ScheduledTask', id: string, title: string, instruction: string, status: ScheduledTaskStatus, cadence: ScheduledTaskCadence, cronExpression: string, timezone: string, oneOffAt?: any | null, schedule: string, nextRunAt?: any | null, lastRunAt?: any | null, runCount: number, ownerUserId?: string | null, ownerName: string, sessionId?: string | null, abilities: Array<string>, tags: Array<string>, expiresAt?: any | null, notifyOnlyOnChange: boolean, createdAt: any, mine: boolean, canEdit: boolean, running: boolean } | null } | null };
+export type GetScheduledTaskQuery = { __typename?: 'RootQuery', scheduledTaskQuery?: { __typename?: 'ScheduledTaskQuery', scheduledTask?: { __typename?: 'ScheduledTask', id: string, title: string, instruction: string, status: ScheduledTaskStatus, cadence: ScheduledTaskCadence, cronExpression: string, timezone: string, oneOffAt?: any | null, schedule: string, nextRunAt?: any | null, lastRunAt?: any | null, runCount: number, ownerUserId?: string | null, ownerName: string, sessionId?: string | null, abilities: Array<string>, tags: Array<string>, expiresAt?: any | null, notifyOnlyOnChange: boolean, pushResults: boolean, createdAt: any, mine: boolean, canEdit: boolean, running: boolean } | null } | null };
 
 export type CreateScheduledTaskMutationVariables = Exact<{
   title: Scalars['String']['input'];
@@ -6486,9 +6494,10 @@ export type UpdateScheduledTaskMutationVariables = Exact<{
   expiresAt?: InputMaybe<Scalars['DateTime']['input']>;
   clearExpiresAt?: InputMaybe<Scalars['Boolean']['input']>;
   notifyOnlyOnChange?: InputMaybe<Scalars['Boolean']['input']>;
+  pushResults?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
-export type UpdateScheduledTaskMutation = { __typename?: 'RootMutation', scheduledTaskMutation?: { __typename?: 'ScheduledTaskMutation', updateScheduledTask?: { __typename?: 'ScheduledTask', id: string, title: string, instruction: string, status: ScheduledTaskStatus, schedule: string, nextRunAt?: any | null, tags: Array<string>, expiresAt?: any | null, notifyOnlyOnChange: boolean } | null } | null };
+export type UpdateScheduledTaskMutation = { __typename?: 'RootMutation', scheduledTaskMutation?: { __typename?: 'ScheduledTaskMutation', updateScheduledTask?: { __typename?: 'ScheduledTask', id: string, title: string, instruction: string, status: ScheduledTaskStatus, schedule: string, nextRunAt?: any | null, tags: Array<string>, expiresAt?: any | null, notifyOnlyOnChange: boolean, pushResults: boolean } | null } | null };
 
 export type PauseScheduledTaskMutationVariables = Exact<{
   taskId: Scalars['ID']['input'];

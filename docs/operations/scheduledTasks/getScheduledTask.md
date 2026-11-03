@@ -4,7 +4,7 @@
 
 query · domain `scheduledTasks` · requires the READ scope
 
-One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, its chat (`sessionId`) and whether it is `running` now.
+One scheduled task by id (listScheduledTasks): its `instruction` (what Ask Goliath is told on every run), `cronExpression` and `timezone` (a one-off has `oneOffAt`), `abilities` (actions its runs may take without asking), `expiresAt`, `notifyOnlyOnChange`, `pushResults` (a run with something to say pushes its owner), its chat (`sessionId`) and whether it is `running` now.
 
 ## Call
 
@@ -48,6 +48,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "tags": true,
       "expiresAt": true,
       "notifyOnlyOnChange": true,
+      "pushResults": true,
       "createdAt": true,
       "mine": true,
       "canEdit": true,

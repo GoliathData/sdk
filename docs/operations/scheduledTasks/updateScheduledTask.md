@@ -27,6 +27,7 @@ const result = await client.scheduledTasks.updateScheduledTask({ taskId: '<id>' 
 | `expiresAt` | `DateTime` | no | — |
 | `clearExpiresAt` | `Boolean` | no | — |
 | `notifyOnlyOnChange` | `Boolean` | no | — |
+| `pushResults` | `Boolean` | no | — |
 
 ## Gateway notes
 
@@ -48,7 +49,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "nextRunAt": true,
       "tags": true,
       "expiresAt": true,
-      "notifyOnlyOnChange": true
+      "notifyOnlyOnChange": true,
+      "pushResults": true
     }
   }
 }
