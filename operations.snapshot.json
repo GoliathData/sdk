@@ -1947,7 +1947,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "contactId:ID!",
-    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"name\":true,\"createdAt\":true,\"isArchived\":true,\"isEnriched\":true,\"sellerIntentScore\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"doNotContactSetBy\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true,\"dncStatus\":{\"isDnc\":true,\"isLitigator\":true}},\"mailingAddresses\":{\"id\":true,\"rawText\":true,\"verificationStatus\":true,\"address\":{\"addressFull\":true}},\"properties\":{\"id\":true,\"propertyString\":true,\"status\":true,\"verificationStatus\":true,\"property\":{\"id\":true}},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}},\"participants\":{\"status\":true,\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"userGroups\":{\"id\":true,\"name\":true},\"notes\":{\"id\":true,\"body\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"isPinned\":true,\"isHidden\":true,\"replies\":{\"id\":true,\"body\":true,\"isHidden\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}}},\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"isArchived\":true,\"priceFormatted\":true,\"stage\":{\"id\":true,\"name\":true}}}}}"
+    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"name\":true,\"createdAt\":true,\"isArchived\":true,\"isEnriched\":true,\"sellerIntentScore\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"doNotContactSetBy\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true,\"dncStatus\":{\"isDnc\":true,\"isLitigator\":true}},\"mailingAddresses\":{\"id\":true,\"rawText\":true,\"verificationStatus\":true,\"address\":{\"addressFull\":true}},\"properties\":{\"id\":true,\"propertyString\":true,\"status\":true,\"verificationStatus\":true,\"property\":{\"id\":true},\"type\":true,\"role\":{\"id\":true,\"name\":true}},\"relatedPeople\":{\"id\":true,\"kind\":true,\"name\":true,\"relation\":true,\"relationshipRole\":{\"id\":true,\"name\":true},\"inContacts\":true},\"relatedTo\":{\"mainContactId\":true,\"mainContactName\":true,\"relation\":true},\"relationshipRole\":{\"id\":true,\"name\":true},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}},\"participants\":{\"status\":true,\"role\":{\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"userGroups\":{\"id\":true,\"name\":true},\"notes\":{\"id\":true,\"body\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"isPinned\":true,\"isHidden\":true,\"replies\":{\"id\":true,\"body\":true,\"isHidden\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}}},\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"isArchived\":true,\"priceFormatted\":true,\"stage\":{\"id\":true,\"name\":true}}}}}"
   },
   {
     "operationId": "getContactConnections",
@@ -2366,6 +2366,32 @@
     "responseShape": "{\"contactMutation\":{\"setContactPhoto\":{\"id\":true,\"photo\":{\"id\":true,\"fileName\":true}}}}"
   },
   {
+    "operationId": "setContactPropertyRole",
+    "domain": "contacts",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactId:ID!,contactPropertyId:ID!,roleId:ID",
+    "responseShape": "{\"contactMutation\":{\"setContactPropertyRole\":{\"id\":true,\"properties\":{\"id\":true,\"propertyString\":true,\"type\":true,\"role\":{\"id\":true,\"name\":true}}}}}"
+  },
+  {
+    "operationId": "setContactRelationshipRole",
+    "domain": "contacts",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactId:ID!,roleId:ID",
+    "responseShape": "{\"contactMutation\":{\"setContactRelationshipRole\":{\"id\":true,\"relationshipRole\":{\"id\":true,\"name\":true},\"relatedTo\":{\"mainContactId\":true,\"mainContactName\":true,\"relation\":true}}}}"
+  },
+  {
     "operationId": "setContactsCustomField",
     "domain": "contacts",
     "operationType": "mutation",
@@ -2390,6 +2416,19 @@
     "hasAuthorize": true,
     "variableSignature": "contactIds:[String!]!,addTeamIds:[ID!]!,removeTeamIds:[ID!],replaceExisting:Boolean",
     "responseShape": "{\"contactMutation\":{\"bulkAssignUserGroupsOnContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
+  },
+  {
+    "operationId": "setContactUserRole",
+    "domain": "contacts",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactId:ID!,userId:ID!,roleId:ID",
+    "responseShape": "{\"contactMutation\":{\"setContactUserRole\":{\"id\":true,\"participants\":{\"status\":true,\"role\":{\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true}}}}}"
   },
   {
     "operationId": "setPhoneDoNotContact",
@@ -3091,7 +3130,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "input:CreatePipelineItemInput!",
-    "responseShape": "{\"dealMutation\":{\"createDeal\":{\"id\":true,\"title\":true,\"priceCents\":true,\"closeDate\":true,\"isArchived\":true,\"updatedAt\":true,\"createdAt\":true,\"commissionCents\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"participantSplits\":{\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"splitAmountCents\":true,\"splitPercentBps\":true},\"customFieldValues\":{\"id\":true,\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"id\":true,\"name\":true,\"type\":true}},\"stage\":{\"id\":true,\"name\":true},\"pipeline\":{\"id\":true,\"name\":true},\"contacts\":{\"id\":true,\"name\":true},\"properties\":{\"id\":true,\"address\":{\"addressFull\":true}}}}}"
+    "responseShape": "{\"dealMutation\":{\"createDeal\":{\"id\":true,\"title\":true,\"priceCents\":true,\"closeDate\":true,\"isArchived\":true,\"updatedAt\":true,\"createdAt\":true,\"commissionCents\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"participantSplits\":{\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"splitAmountCents\":true,\"splitPercentBps\":true},\"customFieldValues\":{\"id\":true,\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"id\":true,\"name\":true,\"type\":true}},\"stage\":{\"id\":true,\"name\":true},\"pipeline\":{\"id\":true,\"name\":true},\"contacts\":{\"id\":true,\"name\":true},\"properties\":{\"id\":true,\"address\":{\"addressFull\":true}},\"contactRoles\":{\"contactId\":true,\"role\":{\"id\":true,\"name\":true}},\"agent\":{\"id\":true,\"firstName\":true,\"lastName\":true}}}}"
   },
   {
     "operationId": "createDealCustomField",
@@ -3118,6 +3157,19 @@
     "hasAuthorize": false,
     "variableSignature": "title:String!,description:String,stages:[PipelineStageCreateInput!]",
     "responseShape": "{\"dealMutation\":{\"createPipeline\":{\"id\":true,\"name\":true,\"description\":true,\"stages\":{\"id\":true,\"name\":true,\"order\":true,\"isTerminal\":true,\"terminalType\":true,\"winProbability\":true}}}}"
+  },
+  {
+    "operationId": "createPipelineRole",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "name:String!,kind:PipelineRoleKind",
+    "responseShape": "{\"dealMutation\":{\"createPipelineRole\":{\"id\":true,\"kind\":true,\"name\":true,\"onlyOne\":true}}}"
   },
   {
     "operationId": "deleteDeal",
@@ -3234,7 +3286,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "dealId:ID!",
-    "responseShape": "{\"dealQuery\":{\"getDeal\":{\"id\":true,\"title\":true,\"description\":true,\"priceCents\":true,\"priceFormatted\":true,\"closeDate\":true,\"isArchived\":true,\"createdAt\":true,\"updatedAt\":true,\"lastStageChangeAt\":true,\"commissionCents\":true,\"commissionFormatted\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"participantSplits\":{\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"splitAmountCents\":true,\"splitPercentBps\":true},\"stage\":{\"id\":true,\"name\":true},\"externalLinks\":{\"id\":true,\"title\":true,\"url\":true},\"linkedItems\":{\"id\":true,\"label\":true,\"item\":{\"id\":true,\"title\":true}},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"tasks\":{\"id\":true,\"title\":true,\"dueDate\":true,\"completedAt\":true},\"customFieldValues\":{\"id\":true,\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"id\":true,\"name\":true,\"type\":true}}}}}"
+    "responseShape": "{\"dealQuery\":{\"getDeal\":{\"id\":true,\"title\":true,\"description\":true,\"priceCents\":true,\"priceFormatted\":true,\"closeDate\":true,\"isArchived\":true,\"createdAt\":true,\"updatedAt\":true,\"lastStageChangeAt\":true,\"commissionCents\":true,\"commissionFormatted\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"participantSplits\":{\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"splitAmountCents\":true,\"splitPercentBps\":true},\"stage\":{\"id\":true,\"name\":true},\"externalLinks\":{\"id\":true,\"title\":true,\"url\":true},\"linkedItems\":{\"id\":true,\"label\":true,\"role\":{\"id\":true,\"name\":true},\"item\":{\"id\":true,\"title\":true}},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"properties\":{\"id\":true,\"address\":{\"addressFull\":true}},\"contactRoles\":{\"contactId\":true,\"role\":{\"id\":true,\"name\":true}},\"userRoles\":{\"userId\":true,\"role\":{\"id\":true,\"name\":true}},\"propertyRoles\":{\"propertyId\":true,\"role\":{\"id\":true,\"name\":true}},\"agent\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"tasks\":{\"id\":true,\"title\":true,\"dueDate\":true,\"completedAt\":true},\"customFieldValues\":{\"id\":true,\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"dealCustomField\":{\"id\":true,\"name\":true,\"type\":true}}}}}"
   },
   {
     "operationId": "getDealDetailTabs",
@@ -3380,6 +3432,19 @@
     "responseShape": "{\"dealQuery\":{\"listDealPipelineRefs\":{\"id\":true,\"name\":true,\"sameNameCount\":true}}}"
   },
   {
+    "operationId": "listPipelineRoles",
+    "domain": "deals",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "kind:PipelineRoleKind,dealId:ID",
+    "responseShape": "{\"dealQuery\":{\"listPipelineRoles\":{\"id\":true,\"kind\":true,\"name\":true,\"onlyOne\":true}}}"
+  },
+  {
     "operationId": "listPipelines",
     "domain": "deals",
     "operationType": "query",
@@ -3497,6 +3562,19 @@
     "responseShape": "{\"dealMutation\":{\"reorderDealStages\":{\"id\":true,\"name\":true,\"stages\":{\"id\":true,\"name\":true,\"order\":true}}}}"
   },
   {
+    "operationId": "setDealAgent",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "dealId:ID!,userId:ID!",
+    "responseShape": "{\"dealMutation\":{\"setDealAgent\":{\"id\":true,\"agent\":{\"id\":true,\"firstName\":true,\"lastName\":true}}}}"
+  },
+  {
     "operationId": "setDealCardFields",
     "domain": "deals",
     "operationType": "mutation",
@@ -3508,6 +3586,19 @@
     "hasAuthorize": true,
     "variableSignature": "pipelineId:ID!,customFieldIds:[ID!]!",
     "responseShape": "{\"dealCustomFieldMutation\":{\"updateCardDisplayFields\":{\"id\":true,\"name\":true,\"showOnCard\":true,\"cardDisplayOrder\":true}}}"
+  },
+  {
+    "operationId": "setDealContactRole",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "dealId:ID!,contactId:ID!,roleId:ID",
+    "responseShape": "{\"dealMutation\":{\"setDealContactRole\":{\"id\":true,\"contactRoles\":{\"contactId\":true,\"role\":{\"id\":true,\"name\":true}}}}}"
   },
   {
     "operationId": "setDealDetailHiddenFields",
@@ -3534,6 +3625,45 @@
     "hasAuthorize": true,
     "variableSignature": "pipelineId:ID!,expectedVersion:Int!,tabs:[PipelineItemLayoutTabInput!]!",
     "responseShape": "{\"dealMutation\":{\"updatePipelineDetailLayout\":{\"version\":true,\"tabs\":{\"id\":true,\"name\":true,\"fieldReferences\":true}}}}"
+  },
+  {
+    "operationId": "setDealLinkRole",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "linkId:ID!,roleId:ID",
+    "responseShape": "{\"dealMutation\":{\"setDealLinkRole\":{\"id\":true,\"label\":true,\"role\":{\"id\":true,\"name\":true}}}}"
+  },
+  {
+    "operationId": "setDealPropertyRole",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "dealId:ID!,propertyId:ID!,roleId:ID",
+    "responseShape": "{\"dealMutation\":{\"setDealPropertyRole\":{\"id\":true,\"propertyRoles\":{\"propertyId\":true,\"role\":{\"id\":true,\"name\":true}}}}}"
+  },
+  {
+    "operationId": "setDealUserRole",
+    "domain": "deals",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "dealId:ID!,userId:ID!,roleId:ID",
+    "responseShape": "{\"dealMutation\":{\"setDealUserRole\":{\"id\":true,\"userRoles\":{\"userId\":true,\"role\":{\"id\":true,\"name\":true}}}}}"
   },
   {
     "operationId": "surveyDeals",

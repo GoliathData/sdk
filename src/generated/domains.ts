@@ -1570,6 +1570,24 @@ export class GoliathClient extends GoliathClientCore {
     setContactPhoto: (variables: T.SetContactPhotoMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactPhotoMutation> =>
       this.request('setContactPhoto', variables, options, { operationType: 'mutation' }),
     /**
+     * The CONTACT_PROPERTY role ("Tenant") on a getContact properties row (its `id`, not the property's). roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setContactPropertyRole: (variables: T.SetContactPropertyRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactPropertyRoleMutation> =>
+      this.request('setContactPropertyRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * The RELATIONSHIP role (Spouse) of a related person's link to their main contact; `contactId` is the related person (getContact relatedPeople). roleId null clears the role AND the relation text. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setContactRelationshipRole: (variables: T.SetContactRelationshipRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactRelationshipRoleMutation> =>
+      this.request('setContactRelationshipRole', variables, options, { operationType: 'mutation' }),
+    /**
      * Set ONE DROPDOWN custom field to the same value across a selection of contacts: the bulk form of updateContact’s updateCustomFieldValues. customFieldId from listContactCustomFields; read the result per contact with getContact (`customFields[].values.dropdownSelectedValues`). Async bulk job: returns a bulkTaskId to poll with getBulkTask, so an immediate read-back will not show the change. DROPDOWN FIELDS ONLY: dropdownSelectedValues is its only value channel, so a TEXT / NUMBER / DOLLAR / DATE / LINK field cannot be written here (use updateContact per contact). Values are option LABELS (matched case-insensitively, stored as the canonical label), NOT ids: an id or any string not among the options is refused. It REPLACES each contact’s selection rather than adding, so send every option the contact should end up with; an EMPTY array CLEARS the field on every selected contact. More than one value needs `allowMultiple`. WHERE REFUSALS LAND: only the id checks run before the response (a field id not among your organization’s custom fields is a 403). Everything else (not a DROPDOWN, an unknown label, several values on a single-select field) is checked by the worker, so the call returns 200 with a bulkTaskId and the failure shows as `status: FAILED` on getBulkTask with NOTHING written. A 200 means "queued", never "applied": poll the task before reporting the change. POTENTIALLY OUTBOUND: each contact goes through the normal contact-update path, so contact-mutation events fire and a CONTACT workflow triggered on this field can start a run and send.
      *
      * @remarks Requires the WRITE scope.
@@ -1587,6 +1605,15 @@ export class GoliathClient extends GoliathClientCore {
      */
     setContactsTeams: (variables: T.SetContactsTeamsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactsTeamsMutation> =>
       this.request('setContactsTeams', variables, options, { operationType: 'mutation' }),
+    /**
+     * The USER role a teammate on the contact plays (getContact participants); the Agent stays the Agent. roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setContactUserRole: (variables: T.SetContactUserRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactUserRoleMutation> =>
+      this.request('setContactUserRole', variables, options, { operationType: 'mutation' }),
     /**
      * Opt one phone number out of texts AND calls for the whole organization, on every contact that carries it (suppressChannel does one medium). Sets only: it cannot be undone from chat or this API; only a person in the app can clear it.
      *
@@ -2083,6 +2110,15 @@ export class GoliathClient extends GoliathClientCore {
     createPipeline: (variables: T.CreatePipelineMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineMutation> =>
       this.request('createPipeline', variables, options, { operationType: 'mutation' }),
     /**
+     * Add a role of `kind` (CONTACT when omitted), as any member can. Names are unique per kind, case-folded: reuse a listPipelineRoles match. It is never Only one: that stays admin list upkeep in the app.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    createPipelineRole: (variables: T.CreatePipelineRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineRoleMutation> =>
+      this.request('createPipelineRole', variables, options, { operationType: 'mutation' }),
+    /**
      * Delete a deal for good; archiveDeal hides it instead, so prefer that unless they said delete. Org-owned pipelines only. dependencyResolution from getDeletionImpact(targetKind: DEAL). Returns `stageItWasOn`.
      *
      * @remarks Requires the WRITE scope.
@@ -2251,6 +2287,13 @@ export class GoliathClient extends GoliathClientCore {
     listPipelineNames: (options?: RequestOptions): Promise<T.ListPipelineNamesQuery> =>
       this.request('listPipelineNames', undefined, options, { operationType: 'query' }),
     /**
+     * The org's roles of one `kind` (CONTACT when omitted): CONTACT a deal's people, USER teammates, PROPERTY a deal's properties, ITEM_LINK linked deals, RELATIONSHIP related people, CONTACT_PROPERTY a contact's properties. `dealId`: the roles its pipeline owner offers. Ids for every set…Role op.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listPipelineRoles: (variables?: T.ListPipelineRolesQueryVariables, options?: RequestOptions): Promise<T.ListPipelineRolesQuery> =>
+      this.request('listPipelineRoles', variables, options, { operationType: 'query' }),
+    /**
      * List the organization's deal pipelines with per-stage deal counts and values. Counts cover only deals you can see. `total` and stage `value` are WHOLE DOLLARS, not cents (1355000 is $1,355,000). Archived deals are excluded; a date window or a won total is findDeals `totals`. `deals`/`total` include won/lost stages; open is `outcome` open. `sameNameCount` is how many pipelines share the row's name: quote it, never count rows. Use the returned pipeline id with findDeals (its pipelineId filter) to list a pipeline's deals.
      *
      * @remarks Requires the READ scope.
@@ -2328,6 +2371,15 @@ export class GoliathClient extends GoliathClientCore {
     reorderPipelineStages: (variables: T.ReorderPipelineStagesMutationVariables, options?: IdempotentRequestOptions): Promise<T.ReorderPipelineStagesMutation> =>
       this.request('reorderPipelineStages', variables, options, { operationType: 'mutation' }),
     /**
+     * Make a teammate assigned to the deal its Agent (getDeal agent), who speaks for it.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setDealAgent: (variables: T.SetDealAgentMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealAgentMutation> =>
+      this.request('setDealAgent', variables, options, { operationType: 'mutation' }),
+    /**
      * Choose the fields every deal card on one pipeline's board shows: at most 5 field ids of that pipeline, built-ins included, in order. REPLACES the set (empty shows none), for everyone. Org admins only. Returns the fields with showOnCard and cardDisplayOrder.
      *
      * @remarks Requires the WRITE scope.
@@ -2336,6 +2388,15 @@ export class GoliathClient extends GoliathClientCore {
      */
     setDealCardFields: (variables: T.SetDealCardFieldsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealCardFieldsMutation> =>
       this.request('setDealCardFields', variables, options, { operationType: 'mutation' }),
+    /**
+     * The CONTACT role a person on the deal plays ("Seller"). roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setDealContactRole: (variables: T.SetDealContactRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealContactRoleMutation> =>
+      this.request('setDealContactRole', variables, options, { operationType: 'mutation' }),
     /**
      * Hide fields from one pipeline's deal sheet and create/edit form, for everyone: `hiddenFieldKeys` REPLACES the hidden set (getDealPipelineLayout first; an empty list shows everything). Keys are `native:team|closeDate|dealValue|commission` or `custom:<fieldId>`; Stage is never hidden and an unknown key is dropped. Hiding keeps every value.
      *
@@ -2354,6 +2415,33 @@ export class GoliathClient extends GoliathClientCore {
      */
     setDealDetailTabs: (variables: T.SetDealDetailTabsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealDetailTabsMutation> =>
       this.request('setDealDetailTabs', variables, options, { operationType: 'mutation' }),
+    /**
+     * The ITEM_LINK role of a link between two deals (getDeal linkedItems id); the link's label becomes its name. roleId null clears the role AND the link's label. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setDealLinkRole: (variables: T.SetDealLinkRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealLinkRoleMutation> =>
+      this.request('setDealLinkRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * The PROPERTY role a property on the deal plays ("Subject property"); `propertyId` as getDeal properties gives it. roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setDealPropertyRole: (variables: T.SetDealPropertyRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealPropertyRoleMutation> =>
+      this.request('setDealPropertyRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * The USER role a teammate on the deal plays. roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setDealUserRole: (variables: T.SetDealUserRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealUserRoleMutation> =>
+      this.request('setDealUserRole', variables, options, { operationType: 'mutation' }),
     /**
      * Survey deals — findDeals' search (same visibility), without stageName/outcome/windows/totals, with a deliberately LEAN row: deal id, title, isArchived, stage NAME, pipeline NAME, assigned users by NAME, open-task counts, and custom-field values. Use this whenever the question is about MANY deals rather than about a few in full — "who holds which card", "which cards have no Difficulty set", "what is on this board", any board-wide count or grouping. Use findDeals instead when you need money (commission / team split), linked contacts, close date, price, createdAt/updatedAt, or the ids inside a row; use getDeal for one deal in full. A capped result DROPS WHOLE DEALS silently: when `truncated` is true, lower `limit` and page (`__omittedItems` counts the dropped rows). `totalCount` is the UNPAGED total to quote for "how many". IDS — the row carries names, not ids, for everything except the deal itself: stage ids from listStagesOfPipelines, user ids from listTeammates, custom-field ids and types from listDealCustomFields. The deal `id` IS here — pass it to getDeal or updateDeal to act on a row. ARCHIVED deals are included when isArchived is omitted, as in findDeals; check each row's isArchived. ASSIGNEES — an EMPTY `users` means UNASSIGNED; filter with hasAssignedUsers / userIds as in findDeals. No linked contacts here. CUSTOM FIELDS — each entry carries the value plus the field NAME (no id, no type). Read the value from the ONE slot matching the field type: TEXT/LINK -> textValue, NUMBER/DOLLAR -> numberValue (a plain number, NOT cents), DATE -> dateValue (ISO 8601), DROPDOWN -> dropdownSelectedValues (the option LABEL strings). A field the deal has never been given a value for is ABSENT from the list rather than present-and-null, so an empty list means nothing is filled in on that deal — never that the pipeline has no fields (get the definitions from listDealCustomFields(pipelineId)). TASKS — `taskSummary` counts open tasks and appointments on the DEAL (not its contacts); 0 means none, so "which deals have no task" is this page. In Ask Goliath omitting isArchived reads live deals only; null reads both.
      *

@@ -77,7 +77,32 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "verificationStatus": true,
         "property": {
           "id": true
+        },
+        "type": true,
+        "role": {
+          "id": true,
+          "name": true
         }
+      },
+      "relatedPeople": {
+        "id": true,
+        "kind": true,
+        "name": true,
+        "relation": true,
+        "relationshipRole": {
+          "id": true,
+          "name": true
+        },
+        "inContacts": true
+      },
+      "relatedTo": {
+        "mainContactId": true,
+        "mainContactName": true,
+        "relation": true
+      },
+      "relationshipRole": {
+        "id": true,
+        "name": true
       },
       "tags": {
         "id": true,
@@ -101,6 +126,10 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       },
       "participants": {
         "status": true,
+        "role": {
+          "id": true,
+          "name": true
+        },
         "user": {
           "id": true,
           "firstName": true,

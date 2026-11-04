@@ -84,6 +84,18 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "address": {
           "addressFull": true
         }
+      },
+      "contactRoles": {
+        "contactId": true,
+        "role": {
+          "id": true,
+          "name": true
+        }
+      },
+      "agent": {
+        "id": true,
+        "firstName": true,
+        "lastName": true
       }
     }
   }

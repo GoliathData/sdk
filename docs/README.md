@@ -38,12 +38,12 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `callLists` | 10 |
 | `communications` | 21 |
 | `contactImports` | 7 |
-| `contacts` | 89 |
+| `contacts` | 92 |
 | `contracts` | 19 |
 | `conversations` | 9 |
 | `coverage` | 2 |
 | `crmImport` | 3 |
-| `deals` | 51 |
+| `deals` | 58 |
 | `employees` | 34 |
 | `files` | 16 |
 | `forms` | 15 |

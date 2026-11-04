@@ -1846,6 +1846,20 @@ export type PipelineItemType =
   | 'LISTING'
   | 'UNDETERMINED';
 
+/**
+ * Which link a pipeline role labels: a person on an item (CONTACT), a teammate on an item or a
+ * contact (USER), a property on an item (PROPERTY), an item linked to an item (ITEM_LINK), a
+ * related person's link to their main contact (RELATIONSHIP), or a contact's property
+ * (CONTACT_PROPERTY). A role never changes kind.
+ */
+export type PipelineRoleKind =
+  | 'CONTACT'
+  | 'CONTACT_PROPERTY'
+  | 'ITEM_LINK'
+  | 'PROPERTY'
+  | 'RELATIONSHIP'
+  | 'USER';
+
 export type PipelineStageCreateInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   isTerminal?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2012,6 +2026,10 @@ export type PublishSpacePageInput = {
   /** The page's title; its file name is the title with .html. */
   title: Scalars['String']['input'];
 };
+
+export type RelatedPersonKind =
+  | 'CONTACT'
+  | 'SUB_CONTACT';
 
 export type ReorderAfterCallActionItemInput = {
   displayOrder: Scalars['Int']['input'];
@@ -4062,7 +4080,7 @@ export type GetContactQueryVariables = Exact<{
   contactId: Scalars['ID']['input'];
 }>;
 
-export type GetContactQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', contact?: { __typename?: 'Contact', id: string, name?: string | null, createdAt?: any | null, isArchived?: boolean | null, isEnriched?: boolean | null, sellerIntentScore?: number | null, doNotContact?: boolean | null, doNotContactReason?: string | null, doNotContactSetAt?: any | null, doNotContactSetBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus, dncStatus?: { __typename?: 'DncStatus', isDnc: boolean, isLitigator: boolean } | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', id: string, rawText?: string | null, verificationStatus: VerificationStatus, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, properties?: Array<{ __typename?: 'ContactProperty', id: string, propertyString?: string | null, status?: string | null, verificationStatus: VerificationStatus, property?: { __typename?: 'Property', id: string } | null }> | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, userGroups?: Array<{ __typename?: 'UserGroup', id: string, name: string }> | null, notes?: Array<{ __typename?: 'Note', id: string, body?: string | null, createdAt?: any | null, isPinned?: boolean | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, createdByUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, replies?: Array<{ __typename?: 'NoteReply', id: string, body?: string | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null }> | null }> | null, deals?: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, isArchived: boolean, priceFormatted?: string | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null }> | null } | null } | null };
+export type GetContactQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', contact?: { __typename?: 'Contact', id: string, name?: string | null, createdAt?: any | null, isArchived?: boolean | null, isEnriched?: boolean | null, sellerIntentScore?: number | null, doNotContact?: boolean | null, doNotContactReason?: string | null, doNotContactSetAt?: any | null, doNotContactSetBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus, dncStatus?: { __typename?: 'DncStatus', isDnc: boolean, isLitigator: boolean } | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', id: string, rawText?: string | null, verificationStatus: VerificationStatus, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, properties?: Array<{ __typename?: 'ContactProperty', id: string, propertyString?: string | null, status?: string | null, verificationStatus: VerificationStatus, type?: PropertyCrmContactRelation | null, property?: { __typename?: 'Property', id: string } | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedPeople?: Array<{ __typename?: 'RelatedPerson', id: string, kind: RelatedPersonKind, name: string, relation?: string | null, inContacts: boolean, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedTo?: { __typename?: 'RelatedMainContactLink', mainContactId: string, mainContactName: string, relation?: string | null } | null, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, userGroups?: Array<{ __typename?: 'UserGroup', id: string, name: string }> | null, notes?: Array<{ __typename?: 'Note', id: string, body?: string | null, createdAt?: any | null, isPinned?: boolean | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, createdByUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, replies?: Array<{ __typename?: 'NoteReply', id: string, body?: string | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null }> | null }> | null, deals?: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, isArchived: boolean, priceFormatted?: string | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null }> | null } | null } | null };
 
 export type FindContactsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
@@ -4833,7 +4851,7 @@ export type GetDealQueryVariables = Exact<{
   dealId: Scalars['ID']['input'];
 }>;
 
-export type GetDealQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDeal?: { __typename?: 'Deal', id: string, title: string, description?: string | null, priceCents?: any | null, priceFormatted?: string | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionFormatted?: string | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, externalLinks?: Array<{ __typename?: 'ExternalLink', id: string, title: string, url: string }> | null, linkedItems: Array<{ __typename?: 'PipelineItemLink', id: string, label?: string | null, item: { __typename?: 'Deal', id: string, title: string } }>, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, completedAt?: any | null, dueDate?: any | null }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null } | null } | null };
+export type GetDealQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDeal?: { __typename?: 'Deal', id: string, title: string, description?: string | null, priceCents?: any | null, priceFormatted?: string | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionFormatted?: string | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, externalLinks?: Array<{ __typename?: 'ExternalLink', id: string, title: string, url: string }> | null, linkedItems: Array<{ __typename?: 'PipelineItemLink', id: string, label?: string | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, item: { __typename?: 'Deal', id: string, title: string } }>, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, userRoles: Array<{ __typename?: 'PipelineItemUserRole', userId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, propertyRoles: Array<{ __typename?: 'PipelineItemPropertyRole', propertyId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, completedAt?: any | null, dueDate?: any | null }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null } | null } | null };
 
 export type FindDealsQueryVariables = Exact<{
   titleContains?: InputMaybe<Scalars['String']['input']>;
@@ -4913,7 +4931,7 @@ export type CreateDealMutationVariables = Exact<{
   input: CreatePipelineItemInput;
 }>;
 
-export type CreateDealMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createDeal?: { __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, updatedAt?: any | null, createdAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null } | null } | null };
+export type CreateDealMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createDeal?: { __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, updatedAt?: any | null, createdAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null } | null } | null };
 
 export type UpdateDealMutationVariables = Exact<{
   dealId: Scalars['ID']['input'];
@@ -6458,6 +6476,81 @@ export type KeepContractAsTemplateMutationVariables = Exact<{
 }>;
 
 export type KeepContractAsTemplateMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', saveAsTemplate?: { __typename?: 'AdminContractTemplate', id: string, name: string, category: string, oneOff: boolean } | null } | null };
+
+export type ListPipelineRolesQueryVariables = Exact<{
+  kind?: InputMaybe<PipelineRoleKind>;
+  dealId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type ListPipelineRolesQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', listPipelineRoles: Array<{ __typename?: 'PipelineRole', id: string, kind: PipelineRoleKind, name: string, onlyOne: boolean }> } | null };
+
+export type CreatePipelineRoleMutationVariables = Exact<{
+  name: Scalars['String']['input'];
+  kind?: InputMaybe<PipelineRoleKind>;
+}>;
+
+export type CreatePipelineRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createPipelineRole: { __typename?: 'PipelineRole', id: string, kind: PipelineRoleKind, name: string, onlyOne: boolean } } | null };
+
+export type SetDealContactRoleMutationVariables = Exact<{
+  dealId: Scalars['ID']['input'];
+  contactId: Scalars['ID']['input'];
+  roleId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetDealContactRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealContactRole?: { __typename?: 'Deal', id: string, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
+
+export type SetDealUserRoleMutationVariables = Exact<{
+  dealId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+  roleId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetDealUserRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealUserRole?: { __typename?: 'Deal', id: string, userRoles: Array<{ __typename?: 'PipelineItemUserRole', userId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
+
+export type SetDealPropertyRoleMutationVariables = Exact<{
+  dealId: Scalars['ID']['input'];
+  propertyId: Scalars['ID']['input'];
+  roleId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetDealPropertyRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealPropertyRole?: { __typename?: 'Deal', id: string, propertyRoles: Array<{ __typename?: 'PipelineItemPropertyRole', propertyId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
+
+export type SetDealLinkRoleMutationVariables = Exact<{
+  linkId: Scalars['ID']['input'];
+  roleId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetDealLinkRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealLinkRole?: { __typename?: 'PipelineItemLink', id: string, label?: string | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null } | null } | null };
+
+export type SetDealAgentMutationVariables = Exact<{
+  dealId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+}>;
+
+export type SetDealAgentMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealAgent?: { __typename?: 'Deal', id: string, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null } | null } | null };
+
+export type SetContactRelationshipRoleMutationVariables = Exact<{
+  contactId: Scalars['ID']['input'];
+  roleId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetContactRelationshipRoleMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', setContactRelationshipRole?: { __typename?: 'Contact', id: string, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null, relatedTo?: { __typename?: 'RelatedMainContactLink', mainContactId: string, mainContactName: string, relation?: string | null } | null } | null } | null };
+
+export type SetContactUserRoleMutationVariables = Exact<{
+  contactId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+  roleId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetContactUserRoleMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', setContactUserRole?: { __typename?: 'Contact', id: string, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null } | null } | null };
+
+export type SetContactPropertyRoleMutationVariables = Exact<{
+  contactId: Scalars['ID']['input'];
+  contactPropertyId: Scalars['ID']['input'];
+  roleId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetContactPropertyRoleMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', setContactPropertyRole?: { __typename?: 'Contact', id: string, properties?: Array<{ __typename?: 'ContactProperty', id: string, propertyString?: string | null, type?: PropertyCrmContactRelation | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null } | null } | null };
 
 export type ListScheduledTasksQueryVariables = Exact<{
   ownerUserId?: InputMaybe<Scalars['ID']['input']>;

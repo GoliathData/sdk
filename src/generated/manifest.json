@@ -6375,7 +6375,32 @@
               "verificationStatus": true,
               "property": {
                 "id": true
+              },
+              "type": true,
+              "role": {
+                "id": true,
+                "name": true
               }
+            },
+            "relatedPeople": {
+              "id": true,
+              "kind": true,
+              "name": true,
+              "relation": true,
+              "relationshipRole": {
+                "id": true,
+                "name": true
+              },
+              "inContacts": true
+            },
+            "relatedTo": {
+              "mainContactId": true,
+              "mainContactName": true,
+              "relation": true
+            },
+            "relationshipRole": {
+              "id": true,
+              "name": true
             },
             "tags": {
               "id": true,
@@ -6399,6 +6424,10 @@
             },
             "participants": {
               "status": true,
+              "role": {
+                "id": true,
+                "name": true
+              },
               "user": {
                 "id": true,
                 "firstName": true,
@@ -7713,6 +7742,96 @@
       }
     },
     {
+      "operationId": "setContactPropertyRole",
+      "domain": "contacts",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "The CONTACT_PROPERTY role (\"Tenant\") on a getContact properties row (its `id`, not the property's). roleId null clears it. An Only-one role moves off its previous holder.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "contactId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "contactPropertyId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "roleId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "contactMutation": {
+          "setContactPropertyRole": {
+            "id": true,
+            "properties": {
+              "id": true,
+              "propertyString": true,
+              "type": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setContactRelationshipRole",
+      "domain": "contacts",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "The RELATIONSHIP role (Spouse) of a related person's link to their main contact; `contactId` is the related person (getContact relatedPeople). roleId null clears the role AND the relation text. An Only-one role moves off its previous holder.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "contactId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "roleId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "contactMutation": {
+          "setContactRelationshipRole": {
+            "id": true,
+            "relationshipRole": {
+              "id": true,
+              "name": true
+            },
+            "relatedTo": {
+              "mainContactId": true,
+              "mainContactName": true,
+              "relation": true
+            }
+          }
+        }
+      }
+    },
+    {
       "operationId": "setContactsCustomField",
       "domain": "contacts",
       "operationType": "mutation",
@@ -7794,6 +7913,57 @@
           "bulkAssignUserGroupsOnContacts": {
             "mode": true,
             "bulkTaskId": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setContactUserRole",
+      "domain": "contacts",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "The USER role a teammate on the contact plays (getContact participants); the Agent stays the Agent. roleId null clears it. An Only-one role moves off its previous holder.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "contactId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "userId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "roleId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "contactMutation": {
+          "setContactUserRole": {
+            "id": true,
+            "participants": {
+              "status": true,
+              "role": {
+                "id": true,
+                "name": true
+              },
+              "user": {
+                "id": true,
+                "firstName": true,
+                "lastName": true
+              }
+            }
           }
         }
       }
@@ -10278,6 +10448,18 @@
               "address": {
                 "addressFull": true
               }
+            },
+            "contactRoles": {
+              "contactId": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
+            },
+            "agent": {
+              "id": true,
+              "firstName": true,
+              "lastName": true
             }
           }
         }
@@ -10365,6 +10547,42 @@
               "terminalType": true,
               "winProbability": true
             }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "createPipelineRole",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Add a role of `kind` (CONTACT when omitted), as any member can. Names are unique per kind, case-folded: reuse a listPipelineRoles match. It is never Only one: that stays admin list upkeep in the app.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "name",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "kind",
+          "type": "PipelineRoleKind",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "createPipelineRole": {
+            "id": true,
+            "kind": true,
+            "name": true,
+            "onlyOne": true
           }
         }
       }
@@ -10863,6 +11081,10 @@
             "linkedItems": {
               "id": true,
               "label": true,
+              "role": {
+                "id": true,
+                "name": true
+              },
               "item": {
                 "id": true,
                 "title": true
@@ -10880,6 +11102,38 @@
             "contacts": {
               "id": true,
               "name": true
+            },
+            "properties": {
+              "id": true,
+              "address": {
+                "addressFull": true
+              }
+            },
+            "contactRoles": {
+              "contactId": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
+            },
+            "userRoles": {
+              "userId": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
+            },
+            "propertyRoles": {
+              "propertyId": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
+            },
+            "agent": {
+              "id": true,
+              "firstName": true,
+              "lastName": true
             },
             "tasks": {
               "id": true,
@@ -11343,6 +11597,42 @@
       }
     },
     {
+      "operationId": "listPipelineRoles",
+      "domain": "deals",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "The org's roles of one `kind` (CONTACT when omitted): CONTACT a deal's people, USER teammates, PROPERTY a deal's properties, ITEM_LINK linked deals, RELATIONSHIP related people, CONTACT_PROPERTY a contact's properties. `dealId`: the roles its pipeline owner offers. Ids for every set…Role op.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "kind",
+          "type": "PipelineRoleKind",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "dealId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealQuery": {
+          "listPipelineRoles": {
+            "id": true,
+            "kind": true,
+            "name": true,
+            "onlyOne": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "listPipelines",
       "domain": "deals",
       "operationType": "query",
@@ -11677,6 +11967,44 @@
       }
     },
     {
+      "operationId": "setDealAgent",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Make a teammate assigned to the deal its Agent (getDeal agent), who speaks for it.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "dealId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "userId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "setDealAgent": {
+            "id": true,
+            "agent": {
+              "id": true,
+              "firstName": true,
+              "lastName": true
+            }
+          }
+        }
+      }
+    },
+    {
       "operationId": "setDealCardFields",
       "domain": "deals",
       "operationType": "mutation",
@@ -11708,6 +12036,52 @@
             "name": true,
             "showOnCard": true,
             "cardDisplayOrder": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setDealContactRole",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "The CONTACT role a person on the deal plays (\"Seller\"). roleId null clears it. An Only-one role moves off its previous holder.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "dealId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "contactId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "roleId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "setDealContactRole": {
+            "id": true,
+            "contactRoles": {
+              "contactId": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
+            }
           }
         }
       }
@@ -11785,6 +12159,136 @@
               "id": true,
               "name": true,
               "fieldReferences": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setDealLinkRole",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "The ITEM_LINK role of a link between two deals (getDeal linkedItems id); the link's label becomes its name. roleId null clears the role AND the link's label. An Only-one role moves off its previous holder.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "linkId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "roleId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "setDealLinkRole": {
+            "id": true,
+            "label": true,
+            "role": {
+              "id": true,
+              "name": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setDealPropertyRole",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "The PROPERTY role a property on the deal plays (\"Subject property\"); `propertyId` as getDeal properties gives it. roleId null clears it. An Only-one role moves off its previous holder.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "dealId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "propertyId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "roleId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "setDealPropertyRole": {
+            "id": true,
+            "propertyRoles": {
+              "propertyId": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setDealUserRole",
+      "domain": "deals",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "The USER role a teammate on the deal plays. roleId null clears it. An Only-one role moves off its previous holder.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "dealId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "userId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "roleId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "dealMutation": {
+          "setDealUserRole": {
+            "id": true,
+            "userRoles": {
+              "userId": true,
+              "role": {
+                "id": true,
+                "name": true
+              }
             }
           }
         }

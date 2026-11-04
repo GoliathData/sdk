@@ -70,6 +70,10 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "linkedItems": {
         "id": true,
         "label": true,
+        "role": {
+          "id": true,
+          "name": true
+        },
         "item": {
           "id": true,
           "title": true
@@ -87,6 +91,38 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "contacts": {
         "id": true,
         "name": true
+      },
+      "properties": {
+        "id": true,
+        "address": {
+          "addressFull": true
+        }
+      },
+      "contactRoles": {
+        "contactId": true,
+        "role": {
+          "id": true,
+          "name": true
+        }
+      },
+      "userRoles": {
+        "userId": true,
+        "role": {
+          "id": true,
+          "name": true
+        }
+      },
+      "propertyRoles": {
+        "propertyId": true,
+        "role": {
+          "id": true,
+          "name": true
+        }
+      },
+      "agent": {
+        "id": true,
+        "firstName": true,
+        "lastName": true
       },
       "tasks": {
         "id": true,
