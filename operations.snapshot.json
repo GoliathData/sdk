@@ -1323,7 +1323,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "fileProcessingTaskId:ID!",
-    "responseShape": "{\"fileProcessingTaskQuery\":{\"fileProcessingTask\":{\"id\":true,\"status\":true,\"totalRows\":true,\"producedRecordsCount\":true,\"estimatedRemainingTimeInSeconds\":true,\"contactTag\":{\"name\":true}},\"uploadReport\":{\"createdCount\":true,\"matchedCount\":true,\"restoredCount\":true,\"skippedCount\":true,\"failedCount\":true,\"mergedAfterImportCount\":true,\"duplicateRowCount\":true,\"processedRowCount\":true}}}"
+    "responseShape": "{\"fileProcessingTaskQuery\":{\"fileProcessingTask\":{\"id\":true,\"status\":true,\"totalRows\":true,\"producedRecordsCount\":true,\"estimatedRemainingTimeInSeconds\":true,\"contactTag\":{\"name\":true}},\"uploadReport\":{\"createdCount\":true,\"matchedCount\":true,\"restoredCount\":true,\"skippedCount\":true,\"failedCount\":true,\"mergedAfterImportCount\":true,\"mergedIntoExistingCount\":true,\"duplicateRowCount\":true,\"processedRowCount\":true}}}"
   },
   {
     "operationId": "getContactImportRowFindings",

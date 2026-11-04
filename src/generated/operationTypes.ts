@@ -3994,7 +3994,7 @@ export type GetContactImportQueryVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];
 }>;
 
-export type GetContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', fileProcessingTask?: { __typename?: 'FileProcessingTask', id: string, status?: FileProcessingTaskStatus | null, totalRows?: number | null, producedRecordsCount?: number | null, estimatedRemainingTimeInSeconds?: number | null, contactTag?: { __typename?: 'Tag', name: string } | null } | null, uploadReport?: { __typename?: 'UploadReport', createdCount: number, matchedCount: number, restoredCount: number, skippedCount: number, failedCount: number, mergedAfterImportCount: number, duplicateRowCount: number, processedRowCount: number } | null } | null };
+export type GetContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', fileProcessingTask?: { __typename?: 'FileProcessingTask', id: string, status?: FileProcessingTaskStatus | null, totalRows?: number | null, producedRecordsCount?: number | null, estimatedRemainingTimeInSeconds?: number | null, contactTag?: { __typename?: 'Tag', name: string } | null } | null, uploadReport?: { __typename?: 'UploadReport', createdCount: number, matchedCount: number, restoredCount: number, skippedCount: number, failedCount: number, mergedAfterImportCount: number, mergedIntoExistingCount: number, duplicateRowCount: number, processedRowCount: number } | null } | null };
 
 export type GetContactImportRowFindingsQueryVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];
