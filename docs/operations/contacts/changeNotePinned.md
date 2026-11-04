@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Pin (isPinned true) or unpin a note (getContact notes[]); any teammate may. A pin notifies the contact's teammates.
+Pin (isPinned true) or unpin a note (getContact notes[]); any teammate may.
 
 ## Call
 
