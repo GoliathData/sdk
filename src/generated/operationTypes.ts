@@ -2975,6 +2975,11 @@ export type WorkThroughFamily =
   /** An open question an AI employee asked a person. */
   | 'QUESTION'
   | 'QUIET_ACCOUNT'
+  /**
+   * Calm deal (`catch-up-calm`): one AI employee's reply drafts it was sure of, each a row in `bundleRows` the person can
+   * untick, sent in one press through `decideContactSuggestionsInBulk` with only the ticked, shown ids. Never a rule.
+   */
+  | 'REPLY_BATCH'
   /** Outreach (A): buy more numbers so texts held by one number's daily limit go out. Spends money. */
   | 'SENDING_ROOM'
   /** Outreach (B): skip trace a saved property filter into a workflow. Spends skip trace credits (`costCredits`). */
