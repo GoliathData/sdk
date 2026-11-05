@@ -1742,7 +1742,8 @@ export type PipelineStageTerminalType =
 export type PlanCode =
   | 'GROWTH'
   | 'RAMP'
-  | 'SCALE';
+  | 'SCALE'
+  | 'STARTER';
 
 /**
  * The subject to resolve a Workflow Table against. At least one record is required.
