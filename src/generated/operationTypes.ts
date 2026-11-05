@@ -2984,6 +2984,8 @@ export type WorkThroughFamily =
   | 'SENDING_ROOM'
   /** Outreach (B): skip trace a saved property filter into a workflow. Spends skip trace credits (`costCredits`). */
   | 'SKIP_TRACE_MORE'
+  /** Outreach (H): start a saved contact filter's first N contacts in a workflow. Texts them; the press is consent. */
+  | 'START_CONTACTS'
   /** A workflow trigger lost its number: pick a new one. */
   | 'TRIGGER_LOST_NUMBER'
   /** A trust move proposed to the viewer (one per kind, revised in place). */

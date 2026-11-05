@@ -3964,7 +3964,7 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly spaces = {
     /**
-     * Memory: add a note to a shelf the key owner may open, as a person stated it, pinned. PERSON with no `subjectId` is the owner's own, TEAM the organization's (its admins only), otherwise the EMPLOYEE or CONTACT id (listMemorySubjects). `kind` is RULE, PREFERENCE, DECISION, PROCEDURE, FACT or PROGRESS. The same words again return the existing note, re-pinned. In a chat, REMEMBER writes the person's own shelf, and TEAM for an org admin; this reaches the others.
+     * Memory: add a note to a shelf the key owner may open, as a person stated it, pinned. PERSON with no `subjectId` is the owner's own, TEAM the organization's (its admins only), otherwise the CONTACT id (listMemorySubjects). `kind` is RULE, PREFERENCE, DECISION, PROCEDURE, FACT or PROGRESS. The same words again return the existing note, re-pinned. In a chat, REMEMBER writes the person's own shelf, and TEAM for an org admin; this reaches the others.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4161,14 +4161,14 @@ export class GoliathClient extends GoliathClientCore {
     insertSpaceTextLines: (variables: T.InsertSpaceTextLinesMutationVariables, options?: IdempotentRequestOptions): Promise<T.InsertSpaceTextLinesMutation> =>
       this.request('insertSpaceTextLines', variables, options, { operationType: 'mutation' }),
     /**
-     * Memory: the shelves you may open — PERSON (yours), TEAM (the organization's), EMPLOYEE, CONTACT (only the contacts the key owner may open in the CRM) and GROUP (the key owner's own teams) — and how many subjects each list shelf holds (null for PERSON and TEAM). The fleet's PROJECT shelf is never reachable through the API. A workflow's rule lives on TEAM. List a shelf with listMemorySubjects; read one subject with getMemorySubjectNotes.
+     * Memory: the shelves you may open — PERSON (yours), TEAM (the organization's), CONTACT (only the contacts the key owner may open in the CRM) and GROUP (the key owner's own teams) — and how many subjects each list shelf holds (null for PERSON and TEAM). The fleet's PROJECT shelf is never reachable through the API. A workflow's rule lives on TEAM. List a shelf with listMemorySubjects; read one subject with getMemorySubjectNotes.
      *
      * @remarks Requires the READ scope.
      */
     listMemoryShelves: (options?: RequestOptions): Promise<T.ListMemoryShelvesQuery> =>
       this.request('listMemoryShelves', undefined, options, { operationType: 'query' }),
     /**
-     * Memory: one list shelf's subjects (EMPLOYEE, CONTACT or GROUP: AI employees, contacts as the CRM lets the key owner open them, or the key owner's teams), newest first, with how many notes each holds; `query` narrows by name. Page with `after` = `endCursor` while `hasNextPage`. Each `subjectId` opens with getMemorySubjectNotes.
+     * Memory: one list shelf's subjects (CONTACT or GROUP: contacts as the CRM lets the key owner open them, or the key owner's teams; EMPLOYEE is retired and lists none), newest first, with how many notes each holds; `query` narrows by name. Page with `after` = `endCursor` while `hasNextPage`. Each `subjectId` opens with getMemorySubjectNotes.
      *
      * @remarks Requires the READ scope.
      *
@@ -4271,7 +4271,7 @@ export class GoliathClient extends GoliathClientCore {
     publishSpacePage: (variables: T.PublishSpacePageMutationVariables, options?: IdempotentRequestOptions): Promise<T.PublishSpacePageMutation> =>
       this.request('publishSpacePage', variables, options, { operationType: 'mutation' }),
     /**
-     * Memory: queue one dreaming pass now for the key owner's own PERSON shelf (no `subjectId`), outside the nightly run: a model run that spends, at most $0.50, so it needs the person's approval. Any other shelf (TEAM, an EMPLOYEE) is Goliath-admin only. False when dreaming is off for the organization.
+     * Memory: queue one dreaming pass now for the key owner's own PERSON shelf (no `subjectId`), outside the nightly run: a model run that spends, at most $0.50, so it needs the person's approval. Any other shelf (TEAM, a teammate's) is Goliath-admin only. False when dreaming is off for the organization.
      *
      * @remarks Requires the WRITE scope.
      *

@@ -4,7 +4,7 @@
 
 query · domain `spaces` · requires the READ scope
 
-Memory: the shelves you may open — PERSON (yours), TEAM (the organization's), EMPLOYEE, CONTACT (only the contacts the key owner may open in the CRM) and GROUP (the key owner's own teams) — and how many subjects each list shelf holds (null for PERSON and TEAM). The fleet's PROJECT shelf is never reachable through the API. A workflow's rule lives on TEAM. List a shelf with listMemorySubjects; read one subject with getMemorySubjectNotes.
+Memory: the shelves you may open — PERSON (yours), TEAM (the organization's), CONTACT (only the contacts the key owner may open in the CRM) and GROUP (the key owner's own teams) — and how many subjects each list shelf holds (null for PERSON and TEAM). The fleet's PROJECT shelf is never reachable through the API. A workflow's rule lives on TEAM. List a shelf with listMemorySubjects; read one subject with getMemorySubjectNotes.
 
 ## Call
 

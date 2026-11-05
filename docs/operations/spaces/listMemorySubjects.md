@@ -4,7 +4,7 @@
 
 query · domain `spaces` · requires the READ scope
 
-Memory: one list shelf's subjects (EMPLOYEE, CONTACT or GROUP: AI employees, contacts as the CRM lets the key owner open them, or the key owner's teams), newest first, with how many notes each holds; `query` narrows by name. Page with `after` = `endCursor` while `hasNextPage`. Each `subjectId` opens with getMemorySubjectNotes.
+Memory: one list shelf's subjects (CONTACT or GROUP: contacts as the CRM lets the key owner open them, or the key owner's teams; EMPLOYEE is retired and lists none), newest first, with how many notes each holds; `query` narrows by name. Page with `after` = `endCursor` while `hasNextPage`. Each `subjectId` opens with getMemorySubjectNotes.
 
 ## Call
 

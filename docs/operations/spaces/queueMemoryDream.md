@@ -4,7 +4,7 @@
 
 mutation · domain `spaces` · requires the WRITE scope
 
-Memory: queue one dreaming pass now for the key owner's own PERSON shelf (no `subjectId`), outside the nightly run: a model run that spends, at most $0.50, so it needs the person's approval. Any other shelf (TEAM, an EMPLOYEE) is Goliath-admin only. False when dreaming is off for the organization.
+Memory: queue one dreaming pass now for the key owner's own PERSON shelf (no `subjectId`), outside the nightly run: a model run that spends, at most $0.50, so it needs the person's approval. Any other shelf (TEAM, a teammate's) is Goliath-admin only. False when dreaming is off for the organization.
 
 ## Call
 
