@@ -4,7 +4,7 @@
 
 query · domain `contracts` · requires the READ scope
 
-The organization's contracts, newest first (at most 200), with status and who signed. `held` marks a workflow or AI employee send waiting on a blank required value (getHeldContractDraft).
+The organization's contracts, newest first (at most 200), with status and who signed. `held` marks a workflow or AI employee draft that was never sent; a person opens it on the contact's Contracts card.
 
 ## Call
 

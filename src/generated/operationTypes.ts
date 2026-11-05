@@ -133,36 +133,6 @@ export type AdminContractArchiveTemplateInput = {
   templateId: Scalars['ID']['input'];
 };
 
-export type AdminContractCorrectInput = {
-  /** The corrected contract, on the same template version, contact and deal. */
-  contract: AdminContractSendInput;
-  contractId: Scalars['ID']['input'];
-  /** The revision the screen was opened on (correcting.revisionNumber); a correction made since refuses this one. */
-  expectedRevisionNumber: Scalars['Int']['input'];
-  /** How many had signed when the screen opened (correcting.signedNames); a signature since refuses this one. Left out, no check. */
-  expectedSignatureCount?: InputMaybe<Scalars['Int']['input']>;
-  /** A UUID the client generates once per correction; a retry with the same key corrects once. */
-  idempotencyKey: Scalars['ID']['input'];
-  /** What changed: on the evidence chain, and emailed to signers whose link stops working. */
-  reason: Scalars['String']['input'];
-};
-
-/**
- * Where a sender-owned prefill comes from. TOKENS renders a merge-field template (`{{firstName}}`) against the
- * contract's contact, property, deal and sender; MANUAL is typed by the sender when the contract is prepared.
- */
-export type AdminContractPrefillSource =
-  | 'MANUAL'
-  | 'TOKENS';
-
-export type AdminContractPrepareInput = {
-  contract: AdminContractSendInput;
-  /** A held workflow draft this send completes (from `heldDraft`): revision 1 is frozen on that contract. */
-  heldContractId?: InputMaybe<Scalars['ID']['input']>;
-  /** A UUID the client generates once per prepare; a retry with the same key returns the same contract. */
-  idempotencyKey: Scalars['ID']['input'];
-};
-
 export type AdminContractRecipientStatus =
   | 'BLOCKED'
   | 'DECLINED'
@@ -176,67 +146,6 @@ export type AdminContractRecipientStatus =
 export type AdminContractRoleKind =
   | 'COPY'
   | 'SIGNER';
-
-/** A contract as the sender has it on the prepare screen. */
-export type AdminContractSendInput = {
-  /** This send's After signing button. Left out: the template's; null: none on this send. */
-  afterSigning?: InputMaybe<ContractAfterSigningInput>;
-  contactId: Scalars['ID']['input'];
-  /** @deprecated Renamed to pipelineItemId (pipelines WS5, INT-13330). */
-  dealId?: InputMaybe<Scalars['ID']['input']>;
-  /** The day the links stop working, YYYY-MM-DD, through its end in the contract's time zone; left out, expiryDays from the send. */
-  expiresOn?: InputMaybe<Scalars['String']['input']>;
-  /** Days signers have once it is sent, 1–90. */
-  expiryDays: Scalars['Int']['input'];
-  message: Scalars['String']['input'];
-  /** The note opens the invitation texts too, as the send screen's note field says; left out, the note is for the email alone (workflows, the API). */
-  noteInText?: InputMaybe<Scalars['Boolean']['input']>;
-  pipelineItemId?: InputMaybe<Scalars['ID']['input']>;
-  recipients: Array<AdminContractSendRecipientInput>;
-  /** Days between automatic reminders, 1–30; left out, every day; null turns them off. */
-  reminderIntervalDays?: InputMaybe<Scalars['Int']['input']>;
-  /** The Goliath sales offer this send carries (a Goliath plan template's, created by a Goliath admin from the Plan sheet). */
-  salesOfferId?: InputMaybe<Scalars['ID']['input']>;
-  subject: Scalars['String']['input'];
-  templateId: Scalars['ID']['input'];
-  /** The published version the screen was opened on; a newer publish refuses the prepare. */
-  templateVersionId: Scalars['ID']['input'];
-  title: Scalars['String']['input'];
-  /** The sender's value per prefill; a prefill left out keeps what the CRM filled. */
-  values: Array<AdminContractSendValueInput>;
-};
-
-export type AdminContractSendRecipientInput = {
-  /** The contact this recipient is, when they are one. */
-  contactId?: InputMaybe<Scalars['ID']['input']>;
-  displayName: Scalars['String']['input'];
-  /** Their email when they are sent it by Email; give exactly one of an email or a phone. */
-  email?: InputMaybe<Scalars['String']['input']>;
-  /** Their mobile number when they are sent it by Text, in any US form; give exactly one of an email or a phone. */
-  phone?: InputMaybe<Scalars['String']['input']>;
-  roleKey: Scalars['ID']['input'];
-  /** The signer's turn, 1-based; signers sharing a turn sign at once. Null on a copy; null on every recipient keeps the template's order. */
-  signingOrder?: InputMaybe<Scalars['Int']['input']>;
-};
-
-export type AdminContractSendStartInput = {
-  /** Optional Contact B (a co-seller) for the template's second contact role. */
-  contactBId?: InputMaybe<Scalars['ID']['input']>;
-  contactId: Scalars['ID']['input'];
-  /** @deprecated Renamed to pipelineItemId (pipelines WS5, INT-13330). */
-  dealId?: InputMaybe<Scalars['ID']['input']>;
-  /** Optional deal for the deal merge fields; must belong to the same organization. */
-  pipelineItemId?: InputMaybe<Scalars['ID']['input']>;
-  templateId: Scalars['ID']['input'];
-};
-
-export type AdminContractSendValueInput = {
-  /** The prefill's key. */
-  key: Scalars['ID']['input'];
-  /** The value's type on this send, when the sender changed it; left out keeps the template's. */
-  type?: InputMaybe<AdminContractValueType>;
-  value: Scalars['String']['input'];
-};
 
 /** Where a contract's current signing attempt stands. */
 export type AdminContractStatus =
@@ -262,22 +171,6 @@ export type AdminContractTemplateStatus =
   /** Never published. */
   | 'DRAFT'
   | 'PUBLISHED';
-
-/** Where a send screen value comes from, as the review step labels it. */
-export type AdminContractValueRecord =
-  | 'CONTACT'
-  | 'DEAL'
-  | 'PIPELINE_ITEM'
-  | 'TEAMMATE'
-  | 'TYPED';
-
-/** What a prefill holds: the send screen picks its input by it (a date picker for DATE, a number for NUMBER). */
-export type AdminContractValueType =
-  | 'BOOLEAN'
-  | 'DATE'
-  | 'MONEY'
-  | 'NUMBER'
-  | 'TEXT';
 
 export type AfterCallActionKind =
   | 'ADD_TO_SEQUENCE'
@@ -775,34 +668,6 @@ export type ContentTemplateType =
    * taskConfig of its own — see `ContentTemplate.taskSetSteps`.
    */
   | 'TASK_SET';
-
-/** The mark beside the After signing button's label. */
-export type ContractAfterSigningIcon =
-  | 'ARROW_RIGHT'
-  | 'CALENDAR'
-  /** Goliath's own mark, with a trailing arrow. */
-  | 'GOLIATH'
-  | 'NONE';
-
-/** An After signing button as a template or a send sets it; see `ContractAfterSigning`. */
-export type ContractAfterSigningInput = {
-  autoContinue: Scalars['Boolean']['input'];
-  caption?: InputMaybe<Scalars['String']['input']>;
-  color?: InputMaybe<Scalars['String']['input']>;
-  icon: ContractAfterSigningIcon;
-  label: Scalars['String']['input'];
-  style: ContractAfterSigningStyle;
-  url: Scalars['String']['input'];
-};
-
-/** How the After signing button is painted. */
-export type ContractAfterSigningStyle =
-  /** Filled with the template owner's own color. */
-  | 'BRAND'
-  /** The app's dark button. */
-  | 'DARK'
-  /** White with an outline. */
-  | 'LIGHT';
 
 export type CopySpaceItemInput = {
   destination: SpaceDestinationInput;
@@ -4626,48 +4491,11 @@ export type GetContractQueryVariables = Exact<{
 
 export type GetContractQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', contract?: { __typename?: 'AdminContract', id: string, title: string, category: string, status?: AdminContractStatus | null, held: boolean, contactId?: string | null, contactName: string, revisionNumber: number, subject: string, message: string, expiryDays: number, reminderIntervalDays?: number | null, sentAt?: any | null, expiresAt?: any | null, completedAt?: any | null, unsignedPdfUrl?: string | null, signedPdfUrl?: string | null, deal?: { __typename?: 'AdminContractSendPipelineItem', id: string, title: string } | null, values: Array<{ __typename?: 'AdminContractValue', key: string, label: string, value: string }>, recipients: Array<{ __typename?: 'AdminContractRecipient', id: string, roleLabel: string, kind: AdminContractRoleKind, displayName: string, email?: string | null, phone?: string | null, signingOrder: number, status: AdminContractRecipientStatus, firstViewedAt?: any | null, signedAt?: any | null, declinedAt?: any | null, declineReason?: string | null, deliveryProblem?: string | null }> } | null } | null };
 
-export type GetContractSendDraftQueryVariables = Exact<{
-  input: AdminContractSendStartInput;
-}>;
-
-export type GetContractSendDraftQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', sendDraft?: { __typename?: 'AdminContractSendDraft', templateId: string, templateVersionId: string, templateName: string, title: string, missingTokens: Array<string>, subject: string, message: string, expiryDays: number, reminderIntervalDays?: number | null, dealId?: string | null, contact: { __typename?: 'AdminContractSendContact', id: string, name: string, emails: Array<string>, phones: Array<string> }, contactB?: { __typename?: 'AdminContractSendContact', id: string, name: string, emails: Array<string>, phones: Array<string> } | null, values: Array<{ __typename?: 'AdminContractSendValue', key: string, label: string, source: AdminContractPrefillSource, required: boolean, value: string, record: AdminContractValueRecord }>, roles: Array<{ __typename?: 'AdminContractRole', key: string, label: string, kind: AdminContractRoleKind, order: number }>, recipients: Array<{ __typename?: 'AdminContractSendRecipient', roleKey: string, displayName: string, email?: string | null, phone?: string | null, contactId?: string | null, signingOrder?: number | null }> } | null } | null };
-
-export type GetHeldContractDraftQueryVariables = Exact<{
-  contractId: Scalars['ID']['input'];
-}>;
-
-export type GetHeldContractDraftQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', heldDraft?: { __typename?: 'AdminContractSendDraft', templateId: string, templateVersionId: string, templateName: string, title: string, heldContractId?: string | null, missingTokens: Array<string>, subject: string, message: string, expiryDays: number, reminderIntervalDays?: number | null, dealId?: string | null, contact: { __typename?: 'AdminContractSendContact', id: string, name: string, emails: Array<string>, phones: Array<string> }, contactB?: { __typename?: 'AdminContractSendContact', id: string, name: string, emails: Array<string>, phones: Array<string> } | null, values: Array<{ __typename?: 'AdminContractSendValue', key: string, label: string, source: AdminContractPrefillSource, required: boolean, value: string, record: AdminContractValueRecord }>, roles: Array<{ __typename?: 'AdminContractRole', key: string, label: string, kind: AdminContractRoleKind, order: number }>, recipients: Array<{ __typename?: 'AdminContractSendRecipient', roleKey: string, displayName: string, email?: string | null, phone?: string | null, contactId?: string | null, signingOrder?: number | null }> } | null } | null };
-
-export type PreviewContractMutationVariables = Exact<{
-  input: AdminContractSendInput;
-}>;
-
-export type PreviewContractMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', previewContract?: { __typename?: 'AdminContractSendPreview', pdfUrl: string, overflowing: Array<string>, unprintable: Array<string> } | null } | null };
-
-export type PreviewContractMessagesMutationVariables = Exact<{
-  input: AdminContractSendInput;
-}>;
-
-export type PreviewContractMessagesMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', previewMessages: { __typename?: 'AdminContractSendMessagePreview', email?: { __typename?: 'AdminContractSendEmailPreview', to: string, fromName: string, subject: string, heading: string, senderName: string, replyToFirstName: string, message: string, documentTitle: string, documentDetail: string, openBy: string } | null, text?: { __typename?: 'AdminContractSendTextPreview', to: string, body: string } | null } } | null };
-
-export type PrepareContractMutationVariables = Exact<{
-  input: AdminContractPrepareInput;
-}>;
-
-export type PrepareContractMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', prepareContract?: { __typename?: 'AdminContract', id: string, title: string, status?: AdminContractStatus | null, revisionNumber: number, contactName: string, unsignedPdfUrl?: string | null } | null } | null };
-
 export type ArchiveContractTemplateMutationVariables = Exact<{
   input: AdminContractArchiveTemplateInput;
 }>;
 
 export type ArchiveContractTemplateMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', archiveTemplate?: { __typename?: 'AdminContractTemplate', id: string, name: string, status: AdminContractTemplateStatus } | null } | null };
-
-export type SendContractMutationVariables = Exact<{
-  contractId: Scalars['ID']['input'];
-  expectedRevisionNumber?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type SendContractMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', sendContract?: { __typename?: 'AdminContract', id: string, title: string, status?: AdminContractStatus | null, revisionNumber: number } | null } | null };
 
 export type UnarchiveContractTemplateMutationVariables = Exact<{
   input: AdminContractArchiveTemplateInput;
@@ -4696,12 +4524,6 @@ export type VoidContractMutationVariables = Exact<{
 }>;
 
 export type VoidContractMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', voidContract?: { __typename?: 'AdminContract', id: string, title: string, status?: AdminContractStatus | null, revisionNumber: number } | null } | null };
-
-export type CorrectContractMutationVariables = Exact<{
-  input: AdminContractCorrectInput;
-}>;
-
-export type CorrectContractMutation = { __typename?: 'RootMutation', contractsMutation?: { __typename?: 'ContractsMutation', correctContract?: { __typename?: 'AdminContract', id: string, title: string, status?: AdminContractStatus | null, revisionNumber: number } | null } | null };
 
 export type IssueContractSigningLinkMutationVariables = Exact<{
   contractId: Scalars['ID']['input'];

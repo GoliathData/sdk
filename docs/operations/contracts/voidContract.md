@@ -4,7 +4,7 @@
 
 mutation · domain `contracts` · requires the WRITE scope
 
-Void a sent contract: every signing link stops working and the signers who were sent one are told, with `reason` (kept on the evidence chain). It cannot be un-voided; to go on, prepare a new one. Only on the person’s word. `expectedRevisionNumber` as sendContract. Needs the manage contracts capability.
+Void a sent contract: every signing link stops working and the signers who were sent one are told, with `reason` (kept on the evidence chain). It cannot be un-voided; to go on, prepare a new one. Only on the person’s word. `expectedRevisionNumber` (getContract's revisionNumber) refuses it if the contract was corrected since in the app. Needs the manage contracts capability.
 
 ## Call
 

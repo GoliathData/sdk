@@ -2600,19 +2600,6 @@
     "responseShape": "{\"contractsMutation\":{\"completeContract\":{\"id\":true,\"title\":true,\"status\":true,\"revisionNumber\":true}}}"
   },
   {
-    "operationId": "correctContract",
-    "domain": "contracts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "input:AdminContractCorrectInput!",
-    "responseShape": "{\"contractsMutation\":{\"correctContract\":{\"id\":true,\"title\":true,\"status\":true,\"revisionNumber\":true}}}"
-  },
-  {
     "operationId": "getContract",
     "domain": "contracts",
     "operationType": "query",
@@ -2624,32 +2611,6 @@
     "hasAuthorize": false,
     "variableSignature": "contractId:ID!",
     "responseShape": "{\"contractsQuery\":{\"contract\":{\"id\":true,\"title\":true,\"category\":true,\"status\":true,\"held\":true,\"contactId\":true,\"contactName\":true,\"revisionNumber\":true,\"subject\":true,\"message\":true,\"expiryDays\":true,\"reminderIntervalDays\":true,\"sentAt\":true,\"expiresAt\":true,\"completedAt\":true,\"unsignedPdfUrl\":true,\"signedPdfUrl\":true,\"deal\":{\"id\":true,\"title\":true},\"values\":{\"key\":true,\"label\":true,\"value\":true},\"recipients\":{\"id\":true,\"roleLabel\":true,\"kind\":true,\"displayName\":true,\"email\":true,\"phone\":true,\"signingOrder\":true,\"status\":true,\"firstViewedAt\":true,\"signedAt\":true,\"declinedAt\":true,\"declineReason\":true,\"deliveryProblem\":true}}}}"
-  },
-  {
-    "operationId": "getContractSendDraft",
-    "domain": "contracts",
-    "operationType": "query",
-    "requiredScope": "READ",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": false,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "input:AdminContractSendStartInput!",
-    "responseShape": "{\"contractsQuery\":{\"sendDraft\":{\"templateId\":true,\"templateVersionId\":true,\"templateName\":true,\"title\":true,\"dealId\":true,\"contact\":{\"id\":true,\"name\":true,\"emails\":true,\"phones\":true},\"contactB\":{\"id\":true,\"name\":true,\"emails\":true,\"phones\":true},\"values\":{\"key\":true,\"label\":true,\"source\":true,\"required\":true,\"value\":true,\"record\":true},\"missingTokens\":true,\"roles\":{\"key\":true,\"label\":true,\"kind\":true,\"order\":true},\"recipients\":{\"roleKey\":true,\"displayName\":true,\"email\":true,\"phone\":true,\"contactId\":true,\"signingOrder\":true},\"subject\":true,\"message\":true,\"expiryDays\":true,\"reminderIntervalDays\":true}}}"
-  },
-  {
-    "operationId": "getHeldContractDraft",
-    "domain": "contracts",
-    "operationType": "query",
-    "requiredScope": "READ",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": false,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "contractId:ID!",
-    "responseShape": "{\"contractsQuery\":{\"heldDraft\":{\"templateId\":true,\"templateVersionId\":true,\"templateName\":true,\"title\":true,\"dealId\":true,\"heldContractId\":true,\"contact\":{\"id\":true,\"name\":true,\"emails\":true,\"phones\":true},\"contactB\":{\"id\":true,\"name\":true,\"emails\":true,\"phones\":true},\"values\":{\"key\":true,\"label\":true,\"source\":true,\"required\":true,\"value\":true,\"record\":true},\"missingTokens\":true,\"roles\":{\"key\":true,\"label\":true,\"kind\":true,\"order\":true},\"recipients\":{\"roleKey\":true,\"displayName\":true,\"email\":true,\"phone\":true,\"contactId\":true,\"signingOrder\":true},\"subject\":true,\"message\":true,\"expiryDays\":true,\"reminderIntervalDays\":true}}}"
   },
   {
     "operationId": "issueContractSigningLink",
@@ -2730,45 +2691,6 @@
     "responseShape": "{\"contractsQuery\":{\"dealContracts\":{\"id\":true,\"title\":true,\"templateId\":true,\"status\":true,\"held\":true,\"contactId\":true,\"contactName\":true,\"signerCount\":true,\"signedCount\":true,\"sentAt\":true,\"expiresAt\":true,\"completedAt\":true,\"signers\":{\"displayName\":true,\"status\":true,\"signedAt\":true}}}}"
   },
   {
-    "operationId": "prepareContract",
-    "domain": "contracts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "input:AdminContractPrepareInput!",
-    "responseShape": "{\"contractsMutation\":{\"prepareContract\":{\"id\":true,\"title\":true,\"status\":true,\"revisionNumber\":true,\"contactName\":true,\"unsignedPdfUrl\":true}}}"
-  },
-  {
-    "operationId": "previewContract",
-    "domain": "contracts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "input:AdminContractSendInput!",
-    "responseShape": "{\"contractsMutation\":{\"previewContract\":{\"pdfUrl\":true,\"overflowing\":true,\"unprintable\":true}}}"
-  },
-  {
-    "operationId": "previewContractMessages",
-    "domain": "contracts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "input:AdminContractSendInput!",
-    "responseShape": "{\"contractsMutation\":{\"previewMessages\":{\"email\":{\"to\":true,\"fromName\":true,\"subject\":true,\"heading\":true,\"senderName\":true,\"replyToFirstName\":true,\"message\":true,\"documentTitle\":true,\"documentDetail\":true,\"openBy\":true},\"text\":{\"to\":true,\"body\":true}}}}"
-  },
-  {
     "operationId": "remindContract",
     "domain": "contracts",
     "operationType": "mutation",
@@ -2780,19 +2702,6 @@
     "hasAuthorize": false,
     "variableSignature": "contractId:ID!,expectedRevisionNumber:Int",
     "responseShape": "{\"contractsMutation\":{\"remindContract\":{\"id\":true,\"title\":true,\"status\":true,\"revisionNumber\":true}}}"
-  },
-  {
-    "operationId": "sendContract",
-    "domain": "contracts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "contractId:ID!,expectedRevisionNumber:Int",
-    "responseShape": "{\"contractsMutation\":{\"sendContract\":{\"id\":true,\"title\":true,\"status\":true,\"revisionNumber\":true}}}"
   },
   {
     "operationId": "unarchiveContractTemplate",

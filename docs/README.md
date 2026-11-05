@@ -39,7 +39,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `communications` | 21 |
 | `contactImports` | 7 |
 | `contacts` | 92 |
-| `contracts` | 19 |
+| `contracts` | 12 |
 | `conversations` | 9 |
 | `coverage` | 2 |
 | `crmImport` | 3 |

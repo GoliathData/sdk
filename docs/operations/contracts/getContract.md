@@ -4,7 +4,7 @@
 
 query · domain `contracts` · requires the READ scope
 
-One contract: its values, each signer's status (viewed, signed, declined with their reason, a deliveryProblem when their link never arrived) and short-lived PDF links (`signedPdfUrl` once everyone signed). READY means prepared but not sent. Send, Remind, Correct and Void are buttons on `/contracts/<id>` (and, for a developer-API key, sendContract, remindContract, correctContract, voidContract).
+One contract: its values, each signer's status (viewed, signed, declined with their reason, a deliveryProblem when their link never arrived) and short-lived PDF links (`signedPdfUrl` once everyone signed). READY means prepared but not sent. Send, Remind, Correct and Void are buttons on `/contracts/<id>` (and, for a developer-API key, remindContract and voidContract; a contract is only ever sent or corrected by a person in the app).
 
 ## Call
 

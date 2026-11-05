@@ -8573,41 +8573,11 @@
       }
     },
     {
-      "operationId": "correctContract",
-      "domain": "contracts",
-      "operationType": "mutation",
-      "requiredScope": "WRITE",
-      "description": "Correct a sent contract on the same template version, contact and deal: `input.contract` as prepareContract takes it with the changes, `reason` (emailed to the signers whose link stops working, and kept on the evidence chain), `expectedRevisionNumber` (getContract's revisionNumber; a correction since refuses this one), `expectedSignatureCount` (how many had signed; a signature since refuses it) and `idempotencyKey` (a new UUID, resent unchanged on a retry). Needs the manage contracts capability.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": true,
-      "orgIdVariable": null,
-      "hasAuthorize": true,
-      "variables": [
-        {
-          "name": "input",
-          "type": "AdminContractCorrectInput!",
-          "required": true,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "contractsMutation": {
-          "correctContract": {
-            "id": true,
-            "title": true,
-            "status": true,
-            "revisionNumber": true
-          }
-        }
-      }
-    },
-    {
       "operationId": "getContract",
       "domain": "contracts",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "One contract: its values, each signer's status (viewed, signed, declined with their reason, a deliveryProblem when their link never arrived) and short-lived PDF links (`signedPdfUrl` once everyone signed). READY means prepared but not sent. Send, Remind, Correct and Void are buttons on `/contracts/<id>` (and, for a developer-API key, sendContract, remindContract, correctContract, voidContract).",
+      "description": "One contract: its values, each signer's status (viewed, signed, declined with their reason, a deliveryProblem when their link never arrived) and short-lived PDF links (`signedPdfUrl` once everyone signed). READY means prepared but not sent. Send, Remind, Correct and Void are buttons on `/contracts/<id>` (and, for a developer-API key, remindContract and voidContract; a contract is only ever sent or corrected by a person in the app).",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -8665,147 +8635,6 @@
               "declineReason": true,
               "deliveryProblem": true
             }
-          }
-        }
-      }
-    },
-    {
-      "operationId": "getContractSendDraft",
-      "domain": "contracts",
-      "operationType": "query",
-      "requiredScope": "READ",
-      "description": "Step 1 of preparing a contract: a PUBLISHED template filled for one contact (optionally a deal, and contactBId for a co-seller). Returns the template version, the CRM-filled `values` (a `required` one left blank needs a value: their words or ask, never an invented price, date or address), `missingTokens`, one suggested recipient per role, and the subject, message and expiry. Needs the manage contracts capability. Then prepareContract.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": false,
-      "orgIdVariable": null,
-      "hasAuthorize": true,
-      "variables": [
-        {
-          "name": "input",
-          "type": "AdminContractSendStartInput!",
-          "required": true,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "contractsQuery": {
-          "sendDraft": {
-            "templateId": true,
-            "templateVersionId": true,
-            "templateName": true,
-            "title": true,
-            "dealId": true,
-            "contact": {
-              "id": true,
-              "name": true,
-              "emails": true,
-              "phones": true
-            },
-            "contactB": {
-              "id": true,
-              "name": true,
-              "emails": true,
-              "phones": true
-            },
-            "values": {
-              "key": true,
-              "label": true,
-              "source": true,
-              "required": true,
-              "value": true,
-              "record": true
-            },
-            "missingTokens": true,
-            "roles": {
-              "key": true,
-              "label": true,
-              "kind": true,
-              "order": true
-            },
-            "recipients": {
-              "roleKey": true,
-              "displayName": true,
-              "email": true,
-              "phone": true,
-              "contactId": true,
-              "signingOrder": true
-            },
-            "subject": true,
-            "message": true,
-            "expiryDays": true,
-            "reminderIntervalDays": true
-          }
-        }
-      }
-    },
-    {
-      "operationId": "getHeldContractDraft",
-      "domain": "contracts",
-      "operationType": "query",
-      "requiredScope": "READ",
-      "description": "A held contract (a workflow or AI employee send stopped on a blank required value) reopened to fill in, shaped as getContractSendDraft. Prepare it with prepareContract and `heldContractId` set. Needs the manage contracts capability.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": false,
-      "orgIdVariable": null,
-      "hasAuthorize": false,
-      "variables": [
-        {
-          "name": "contractId",
-          "type": "ID!",
-          "required": true,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "contractsQuery": {
-          "heldDraft": {
-            "templateId": true,
-            "templateVersionId": true,
-            "templateName": true,
-            "title": true,
-            "dealId": true,
-            "heldContractId": true,
-            "contact": {
-              "id": true,
-              "name": true,
-              "emails": true,
-              "phones": true
-            },
-            "contactB": {
-              "id": true,
-              "name": true,
-              "emails": true,
-              "phones": true
-            },
-            "values": {
-              "key": true,
-              "label": true,
-              "source": true,
-              "required": true,
-              "value": true,
-              "record": true
-            },
-            "missingTokens": true,
-            "roles": {
-              "key": true,
-              "label": true,
-              "kind": true,
-              "order": true
-            },
-            "recipients": {
-              "roleKey": true,
-              "displayName": true,
-              "email": true,
-              "phone": true,
-              "contactId": true,
-              "signingOrder": true
-            },
-            "subject": true,
-            "message": true,
-            "expiryDays": true,
-            "reminderIntervalDays": true
           }
         }
       }
@@ -8940,7 +8769,7 @@
       "domain": "contracts",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "The organization's contracts, newest first (at most 200), with status and who signed. `held` marks a workflow or AI employee send waiting on a blank required value (getHeldContractDraft).",
+      "description": "The organization's contracts, newest first (at most 200), with status and who signed. `held` marks a workflow or AI employee draft that was never sent; a person opens it on the contact's Contracts card.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -9050,114 +8879,11 @@
       }
     },
     {
-      "operationId": "prepareContract",
-      "domain": "contracts",
-      "operationType": "mutation",
-      "requiredScope": "WRITE",
-      "description": "Step 2: freeze a contract READY to send, with its unsigned PDF. Build `input.contract` from getContractSendDraft's result (change what the person asked): `values` as { key, value } for every value to set, required blanks included; one recipient per role with exactly one of email or phone. Pass `idempotencyKey` (a new UUID) and resend it unchanged on a retry, so a lost response never makes a second contract. A template published again since step 1 is refused: start over. Needs the manage contracts capability. It reaches no signer: the person presses Send on `/contracts/<id>`, or a developer-API key calls sendContract.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": true,
-      "orgIdVariable": null,
-      "hasAuthorize": true,
-      "variables": [
-        {
-          "name": "input",
-          "type": "AdminContractPrepareInput!",
-          "required": true,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "contractsMutation": {
-          "prepareContract": {
-            "id": true,
-            "title": true,
-            "status": true,
-            "revisionNumber": true,
-            "contactName": true,
-            "unsignedPdfUrl": true
-          }
-        }
-      }
-    },
-    {
-      "operationId": "previewContract",
-      "domain": "contracts",
-      "operationType": "mutation",
-      "requiredScope": "WRITE",
-      "description": "The filled PDF a contract would be (`pdfUrl`, short-lived) and any values that overflow their box or cannot print. Takes what prepareContract takes as `input.contract`. Nothing is saved.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": true,
-      "orgIdVariable": null,
-      "hasAuthorize": true,
-      "variables": [
-        {
-          "name": "input",
-          "type": "AdminContractSendInput!",
-          "required": true,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "contractsMutation": {
-          "previewContract": {
-            "pdfUrl": true,
-            "overflowing": true,
-            "unprintable": true
-          }
-        }
-      }
-    },
-    {
-      "operationId": "previewContractMessages",
-      "domain": "contracts",
-      "operationType": "mutation",
-      "requiredScope": "WRITE",
-      "description": "What the first signers would be sent: the signing email's words (`email`) and the text (`text`), each null when no first signer is reached that way, worded by the send's own code. Takes what prepareContract takes as `input.contract`. Nothing is saved or sent.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": true,
-      "orgIdVariable": null,
-      "hasAuthorize": true,
-      "variables": [
-        {
-          "name": "input",
-          "type": "AdminContractSendInput!",
-          "required": true,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "contractsMutation": {
-          "previewMessages": {
-            "email": {
-              "to": true,
-              "fromName": true,
-              "subject": true,
-              "heading": true,
-              "senderName": true,
-              "replyToFirstName": true,
-              "message": true,
-              "documentTitle": true,
-              "documentDetail": true,
-              "openBy": true
-            },
-            "text": {
-              "to": true,
-              "body": true
-            }
-          }
-        }
-      }
-    },
-    {
       "operationId": "remindContract",
       "domain": "contracts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Email a fresh link to every signer whose turn it is; their earlier links stop working. `expectedRevisionNumber` as sendContract. Needs the manage contracts capability.",
+      "description": "Email a fresh link to every signer whose turn it is; their earlier links stop working. `expectedRevisionNumber` (getContract's revisionNumber) refuses it if the contract was corrected since in the app. Needs the manage contracts capability.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -9180,42 +8906,6 @@
       "responseShape": {
         "contractsMutation": {
           "remindContract": {
-            "id": true,
-            "title": true,
-            "status": true,
-            "revisionNumber": true
-          }
-        }
-      }
-    },
-    {
-      "operationId": "sendContract",
-      "domain": "contracts",
-      "operationType": "mutation",
-      "requiredScope": "WRITE",
-      "description": "Send a READY contract (prepareContract) for signature: the first signers in signing order get their links by email or text, and it becomes SENT. Confirm the contract and its signers with the person first (getContract). `expectedRevisionNumber` (getContract's revisionNumber) refuses the send if it was corrected since. Needs the manage contracts capability.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": true,
-      "orgIdVariable": null,
-      "hasAuthorize": false,
-      "variables": [
-        {
-          "name": "contractId",
-          "type": "ID!",
-          "required": true,
-          "defaultValue": null
-        },
-        {
-          "name": "expectedRevisionNumber",
-          "type": "Int",
-          "required": false,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "contractsMutation": {
-          "sendContract": {
             "id": true,
             "title": true,
             "status": true,
@@ -9258,7 +8948,7 @@
       "domain": "contracts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Void a sent contract: every signing link stops working and the signers who were sent one are told, with `reason` (kept on the evidence chain). It cannot be un-voided; to go on, prepare a new one. Only on the person’s word. `expectedRevisionNumber` as sendContract. Needs the manage contracts capability.",
+      "description": "Void a sent contract: every signing link stops working and the signers who were sent one are told, with `reason` (kept on the evidence chain). It cannot be un-voided; to go on, prepare a new one. Only on the person’s word. `expectedRevisionNumber` (getContract's revisionNumber) refuses it if the contract was corrected since in the app. Needs the manage contracts capability.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,

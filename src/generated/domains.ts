@@ -1735,35 +1735,12 @@ export class GoliathClient extends GoliathClientCore {
     completeContract: (variables: T.CompleteContractMutationVariables, options?: IdempotentRequestOptions): Promise<T.CompleteContractMutation> =>
       this.request('completeContract', variables, options, { operationType: 'mutation' }),
     /**
-     * Correct a sent contract on the same template version, contact and deal: `input.contract` as prepareContract takes it with the changes, `reason` (emailed to the signers whose link stops working, and kept on the evidence chain), `expectedRevisionNumber` (getContract's revisionNumber; a correction since refuses this one), `expectedSignatureCount` (how many had signed; a signature since refuses it) and `idempotencyKey` (a new UUID, resent unchanged on a retry). Needs the manage contracts capability.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    correctContract: (variables: T.CorrectContractMutationVariables, options?: IdempotentRequestOptions): Promise<T.CorrectContractMutation> =>
-      this.request('correctContract', variables, options, { operationType: 'mutation' }),
-    /**
-     * One contract: its values, each signer's status (viewed, signed, declined with their reason, a deliveryProblem when their link never arrived) and short-lived PDF links (`signedPdfUrl` once everyone signed). READY means prepared but not sent. Send, Remind, Correct and Void are buttons on `/contracts/<id>` (and, for a developer-API key, sendContract, remindContract, correctContract, voidContract).
+     * One contract: its values, each signer's status (viewed, signed, declined with their reason, a deliveryProblem when their link never arrived) and short-lived PDF links (`signedPdfUrl` once everyone signed). READY means prepared but not sent. Send, Remind, Correct and Void are buttons on `/contracts/<id>` (and, for a developer-API key, remindContract and voidContract; a contract is only ever sent or corrected by a person in the app).
      *
      * @remarks Requires the READ scope.
      */
     getContract: (variables: T.GetContractQueryVariables, options?: RequestOptions): Promise<T.GetContractQuery> =>
       this.request('getContract', variables, options, { operationType: 'query' }),
-    /**
-     * Step 1 of preparing a contract: a PUBLISHED template filled for one contact (optionally a deal, and contactBId for a co-seller). Returns the template version, the CRM-filled `values` (a `required` one left blank needs a value: their words or ask, never an invented price, date or address), `missingTokens`, one suggested recipient per role, and the subject, message and expiry. Needs the manage contracts capability. Then prepareContract.
-     *
-     * @remarks Requires the READ scope.
-     */
-    getContractSendDraft: (variables: T.GetContractSendDraftQueryVariables, options?: RequestOptions): Promise<T.GetContractSendDraftQuery> =>
-      this.request('getContractSendDraft', variables, options, { operationType: 'query' }),
-    /**
-     * A held contract (a workflow or AI employee send stopped on a blank required value) reopened to fill in, shaped as getContractSendDraft. Prepare it with prepareContract and `heldContractId` set. Needs the manage contracts capability.
-     *
-     * @remarks Requires the READ scope.
-     */
-    getHeldContractDraft: (variables: T.GetHeldContractDraftQueryVariables, options?: RequestOptions): Promise<T.GetHeldContractDraftQuery> =>
-      this.request('getHeldContractDraft', variables, options, { operationType: 'query' }),
     /**
      * A working signing link for ONE signer whose turn it is (`recipientId`: getContract's recipients[].id), returned once for you to pass to that signer yourself. Nothing is emailed, and the emailed link keeps working; remindContract or voidContract retires both. Opening it still asks for the code we email the signer. Never for the key owner's own signature (they sign in the app). Needs the manage contracts capability.
      *
@@ -1790,7 +1767,7 @@ export class GoliathClient extends GoliathClientCore {
     listContactContracts: (variables: T.ListContactContractsQueryVariables, options?: RequestOptions): Promise<T.ListContactContractsQuery> =>
       this.request('listContactContracts', variables, options, { operationType: 'query' }),
     /**
-     * The organization's contracts, newest first (at most 200), with status and who signed. `held` marks a workflow or AI employee send waiting on a blank required value (getHeldContractDraft).
+     * The organization's contracts, newest first (at most 200), with status and who signed. `held` marks a workflow or AI employee draft that was never sent; a person opens it on the contact's Contracts card.
      *
      * @remarks Requires the READ scope.
      */
@@ -1811,34 +1788,7 @@ export class GoliathClient extends GoliathClientCore {
     listDealContracts: (variables: T.ListDealContractsQueryVariables, options?: RequestOptions): Promise<T.ListDealContractsQuery> =>
       this.request('listDealContracts', variables, options, { operationType: 'query' }),
     /**
-     * Step 2: freeze a contract READY to send, with its unsigned PDF. Build `input.contract` from getContractSendDraft's result (change what the person asked): `values` as { key, value } for every value to set, required blanks included; one recipient per role with exactly one of email or phone. Pass `idempotencyKey` (a new UUID) and resend it unchanged on a retry, so a lost response never makes a second contract. A template published again since step 1 is refused: start over. Needs the manage contracts capability. It reaches no signer: the person presses Send on `/contracts/<id>`, or a developer-API key calls sendContract.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    prepareContract: (variables: T.PrepareContractMutationVariables, options?: IdempotentRequestOptions): Promise<T.PrepareContractMutation> =>
-      this.request('prepareContract', variables, options, { operationType: 'mutation' }),
-    /**
-     * The filled PDF a contract would be (`pdfUrl`, short-lived) and any values that overflow their box or cannot print. Takes what prepareContract takes as `input.contract`. Nothing is saved.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    previewContract: (variables: T.PreviewContractMutationVariables, options?: IdempotentRequestOptions): Promise<T.PreviewContractMutation> =>
-      this.request('previewContract', variables, options, { operationType: 'mutation' }),
-    /**
-     * What the first signers would be sent: the signing email's words (`email`) and the text (`text`), each null when no first signer is reached that way, worded by the send's own code. Takes what prepareContract takes as `input.contract`. Nothing is saved or sent.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    previewContractMessages: (variables: T.PreviewContractMessagesMutationVariables, options?: IdempotentRequestOptions): Promise<T.PreviewContractMessagesMutation> =>
-      this.request('previewContractMessages', variables, options, { operationType: 'mutation' }),
-    /**
-     * Email a fresh link to every signer whose turn it is; their earlier links stop working. `expectedRevisionNumber` as sendContract. Needs the manage contracts capability.
+     * Email a fresh link to every signer whose turn it is; their earlier links stop working. `expectedRevisionNumber` (getContract's revisionNumber) refuses it if the contract was corrected since in the app. Needs the manage contracts capability.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1846,15 +1796,6 @@ export class GoliathClient extends GoliathClientCore {
      */
     remindContract: (variables: T.RemindContractMutationVariables, options?: IdempotentRequestOptions): Promise<T.RemindContractMutation> =>
       this.request('remindContract', variables, options, { operationType: 'mutation' }),
-    /**
-     * Send a READY contract (prepareContract) for signature: the first signers in signing order get their links by email or text, and it becomes SENT. Confirm the contract and its signers with the person first (getContract). `expectedRevisionNumber` (getContract's revisionNumber) refuses the send if it was corrected since. Needs the manage contracts capability.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    sendContract: (variables: T.SendContractMutationVariables, options?: IdempotentRequestOptions): Promise<T.SendContractMutation> =>
-      this.request('sendContract', variables, options, { operationType: 'mutation' }),
     /**
      * Put an archived template back in the list and the pickers, as it was. A discarded one-off PDF is refused. Needs the manage contracts capability.
      *
@@ -1865,7 +1806,7 @@ export class GoliathClient extends GoliathClientCore {
     unarchiveContractTemplate: (variables: T.UnarchiveContractTemplateMutationVariables, options?: IdempotentRequestOptions): Promise<T.UnarchiveContractTemplateMutation> =>
       this.request('unarchiveContractTemplate', variables, options, { operationType: 'mutation' }),
     /**
-     * Void a sent contract: every signing link stops working and the signers who were sent one are told, with `reason` (kept on the evidence chain). It cannot be un-voided; to go on, prepare a new one. Only on the person’s word. `expectedRevisionNumber` as sendContract. Needs the manage contracts capability.
+     * Void a sent contract: every signing link stops working and the signers who were sent one are told, with `reason` (kept on the evidence chain). It cannot be un-voided; to go on, prepare a new one. Only on the person’s word. `expectedRevisionNumber` (getContract's revisionNumber) refuses it if the contract was corrected since in the app. Needs the manage contracts capability.
      *
      * @remarks Requires the WRITE scope.
      *

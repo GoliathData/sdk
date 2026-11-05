@@ -4,7 +4,7 @@
 
 mutation · domain `contracts` · requires the WRITE scope
 
-Email a fresh link to every signer whose turn it is; their earlier links stop working. `expectedRevisionNumber` as sendContract. Needs the manage contracts capability.
+Email a fresh link to every signer whose turn it is; their earlier links stop working. `expectedRevisionNumber` (getContract's revisionNumber) refuses it if the contract was corrected since in the app. Needs the manage contracts capability.
 
 ## Call
 
