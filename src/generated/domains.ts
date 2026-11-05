@@ -560,7 +560,7 @@ export class GoliathClient extends GoliathClientCore {
     getPhoneNumbersPurchaseUrl: (options?: RequestOptions): Promise<T.GetPhoneNumbersPurchaseUrlQuery> =>
       this.request('getPhoneNumbersPurchaseUrl', undefined, options, { operationType: 'query' }),
     /**
-     * Every plan on sale: monthly and annual (whole-year) price, and what each includes per month. Quote *Formatted; never divide *Cents. Current plan: getBillingSummary; plans change on Billing & Plans.
+     * Every plan on sale: monthly and annual (whole-year) price, and what each includes per month. Quote *Formatted; never divide *Cents. Starter is monthly only and on sale only when getPlanCatalog lists STARTER; a 0 Starter price means not on sale, never free. Current plan: getBillingSummary; plans change on Billing & Plans.
      *
      * @remarks Requires the READ scope.
      */

@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-Every plan on sale: monthly and annual (whole-year) price, and what each includes per month. Quote *Formatted; never divide *Cents. Current plan: getBillingSummary; plans change on Billing & Plans.
+Every plan on sale: monthly and annual (whole-year) price, and what each includes per month. Quote *Formatted; never divide *Cents. Starter is monthly only and on sale only when getPlanCatalog lists STARTER; a 0 Starter price means not on sale, never free. Current plan: getBillingSummary; plans change on Billing & Plans.
 
 ## Call
 
@@ -27,12 +27,14 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
 {
   "billing": {
     "getPlanPrices": {
+      "oneMonthStarterPriceCents": true,
       "oneMonthRampPriceCents": true,
       "annualRampPriceCents": true,
       "oneMonthGrowthPriceCents": true,
       "annualGrowthPriceCents": true,
       "oneMonthScalePriceCents": true,
       "annualScalePriceCents": true,
+      "oneMonthStarterPriceFormatted": true,
       "oneMonthRampPriceFormatted": true,
       "annualRampPriceFormatted": true,
       "oneMonthGrowthPriceFormatted": true,
