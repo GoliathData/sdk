@@ -4,7 +4,7 @@
 
 query · domain `contacts` · requires the READ scope
 
-Many contacts' linked properties in ONE read: `contactIds` in (a bulk selection's ids, up to 200), each contact's `properties[]` out (`propertyString`, and `property.id`, the property id a skip trace, export or PROPOSE_BULK_TASK selection takes; null when the address never matched a parcel, so it cannot be traced). Use it to turn contacts into their properties, never one getContact per contact. Every id must be one of this workspace's contacts (one outside it refuses the call); a contact you may not open is left out, and a merged id is not followed, so use the ids filterContacts or findContacts returned.
+Many contacts' linked properties in ONE read: `contactIds` in (a bulk selection's ids, up to 200), each contact's `properties[]` out (`propertyString`, and `property.id`, the property id a skip trace, export or PROPOSE_BULK_TASK selection takes; null when the address never matched a parcel, so it cannot be traced). Use it to turn contacts into their properties, never one getContact per contact. Every id must be one of this organization's contacts (one outside it refuses the call); a contact you may not open is left out, and a merged id is not followed, so use the ids filterContacts or findContacts returned.
 
 ## Call
 

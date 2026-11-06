@@ -4,7 +4,7 @@
 
 mutation · domain `scheduledTasks` · requires the WRITE scope
 
-Schedule Ask Goliath to run `instruction` as the key owner: give exactly one of `cronExpression` (recurring, 5 fields) or `fireAt` (once), read in `timezone` (IANA). Optional `expiresAt` (it stops after). Each run asks the owner before any action (no abilities). Refused while scheduled tasks are off for the workspace.
+Schedule Ask Goliath to run `instruction` as the key owner: give exactly one of `cronExpression` (recurring, 5 fields) or `fireAt` (once), read in `timezone` (IANA). Optional `expiresAt` (it stops after). Each run asks the owner before any action (no abilities). Refused while scheduled tasks are off for the organization.
 
 ## Call
 

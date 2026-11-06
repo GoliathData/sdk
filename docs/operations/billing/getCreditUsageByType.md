@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the ADMIN scope
 
-What used the credits this billing period, per credit type: `series[].totalUnits` for AI_CREDITS, SMS_CREDITS (outbound text segments), CALLING_MINUTES, SKIPTRACE, EMAIL_VERIFICATION and EXPORT_PROPERTIES, the Billing page usage chart's own figures (each day's use, charges less that day's refunds, summed). Pass timeZone (getMyProfile.resolvedTimezone) so the days fall as the person's chart draws them; omitted, they are UTC days. A refund that lands a day after its charge is not netted, so a total can exceed getBillingSummary's `planUsage.usedThisPeriod`; quote this one as what used the credits, that one as what is left. Null before a first billing period. AI use is not split further (no per-employee figure). Read-only. Admin only: a Member is told a workspace admin sees it.
+What used the credits this billing period, per credit type: `series[].totalUnits` for AI_CREDITS, SMS_CREDITS (outbound text segments), CALLING_MINUTES, SKIPTRACE, EMAIL_VERIFICATION and EXPORT_PROPERTIES, the Billing page usage chart's own figures (each day's use, charges less that day's refunds, summed). Pass timeZone (getMyProfile.resolvedTimezone) so the days fall as the person's chart draws them; omitted, they are UTC days. A refund that lands a day after its charge is not netted, so a total can exceed getBillingSummary's `planUsage.usedThisPeriod`; quote this one as what used the credits, that one as what is left. Null before a first billing period. AI use is not split further (no per-employee figure). Read-only. Admin only: a Member is told an organization admin sees it.
 
 ## Call
 
