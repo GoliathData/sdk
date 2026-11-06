@@ -1220,7 +1220,9 @@ export type FoldableKind =
   | 'LIBRARY_FILE'
   | 'PROPERTY_LIST'
   | 'TEMPLATE'
-  | 'WORKFLOW_GROUP';
+  | 'WORKFLOW_GROUP'
+  /** A saved view on the Inbox, the Calendar or Tasks (`WorkspaceSavedView`). */
+  | 'WORKSPACE_VIEW';
 
 /**
  * One item, named by what it is and which row it is. Ids are only unique within a
@@ -1238,10 +1240,14 @@ export type FolderItemRef = {
  * lists as well. Scope is the SURFACE, not the item kind.
  */
 export type FolderScope =
+  /** The Calendar's saved views (list-pages-v2). */
+  | 'CALENDAR_VIEW'
   | 'CONTACT'
   | 'DEAL'
   | 'ENTITY'
   | 'FORM'
+  /** The Inbox's saved views (list-pages-v2). */
+  | 'INBOX_VIEW'
   | 'LIBRARY'
   | 'ORGANIZATION'
   | 'OWNER'
@@ -1249,6 +1255,8 @@ export type FolderScope =
   | 'PIPELINE_ITEM'
   | 'POST'
   | 'PROPERTY'
+  /** The Tasks page's saved views (list-pages-v2). */
+  | 'TASKS_VIEW'
   | 'USER'
   | 'WORKFLOW';
 
