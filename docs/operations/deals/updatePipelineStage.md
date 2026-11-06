@@ -4,7 +4,7 @@
 
 mutation · domain `deals` · requires the WRITE scope
 
-Update one pipeline stage (by stageId from listPipelineStages) — rename, change description, toggle isTerminal / terminalType (WON|LOST|NEUTRAL), or set winProbability (0-100). Only the fields you pass change. Owner-only: the stage's pipeline must be OWNED by your organization.
+Update one pipeline stage (by stageId from listPipelineStages) — rename, change description, toggle isTerminal / terminalType (WON|LOST|NEUTRAL), or set winProbability (0-100). Only the fields you pass change, except that a new terminalType sent without winProbability also sets it to the outcome's (WON 100, LOST or NEUTRAL 0), and isTerminal false without a terminalType clears it. Owner-only: the stage's pipeline must be OWNED by your organization.
 
 ## Call
 
