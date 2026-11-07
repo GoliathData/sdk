@@ -1963,6 +1963,7 @@ export type RingPolicyAiStageInput = {
 export type RingPolicyHumanStageInput = {
   areaCodeForwardingMap?: InputMaybe<Scalars['JSON']['input']>;
   externalE164?: InputMaybe<Scalars['String']['input']>;
+  nextSteps?: InputMaybe<Array<RingPolicyStepInput>>;
   ownerlessStep?: InputMaybe<RingPolicyOwnerlessStepInput>;
   phoneLineIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   ringAllTeamMembers?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1991,6 +1992,16 @@ export type RingPolicyPickupBlockedReason =
   | 'NO_CALL_CHANNEL'
   | 'NO_VOICE_SHELL'
   | 'PAUSED';
+
+export type RingPolicyStepInput = {
+  externalE164?: InputMaybe<Scalars['String']['input']>;
+  phoneLineIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  ringAllTeamMembers?: InputMaybe<Scalars['Boolean']['input']>;
+  ringSeconds: Scalars['Int']['input'];
+  specificUserId?: InputMaybe<Scalars['ID']['input']>;
+  targetKind: CallRoundRobinTargetKind;
+  userGroupId?: InputMaybe<Scalars['ID']['input']>;
+};
 
 export type SaveSpaceTextFileInput = {
   /** The version the editor started from; a save over someone else's newer one is refused. */
