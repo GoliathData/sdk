@@ -201,6 +201,7 @@ export type AgentGoalPlanStatus =
 export type AgentOrigin =
   | 'CUSTOM'
   | 'LEAD_NURTURER'
+  | 'LIVE_GATE'
   | 'MARKETING_CAMPAIGN'
   | 'RECEPTIONIST'
   | 'SCHEDULER';
