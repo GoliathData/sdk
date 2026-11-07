@@ -1713,6 +1713,8 @@ export type PipelineItemParticipantSplitInput = {
 
 export type PipelineItemTaskType =
   | 'APPOINTMENT'
+  /** A parent task over ordered subtasks (INT-16582). Only written while the task-subtasks flag is on; never counts as work. */
+  | 'PARENT'
   | 'TASK';
 
 export type PipelineItemType =
