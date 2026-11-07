@@ -4807,7 +4807,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Add contacts to one or more LISTS (segments) by list id (searchContactTags `lists` / createContactList): the selection-wide form of updateContact’s addToListIds; removeContactsFromList is the twin. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact already on the list is skipped, not failed, so re-running is harmless. LIST ids only: a free-form tag or custom-field id is refused at the gateway (the underlying worker would silently drop it and complete having changed nothing). POTENTIALLY OUTBOUND: list membership publishes the same tags-changed event tags do, so a CONTACT workflow triggered on this list can start a run and send. Check the org’s workflows or confirm with the user before a large selection.",
+      "description": "Add contacts to one or more LISTS (segments) by list id (searchContactTags `lists` / createContactList): the selection-wide form of updateContact’s addToListIds; removeContactsFromList is the twin. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact already on the list is skipped, not failed, so re-running is harmless. LIST ids only: a free-form tag or custom-field id is refused at the gateway (the underlying worker would silently drop it and complete having changed nothing). POTENTIALLY OUTBOUND: list membership publishes the same tags-changed event tags do, so a CONTACT workflow triggered on this list can start a run and send. Check the org’s workflows or confirm with the user before a large selection. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -4816,8 +4816,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         },
         {
@@ -4841,7 +4859,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Add tags to contacts: existing ones by `tagIds` (searchContactTags), new ones by exact name in `newTagNames`, created as this runs, never createContactTag first. removeContactTags is the twin. Async bulk job: poll `bulkTaskId` with getBulkTask; a read-back right away will NOT show it. POTENTIALLY OUTBOUND: a CONTACT workflow whose trigger names a tag starts a run that can text or email; on a large selection check first (listWorkflows { status: ACTIVE, triggerType: [MATCH, MUTATION] }, then their graph `triggers`).",
+      "description": "Add tags to contacts: existing ones by `tagIds` (searchContactTags), new ones by exact name in `newTagNames`, created as this runs, never createContactTag first. removeContactTags is the twin. Async bulk job: poll `bulkTaskId` with getBulkTask; a read-back right away will NOT show it. POTENTIALLY OUTBOUND: a CONTACT workflow whose trigger names a tag starts a run that can text or email; on a large selection check first (listWorkflows { status: ACTIVE, triggerType: [MATCH, MUTATION] }, then their graph `triggers`). SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -4850,8 +4868,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         },
         {
@@ -4881,7 +4917,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Archive (soft-delete) contacts by id. Async bulk job: returns a bulkTaskId to poll with getBulkTask. Archived contacts drop out of the CRM but are recoverable: unarchiveContacts restores them (bulk), updateContact(isArchived: false) one. Nothing is destroyed: notes, activities, tags and deals survive and come back with the contact.",
+      "description": "Archive (soft-delete) contacts. Async bulk job: returns a bulkTaskId to poll with getBulkTask. Archived contacts drop out of the CRM but are recoverable: unarchiveContacts restores them (bulk), updateContact(isArchived: false) one. Nothing is destroyed: notes, activities, tags and deals survive and come back with the contact. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -4890,8 +4926,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         }
       ],
@@ -4909,7 +4963,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Assign a teammate to contacts (get userId from listTeammates). role defaults to POINT_PERSON; pass PARTICIPANT for a secondary assignment. The removal twin is unassignContact. Async bulk job — returns a bulkTaskId to poll with getBulkTask.",
+      "description": "Assign a teammate to contacts (get userId from listTeammates). role defaults to POINT_PERSON; pass PARTICIPANT for a secondary assignment. The removal twin is unassignContact. Async bulk job — returns a bulkTaskId to poll with getBulkTask. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -4918,8 +4972,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         },
         {
@@ -7242,7 +7314,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Take contacts OFF one or more lists by list id: the removal twin of addContactsToList and the undo for a bulk add. The list survives with the rest of its members; deleteContactLists is the destructive one. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact not on the list is skipped, not failed. LIST ids only: a tag or custom-field id is refused at the gateway rather than silently dropped mid-job. POTENTIALLY OUTBOUND like the add side: removal publishes a tags-changed event that can trigger a CONTACT workflow. Needs their yes (Ask Goliath: bulk card).",
+      "description": "Take contacts OFF one or more lists by list id: the removal twin of addContactsToList and the undo for a bulk add. The list survives with the rest of its members; deleteContactLists is the destructive one. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact not on the list is skipped, not failed. LIST ids only: a tag or custom-field id is refused at the gateway rather than silently dropped mid-job. POTENTIALLY OUTBOUND like the add side: removal publishes a tags-changed event that can trigger a CONTACT workflow. Needs their yes (Ask Goliath: bulk card). SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -7251,8 +7323,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         },
         {
@@ -7276,7 +7366,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Strip tags (tag ids from searchContactTags) off contacts: the removal twin of addContactTags, and the undo for a bulk tag that leaves the tag definition alone. The tag survives and stays on every contact you did not name; deleteContactTags is the destructive org-wide one. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. Only FREE-FORM tag ids do anything: a list or custom-field id is IGNORED, not rejected, so the task completes having removed nothing. Take ids from searchContactTags `tags` (not `lists`); drop list membership with removeContactsFromList. A contact without the tag is skipped, not failed. POTENTIALLY OUTBOUND, like the add side: removal publishes a tags-changed event carrying removeTagIds, and a CONTACT workflow whose tag trigger is EXCLUSIVE (\"tag removed\") matches it and can send. Check the org’s workflows or confirm with the user before sweeping a large selection.",
+      "description": "Strip tags (tag ids from searchContactTags) off contacts: the removal twin of addContactTags, and the undo for a bulk tag that leaves the tag definition alone. The tag survives and stays on every contact you did not name; deleteContactTags is the destructive org-wide one. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. Only FREE-FORM tag ids do anything: a list or custom-field id is IGNORED, not rejected, so the task completes having removed nothing. Take ids from searchContactTags `tags` (not `lists`); drop list membership with removeContactsFromList. A contact without the tag is skipped, not failed. POTENTIALLY OUTBOUND, like the add side: removal publishes a tags-changed event carrying removeTagIds, and a CONTACT workflow whose tag trigger is EXCLUSIVE (\"tag removed\") matches it and can send. Check the org’s workflows or confirm with the user before sweeping a large selection. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -7285,8 +7375,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         },
         {
@@ -8150,7 +8258,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Restore archived contacts by id: the undo for archiveContacts. Async bulk job: returns a bulkTaskId to poll with getBulkTask, so an immediate read-back will not yet show them active. A contact that is not archived is skipped, not failed. Find ids with findContacts (archived contacts included, marked `isArchived`) or filterContacts. mergeContacts RETIRES its losers rather than archiving them: no read finds them, this cannot restore them, and a merge has no undo. Check how a contact went missing before offering restore.",
+      "description": "Restore archived contacts: the undo for archiveContacts. Async bulk job: returns a bulkTaskId to poll with getBulkTask, so an immediate read-back will not yet show them active. A contact that is not archived is skipped, not failed. Find ids with findContacts (archived contacts included, marked `isArchived`) or filterContacts; a filter selection needs `prospectArchiveStatus: ARCHIVED`, since a contact filter hides archived contacts. mergeContacts RETIRES its losers rather than archiving them: no read finds them, this cannot restore them, and a merge has no undo. Check how a contact went missing before offering restore. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -8159,8 +8267,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         }
       ],
@@ -8178,7 +8304,7 @@
       "domain": "contacts",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Take teammates OFF contacts: the removal twin of assignContact, and the offboarding op. userIds is a LIST, so one call clears several teammates from the selection; each is removed from every selected contact whatever their role (POINT_PERSON or PARTICIPANT), so this does not demote anyone (re-assign with assignContact(role: PARTICIPANT) for that). A user not on a contact is skipped, not failed. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. It hands the work to nobody, with ONE exception you must not report as a general rule: if EXACTLY ONE assignee is left and they are a PARTICIPANT, they are promoted to POINT_PERSON on that contact. Any other shape (nobody left, or two or more) leaves no point person, so the contact drops out of the removed teammate’s queue without entering anyone else’s. Because the outcome differs per contact, do not say who owns what until you have re-read the contacts (getContact `participants`); for a deliberate hand-off, follow with assignContact for the new owner rather than rely on the promotion.",
+      "description": "Take teammates OFF contacts: the removal twin of assignContact, and the offboarding op. userIds is a LIST, so one call clears several teammates from the selection; each is removed from every selected contact whatever their role (POINT_PERSON or PARTICIPANT), so this does not demote anyone (re-assign with assignContact(role: PARTICIPANT) for that). A user not on a contact is skipped, not failed. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. It hands the work to nobody, with ONE exception you must not report as a general rule: if EXACTLY ONE assignee is left and they are a PARTICIPANT, they are promoted to POINT_PERSON on that contact. Any other shape (nobody left, or two or more) leaves no point person, so the contact drops out of the removed teammate’s queue without entering anyone else’s. Because the outcome differs per contact, do not say who owns what until you have re-read the contacts (getContact `participants`); for a deliberate hand-off, follow with assignContact for the new owner rather than rely on the promotion. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -8187,8 +8313,26 @@
       "variables": [
         {
           "name": "contactIds",
-          "type": "[String!]!",
-          "required": true,
+          "type": "[String!]",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "filterTree",
+          "type": "JSON",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "selectCount",
+          "type": "Int",
+          "required": false,
           "defaultValue": null
         },
         {

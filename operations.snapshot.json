@@ -1452,7 +1452,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,listIds:[String!]!",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,listIds:[String!]!",
     "responseShape": "{\"contactMutation\":{\"addContactsToList\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -1465,7 +1465,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,tagIds:[String!]!,newTagNames:[String!]",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,tagIds:[String!]!,newTagNames:[String!]",
     "responseShape": "{\"contactMutation\":{\"addTagsToContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -1478,7 +1478,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int",
     "responseShape": "{\"contactMutation\":{\"archiveContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -1491,7 +1491,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,userId:ID!,role:ContactToUserMappingStatus=POINT_PERSON",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,userId:ID!,role:ContactToUserMappingStatus=POINT_PERSON",
     "responseShape": "{\"contactMutation\":{\"bulkAssignUsersOnContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -2193,7 +2193,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,listIds:[String!]!",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,listIds:[String!]!",
     "responseShape": "{\"contactMutation\":{\"removeContactsFromList\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -2206,7 +2206,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,tagIds:[String!]!",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,tagIds:[String!]!",
     "responseShape": "{\"contactMutation\":{\"removeTagsFromContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -2479,7 +2479,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int",
     "responseShape": "{\"contactMutation\":{\"unarchiveContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
@@ -2492,7 +2492,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,userIds:[ID!]!",
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,userIds:[ID!]!",
     "responseShape": "{\"contactMutation\":{\"bulkUnassignUsersFromContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {

@@ -4,12 +4,12 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Take contacts OFF one or more lists by list id: the removal twin of addContactsToList and the undo for a bulk add. The list survives with the rest of its members; deleteContactLists is the destructive one. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact not on the list is skipped, not failed. LIST ids only: a tag or custom-field id is refused at the gateway rather than silently dropped mid-job. POTENTIALLY OUTBOUND like the add side: removal publishes a tags-changed event that can trigger a CONTACT workflow. Needs their yes (Ask Goliath: bulk card).
+Take contacts OFF one or more lists by list id: the removal twin of addContactsToList and the undo for a bulk add. The list survives with the rest of its members; deleteContactLists is the destructive one. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact not on the list is skipped, not failed. LIST ids only: a tag or custom-field id is refused at the gateway rather than silently dropped mid-job. POTENTIALLY OUTBOUND like the add side: removal publishes a tags-changed event that can trigger a CONTACT workflow. Needs their yes (Ask Goliath: bulk card). SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
 
 ## Call
 
 ```ts
-const result = await client.contacts.removeContactsFromList({ contactIds: ['<text>'], listIds: ['<text>'] }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.contacts.removeContactsFromList({ listIds: ['<text>'] }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<RemoveContactsFromListMutation>
 ```
 
@@ -19,7 +19,10 @@ const result = await client.contacts.removeContactsFromList({ contactIds: ['<tex
 
 | Name | Type | Required | Default |
 |---|---|---|---|
-| `contactIds` | `[String!]!` | yes | — |
+| `contactIds` | `[String!]` | no | — |
+| `filterId` | `ID` | no | — |
+| `filterTree` | `JSON` | no | — |
+| `selectCount` | `Int` | no | — |
 | `listIds` | `[String!]!` | yes | — |
 
 ## Gateway notes

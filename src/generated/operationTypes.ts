@@ -4124,13 +4124,19 @@ export type CreateContactFromPropertyMutationVariables = Exact<{
 export type CreateContactFromPropertyMutation = { __typename?: 'RootMutation', propertyMutation?: { __typename?: 'PropertyMutation', createContact?: { __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null, createdAt?: any | null }> | null } | null } | null };
 
 export type ArchiveContactsMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 export type ArchiveContactsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', archiveContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type UnarchiveContactsMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
 export type UnarchiveContactsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', unarchiveContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
@@ -4181,7 +4187,10 @@ export type DeleteContactListsMutationVariables = Exact<{
 export type DeleteContactListsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', deleteContactLists?: { __typename?: 'Organization', id: string } | null } | null };
 
 export type AddContactTagsMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
   tagIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
   newTagNames?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
@@ -4189,7 +4198,10 @@ export type AddContactTagsMutationVariables = Exact<{
 export type AddContactTagsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', addTagsToContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type AssignContactMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
   userId: Scalars['ID']['input'];
   role?: InputMaybe<ContactToUserMappingStatus>;
 }>;
@@ -4197,28 +4209,40 @@ export type AssignContactMutationVariables = Exact<{
 export type AssignContactMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', bulkAssignUsersOnContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type RemoveContactTagsMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
   tagIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 export type RemoveContactTagsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', removeTagsFromContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type AddContactsToListMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
   listIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 export type AddContactsToListMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', addContactsToList?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type RemoveContactsFromListMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
   listIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 export type RemoveContactsFromListMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', removeContactsFromList?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type UnassignContactMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
   userIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
 }>;
 

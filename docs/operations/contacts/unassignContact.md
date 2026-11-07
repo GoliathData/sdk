@@ -4,12 +4,12 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Take teammates OFF contacts: the removal twin of assignContact, and the offboarding op. userIds is a LIST, so one call clears several teammates from the selection; each is removed from every selected contact whatever their role (POINT_PERSON or PARTICIPANT), so this does not demote anyone (re-assign with assignContact(role: PARTICIPANT) for that). A user not on a contact is skipped, not failed. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. It hands the work to nobody, with ONE exception you must not report as a general rule: if EXACTLY ONE assignee is left and they are a PARTICIPANT, they are promoted to POINT_PERSON on that contact. Any other shape (nobody left, or two or more) leaves no point person, so the contact drops out of the removed teammate’s queue without entering anyone else’s. Because the outcome differs per contact, do not say who owns what until you have re-read the contacts (getContact `participants`); for a deliberate hand-off, follow with assignContact for the new owner rather than rely on the promotion.
+Take teammates OFF contacts: the removal twin of assignContact, and the offboarding op. userIds is a LIST, so one call clears several teammates from the selection; each is removed from every selected contact whatever their role (POINT_PERSON or PARTICIPANT), so this does not demote anyone (re-assign with assignContact(role: PARTICIPANT) for that). A user not on a contact is skipped, not failed. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. It hands the work to nobody, with ONE exception you must not report as a general rule: if EXACTLY ONE assignee is left and they are a PARTICIPANT, they are promoted to POINT_PERSON on that contact. Any other shape (nobody left, or two or more) leaves no point person, so the contact drops out of the removed teammate’s queue without entering anyone else’s. Because the outcome differs per contact, do not say who owns what until you have re-read the contacts (getContact `participants`); for a deliberate hand-off, follow with assignContact for the new owner rather than rely on the promotion. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
 
 ## Call
 
 ```ts
-const result = await client.contacts.unassignContact({ contactIds: ['<text>'], userIds: ['<id>'] }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.contacts.unassignContact({ userIds: ['<id>'] }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<UnassignContactMutation>
 ```
 
@@ -19,7 +19,10 @@ const result = await client.contacts.unassignContact({ contactIds: ['<text>'], u
 
 | Name | Type | Required | Default |
 |---|---|---|---|
-| `contactIds` | `[String!]!` | yes | — |
+| `contactIds` | `[String!]` | no | — |
+| `filterId` | `ID` | no | — |
+| `filterTree` | `JSON` | no | — |
+| `selectCount` | `Int` | no | — |
 | `userIds` | `[ID!]!` | yes | — |
 
 ## Gateway notes
