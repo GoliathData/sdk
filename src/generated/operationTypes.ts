@@ -656,6 +656,7 @@ export type ContentTemplateMutationInput = {
   name: Scalars['String']['input'];
   subjectContent?: InputMaybe<Scalars['String']['input']>;
   taskConfig?: InputMaybe<TaskTemplateConfigInput>;
+  taskSetGrouping?: InputMaybe<TaskSetGroupingInput>;
   taskSetSteps?: InputMaybe<Array<TaskSetStepInput>>;
 };
 
@@ -2528,13 +2529,40 @@ export type SuppressionMedium =
   | 'VOICE';
 
 /**
+ * Who a Task set step, or a grouped set's parent task, goes to when the set is applied (behind `task-subtasks`).
+ * APPLIER is the person applying it; a workflow or bulk apply has nobody applying and uses POINT_PERSON. POINT_PERSON
+ * is the contact's point person (none: the workflow's own assignee, else unassigned). USER is a named teammate.
+ */
+export type TaskSetAssigneeRule =
+  | 'APPLIER'
+  | 'POINT_PERSON'
+  | 'USER';
+
+/**
+ * A TASK_SET's grouping (behind `task-subtasks`): whether applying it creates one parent task over its steps, the
+ * parent's title (blank = the set's name) and who owns it. A USER owner must be an active teammate.
+ */
+export type TaskSetGroupingInput = {
+  groupUnderParent: Scalars['Boolean']['input'];
+  ownerRule: TaskSetAssigneeRule;
+  ownerUserId?: InputMaybe<Scalars['ID']['input']>;
+  parentTitle?: InputMaybe<Scalars['String']['input']>;
+};
+
+/**
  * One step of a TASK_SET template. `taskTemplateId` must name a TASK template in
  * the caller's organization — a TASK_SET is rejected (a set cannot contain a set).
  * The same template may appear more than once. The timing here WINS over the
  * referenced template's own `taskConfig` timing.
  */
 export type TaskSetStepInput = {
+  /** Who the step goes to when applied. Omitted = APPLIER. */
+  assigneeRule?: InputMaybe<TaskSetAssigneeRule>;
+  /** Required when `assigneeRule` is USER: an active teammate. */
+  assigneeUserId?: InputMaybe<Scalars['ID']['input']>;
   dueOffset: TaskTemplateRelativeDateOffsetInput;
+  /** The step's fixed place (0-based). Omitted stores 0, which keeps due order. */
+  position?: InputMaybe<Scalars['Int']['input']>;
   preferredTimeOfDay: TaskTemplateTimeOfDayInput;
   taskTemplateId: Scalars['ID']['input'];
 };
