@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Batch property attributes by id (esId): owner of record and mailing address, beds/baths/size, year built, last sale, value, occupancy, county, lat/long, years owned, `ownerPortfolioSize` (parcels the owner holds).
+Batch property attributes by id (esId): owner of record and mailing address, beds/baths/size, year built, last sale, value, occupancy, county, lat/long, years owned, `ownerPortfolioSize` (parcels the owner holds). Spends one export credit per returned property not yet paid for (see getProperty).
 
 ## Call
 

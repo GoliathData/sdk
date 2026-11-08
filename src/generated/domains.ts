@@ -3578,7 +3578,7 @@ export class GoliathClient extends GoliathClientCore {
     findPropertiesByParcel: (variables: T.FindPropertiesByParcelQueryVariables, options?: RequestOptions): Promise<T.FindPropertiesByParcelQuery> =>
       this.request('findPropertiesByParcel', variables, options, { operationType: 'query' }),
     /**
-     * Properties within ~150 m of a point, the parcel it is on first: candidates, not one answer (match a house number).
+     * Properties within ~150 m of a point, the parcel it is on first: candidates, not one answer (match a house number). Spends one export credit per returned property not yet paid for (see getProperty).
      *
      * @remarks Requires the READ scope.
      *
@@ -3594,14 +3594,14 @@ export class GoliathClient extends GoliathClientCore {
     getFilter: (variables: T.GetFilterQueryVariables, options?: RequestOptions): Promise<T.GetFilterQuery> =>
       this.request('getFilter', variables, options, { operationType: 'query' }),
     /**
-     * Fetch one property by id — address, skip-trace status, signal recency, owner of record and mailing address (`metadata`, as the page shows them), and visible `tags` and `lists` (each `{ id, name, isEditable }`). Lists include read-only system ingestion lists alongside your organization lists. Read `lists` BEFORE addPropertiesToList / removePropertiesFromList to answer "is it already on that list?"; only reuse a list ID for mutations when `isEditable` is true. Other organizations' private tags and lists are excluded.
+     * Fetch one property by id — address, skip-trace status, signal recency, owner of record and mailing address (`metadata`, as the page shows them), and visible `tags` and `lists` (each `{ id, name, isEditable }`). Lists include read-only system ingestion lists alongside your organization lists. Read `lists` BEFORE addPropertiesToList / removePropertiesFromList to answer "is it already on that list?"; only reuse a list ID for mutations when `isEditable` is true. Other organizations' private tags and lists are excluded. SPENDS one export credit (EXPORT_PROPERTIES, as one exported row) the first time your organization reads a property's owner through any of getProperty, getPropertyOwners, getRelatedProperties or findPropertiesNearPoint; a property already paid for reads free. Out of credits: `402 insufficient_credits`, nothing returned.
      *
      * @remarks Requires the READ scope.
      */
     getProperty: (variables: T.GetPropertyQueryVariables, options?: RequestOptions): Promise<T.GetPropertyQuery> =>
       this.request('getProperty', variables, options, { operationType: 'query' }),
     /**
-     * A property's people. `crmContacts`: your own contacts at it (linked, or at its street and ZIP), with `relation` (OWNS or null = owner; FORMER_OWNER, MAILING and the rest are not) and the phones and emails already on them. `people`: owners and relatives from public records, with phones and emails generally only after a skip trace. A crmContacts phone means you already have a number. Reading never spends a credit.
+     * A property's people. `crmContacts`: your own contacts at it (linked, or at its street and ZIP), with `relation` (OWNS or null = owner; FORMER_OWNER, MAILING and the rest are not) and the phones and emails already on them. `people`: owners and relatives from public records, with phones and emails generally only after a skip trace. A crmContacts phone means you already have a number. Spends one export credit per property, once (see getProperty).
      *
      * @remarks Requires the READ scope.
      */
@@ -3615,7 +3615,7 @@ export class GoliathClient extends GoliathClientCore {
     getPropertySignals: (variables: T.GetPropertySignalsQueryVariables, options?: RequestOptions): Promise<T.GetPropertySignalsQuery> =>
       this.request('getPropertySignals', variables, options, { operationType: 'query' }),
     /**
-     * Batch property attributes by id (esId): owner of record and mailing address, beds/baths/size, year built, last sale, value, occupancy, county, lat/long, years owned, `ownerPortfolioSize` (parcels the owner holds).
+     * Batch property attributes by id (esId): owner of record and mailing address, beds/baths/size, year built, last sale, value, occupancy, county, lat/long, years owned, `ownerPortfolioSize` (parcels the owner holds). Spends one export credit per returned property not yet paid for (see getProperty).
      *
      * @remarks Requires the READ scope.
      */
@@ -3822,7 +3822,7 @@ export class GoliathClient extends GoliathClientCore {
     searchPropertyTags: (variables: T.SearchPropertyTagsQueryVariables, options?: RequestOptions): Promise<T.SearchPropertyTagsQuery> =>
       this.request('searchPropertyTags', variables, options, { operationType: 'query' }),
     /**
-     * Skip-trace a property (by id/esId) to discover its owner and their phone numbers/emails. Returns the discovered people inline; re-read them later (free) with getPropertyOwners. CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
+     * Skip-trace a property (by id/esId) to discover its owner and their phone numbers/emails. Returns the discovered people inline; re-read them later with getPropertyOwners (one export credit the first time that property's owner is read through the API). CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
      *
      * @remarks Requires the ADMIN scope.
      *

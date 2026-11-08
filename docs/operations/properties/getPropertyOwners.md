@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-A property's people. `crmContacts`: your own contacts at it (linked, or at its street and ZIP), with `relation` (OWNS or null = owner; FORMER_OWNER, MAILING and the rest are not) and the phones and emails already on them. `people`: owners and relatives from public records, with phones and emails generally only after a skip trace. A crmContacts phone means you already have a number. Reading never spends a credit.
+A property's people. `crmContacts`: your own contacts at it (linked, or at its street and ZIP), with `relation` (OWNS or null = owner; FORMER_OWNER, MAILING and the rest are not) and the phones and emails already on them. `people`: owners and relatives from public records, with phones and emails generally only after a skip trace. A crmContacts phone means you already have a number. Spends one export credit per property, once (see getProperty).
 
 ## Call
 

@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Fetch one property by id — address, skip-trace status, signal recency, owner of record and mailing address (`metadata`, as the page shows them), and visible `tags` and `lists` (each `{ id, name, isEditable }`). Lists include read-only system ingestion lists alongside your organization lists. Read `lists` BEFORE addPropertiesToList / removePropertiesFromList to answer "is it already on that list?"; only reuse a list ID for mutations when `isEditable` is true. Other organizations' private tags and lists are excluded.
+Fetch one property by id — address, skip-trace status, signal recency, owner of record and mailing address (`metadata`, as the page shows them), and visible `tags` and `lists` (each `{ id, name, isEditable }`). Lists include read-only system ingestion lists alongside your organization lists. Read `lists` BEFORE addPropertiesToList / removePropertiesFromList to answer "is it already on that list?"; only reuse a list ID for mutations when `isEditable` is true. Other organizations' private tags and lists are excluded. SPENDS one export credit (EXPORT_PROPERTIES, as one exported row) the first time your organization reads a property's owner through any of getProperty, getPropertyOwners, getRelatedProperties or findPropertiesNearPoint; a property already paid for reads free. Out of credits: `402 insufficient_credits`, nothing returned.
 
 ## Call
 

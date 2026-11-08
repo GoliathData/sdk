@@ -4,7 +4,7 @@
 
 query · domain `properties` · requires the READ scope
 
-Properties within ~150 m of a point, the parcel it is on first: candidates, not one answer (match a house number).
+Properties within ~150 m of a point, the parcel it is on first: candidates, not one answer (match a house number). Spends one export credit per returned property not yet paid for (see getProperty).
 
 ## Call
 
