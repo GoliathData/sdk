@@ -1841,6 +1841,12 @@ export type PropertySignalType =
    * so it counts toward no benchmark family (INT-8098).
    */
   | 'FORECLOSURE_REGISTRATION'
+  /**
+   * A recorded cancellation or rescission of a scheduled trustee's or sheriff's
+   * sale, any county: the sale's closure, not a foreclosure lead, so it counts
+   * toward no benchmark family (INT-16659).
+   */
+  | 'FORECLOSURE_SALE_CANCELLED'
   | 'FOR_RENT_BY_OWNER'
   | 'FOR_RENT_BY_OWNER_FAILED'
   | 'FOR_SALE_BY_OWNER'
