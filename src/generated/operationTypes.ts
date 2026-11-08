@@ -1405,7 +1405,8 @@ export type InboxFilterType =
   | 'MESSAGES'
   | 'MISSED_CALLS'
   | 'NEEDS_RESPONSE'
-  | 'UNRESPONDED';
+  | 'UNRESPONDED'
+  | 'VOICEMAILS';
 
 export type InboxItemType =
   | 'CALL'
