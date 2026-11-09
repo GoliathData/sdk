@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the ADMIN scope
 
-Skip-trace a contact to discover phone numbers and emails. CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
+Skip-trace a contact to discover phone numbers and emails. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. The response shows the contact as it is now, and phones and emails the trace finds can appear on it later (getContact). An earlier enrichment of the contact that is still running, or that found something, is reused instead of a new trace. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
 
 ## Call
 

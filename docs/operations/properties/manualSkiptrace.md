@@ -4,7 +4,7 @@
 
 mutation · domain `properties` · requires the ADMIN scope
 
-Skip-trace an explicitly-provided owner + mailing address (no property record needed). CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
+Skip-trace an explicitly-provided owner + mailing address (no property record needed). The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. It can answer CONFLICT 'Skip trace is running…' after about 20 seconds while the trace keeps going. No operation reads that manual request itself; when its address resolves to a property, the trace counts toward that property's owners (getPropertyOwners) like any other. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
 
 ## Call
 

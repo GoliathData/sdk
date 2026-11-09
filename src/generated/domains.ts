@@ -1090,7 +1090,7 @@ export class GoliathClient extends GoliathClientCore {
     createContactCustomField: (variables: T.CreateContactCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateContactCustomFieldMutation> =>
       this.request('createContactCustomField', variables, options, { operationType: 'mutation' }),
     /**
-     * Create a CRM contact from a property (id/esId). It runs skip-trace enrichment on the property and CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction): ADMIN scope, and the key owner must be a team admin. Returns the property with its linked contacts, the new one included.
+     * Create a CRM contact from a property (id/esId) by skip-tracing it. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. While it runs the call can answer CONFLICT 'Skip trace is running…' instead of the property with its linked contacts. A contact can be made later, but never by a trace that fails or for a property with no one named on it; look for it in getPropertyOwners' `crmContacts`. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
      *
      * @remarks Requires the ADMIN scope.
      *
@@ -1232,7 +1232,7 @@ export class GoliathClient extends GoliathClientCore {
     editNoteReply: (variables: T.EditNoteReplyMutationVariables, options?: IdempotentRequestOptions): Promise<T.EditNoteReplyMutation> =>
       this.request('editNoteReply', variables, options, { operationType: 'mutation' }),
     /**
-     * Skip-trace a contact to discover phone numbers and emails. CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
+     * Skip-trace a contact to discover phone numbers and emails. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. The response shows the contact as it is now, and phones and emails the trace finds can appear on it later (getContact). An earlier enrichment of the contact that is still running, or that found something, is reused instead of a new trace. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
      *
      * @remarks Requires the ADMIN scope.
      *
@@ -3671,7 +3671,7 @@ export class GoliathClient extends GoliathClientCore {
     listPropertyFilters: (options?: RequestOptions): Promise<T.ListPropertyFiltersQuery> =>
       this.request('listPropertyFilters', undefined, options, { operationType: 'query' }),
     /**
-     * Skip-trace an explicitly-provided owner + mailing address (no property record needed). CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
+     * Skip-trace an explicitly-provided owner + mailing address (no property record needed). The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. It can answer CONFLICT 'Skip trace is running…' after about 20 seconds while the trace keeps going. No operation reads that manual request itself; when its address resolves to a property, the trace counts toward that property's owners (getPropertyOwners) like any other. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
      *
      * @remarks Requires the ADMIN scope.
      *
@@ -3822,7 +3822,7 @@ export class GoliathClient extends GoliathClientCore {
     searchPropertyTags: (variables: T.SearchPropertyTagsQueryVariables, options?: RequestOptions): Promise<T.SearchPropertyTagsQuery> =>
       this.request('searchPropertyTags', variables, options, { operationType: 'query' }),
     /**
-     * Skip-trace a property (by id/esId) to discover its owner and their phone numbers/emails. Returns the discovered people inline; re-read them later with getPropertyOwners (one export credit the first time that property's owner is read through the API). CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
+     * Skip-trace a property (by id/esId) to discover its owner and their phone numbers/emails. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. Its `skipTraceStatus` and `people` are drawn from every trace your organization ran on the property; read them again with getPropertyOwners (one export credit the first time that property's owner is read through the API). A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
      *
      * @remarks Requires the ADMIN scope.
      *

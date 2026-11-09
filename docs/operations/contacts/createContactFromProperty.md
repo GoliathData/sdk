@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the ADMIN scope
 
-Create a CRM contact from a property (id/esId). It runs skip-trace enrichment on the property and CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction): ADMIN scope, and the key owner must be a team admin. Returns the property with its linked contacts, the new one included.
+Create a CRM contact from a property (id/esId) by skip-tracing it. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. While it runs the call can answer CONFLICT 'Skip trace is running…' instead of the property with its linked contacts. A contact can be made later, but never by a trace that fails or for a property with no one named on it; look for it in getPropertyOwners' `crmContacts`. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
 
 ## Call
 

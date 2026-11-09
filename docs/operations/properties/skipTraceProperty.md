@@ -4,7 +4,7 @@
 
 mutation · domain `properties` · requires the ADMIN scope
 
-Skip-trace a property (by id/esId) to discover its owner and their phone numbers/emails. Returns the discovered people inline; re-read them later with getPropertyOwners (one export credit the first time that property's owner is read through the API). CONSUMES ONE SKIPTRACE CREDIT (plan allowance first except in a trial, then real money; checkBillingAction) — requires the ADMIN scope, and the key owner must be a team admin.
+Skip-trace a property (by id/esId) to discover its owner and their phone numbers/emails. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. Its `skipTraceStatus` and `people` are drawn from every trace your organization ran on the property; read them again with getPropertyOwners (one export credit the first time that property's owner is read through the API). A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
 
 ## Call
 
