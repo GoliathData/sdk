@@ -1823,6 +1823,12 @@ export type PropertySignalType =
   | 'ARREST'
   | 'ASSIGNMENT'
   | 'BANKRUPTCY'
+  /**
+   * A property a lender, servicer or agency took back through foreclosure and
+   * now lists for sale (REO: HUD, HomePath, HomeSteps, VA Vendee, bank lists):
+   * the foreclosure's outcome, so it counts toward no benchmark family.
+   */
+  | 'BANK_OWNED'
   | 'CITATION'
   | 'CODE_VIOLATION'
   | 'CONTINUING_LIEN'
