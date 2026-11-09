@@ -2963,6 +2963,22 @@ export type WorkflowDomain =
   | 'PROPERTY'
   | 'SLACK';
 
+/**
+ * The draft revision a publish was authorized for — the mirror of
+ * `UpdateWorkflowAutomationGraphInput.expectedUpdatedAt`, at the OTHER end of the
+ * editing session. That one fences the save; this one fences activation.
+ */
+export type WorkflowDraftRevisionInput = {
+  /** The draft WorkflowAutomation the caller verified. */
+  id: Scalars['ID']['input'];
+  /**
+   * That row's `updatedAt` as the caller last read it. Promote CONSUMES this with
+   * one conditional UPDATE before it writes anything, so a stale token refuses
+   * with CONFLICT having changed nothing.
+   */
+  updatedAt: Scalars['DateTime']['input'];
+};
+
 /** What `rewriteWorkflowDraftTextStep` did to the step. */
 export type WorkflowDraftTextStepRewriteStatus =
   | 'NO_BETTER_REWRITE'
@@ -7835,6 +7851,7 @@ export type ApplyTaskSetMutation = { __typename?: 'RootMutation', workflowAutoma
 
 export type RestoreWorkflowVersionAsDraftMutationVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
+  expectedDraft?: InputMaybe<WorkflowDraftRevisionInput>;
 }>;
 
 export type RestoreWorkflowVersionAsDraftMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', restoreWorkflowVersionAsDraft?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, status: WorkflowAutomationStatus } | null } | null };

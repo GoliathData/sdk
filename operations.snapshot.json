@@ -7978,7 +7978,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": true,
-    "variableSignature": "workflowAutomationId:ID!",
+    "variableSignature": "workflowAutomationId:ID!,expectedDraft:WorkflowDraftRevisionInput",
     "responseShape": "{\"workflowAutomationsMutation\":{\"restoreWorkflowVersionAsDraft\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"status\":true}}}"
   },
   {

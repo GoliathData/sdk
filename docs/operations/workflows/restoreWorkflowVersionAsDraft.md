@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Roll back: copy an OLDER version (workflowAutomationId from getWorkflow.versions) into the DRAFT, then publish it with promoteWorkflowDraft. Only a PAUSED version a later-published one superseded (compare publishedAt); the most recently published one is refused (resume it with resumeWorkflowVersion). REPLACES the current draft and its edits, so confirm first when one exists. Nothing goes live.
+Roll back: copy an OLDER version (workflowAutomationId from getWorkflow.versions) into the DRAFT, then publish it with promoteWorkflowDraft. Only a PAUSED version a later-published one superseded (compare publishedAt); the most recently published one is refused (resume it with resumeWorkflowVersion). REPLACES the current draft and its edits, so confirm first when one exists, and pass expectedDraft ({id, updatedAt} of the draft you read) so a save made since refuses with CONFLICT instead of being lost. Nothing goes live.
 
 ## Call
 
@@ -20,6 +20,7 @@ const result = await client.workflows.restoreWorkflowVersionAsDraft({ workflowAu
 | Name | Type | Required | Default |
 |---|---|---|---|
 | `workflowAutomationId` | `ID!` | yes | — |
+| `expectedDraft` | `WorkflowDraftRevisionInput` | no | — |
 
 ## Gateway notes
 

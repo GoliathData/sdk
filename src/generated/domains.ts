@@ -5320,7 +5320,7 @@ export class GoliathClient extends GoliathClientCore {
     restoreWorkflow: (variables: T.RestoreWorkflowMutationVariables, options?: IdempotentRequestOptions): Promise<T.RestoreWorkflowMutation> =>
       this.request('restoreWorkflow', variables, options, { operationType: 'mutation' }),
     /**
-     * Roll back: copy an OLDER version (workflowAutomationId from getWorkflow.versions) into the DRAFT, then publish it with promoteWorkflowDraft. Only a PAUSED version a later-published one superseded (compare publishedAt); the most recently published one is refused (resume it with resumeWorkflowVersion). REPLACES the current draft and its edits, so confirm first when one exists. Nothing goes live.
+     * Roll back: copy an OLDER version (workflowAutomationId from getWorkflow.versions) into the DRAFT, then publish it with promoteWorkflowDraft. Only a PAUSED version a later-published one superseded (compare publishedAt); the most recently published one is refused (resume it with resumeWorkflowVersion). REPLACES the current draft and its edits, so confirm first when one exists, and pass expectedDraft ({id, updatedAt} of the draft you read) so a save made since refuses with CONFLICT instead of being lost. Nothing goes live.
      *
      * @remarks Requires the WRITE scope.
      *
