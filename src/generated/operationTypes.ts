@@ -1842,6 +1842,13 @@ export type PropertySignalType =
   | 'FIRE'
   | 'FORECLOSURE'
   /**
+   * A step a Florida clerk's foreclosure docket records before judgment (summons
+   * served, default entered, motion for summary judgment; never a sale or title
+   * certificate): a step of a matter, not a lead of its own, so it counts toward
+   * no benchmark family (INT-16747).
+   */
+  | 'FORECLOSURE_CASE_EVENT'
+  /**
    * A municipal foreclosure-registration filing (Sec. 18-153 and equivalents):
    * evidence a foreclosure is under way, but not the pre-foreclosure instrument,
    * so it counts toward no benchmark family (INT-8098).
