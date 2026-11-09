@@ -1860,6 +1860,12 @@ export type PropertySignalType =
    * toward no benchmark family (INT-16659).
    */
   | 'FORECLOSURE_SALE_CANCELLED'
+  /**
+   * A Florida foreclosure sale that happened (the clerk's certificate of sale or
+   * of title): the matter's outcome, so it counts toward no benchmark family and
+   * is not a seller-motivation event (INT-16747).
+   */
+  | 'FORECLOSURE_SALE_COMPLETED'
   | 'FOR_RENT_BY_OWNER'
   | 'FOR_RENT_BY_OWNER_FAILED'
   | 'FOR_SALE_BY_OWNER'
