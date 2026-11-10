@@ -495,6 +495,11 @@ export type ContactAgentCallScheduleInput = {
   timezone: Scalars['String']['input'];
 };
 
+export type ContactAgentCallTransferDestinationInput = {
+  name: Scalars['String']['input'];
+  phoneLineId: Scalars['ID']['input'];
+};
+
 export type ContactAgentDayOfWeek =
   | 'FRI'
   | 'MON'
@@ -2846,6 +2851,10 @@ export type VerificationStatus =
   | 'UNVERIFIED'
   | 'VERIFIED'
   | 'WRONG';
+
+export type VoiceSource =
+  | 'ACCOUNT'
+  | 'COMMUNITY';
 
 /**
  * Where one number — or the provider account behind it — stands with the carrier
@@ -5309,9 +5318,13 @@ export type CreateEmployeeMutationVariables = Exact<{
 
 export type CreateEmployeeMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', createAiEmployee?: { __typename?: 'ContactAgent', id: string, name: string, title?: string | null, status: ContactAgentStatus, configDocument: any, updatedAt: any } | null } | null };
 
-export type ListEmployeeVoicesQueryVariables = Exact<{ [key: string]: never; }>;
+export type ListEmployeeVoicesQueryVariables = Exact<{
+  search?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Scalars['String']['input']>;
+  accent?: InputMaybe<Scalars['String']['input']>;
+}>;
 
-export type ListEmployeeVoicesQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', recommendedVoices?: Array<{ __typename?: 'ElevenLabsVoice', voiceId: string, name: string, gender?: string | null, accent?: string | null, age?: string | null, description?: string | null, previewUrl?: string | null }> | null } | null };
+export type ListEmployeeVoicesQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', recommendedVoices?: Array<{ __typename?: 'ElevenLabsVoice', voiceId: string, name: string, gender?: string | null, accent?: string | null, age?: string | null, description?: string | null, previewUrl?: string | null, source: VoiceSource }> | null } | null };
 
 export type UpdateEmployeeConfigMutationVariables = Exact<{
   employeeId: Scalars['ID']['input'];
@@ -5345,6 +5358,14 @@ export type SetEmployeeDailyCapsMutationVariables = Exact<{
 }>;
 
 export type SetEmployeeDailyCapsMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', setAiEmployeeDailyCaps?: { __typename?: 'ContactAgent', id: string, name: string, dailyRunCap?: number | null, dailyCallCap?: number | null, updatedAt: any } | null } | null };
+
+export type SetEmployeeCallTransfersMutationVariables = Exact<{
+  employeeId: Scalars['ID']['input'];
+  destinations: Array<ContactAgentCallTransferDestinationInput> | ContactAgentCallTransferDestinationInput;
+  expectedUpdatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+export type SetEmployeeCallTransfersMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', setAiEmployeeCallTransfers?: { __typename?: 'ContactAgent', id: string, name: string, updatedAt: any, config: { __typename?: 'ContactAgentConfig', channels: { __typename?: 'ContactAgentChannels', callConfig?: { __typename?: 'ContactAgentCallConfig', transferDestinations: Array<{ __typename?: 'ContactAgentCallTransferDestination', name: string, phoneLineId: string }> } | null } } } | null } | null };
 
 export type ListEmployeeRevisionsQueryVariables = Exact<{
   employeeId: Scalars['ID']['input'];

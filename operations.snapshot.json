@@ -3974,8 +3974,8 @@
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "",
-    "responseShape": "{\"aiEmployeesQuery\":{\"recommendedVoices\":{\"voiceId\":true,\"name\":true,\"gender\":true,\"accent\":true,\"age\":true,\"description\":true,\"previewUrl\":true}}}"
+    "variableSignature": "search:String,gender:String,accent:String",
+    "responseShape": "{\"aiEmployeesQuery\":{\"recommendedVoices\":{\"voiceId\":true,\"name\":true,\"gender\":true,\"accent\":true,\"age\":true,\"description\":true,\"previewUrl\":true,\"source\":true}}}"
   },
   {
     "operationId": "removeEmployeesFromContacts",
@@ -4015,6 +4015,19 @@
     "hasAuthorize": true,
     "variableSignature": "employeeIds:[ID!]!,contactIds:[String!]!,message:String,runNow:Boolean=true,schedule:BulkAiEmployeeScheduleInput",
     "responseShape": "{\"contactMutation\":{\"createBulkTriggerAgentSessionTask\":{\"bulkTaskId\":true}}}"
+  },
+  {
+    "operationId": "setEmployeeCallTransfers",
+    "domain": "employees",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "employeeId:ID!,destinations:[ContactAgentCallTransferDestinationInput!]!,expectedUpdatedAt:DateTime",
+    "responseShape": "{\"aiEmployeesMutation\":{\"setAiEmployeeCallTransfers\":{\"id\":true,\"name\":true,\"config\":{\"channels\":{\"callConfig\":{\"transferDestinations\":{\"name\":true,\"phoneLineId\":true}}}},\"updatedAt\":true}}}"
   },
   {
     "operationId": "setEmployeeDailyCaps",

@@ -13166,7 +13166,7 @@
       "domain": "employees",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "One AI employee in full. `abilities` is what it can do RIGHT NOW, resolved (a tool missing from the stored config follows its default, and most defaults are on, so read `abilities`, never infer from the document). `config.wakes` is what wakes it. `mailboxes` and `triggerForms` are its channels; `legacyPhoneLines` lists only lines it still holds from before lines were shared, since an employee needs no number of its own (it texts on the number the conversation is on, otherwise a shared organization number): an empty list is the normal state, never something to attach, ask about or report; `defaultAssignees` who owns a contact it works when nobody does. `commitments`: `assignedContactCount` the contacts it is on, `scheduledContactCount` only those on a repeating schedule, and `bookedFollowUpContactCount` those with a follow-up it booked itself that has not run yet, so 0 scheduled never means no follow-up is coming. It holds no trust of its own: what it does on its own follows the trust of the person each act is for (the line or mailbox owner, else the contact's teammate, else its Manager), set on that person's Memory, Trust page. A text `sendWindow` holds only what it starts (follow-ups, outreach): its text reply to a lead who wrote in goes out at any hour. `configDocument` is the whole configuration as one JSON document; change part of it with updateEmployeeConfig's `edits` and `configPatch`. Webhook urls read back redacted and are kept on save. `updatedAt` is the `expectedUpdatedAt` to pass so a teammate's save in between is refused rather than overwritten.",
+      "description": "One AI employee in full. `abilities` is what it can do RIGHT NOW, resolved (a tool missing from the stored config follows its default, and most defaults are on, so read `abilities`, never infer from the document). `config.wakes` is what wakes it. `mailboxes` and `triggerForms` are its channels; `legacyPhoneLines` lists only lines it still holds from before lines were shared, since an employee needs no number of its own (it texts on the number the conversation is on, otherwise a shared organization number): an empty list is the normal state, never something to attach, ask about or report; `defaultAssignees` who owns a contact it works when nobody does. `commitments`: `assignedContactCount` the contacts it is on, `scheduledContactCount` only those on a repeating schedule, and `bookedFollowUpContactCount` those with a follow-up it booked itself that has not run yet, so 0 scheduled never means no follow-up is coming. It holds no trust of its own: what it does on its own follows the trust of the person each act is for (the line or mailbox owner, else the contact's teammate, else its Manager), set on that person's Memory, Trust page. A text `sendWindow` holds only what it starts (follow-ups, outreach): its text reply to a lead who wrote in goes out at any hour. `configDocument` is the whole configuration as one JSON document; change part of it with updateEmployeeConfig's `edits` and `configPatch`. Who it transfers a live call to is `configDocument.channels.callConfig.transferDestinations`, set with setEmployeeCallTransfers. Webhook urls read back redacted and are kept on save. `updatedAt` is the `expectedUpdatedAt` to pass so a teammate's save in between is refused rather than overwritten.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -13513,13 +13513,32 @@
       "domain": "employees",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "The voices an AI employee can speak in on calls, the same list its page's voice picker shows first: `voiceId`, `name`, and `gender`, `accent`, `age` and `description` to match what the person asked for (\"a natural woman's voice\", \"an American accent\"). To change the voice, updateEmployeeConfig with `configPatch` `{ channels: { callConfig: { voice: { voiceId } } } }` and one of these ids; the voice's name follows the id. `previewUrl` is a sample the person can play. Only an employee that answers or places calls has a voice (`channels.callConfig` in getEmployee's `configDocument`, whose `voice` is the current one).",
+      "description": "The voices an AI employee can speak in on calls: `voiceId`, `name`, and `gender`, `accent`, `age` and `description` to match what the person asked for (\"a natural woman's voice\", \"an American accent\"). With no `search`, the recommended list its page's voice picker shows first. With `search` (a name or words like \"deep\" or \"british\"; `gender` and `accent` narrow it), the matching voices in our voice workspace (`source` ACCOUNT) and then the shared voice library (`source` COMMUNITY), the same search the picker runs. To change the voice, updateEmployeeConfig with `configPatch` `{ channels: { callConfig: { voice: { voiceId } } } }` and one of these ids; the voice's name, gender, accent and sample follow the id, and a library voice is added to the workspace when it is saved. `previewUrl` is a sample the person can play. Only an employee that answers or places calls has a voice (`channels.callConfig` in getEmployee's `configDocument`, whose `voice` is the current one).",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
       "orgIdVariable": null,
       "hasAuthorize": false,
-      "variables": [],
+      "variables": [
+        {
+          "name": "search",
+          "type": "String",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "gender",
+          "type": "String",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "accent",
+          "type": "String",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
       "responseShape": {
         "aiEmployeesQuery": {
           "recommendedVoices": {
@@ -13529,7 +13548,8 @@
             "accent": true,
             "age": true,
             "description": true,
-            "previewUrl": true
+            "previewUrl": true,
+            "source": true
           }
         }
       }
@@ -13663,6 +13683,57 @@
         "contactMutation": {
           "createBulkTriggerAgentSessionTask": {
             "bulkTaskId": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setEmployeeCallTransfers",
+      "domain": "employees",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Set who an AI employee puts a live call through to when a caller asks for someone. `destinations` REPLACES the saved list (send every one to keep; `[]` turns transfers off): each is `{ name, phoneLineId }`, `name` the person as callers ask for them (unique ignoring case), `phoneLineId` one of the organization's own lines, an `organization.twilioPhoneNumbers[].id` from listCommunicationChannels (its `user.id` is the teammate the line belongs to; listTeamMembers names them). At most 10. The call rings that line's routing, so a number the organization does not own, such as a personal cell, cannot be one. This is the live transfer: a line in its instructions alone makes it say it is transferring on a call that never connects. Refused on an employee with no call channel (getEmployee `configDocument.channels.callConfig` absent). Pass `expectedUpdatedAt`. On an employee that is switched on it takes effect on its next run: needs their yes; a card’s counts.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "employeeId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "destinations",
+          "type": "[ContactAgentCallTransferDestinationInput!]!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "expectedUpdatedAt",
+          "type": "DateTime",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "aiEmployeesMutation": {
+          "setAiEmployeeCallTransfers": {
+            "id": true,
+            "name": true,
+            "config": {
+              "channels": {
+                "callConfig": {
+                  "transferDestinations": {
+                    "name": true,
+                    "phoneLineId": true
+                  }
+                }
+              }
+            },
+            "updatedAt": true
           }
         }
       }
@@ -13924,7 +13995,7 @@
       "domain": "employees",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Change an AI employee's configuration. To change part of it (a sentence, its tone, an hour), send only the change: `edits` are exact `{ find, replace }` pairs, each `find` copied from `configDocument` and found exactly once across its text (instructions, call scripts), applied in order, all or nothing; `configPatch` is a JSON merge patch for settings (objects merge, anything else replaces; a list to clear is `[]`, e.g. `{ channels: { emailConfig: { sendWindow: {...} } } }`), and a whole new `prompt` goes there too. Whatever you do not name is left as it is. Send `config`, the COMPLETE document, only to rewrite everything; a write that drops text or a channel nobody edited is refused. `name`, `title` and `avatar` are kept when omitted; an empty `title` clears it. The employee builder's checks run on every call and a refusal names each field and what to change: the voice must be one from listEmployeeVoices (or the one it already has), the instructions must fit, and no line may tell the employee to claim to be a person or deny being an AI. A change that turns off do-not-call or known-litigator screening is refused with the exact sentence to put to the person; ask them, and send the same call again with `acknowledgeScreeningWeakening: true` only if they agree. Pass `expectedUpdatedAt` (the `updatedAt` you read) so a teammate's save in between is refused rather than overwritten. A text `sendWindow` outside 8 AM to 9 PM is saved as asked; the result's `quietHoursNotice` then names the hours in words, and the reply says it once. `textHours` is the window as saved, in words. Does not switch the employee on or off.",
+      "description": "Change an AI employee's configuration. To change part of it (a sentence, its tone, an hour), send only the change: `edits` are exact `{ find, replace }` pairs, each `find` copied from `configDocument` and found exactly once across its text (instructions, call scripts), applied in order, all or nothing; `configPatch` is a JSON merge patch for settings (objects merge, anything else replaces; a list to clear is `[]`, e.g. `{ channels: { emailConfig: { sendWindow: {...} } } }`), and a whole new `prompt` goes there too. Whatever you do not name is left as it is. Send `config`, the COMPLETE document, only to rewrite everything; a write that drops text or a channel nobody edited is refused. `name`, `title` and `avatar` are kept when omitted; an empty `title` clears it. The employee builder's checks run on every call and a refusal names each field and what to change: the voice must be one listEmployeeVoices lists or finds (or the one it already has), the instructions must fit, and no line may tell the employee to claim to be a person or deny being an AI. A change that turns off do-not-call or known-litigator screening is refused with the exact sentence to put to the person; ask them, and send the same call again with `acknowledgeScreeningWeakening: true` only if they agree. Pass `expectedUpdatedAt` (the `updatedAt` you read) so a teammate's save in between is refused rather than overwritten. A text `sendWindow` outside 8 AM to 9 PM is saved as asked; the result's `quietHoursNotice` then names the hours in words, and the reply says it once. `textHours` is the window as saved, in words. Who it transfers a live call to is set with setEmployeeCallTransfers, never by an instruction alone. Does not switch the employee on or off.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
