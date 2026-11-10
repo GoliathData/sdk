@@ -5309,6 +5309,10 @@ export type CreateEmployeeMutationVariables = Exact<{
 
 export type CreateEmployeeMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', createAiEmployee?: { __typename?: 'ContactAgent', id: string, name: string, title?: string | null, status: ContactAgentStatus, configDocument: any, updatedAt: any } | null } | null };
 
+export type ListEmployeeVoicesQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type ListEmployeeVoicesQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', recommendedVoices?: Array<{ __typename?: 'ElevenLabsVoice', voiceId: string, name: string, gender?: string | null, accent?: string | null, age?: string | null, description?: string | null, previewUrl?: string | null }> | null } | null };
+
 export type UpdateEmployeeConfigMutationVariables = Exact<{
   employeeId: Scalars['ID']['input'];
   name?: InputMaybe<Scalars['String']['input']>;

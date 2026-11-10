@@ -3965,6 +3965,19 @@
     "responseShape": "{\"aiEmployeesQuery\":{\"contactAgentSuggestions\":{\"id\":true,\"status\":true,\"confidence\":true,\"action\":true,\"createdAt\":true,\"expiresAt\":true}}}"
   },
   {
+    "operationId": "listEmployeeVoices",
+    "domain": "employees",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"aiEmployeesQuery\":{\"recommendedVoices\":{\"voiceId\":true,\"name\":true,\"gender\":true,\"accent\":true,\"age\":true,\"description\":true,\"previewUrl\":true}}}"
+  },
+  {
     "operationId": "removeEmployeesFromContacts",
     "domain": "employees",
     "operationType": "mutation",
