@@ -7653,7 +7653,7 @@ export type PromoteWorkflowDraftMutationVariables = Exact<{
   inFlightRunsStrategy?: InputMaybe<InFlightRunsStrategy>;
 }>;
 
-export type PromoteWorkflowDraftMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', promoteWorkflowGroupDraftToLive?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus } | null } | null } | null };
+export type PromoteWorkflowDraftMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', promoteWorkflowGroupDraftToLive?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus } | null, existingMatches?: { __typename?: 'ContactsCountBound', count?: number | null, isLowerBound: boolean } | null } | null } | null };
 
 export type DiscardWorkflowDraftMutationVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];

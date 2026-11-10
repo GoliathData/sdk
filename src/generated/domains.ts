@@ -5257,7 +5257,7 @@ export class GoliathClient extends GoliathClientCore {
     previewWorkflowTableLookup: (variables: T.PreviewWorkflowTableLookupQueryVariables, options?: RequestOptions): Promise<T.PreviewWorkflowTableLookupQuery> =>
       this.request('previewWorkflowTableLookup', variables, options, { operationType: 'query' }),
     /**
-     * Ship it: promote the workflow's current DRAFT to ACTIVE (live). MIGRATE (default) moves in-flight runs to the new version: on a kept step they continue with the new copy, on a removed step they finish, held by a pause they wake. PAUSE keeps them on the old version, whose copy they send if resumed. Fails without a valid draft (see getWorkflow.draftValidation).
+     * Ship it: promote the workflow's current DRAFT to ACTIVE (live). `existingMatches` ({count, isLowerBound}; null when the trigger is not a single contact filter; count null when it could not be counted) is the contacts that match the trigger now and are not in this workflow: publishing enrolled none of them, a MATCH trigger can still enroll each the next time that contact changes, and enrollInWorkflow can enroll them now, on the person's yes. MIGRATE (default) moves in-flight runs to the new version: on a kept step they continue with the new copy, on a removed step they finish, held by a pause they wake. PAUSE keeps them on the old version, whose copy they send if resumed. Fails without a valid draft (see getWorkflow.draftValidation).
      *
      * @remarks Requires the WRITE scope.
      *

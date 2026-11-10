@@ -7888,7 +7888,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "workflowGroupId:ID!,inFlightRunsStrategy:InFlightRunsStrategy=MIGRATE",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"promoteWorkflowGroupDraftToLive\":{\"id\":true,\"name\":true,\"status\":true,\"currentVersion\":{\"id\":true,\"name\":true,\"status\":true}}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"promoteWorkflowGroupDraftToLive\":{\"id\":true,\"name\":true,\"status\":true,\"currentVersion\":{\"id\":true,\"name\":true,\"status\":true},\"existingMatches\":{\"count\":true,\"isLowerBound\":true}}}}"
   },
   {
     "operationId": "recordEventWorkflowPayloadSample",
