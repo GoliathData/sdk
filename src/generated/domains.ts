@@ -577,7 +577,7 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly bulkTasks = {
     /**
-     * Status of an async bulk task by the bulkTaskId an async op returned (addPropertiesToList and the like): status (CREATED = queued, PROCESSING = being applied, COMPLETED, FAILED = the change was NOT applied), progress (processedItemCount of estimatedItemCount) and a best-effort ETA (secondsRemaining; null = no estimate, not an error; status is authoritative). Null for an id not in your organization. Poll every 3-5 seconds.
+     * Status of an async bulk task by the bulkTaskId an async op returned (addPropertiesToList and the like): status (CREATED = queued, PROCESSING = being applied, COMPLETED, FAILED = the change was NOT applied), progress (processedItemCount of estimatedItemCount) and a best-effort ETA (secondsRemaining; null = no estimate, not an error; status is authoritative). `emailChecks` is the counts of a checkContactEmails run (null for any other task). Null for an id not in your organization. Poll every 3-5 seconds.
      *
      * @remarks Requires the READ scope.
      */
@@ -1293,7 +1293,7 @@ export class GoliathClient extends GoliathClientCore {
     findSharedPropertyAddresses: (variables?: T.FindSharedPropertyAddressesQueryVariables, options?: RequestOptions): Promise<T.FindSharedPropertyAddressesQuery> =>
       this.request('findSharedPropertyAddresses', variables, options, { operationType: 'query' }),
     /**
-     * MERGED IDS RESOLVE: an id merged into another contact returns the SURVIVING record, so the `id` that comes back can differ from the one you sent. Use the returned id from then on, never the old one; it is not an error. A merge chain that leads nowhere answers as not-found. Fetch one contact by id, the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties (`property.id` feeds getRelatedProperties), tags, lists, CUSTOM-FIELD VALUES, teammates + roles, teams, notes (with `isPinned`, `isHidden` and `replies`), linked deals (`isArchived: true` is not live), seller-intent score, enrichment/archive flags. A note is the team's record, never a message from the contact; calls are not here (listContactActivities [CALL]). A note's or reply's `author` { kind: USER | AI, id, name } is who WROTE it; read that, not `createdByUser`, which is null on a note an AI assistant wrote for a teammate. A hidden note or reply is shown only to admins; `replies` also omits ones you may not see (e.g. an outside author's), so a missing reply is not proof it is gone. CUSTOM FIELDS: the ONLY read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues (listContactCustomFields returns definitions, never values). `customFields` is the organization's field catalog, not this contact's answers, listed whether or not the contact has one, so its length says nothing about the contact (fields sharing a normalized name collapse to one entry, so it can differ from listContactCustomFields). The value is in `values`, NULL when this contact has none: null means UNSET, not missing, unreadable or an error. Read the ONE sub-field matching the field `type`; the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number as written, NOT cents); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, the selected option LABELS (not option ids), at most one entry unless `allowMultiple` is true. Reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host gains its scheme), so compare what you wrote with what comes back rather than assume byte equality.
+     * MERGED IDS RESOLVE: an id merged into another contact returns the SURVIVING record, so the `id` that comes back can differ from the one you sent. Use the returned id from then on, never the old one; it is not an error. A merge chain that leads nowhere answers as not-found. Fetch one contact by id, the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties (`property.id` feeds getRelatedProperties), tags, lists, CUSTOM-FIELD VALUES, teammates + roles, teams, notes (with `isPinned`, `isHidden` and `replies`), linked deals (`isArchived: true` is not live), seller-intent score, enrichment/archive flags. Each email's `emailCheck` is its latest email check (`result` DELIVERABLE, RISKY, UNDELIVERABLE or UNKNOWN, when, by whom), null until one runs (checkContactEmail). A note is the team's record, never a message from the contact; calls are not here (listContactActivities [CALL]). A note's or reply's `author` { kind: USER | AI, id, name } is who WROTE it; read that, not `createdByUser`, which is null on a note an AI assistant wrote for a teammate. A hidden note or reply is shown only to admins; `replies` also omits ones you may not see (e.g. an outside author's), so a missing reply is not proof it is gone. CUSTOM FIELDS: the ONLY read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues (listContactCustomFields returns definitions, never values). `customFields` is the organization's field catalog, not this contact's answers, listed whether or not the contact has one, so its length says nothing about the contact (fields sharing a normalized name collapse to one entry, so it can differ from listContactCustomFields). The value is in `values`, NULL when this contact has none: null means UNSET, not missing, unreadable or an error. Read the ONE sub-field matching the field `type`; the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number as written, NOT cents); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, the selected option LABELS (not option ids), at most one entry unless `allowMultiple` is true. Reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host gains its scheme), so compare what you wrote with what comes back rather than assume byte equality.
      *
      * @remarks Requires the READ scope.
      */
@@ -2446,6 +2446,34 @@ export class GoliathClient extends GoliathClientCore {
      */
     updatePipelineStage: (variables: T.UpdatePipelineStageMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineStageMutation> =>
       this.request('updatePipelineStage', variables, options, { operationType: 'mutation' }),
+  }
+
+  readonly emailChecks = {
+    /**
+     * Check one of a contact's email addresses now (`contactEmailId` from getContact `emails`) and save the result on it, as the contact page's Check does. Returns the address with its `emailCheck` (`result` DELIVERABLE, RISKY, UNDELIVERABLE or UNKNOWN). `skipReason` set means the check did not run (NO_CREDITS, PROVIDER_ERROR, …), nothing was spent and any earlier result stays. An address not on that contact is NOT_FOUND. One email-verification credit per address checked, the same credits as the app (plan allowance first, then bought; checkBillingAction with action EMAIL_VERIFICATION says how many are left), so name the count and have the person agree before a large one. ADMIN: the key owner must currently be an org admin.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    checkContactEmail: (variables: T.CheckContactEmailMutationVariables, options?: IdempotentRequestOptions): Promise<T.CheckContactEmailMutation> =>
+      this.request('checkContactEmail', variables, options, { operationType: 'mutation' }),
+    /**
+     * Check every never-checked email address on the selected contacts, the contacts table’s bulk Check emails. Addresses checked before are skipped and cost nothing; when the credits run out the rest stay unchecked. Async: poll getBulkTask(bulkTaskId); its `emailChecks` gives checkedCount, undeliverableCount and notCheckedCount once it finishes, and each result is on the address (getContact). getContactEmailCheckSummary first says how many addresses it would check. One email-verification credit per address checked, the same credits as the app (plan allowance first, then bought; checkBillingAction with action EMAIL_VERIFICATION says how many are left), so name the count and have the person agree before a large one. ADMIN: the key owner must currently be an org admin. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    checkContactEmails: (variables?: T.CheckContactEmailsMutationVariables, options?: IdempotentRequestOptions): Promise<T.CheckContactEmailsMutation> =>
+      this.request('checkContactEmails', variables, options, { operationType: 'mutation' }),
+    /**
+     * What checkContactEmails would spend on a selection: `uncheckedEmailCount` is the addresses on those contacts never checked (at most that many credits), `totalContacts` the contacts it holds. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getContactEmailCheckSummary: (variables?: T.GetContactEmailCheckSummaryQueryVariables, options?: RequestOptions): Promise<T.GetContactEmailCheckSummaryQuery> =>
+      this.request('getContactEmailCheckSummary', variables, options, { operationType: 'query' }),
   }
 
   readonly employees = {

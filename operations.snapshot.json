@@ -881,7 +881,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "bulkTaskId:ID!",
-    "responseShape": "{\"bulkTaskQuery\":{\"bulkTask\":{\"id\":true,\"status\":true,\"estimatedItemCount\":true,\"processedItemCount\":true,\"secondsRemaining\":true,\"createdAt\":true,\"updatedAt\":true}}}"
+    "responseShape": "{\"bulkTaskQuery\":{\"bulkTask\":{\"id\":true,\"status\":true,\"estimatedItemCount\":true,\"processedItemCount\":true,\"secondsRemaining\":true,\"createdAt\":true,\"updatedAt\":true,\"emailChecks\":{\"checkedCount\":true,\"undeliverableCount\":true,\"notCheckedCount\":true}}}}"
   },
   {
     "operationId": "addCallListContacts",
@@ -1947,7 +1947,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "contactId:ID!",
-    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"name\":true,\"createdAt\":true,\"isArchived\":true,\"isEnriched\":true,\"sellerIntentScore\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"doNotContactSetBy\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true,\"dncStatus\":{\"isDnc\":true,\"isLitigator\":true}},\"mailingAddresses\":{\"id\":true,\"rawText\":true,\"verificationStatus\":true,\"address\":{\"addressFull\":true}},\"properties\":{\"id\":true,\"propertyString\":true,\"status\":true,\"verificationStatus\":true,\"property\":{\"id\":true},\"type\":true,\"role\":{\"id\":true,\"name\":true}},\"relatedPeople\":{\"id\":true,\"kind\":true,\"name\":true,\"relation\":true,\"relationshipRole\":{\"id\":true,\"name\":true},\"inContacts\":true},\"relatedTo\":{\"mainContactId\":true,\"mainContactName\":true,\"relation\":true},\"relationshipRole\":{\"id\":true,\"name\":true},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}},\"participants\":{\"status\":true,\"role\":{\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"userGroups\":{\"id\":true,\"name\":true},\"notes\":{\"id\":true,\"body\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"isPinned\":true,\"isHidden\":true,\"replies\":{\"id\":true,\"body\":true,\"isHidden\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}}},\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"isArchived\":true,\"priceFormatted\":true,\"stage\":{\"id\":true,\"name\":true}}}}}"
+    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"name\":true,\"createdAt\":true,\"isArchived\":true,\"isEnriched\":true,\"sellerIntentScore\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"doNotContactSetBy\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true,\"emailCheck\":{\"result\":true,\"reason\":true,\"checkedAt\":true,\"source\":true,\"checkedBy\":true}},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true,\"dncStatus\":{\"isDnc\":true,\"isLitigator\":true}},\"mailingAddresses\":{\"id\":true,\"rawText\":true,\"verificationStatus\":true,\"address\":{\"addressFull\":true}},\"properties\":{\"id\":true,\"propertyString\":true,\"status\":true,\"verificationStatus\":true,\"property\":{\"id\":true},\"type\":true,\"role\":{\"id\":true,\"name\":true}},\"relatedPeople\":{\"id\":true,\"kind\":true,\"name\":true,\"relation\":true,\"relationshipRole\":{\"id\":true,\"name\":true},\"inContacts\":true},\"relatedTo\":{\"mainContactId\":true,\"mainContactName\":true,\"relation\":true},\"relationshipRole\":{\"id\":true,\"name\":true},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}},\"participants\":{\"status\":true,\"role\":{\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"userGroups\":{\"id\":true,\"name\":true},\"notes\":{\"id\":true,\"body\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"isPinned\":true,\"isHidden\":true,\"replies\":{\"id\":true,\"body\":true,\"isHidden\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}}},\"deals\":{\"id\":true,\"title\":true,\"priceCents\":true,\"isArchived\":true,\"priceFormatted\":true,\"stage\":{\"id\":true,\"name\":true}}}}}"
   },
   {
     "operationId": "getContactConnections",
@@ -3664,6 +3664,45 @@
     "hasAuthorize": true,
     "variableSignature": "stageId:ID!,name:String,description:String,isTerminal:Boolean,terminalType:PipelineStageTerminalType,winProbability:Int",
     "responseShape": "{\"dealMutation\":{\"updateDealStage\":{\"id\":true,\"name\":true,\"order\":true,\"description\":true,\"isTerminal\":true,\"terminalType\":true,\"winProbability\":true}}}"
+  },
+  {
+    "operationId": "checkContactEmail",
+    "domain": "emailChecks",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactId:ID!,contactEmailId:ID!",
+    "responseShape": "{\"emailCheckMutation\":{\"checkContactEmail\":{\"skipReason\":true,\"contactEmail\":{\"id\":true,\"email\":true,\"emailCheck\":{\"result\":true,\"reason\":true,\"checkedAt\":true,\"source\":true,\"checkedBy\":true}}}}}"
+  },
+  {
+    "operationId": "checkContactEmails",
+    "domain": "emailChecks",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int",
+    "responseShape": "{\"emailCheckMutation\":{\"checkContactEmails\":{\"mode\":true,\"bulkTaskId\":true}}}"
+  },
+  {
+    "operationId": "getContactEmailCheckSummary",
+    "domain": "emailChecks",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int",
+    "responseShape": "{\"contactQuery\":{\"contactEmailCheckSummaryForSelection\":{\"totalContacts\":true,\"uncheckedEmailCount\":true}}}"
   },
   {
     "operationId": "acceptEmployeeSuggestion",
