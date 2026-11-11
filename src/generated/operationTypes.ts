@@ -2918,6 +2918,11 @@ export type WorkThroughFamily =
   | 'IGNORED_TASK_STEP'
   /** The weekly low-reply-rate step. */
   | 'LOW_REPLY_STEP'
+  /**
+   * Whole-mailbox sync: which groups of the people a mailbox's first backfill sorted become contacts (`suggestion`
+   * carries the groups, their counts and names). Nothing is sent.
+   */
+  | 'MAILBOX_CONTACTS'
   /** A targeted dream's proposed change to one memory, an AI employee's or the viewer's own (one card per memory). */
   | 'MEMORY_CHANGE'
   /** An AI employee's draft: a text, email or Slack message. */
