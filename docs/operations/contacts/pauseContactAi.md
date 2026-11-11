@@ -4,12 +4,12 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Turn on Drafts only for one contact: AI runs and suggestions go on, but every AI text, email or contract waits for a person as a card, and AI calls are refused. Every mode writes Drafts only: DRAFTS, and the retired ALL and MESSAGES, which are still accepted. A future pausedUntil ends it on its own; null lasts until resumeContactAi. Not Do Not Contact: people can still reach them.
+Turn on Drafts only for one contact: AI runs and suggestions go on, but every AI text, email or contract waits for a person as a card, and AI calls are refused. mode is optional and ignored: every pause is Drafts only (DRAFTS, and the retired ALL and MESSAGES, are still accepted). A future pausedUntil ends it on its own; null lasts until resumeContactAi. Not Do Not Contact: people can still reach them.
 
 ## Call
 
 ```ts
-const result = await client.contacts.pauseContactAi({ contactId: '<id>', mode: <ContactAiPauseMode> }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.contacts.pauseContactAi({ contactId: '<id>' }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<PauseContactAiMutation>
 ```
 
@@ -20,7 +20,7 @@ const result = await client.contacts.pauseContactAi({ contactId: '<id>', mode: <
 | Name | Type | Required | Default |
 |---|---|---|---|
 | `contactId` | `ID!` | yes | — |
-| `mode` | `ContactAiPauseMode!` | yes | — |
+| `mode` | `ContactAiPauseMode` | no | — |
 | `pausedUntil` | `DateTime` | no | — |
 | `reason` | `String` | no | — |
 

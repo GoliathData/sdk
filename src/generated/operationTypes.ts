@@ -4005,7 +4005,7 @@ export type GetContactImportQueryVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];
 }>;
 
-export type GetContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', fileProcessingTask?: { __typename?: 'FileProcessingTask', id: string, status?: FileProcessingTaskStatus | null, totalRows?: number | null, producedRecordsCount?: number | null, estimatedRemainingTimeInSeconds?: number | null, contactTag?: { __typename?: 'Tag', name: string } | null } | null, uploadReport?: { __typename?: 'UploadReport', createdCount: number, matchedCount: number, restoredCount: number, skippedCount: number, failedCount: number, mergedAfterImportCount: number, mergedIntoExistingCount: number, duplicateRowCount: number, processedRowCount: number } | null } | null };
+export type GetContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', fileProcessingTask?: { __typename?: 'FileProcessingTask', id: string, status?: FileProcessingTaskStatus | null, totalRows?: number | null, producedRecordsCount?: number | null, estimatedRemainingTimeInSeconds?: number | null, contactTag?: { __typename?: 'Tag', name: string } | null } | null, uploadReport?: { __typename?: 'UploadReport', createdCount: number, matchedCount: number, matchedExistingCount?: number | null, restoredCount: number, skippedCount: number, failedCount: number, mergedAfterImportCount: number, mergedIntoExistingCount: number, duplicateRowCount: number, processedRowCount: number } | null } | null };
 
 export type GetContactImportRowFindingsQueryVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];
@@ -4482,7 +4482,7 @@ export type SetPhoneDoNotContactMutation = { __typename?: 'RootMutation', contac
 
 export type PauseContactAiMutationVariables = Exact<{
   contactId: Scalars['ID']['input'];
-  mode: ContactAiPauseMode;
+  mode?: InputMaybe<ContactAiPauseMode>;
   pausedUntil?: InputMaybe<Scalars['DateTime']['input']>;
   reason?: InputMaybe<Scalars['String']['input']>;
 }>;
@@ -4497,7 +4497,7 @@ export type ResumeContactAiMutation = { __typename?: 'RootMutation', contactMuta
 
 export type PauseContactsAiMutationVariables = Exact<{
   contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
-  mode: ContactAiPauseMode;
+  mode?: InputMaybe<ContactAiPauseMode>;
   pausedUntil?: InputMaybe<Scalars['DateTime']['input']>;
 }>;
 
@@ -5194,7 +5194,7 @@ export type GetUploadReportQueryVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];
 }>;
 
-export type GetUploadReportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', fileProcessingTask?: { __typename?: 'FileProcessingTask', id: string, type?: FileProcessingTaskType | null, status?: FileProcessingTaskStatus | null, totalRows?: number | null, producedRecordsCount?: number | null, createdAt?: any | null, file?: { __typename?: 'UploadedFile', id: string, fileName: string } | null } | null, uploadReport?: { __typename?: 'UploadReport', totalRows?: number | null, createdCount: number, matchedCount: number, restoredCount: number, skippedCount: number, failedCount: number, mergedAfterImportCount: number, duplicateRowCount: number, distinctContactsCount: number, distinctPropertiesCount: number, processedRowCount: number, hasOutcomeTracking: boolean, skiptrace?: { __typename?: 'UploadReportSkiptrace', wasBilled: boolean, netSpent: number, found: number, foundNothing: number, failed: number, notRunYet: number, notTraced: number } | null } | null } | null };
+export type GetUploadReportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', fileProcessingTask?: { __typename?: 'FileProcessingTask', id: string, type?: FileProcessingTaskType | null, status?: FileProcessingTaskStatus | null, totalRows?: number | null, producedRecordsCount?: number | null, createdAt?: any | null, file?: { __typename?: 'UploadedFile', id: string, fileName: string } | null } | null, uploadReport?: { __typename?: 'UploadReport', totalRows?: number | null, createdCount: number, matchedCount: number, matchedExistingCount?: number | null, restoredCount: number, skippedCount: number, failedCount: number, mergedAfterImportCount: number, duplicateRowCount: number, distinctContactsCount: number, distinctPropertiesCount: number, processedRowCount: number, hasOutcomeTracking: boolean, skiptrace?: { __typename?: 'UploadReportSkiptrace', wasBilled: boolean, netSpent: number, found: number, foundNothing: number, failed: number, notRunYet: number, notTraced: number } | null } | null } | null };
 
 export type ListUploadReportRowsQueryVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];

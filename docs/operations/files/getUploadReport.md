@@ -4,7 +4,7 @@
 
 query · domain `files` · requires the READ scope
 
-One upload's report — what its report sheet shows: rows in the file, how many contacts or properties it created, matched to existing records, restored, merged, skipped, failed or duplicated, and its skip-trace outcome and spend. Needs to be the uploader or able to see all contacts. Read the rows behind a count with listUploadReportRows.
+One upload's report — what its report sheet shows: rows in the file, how many contacts or properties it created, matched, restored, merged, skipped, failed or duplicated (matchedCount counts rows, repeats of earlier rows included; the contacts they already had are matchedExistingCount), and its skip-trace outcome and spend. Needs to be the uploader or able to see all contacts. Read the rows behind a count with listUploadReportRows.
 
 ## Call
 
@@ -44,6 +44,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "totalRows": true,
       "createdCount": true,
       "matchedCount": true,
+      "matchedExistingCount": true,
       "restoredCount": true,
       "skippedCount": true,
       "failedCount": true,

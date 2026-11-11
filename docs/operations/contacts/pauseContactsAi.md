@@ -9,7 +9,7 @@ pauseContactAi (Drafts only, same pausedUntil) for many contacts, as a bulk task
 ## Call
 
 ```ts
-const result = await client.contacts.pauseContactsAi({ contactIds: ['<text>'], mode: <ContactAiPauseMode> }, { idempotencyKey: crypto.randomUUID() })
+const result = await client.contacts.pauseContactsAi({ contactIds: ['<text>'] }, { idempotencyKey: crypto.randomUUID() })
 // → Promise<PauseContactsAiMutation>
 ```
 
@@ -20,7 +20,7 @@ const result = await client.contacts.pauseContactsAi({ contactIds: ['<text>'], m
 | Name | Type | Required | Default |
 |---|---|---|---|
 | `contactIds` | `[String!]!` | yes | — |
-| `mode` | `ContactAiPauseMode!` | yes | — |
+| `mode` | `ContactAiPauseMode` | no | — |
 | `pausedUntil` | `DateTime` | no | — |
 
 ## Gateway notes
