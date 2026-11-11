@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Pause AI on one contact. mode ALL: no AI employee runs, and workflow AI employee steps that come due are skipped, not deferred; MESSAGES: runs go on but no AI text, email or Slack message is suggested or sent; DRAFTS (AI off): runs and suggestions go on, every AI text, email or contract waits for a person as a card, AI calls are refused, and pausedUntil is refused. A future pausedUntil ends it on its own; null lasts until resumeContactAi. Not Do Not Contact: people can still reach them.
+Turn on Drafts only for one contact: AI runs and suggestions go on, but every AI text, email or contract waits for a person as a card, and AI calls are refused. Every mode writes Drafts only: DRAFTS, and the retired ALL and MESSAGES, which are still accepted. A future pausedUntil ends it on its own; null lasts until resumeContactAi. Not Do Not Contact: people can still reach them.
 
 ## Call
 

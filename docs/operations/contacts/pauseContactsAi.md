@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-pauseContactAi (same mode and pausedUntil) for many contacts, as a bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
+pauseContactAi (Drafts only, same pausedUntil) for many contacts, as a bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
 
 ## Call
 

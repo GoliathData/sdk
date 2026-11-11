@@ -558,13 +558,13 @@ export type ContactAiEmployeeStatus =
   | 'PAUSED'
   | 'REMOVED';
 
-/** What an AI pause on a contact stops. */
+/** What an AI pause on a contact stops. One switch, Drafts only: ALL and MESSAGES are retired, and a pause input that names either writes DRAFTS. */
 export type ContactAiPauseMode =
-  /** Pause all AI: no AI employee runs on the contact; workflow AI employee steps are skipped. */
+  /** Retired: written as DRAFTS. A pause stored with it before then: no AI employee runs on the contact; workflow AI employee steps are skipped. */
   | 'ALL'
-  /** AI off (the contact AI switch): runs and suggestions continue, but every AI text, email or contract waits for a person to approve it as a card, and AI calls are refused. No end time. */
+  /** Drafts only (the contact AI switch): runs and suggestions continue, but every AI text, email or contract waits for a person to approve it as a card, and AI calls are refused. */
   | 'DRAFTS'
-  /** Pause AI messages: runs continue, but no AI text, email or Slack message is suggested or sent. */
+  /** Retired: written as DRAFTS. A pause stored with it before then: runs continue, but no AI text, email or Slack message is suggested or sent. */
   | 'MESSAGES';
 
 export type ContactCollaboratorInput = {

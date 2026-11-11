@@ -1417,7 +1417,7 @@ export class GoliathClient extends GoliathClientCore {
     mergeContacts: (variables: T.MergeContactsMutationVariables, options?: IdempotentRequestOptions): Promise<T.MergeContactsMutation> =>
       this.request('mergeContacts', variables, options, { operationType: 'mutation' }),
     /**
-     * Pause AI on one contact. mode ALL: no AI employee runs, and workflow AI employee steps that come due are skipped, not deferred; MESSAGES: runs go on but no AI text, email or Slack message is suggested or sent; DRAFTS (AI off): runs and suggestions go on, every AI text, email or contract waits for a person as a card, AI calls are refused, and pausedUntil is refused. A future pausedUntil ends it on its own; null lasts until resumeContactAi. Not Do Not Contact: people can still reach them.
+     * Turn on Drafts only for one contact: AI runs and suggestions go on, but every AI text, email or contract waits for a person as a card, and AI calls are refused. Every mode writes Drafts only: DRAFTS, and the retired ALL and MESSAGES, which are still accepted. A future pausedUntil ends it on its own; null lasts until resumeContactAi. Not Do Not Contact: people can still reach them.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1426,7 +1426,7 @@ export class GoliathClient extends GoliathClientCore {
     pauseContactAi: (variables: T.PauseContactAiMutationVariables, options?: IdempotentRequestOptions): Promise<T.PauseContactAiMutation> =>
       this.request('pauseContactAi', variables, options, { operationType: 'mutation' }),
     /**
-     * pauseContactAi (same mode and pausedUntil) for many contacts, as a bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
+     * pauseContactAi (Drafts only, same pausedUntil) for many contacts, as a bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
      *
      * @remarks Requires the WRITE scope.
      *
