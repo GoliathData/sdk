@@ -3611,6 +3611,12 @@ export type GetBillingSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetBillingSummaryQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', getOrganizationBilling?: { __typename?: 'OrganizationBilling', id: string, planType?: PlanCode | null, status: OrganizationBillingStatus, isAnnualPlan?: boolean | null, isGrandfathered: boolean, currentUnitAmountCents?: number | null, trialEnds?: any | null, cancelAt?: any | null, pendingPlanCode?: PlanCode | null, pendingPlanIsAnnual?: boolean | null, pendingPlanEffectiveAt?: any | null, featureLimits: { __typename?: 'FeatureLimits', seatsCap?: number | null, skiptraceCap?: number | null, emailVerificationCap?: number | null, exportPropertiesCap?: number | null, aiCreditsCap?: number | null, smsCreditsCap?: number | null, phoneNumbersCap?: number | null, callingMinutesCap?: number | null }, extraSeats?: { __typename?: 'ExtraSeatsBilling', seatsCap: number, seatsUsed: number, extraSeatQuantity: number, unusedPaidSeats?: number | null, unusedPaidSeatsReleaseAt?: any | null } | null, creditLedger: Array<{ __typename?: 'CreditLedger', type: CreditType, unitBalance: number }>, planUsage: Array<{ __typename?: 'CreditPlanUsage', type: CreditType, planCap: number, usedThisPeriod: number, planRemaining: number, planCreditsLocked: boolean, purchasedBalance: number, available: number, periodResetsAt?: any | null }> } | null } | null };
 
+export type ListInvoicesQueryVariables = Exact<{
+  count?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListInvoicesQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', invoices?: Array<{ __typename?: 'InvoiceSummary', id: string, number?: string | null, status: string, createdAt: any, dueAt?: any | null, totalCents: number, amountPaidCents: number, amountRemainingCents: number, currency: string, hostedInvoiceUrl?: string | null }> | null } | null };
+
 export type GetAiCreditUsageQueryVariables = Exact<{
   windowDays?: InputMaybe<Scalars['Int']['input']>;
 }>;

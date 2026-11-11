@@ -573,6 +573,13 @@ export class GoliathClient extends GoliathClientCore {
      */
     getSeatsPurchaseUrl: (options?: RequestOptions): Promise<T.GetSeatsPurchaseUrlQuery> =>
       this.request('getSeatsPurchaseUrl', undefined, options, { operationType: 'query' }),
+    /**
+     * The org's invoice history, newest first: `count` (1..24, default 12) finalized invoices, never drafts. Each has `number`, `status` (open, paid, uncollectible, void), `createdAt`, `dueAt` (an emailed invoice's due date, kept after payment, so read `status`), `totalCents`, `amountPaidCents`, `amountRemainingCents` (still owed), `currency` and `hostedInvoiceUrl`, the page where a person views, downloads or pays it; link it, never paste amounts as a receipt. Amounts are cents: divide by 100. An empty list means no finalized invoice among the org's recent Stripe invoices, not proof it was never billed. Read-only; the agent cannot pay. Needs the spending permission: refused without it (the refusal text is the generic spending one), tell the person an admin or a teammate who manages spending sees invoices on Settings > Billing.
+     *
+     * @remarks Requires the ADMIN scope.
+     */
+    listInvoices: (variables?: T.ListInvoicesQueryVariables, options?: RequestOptions): Promise<T.ListInvoicesQuery> =>
+      this.request('listInvoices', variables, options, { operationType: 'query' }),
   }
 
   readonly bulkTasks = {

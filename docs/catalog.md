@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-634 operations across 30 domains — small enough to read whole. One line each:
+635 operations across 30 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -89,6 +89,7 @@ Full detail per operation (variables, call example, gateway notes, response shap
 - `getPhoneNumbersPurchaseUrl` (query, READ) — The in-app Team & Phones page URL where a human registers and buys phone numbers. The agent cannot buy numbers.
 - `getPlanCatalog` (query, READ) — Every plan on sale: monthly and annual (whole-year) price, and what each includes per month. Quote *Formatted; never divide *Cents. Starter is monthly only and on sale only when getPlanCatalog lists STARTER; a 0 Starter price means not on sale, never free. Current plan: getBillingSummary; plans change on Billing & Plans.
 - `getSeatsPurchaseUrl` (query, READ) — The in-app Billing page URL where a human buys extra seats. The agent cannot buy. Decide "at cap" from getBillingSummary's `extraSeats.seatsUsed` vs `extraSeats.seatsCap` (total, purchased seats included), never the plan-only `featureLimits.seatsCap`. Price: getAddOnPrices.
+- `listInvoices` (query, ADMIN) — The org's invoice history, newest first: `count` (1..24, default 12) finalized invoices, never drafts. Each has `number`, `status` (open, paid, uncollectible, void), `createdAt`, `dueAt` (an emailed invoice's due date, kept after payment, so read `status`), `totalCents`, `amountPaidCents`, `amountRemainingCents` (still owed), `currency` and `hostedInvoiceUrl`, the page where a person views, downloads or pays it; link it, never paste amounts as a receipt. Amounts are cents: divide by 100. An empty list means no finalized invoice among the org's recent Stripe invoices, not proof it was never billed. Read-only; the agent cannot pay. Needs the spending permission: refused without it (the refusal text is the generic spending one), tell the person an admin or a teammate who manages spending sees invoices on Settings > Billing.
 
 ## bulkTasks
 

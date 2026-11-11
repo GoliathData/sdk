@@ -871,6 +871,19 @@
     "responseShape": "{\"billing\":{\"getSeatsPurchaseUrl\":true}}"
   },
   {
+    "operationId": "listInvoices",
+    "domain": "billing",
+    "operationType": "query",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "count:Int",
+    "responseShape": "{\"subscriptionQuery\":{\"invoices\":{\"id\":true,\"number\":true,\"status\":true,\"createdAt\":true,\"dueAt\":true,\"totalCents\":true,\"amountPaidCents\":true,\"amountRemainingCents\":true,\"currency\":true,\"hostedInvoiceUrl\":true}}}"
+  },
+  {
     "operationId": "getBulkTask",
     "domain": "bulkTasks",
     "operationType": "query",

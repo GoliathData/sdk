@@ -33,7 +33,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `appointments` | 12 |
 | `askGoliath` | 8 |
 | `automationMap` | 4 |
-| `billing` | 10 |
+| `billing` | 11 |
 | `bulkTasks` | 1 |
 | `callLists` | 10 |
 | `communications` | 21 |
