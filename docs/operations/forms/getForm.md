@@ -85,7 +85,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
           "userId": true,
           "calendarConfig": {
             "isFixed": true,
-            "checkExternalCalendars": true
+            "checkExternalCalendars": true,
+            "inRotation": true
           }
         },
         "teamIds": true,
