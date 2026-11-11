@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-PERMANENTLY delete a saved CONTACT filter by id (from listContactFilters): no archive, no undo. Returns true when a row was deleted; a foreign or unknown id is rejected, and a property or deal filter id is refused with nothing deleted. WHOSE FILTER IS IT: listContactFilters returns `userId`, the owner. A TEAMMATE'S shared filter is deletable when the key owner is an org admin, so check `userId` against getMyProfile (`currentUser.id`) first and say whose it is. A teammate's PRIVATE filter is refused outright. If the filter is merely wrong rather than unwanted, updateFilter (properties domain; it edits contact filters too) fixes it in place.
+PERMANENTLY delete a saved CONTACT filter by id (from listContactFilters): no archive, no undo. Returns true when a row was deleted; a foreign or unknown id is rejected, and a property or pipeline item filter id is refused with nothing deleted. WHOSE FILTER IS IT: listContactFilters returns `userId`, the owner. A TEAMMATE'S shared filter is deletable when the key owner is an org admin, so check `userId` against getMyProfile (`currentUser.id`) first and say whose it is. A teammate's PRIVATE filter is refused outright. If the filter is merely wrong rather than unwanted, updateFilter (properties domain; it edits contact filters too) fixes it in place.
 
 ## Call
 

@@ -18,18 +18,18 @@ void client.contacts.createContact(createContactVariables, { idempotencyKey: 'or
 
 // …and creates alike: a timed-out create retried with its key replays instead
 // of duplicating, so the type surface must invite the key on every write.
-void client.deals.createDeal({ title: 'x' } as never, { idempotencyKey: 'order-123' })
+void client.pipelineItems.createPipelineItem({ title: 'x' } as never, { idempotencyKey: 'order-123' })
 
 // An IdempotentRequestOptions VARIABLE flows the same way (excess-property
 // checks only cover literals, so this pins structural assignability too).
 declare const idempotentOptions: import('../runtime/types').IdempotentRequestOptions
-void client.deals.createDeal({ title: 'x' } as never, idempotentOptions)
+void client.pipelineItems.createPipelineItem({ title: 'x' } as never, idempotentOptions)
 
 // Reads still reject the key at compile time, matching the gateway's 400:
 // their options are plain RequestOptions, whose `idempotencyKey?: never`
 // refuses a real string.
 // @ts-expect-error idempotencyKey is a write concept — read operations reject it
-void client.deals.getPipelineAnalytics(undefined, { idempotencyKey: 'order-123' })
+void client.pipelineItems.getPipelineAnalytics(undefined, { idempotencyKey: 'order-123' })
 
 // Org-bound variables are gateway-injected: the caller-facing type omits them…
 void client.team.getTeamAnalyticsOverview(analyticsVariables)
@@ -39,7 +39,7 @@ void client.team.getTeamAnalyticsOverview(analyticsVariables)
 void client.team.getTeamAnalyticsOverview({ ...analyticsVariables, orgId: 'someone-elses-org' })
 
 // Fully-optional-variable operations are callable with no arguments at all.
-void client.deals.getPipelineAnalytics()
+void client.pipelineItems.getPipelineAnalytics()
 
 // Enum inputs take their wire string literal: the package exports no enum
 // values, so a nominal TS enum here made every required enum input uncallable

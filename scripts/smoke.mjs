@@ -65,9 +65,9 @@ await check('communications.listCommunicationChannels', async () => {
   return `${lines.length} phone line(s)`
 })
 
-await check('deals.findDeals({ limit: 3 })', async () => {
-  const data = await client.deals.findDeals({ limit: 3 })
-  return `${data.dealQuery?.findDeals?.deals?.length ?? 0} deal(s)`
+await check('pipelineItems.findPipelineItems({ limit: 3 })', async () => {
+  const data = await client.pipelineItems.findPipelineItems({ limit: 3 })
+  return `${data.pipelineItemQuery?.findPipelineItems?.pipelineItems?.length ?? 0} pipeline item(s)`
 })
 
 await check('discovery parity: GET /api/v1/operations matches operations.snapshot.json', async () => {

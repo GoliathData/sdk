@@ -4,7 +4,7 @@
 
 mutation · domain `properties` · requires the WRITE scope
 
-Set the display order of saved filters: `filterIds` first to last (listPropertyFilters / listContactFilters / listDealFilters ids).
+Set the display order of saved filters: `filterIds` first to last (listPropertyFilters / listContactFilters / listPipelineItemFilters ids).
 
 ## Call
 

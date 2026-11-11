@@ -4,7 +4,7 @@
 
 query · domain `notifications` · requires the READ scope
 
-The key owner's Catch up deck, ranked as the app deals it: each card's id, kind, the sentence it asks (`ask`, else `title`), its rows (`bundleRows`, each `defaultChecked`) and `suggestionIds`. `nextCursor` continues the same ranking. What decideCatchUpCard takes.
+The key owner's Catch up deck, ranked as the app pipeline items it: each card's id, kind, the sentence it asks (`ask`, else `title`), its rows (`bundleRows`, each `defaultChecked`) and `suggestionIds`. `nextCursor` continues the same ranking. What decideCatchUpCard takes.
 
 ## Call
 

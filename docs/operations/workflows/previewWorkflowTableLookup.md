@@ -4,7 +4,7 @@
 
 query · domain `workflows` · requires the READ scope
 
-Call this before you say which row, or which value, a named contact, property, deal or appointment gets from a table: a county or key guessed from an address is not the answer. Which row of one Workflow Table a run on a record would use, and each column's value by `columnId` (names from getWorkflowTable): `input` takes `workflowTableId` and a `contactId`, `propertyId`, `dealId` or `appointmentId`, resolved exactly as a workflow run resolves it (fallback levels, ranges, composite keys). `match` DEFAULT means no key matched and the default row answered; NONE means nothing answered. `missingSubjects` names records the key needed and the record could not reach. Same gate as the rows.
+Call this before you say which row, or which value, a named contact, property, pipeline item or appointment gets from a table: a county or key guessed from an address is not the answer. Which row of one Workflow Table a run on a record would use, and each column's value by `columnId` (names from getWorkflowTable): `input` takes `workflowTableId` and a `contactId`, `propertyId`, `pipelineItemId` or `appointmentId`, resolved exactly as a workflow run resolves it (fallback levels, ranges, composite keys). `match` DEFAULT means no key matched and the default row answered; NONE means nothing answered. `missingSubjects` names records the key needed and the record could not reach. Same gate as the rows.
 
 ## Call
 

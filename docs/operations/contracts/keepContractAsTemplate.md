@@ -4,7 +4,7 @@
 
 mutation · domain `contracts` · requires the WRITE scope
 
-Keep a one-off contract as a template under a name and category: it joins the template list and pickers. templateId is the contract's own (listContracts, listContactContracts, listDealContracts). One-way.
+Keep a one-off contract as a template under a name and category: it joins the template list and pickers. templateId is the contract's own (listContracts, listContactContracts, listPipelineItemContracts). One-way.
 
 ## Call
 

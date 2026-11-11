@@ -4,7 +4,7 @@
 
 query · domain `spaces` · requires the READ scope
 
-Records › Contact files: attachments and voicemails contacts sent or received, newest first. Filter by `contactId`, `dealId` (any contact on the deal), `channel`, `direction`, or `query` (the file's or the contact's name). Only files whose contact you may open. Each row's `source` says where it came from (a text thread, an email subject, a call). Page with `after` = `nextCursor`.
+Records › Contact files: attachments and voicemails contacts sent or received, newest first. Filter by `contactId`, `pipelineItemId` (any contact on the pipeline item), `channel`, `direction`, or `query` (the file's or the contact's name). Only files whose contact you may open. Each row's `source` says where it came from (a text thread, an email subject, a call). Page with `after` = `nextCursor`.
 
 ## Call
 

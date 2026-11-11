@@ -4,7 +4,7 @@
 
 query · domain `team` · requires the READ scope
 
-Your goals for the month containing periodStartDate (YYYY-MM-DD): draftPlan (being edited) and activePlan (published), either null. Commission goals are targetCents per pipeline (null pipelineId = all pipelines); metric EARNED counts won deals, TOTAL adds pending ones. Personal goals are free text. Your own plan; a teammate’s is the *Teammate* op (ADMIN).
+Your goals for the month containing periodStartDate (YYYY-MM-DD): draftPlan (being edited) and activePlan (published), either null. Commission goals are targetCents per pipeline (null pipelineId = all pipelines); metric EARNED counts won pipeline items, TOTAL adds pending ones. Personal goals are free text. Your own plan; a teammate’s is the *Teammate* op (ADMIN).
 
 ## Call
 

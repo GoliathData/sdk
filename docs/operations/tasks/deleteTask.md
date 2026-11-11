@@ -4,7 +4,7 @@
 
 mutation · domain `tasks` · requires the WRITE scope
 
-PERMANENTLY delete ONE task by taskId + its contactId: gone from the contact and the queue with NO undo, so ALWAYS confirm with the user, naming the task. Prefer completeTask if the work is DONE (keeps the record and completedAt) or updateTask if details were wrong; delete is for a task that should never have existed. Many at once is deleteTasks: for a sweep ('delete my completed tasks') list them with listMyTasks, get explicit confirmation of the list, then delete. Returns the contact's remaining tasks. The task must belong to the given contact; a task with no contact is deleteTaskOnDeal.
+PERMANENTLY delete ONE task by taskId + its contactId: gone from the contact and the queue with NO undo, so ALWAYS confirm with the user, naming the task. Prefer completeTask if the work is DONE (keeps the record and completedAt) or updateTask if details were wrong; delete is for a task that should never have existed. Many at once is deleteTasks: for a sweep ('delete my completed tasks') list them with listMyTasks, get explicit confirmation of the list, then delete. Returns the contact's remaining tasks. The task must belong to the given contact; a task with no contact is deleteTaskOnPipelineItem.
 
 ## Call
 

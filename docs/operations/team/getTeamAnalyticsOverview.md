@@ -88,8 +88,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "pipelineName": true,
         "userId": true,
         "userName": true,
-        "wonDealsCount": true,
-        "lostDealsCount": true,
+        "wonPipelineItemsCount": true,
+        "lostPipelineItemsCount": true,
         "commissionEarnedCents": true
       }
     }

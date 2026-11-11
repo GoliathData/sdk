@@ -4,7 +4,7 @@
 
 query · domain `contactImports` · requires the READ scope
 
-The first rows of an import as the contacts they will become, in the app’s own fields: name, phones, emails, property addresses, mailing addresses, tags, lists, deals, and custom fields (every custom field of the organization is listed; the ones with values are the ones this row fills). contactTransformerRowCount is the number of rows the import will read. A row with error set and no contact will be skipped. contactTransformerRowFindings names the rows to tell the person about before they approve the import: a likely repeat of an earlier row (the same name and a shared phone or email, or for a nameless row a shared phone or email; the import usually merges it into that contact, so say it likely will, never that it will) and a row with no name (it lands under its phone or email), with 0-based row indexes, over the file’s first checkedRows rows; null means the check did not run, so never say the file has no repeats. limit is 1 to 10 (default 8). Show these rows to the person as a table, one row per contact, a column per field that any row fills, and say how many rows the file has. Read only; nothing is imported.
+The first rows of an import as the contacts they will become, in the app’s own fields: name, phones, emails, property addresses, mailing addresses, tags, lists, pipeline items, and custom fields (every custom field of the organization is listed; the ones with values are the ones this row fills). contactTransformerRowCount is the number of rows the import will read. A row with error set and no contact will be skipped. contactTransformerRowFindings names the rows to tell the person about before they approve the import: a likely repeat of an earlier row (the same name and a shared phone or email, or for a nameless row a shared phone or email; the import usually merges it into that contact, so say it likely will, never that it will) and a row with no name (it lands under its phone or email), with 0-based row indexes, over the file’s first checkedRows rows; null means the check did not run, so never say the file has no repeats. limit is 1 to 10 (default 8). Show these rows to the person as a table, one row per contact, a column per field that any row fills, and say how many rows the file has. Read only; nothing is imported.
 
 ## Call
 
@@ -88,7 +88,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "lists": {
           "name": true
         },
-        "deals": {
+        "pipelineItems": {
           "title": true,
           "stage": {
             "name": true

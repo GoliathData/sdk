@@ -4,7 +4,7 @@
 
 mutation · domain `files` · requires the WRITE scope
 
-Rename an uploaded file (listFiles `uploads[].file.id`, or a deal's or contact's file).
+Rename an uploaded file (listFiles `uploads[].file.id`, or a pipeline item's or contact's file).
 
 ## Call
 

@@ -29,9 +29,9 @@ describe.skipIf(!key || !baseUrl)('staging integration (GOLIATH_SDK_STAGING_KEY 
     expect(data.currentUser?.organization?.twilioPhoneNumbers).toBeDefined()
   })
 
-  it('findDeals respects the typed limit variable', async () => {
-    const data = await client().deals.findDeals({ limit: 1 })
-    expect((data.dealQuery?.findDeals?.deals ?? []).length).toBeLessThanOrEqual(1)
+  it('findPipelineItems respects the typed limit variable', async () => {
+    const data = await client().pipelineItems.findPipelineItems({ limit: 1 })
+    expect((data.pipelineItemQuery?.findPipelineItems?.pipelineItems ?? []).length).toBeLessThanOrEqual(1)
   })
 
   it('an unknown operationId maps to GoliathBadRequestError(unknown_operation)', async () => {

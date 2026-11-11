@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Run a whole TASK_SET against a contact: creates every step as a task in one call, all assigned to the acting user and linked to the contact (and any dealIds). Each step's due date is ITS OWN relative offset from one shared “now”, snapped to its own preferred time-of-day; the referenced template's timing is ignored inside a set. Steps run in due order and stop at the FIRST failure, KEEPING what was created: the payload carries the tasks that landed plus failedStep { index, taskTemplateId, message }, and it does NOT error, so read failedStep before reporting success. Rejects a template not of type TASK_SET. Set ids: listContentTemplates(type: TASK_SET).
+Run a whole TASK_SET against a contact: creates every step as a task in one call, all assigned to the acting user and linked to the contact (and any pipelineItemIds). Each step's due date is ITS OWN relative offset from one shared “now”, snapped to its own preferred time-of-day; the referenced template's timing is ignored inside a set. Steps run in due order and stop at the FIRST failure, KEEPING what was created: the payload carries the tasks that landed plus failedStep { index, taskTemplateId, message }, and it does NOT error, so read failedStep before reporting success. Rejects a template not of type TASK_SET. Set ids: listContentTemplates(type: TASK_SET).
 
 ## Call
 
@@ -21,7 +21,7 @@ const result = await client.workflows.applyTaskSet({ templateId: '<id>', contact
 |---|---|---|---|
 | `templateId` | `ID!` | yes | — |
 | `contactId` | `ID!` | yes | — |
-| `dealIds` | `[ID!]` | no | — |
+| `pipelineItemIds` | `[ID!]` | no | — |
 
 ## Gateway notes
 

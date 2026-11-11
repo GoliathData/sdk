@@ -886,7 +886,7 @@ export class GoliathClient extends GoliathClientCore {
     getContactImportRowFindings: (variables: T.GetContactImportRowFindingsQueryVariables, options?: RequestOptions): Promise<T.GetContactImportRowFindingsQuery> =>
       this.request('getContactImportRowFindings', variables, options, { operationType: 'query' }),
     /**
-     * The first rows of an import as the contacts they will become, in the app’s own fields: name, phones, emails, property addresses, mailing addresses, tags, lists, deals, and custom fields (every custom field of the organization is listed; the ones with values are the ones this row fills). contactTransformerRowCount is the number of rows the import will read. A row with error set and no contact will be skipped. contactTransformerRowFindings names the rows to tell the person about before they approve the import: a likely repeat of an earlier row (the same name and a shared phone or email, or for a nameless row a shared phone or email; the import usually merges it into that contact, so say it likely will, never that it will) and a row with no name (it lands under its phone or email), with 0-based row indexes, over the file’s first checkedRows rows; null means the check did not run, so never say the file has no repeats. limit is 1 to 10 (default 8). Show these rows to the person as a table, one row per contact, a column per field that any row fills, and say how many rows the file has. Read only; nothing is imported.
+     * The first rows of an import as the contacts they will become, in the app’s own fields: name, phones, emails, property addresses, mailing addresses, tags, lists, pipeline items, and custom fields (every custom field of the organization is listed; the ones with values are the ones this row fills). contactTransformerRowCount is the number of rows the import will read. A row with error set and no contact will be skipped. contactTransformerRowFindings names the rows to tell the person about before they approve the import: a likely repeat of an earlier row (the same name and a shared phone or email, or for a nameless row a shared phone or email; the import usually merges it into that contact, so say it likely will, never that it will) and a row with no name (it lands under its phone or email), with 0-based row indexes, over the file’s first checkedRows rows; null means the check did not run, so never say the file has no repeats. limit is 1 to 10 (default 8). Show these rows to the person as a table, one row per contact, a column per field that any row fills, and say how many rows the file has. Read only; nothing is imported.
      *
      * @remarks Requires the READ scope.
      *
@@ -979,7 +979,7 @@ export class GoliathClient extends GoliathClientCore {
     addContactTags: (variables: T.AddContactTagsMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddContactTagsMutation> =>
       this.request('addContactTags', variables, options, { operationType: 'mutation' }),
     /**
-     * Archive (soft-delete) contacts. Async bulk job: returns a bulkTaskId to poll with getBulkTask. Archived contacts drop out of the CRM but are recoverable: unarchiveContacts restores them (bulk), updateContact(isArchived: false) one. Nothing is destroyed: notes, activities, tags and deals survive and come back with the contact. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
+     * Archive (soft-delete) contacts. Async bulk job: returns a bulkTaskId to poll with getBulkTask. Archived contacts drop out of the CRM but are recoverable: unarchiveContacts restores them (bulk), updateContact(isArchived: false) one. Nothing is destroyed: notes, activities, tags and pipeline items survive and come back with the contact. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1065,7 +1065,7 @@ export class GoliathClient extends GoliathClientCore {
     countContacts: (variables?: T.CountContactsQueryVariables, options?: RequestOptions): Promise<T.CountContactsQuery> =>
       this.request('countContacts', variables, options, { operationType: 'query' }),
     /**
-     * Count records grouped by any field in ONE call: tasks per contact or per teammate, mine vs others, contacts by source, deals by stage. Use it instead of paging a list op or a code task to tally. `spec` = {from, groupBy (up to 6), measures, where (equality; an array = any of; null = unset), orderBy [{by, dir}], limit (default 500), since/until (ISO, "now", "-30d")}. Values match exactly: statuses are UPPERCASE (tasks: UPCOMING, OVERDUE = past due now, earlier today included, COMPLETED; open tasks = completed false). Counts only what the caller may see. Contacts per TAG are contactTagUsage, one call; contacts.owners groups by the whole owner set, not per owner. Answers {ok, result: {rows, truncated}} or {ok: false, error}. Models: contacts (group: owners, source, doNotContact, lastActivityType, archived, stage, buyer, buyerStatus; measures: count, replied; time createdAt) · tasks (group: contactId, contactName, assigneeId, assignee, mine, completed, status; measures: count, rows; time dueAt) · deals (group: pipelineId, pipeline, stageId, stage, outcome, archived, workflowId, employeeId, teammateId, origin, assignees; measures: count, valueCents; time createdAt) · pipeline (group: pipelineId, pipeline, stageId, stage, stageOrder, outcome; measures: deals, valueCents, openDeals, openValueCents) · appointments (group: completed, cancelled, workflowId, employeeId, teammateId; measures: count; time startAt) · leads (group: source; measures: count; time at) · properties (group: contactId, contactName, relation, zipCode, state, propertyType, bedrooms, ownerOccupied, countyFips, county, ownedSince, ownerPropertyCount, wrongLink, archived; measures: count, properties, contacts, avgEstimatedValue, medianEstimatedValue)
+     * Count records grouped by any field in ONE call: tasks per contact or per teammate, mine vs others, contacts by source, pipeline items by stage. Use it instead of paging a list op or a code task to tally. `spec` = {from, groupBy (up to 6), measures, where (equality; an array = any of; null = unset), orderBy [{by, dir}], limit (default 500), since/until (ISO, "now", "-30d")}. Values match exactly: statuses are UPPERCASE (tasks: UPCOMING, OVERDUE = past due now, earlier today included, COMPLETED; open tasks = completed false). Counts only what the caller may see. Contacts per TAG are contactTagUsage, one call; contacts.owners groups by the whole owner set, not per owner. Answers {ok, result: {rows, truncated}} or {ok: false, error}. Models: contacts (group: owners, source, doNotContact, lastActivityType, archived, stage, buyer, buyerStatus; measures: count, replied; time createdAt) · tasks (group: contactId, contactName, assigneeId, assignee, mine, completed, status; measures: count, rows; time dueAt) · deals (group: pipelineId, pipeline, stageId, stage, outcome, archived, workflowId, employeeId, teammateId, origin, assignees; measures: count, valueCents; time createdAt) · pipeline (group: pipelineId, pipeline, stageId, stage, stageOrder, outcome; measures: deals, valueCents, openDeals, openValueCents) · appointments (group: completed, cancelled, workflowId, employeeId, teammateId; measures: count; time startAt) · leads (group: source; measures: count; time at) · properties (group: contactId, contactName, relation, zipCode, state, propertyType, bedrooms, ownerOccupied, countyFips, county, ownedSince, ownerPropertyCount, wrongLink, archived; measures: count, properties, contacts, avgEstimatedValue, medianEstimatedValue)
      *
      * @remarks Requires the READ scope.
      */
@@ -1153,7 +1153,7 @@ export class GoliathClient extends GoliathClientCore {
     deleteContactCustomField: (variables: T.DeleteContactCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteContactCustomFieldMutation> =>
       this.request('deleteContactCustomField', variables, options, { operationType: 'mutation' }),
     /**
-     * PERMANENTLY delete a saved CONTACT filter by id (from listContactFilters): no archive, no undo. Returns true when a row was deleted; a foreign or unknown id is rejected, and a property or deal filter id is refused with nothing deleted. WHOSE FILTER IS IT: listContactFilters returns `userId`, the owner. A TEAMMATE'S shared filter is deletable when the key owner is an org admin, so check `userId` against getMyProfile (`currentUser.id`) first and say whose it is. A teammate's PRIVATE filter is refused outright. If the filter is merely wrong rather than unwanted, updateFilter (properties domain; it edits contact filters too) fixes it in place.
+     * PERMANENTLY delete a saved CONTACT filter by id (from listContactFilters): no archive, no undo. Returns true when a row was deleted; a foreign or unknown id is rejected, and a property or pipeline item filter id is refused with nothing deleted. WHOSE FILTER IS IT: listContactFilters returns `userId`, the owner. A TEAMMATE'S shared filter is deletable when the key owner is an org admin, so check `userId` against getMyProfile (`currentUser.id`) first and say whose it is. A teammate's PRIVATE filter is refused outright. If the filter is merely wrong rather than unwanted, updateFilter (properties domain; it edits contact filters too) fixes it in place.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1293,7 +1293,7 @@ export class GoliathClient extends GoliathClientCore {
     findSharedPropertyAddresses: (variables?: T.FindSharedPropertyAddressesQueryVariables, options?: RequestOptions): Promise<T.FindSharedPropertyAddressesQuery> =>
       this.request('findSharedPropertyAddresses', variables, options, { operationType: 'query' }),
     /**
-     * MERGED IDS RESOLVE: an id merged into another contact returns the SURVIVING record, so the `id` that comes back can differ from the one you sent. Use the returned id from then on, never the old one; it is not an error. A merge chain that leads nowhere answers as not-found. Fetch one contact by id, the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties (`property.id` feeds getRelatedProperties), tags, lists, CUSTOM-FIELD VALUES, teammates + roles, teams, notes (with `isPinned`, `isHidden` and `replies`), linked deals (`isArchived: true` is not live), seller-intent score, enrichment/archive flags. Each email's `emailCheck` is its latest email check (`result` DELIVERABLE, RISKY, UNDELIVERABLE or UNKNOWN, when, by whom), null until one runs (checkContactEmail). A note is the team's record, never a message from the contact; calls are not here (listContactActivities [CALL]). A note's or reply's `author` { kind: USER | AI, id, name } is who WROTE it; read that, not `createdByUser`, which is null on a note an AI assistant wrote for a teammate. A hidden note or reply is shown only to admins; `replies` also omits ones you may not see (e.g. an outside author's), so a missing reply is not proof it is gone. CUSTOM FIELDS: the ONLY read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues (listContactCustomFields returns definitions, never values). `customFields` is the organization's field catalog, not this contact's answers, listed whether or not the contact has one, so its length says nothing about the contact (fields sharing a normalized name collapse to one entry, so it can differ from listContactCustomFields). The value is in `values`, NULL when this contact has none: null means UNSET, not missing, unreadable or an error. Read the ONE sub-field matching the field `type`; the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number as written, NOT cents); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, the selected option LABELS (not option ids), at most one entry unless `allowMultiple` is true. Reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host gains its scheme), so compare what you wrote with what comes back rather than assume byte equality.
+     * MERGED IDS RESOLVE: an id merged into another contact returns the SURVIVING record, so the `id` that comes back can differ from the one you sent. Use the returned id from then on, never the old one; it is not an error. A merge chain that leads nowhere answers as not-found. Fetch one contact by id, the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties (`property.id` feeds getRelatedProperties), tags, lists, CUSTOM-FIELD VALUES, teammates + roles, teams, notes (with `isPinned`, `isHidden` and `replies`), linked pipeline items (`isArchived: true` is not live), seller-intent score, enrichment/archive flags. Each email's `emailCheck` is its latest email check (`result` DELIVERABLE, RISKY, UNDELIVERABLE or UNKNOWN, when, by whom), null until one runs (checkContactEmail). A note is the team's record, never a message from the contact; calls are not here (listContactActivities [CALL]). A note's or reply's `author` { kind: USER | AI, id, name } is who WROTE it; read that, not `createdByUser`, which is null on a note an AI assistant wrote for a teammate. A hidden note or reply is shown only to admins; `replies` also omits ones you may not see (e.g. an outside author's), so a missing reply is not proof it is gone. CUSTOM FIELDS: the ONLY read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues (listContactCustomFields returns definitions, never values). `customFields` is the organization's field catalog, not this contact's answers, listed whether or not the contact has one, so its length says nothing about the contact (fields sharing a normalized name collapse to one entry, so it can differ from listContactCustomFields). The value is in `values`, NULL when this contact has none: null means UNSET, not missing, unreadable or an error. Read the ONE sub-field matching the field `type`; the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number as written, NOT cents); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, the selected option LABELS (not option ids), at most one entry unless `allowMultiple` is true. Reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host gains its scheme), so compare what you wrote with what comes back rather than assume byte equality.
      *
      * @remarks Requires the READ scope.
      */
@@ -1751,7 +1751,7 @@ export class GoliathClient extends GoliathClientCore {
     issueContractSigningLink: (variables: T.IssueContractSigningLinkMutationVariables, options?: IdempotentRequestOptions): Promise<T.IssueContractSigningLinkMutation> =>
       this.request('issueContractSigningLink', variables, options, { operationType: 'mutation' }),
     /**
-     * Keep a one-off contract as a template under a name and category: it joins the template list and pickers. templateId is the contract's own (listContracts, listContactContracts, listDealContracts). One-way.
+     * Keep a one-off contract as a template under a name and category: it joins the template list and pickers. templateId is the contract's own (listContracts, listContactContracts, listPipelineItemContracts). One-way.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1774,19 +1774,19 @@ export class GoliathClient extends GoliathClientCore {
     listContracts: (options?: RequestOptions): Promise<T.ListContractsQuery> =>
       this.request('listContracts', undefined, options, { operationType: 'query' }),
     /**
-     * The organization's contract templates: name, category, status (only a PUBLISHED one with a currentVersionNumber can be sent), signer roles in signing order, and the records a send asks for (`uses`: Contact A, Contact B, Deal, Property), and how many contracts went out from it (`sentCount`) and came back signed (`signedCount`). Archived ones only with includeArchived.
+     * The organization's contract templates: name, category, status (only a PUBLISHED one with a currentVersionNumber can be sent), signer roles in signing order, and the records a send asks for (`uses`: Contact A, Contact B, Pipeline item, Property), and how many contracts went out from it (`sentCount`) and came back signed (`signedCount`). Archived ones only with includeArchived.
      *
      * @remarks Requires the READ scope.
      */
     listContractTemplates: (variables?: T.ListContractTemplatesQueryVariables, options?: RequestOptions): Promise<T.ListContractTemplatesQuery> =>
       this.request('listContractTemplates', variables, options, { operationType: 'query' }),
     /**
-     * A deal's contracts, held drafts included, newest first, at most 50.
+     * A pipeline item's contracts, held drafts included, newest first, at most 50.
      *
      * @remarks Requires the READ scope.
      */
-    listDealContracts: (variables: T.ListDealContractsQueryVariables, options?: RequestOptions): Promise<T.ListDealContractsQuery> =>
-      this.request('listDealContracts', variables, options, { operationType: 'query' }),
+    listPipelineItemContracts: (variables: T.ListPipelineItemContractsQueryVariables, options?: RequestOptions): Promise<T.ListPipelineItemContractsQuery> =>
+      this.request('listPipelineItemContracts', variables, options, { operationType: 'query' }),
     /**
      * Email a fresh link to every signer whose turn it is; their earlier links stop working. `expectedRevisionNumber` (getContract's revisionNumber) refuses it if the contract was corrected since in the app. Needs the manage contracts capability.
      *
@@ -1931,521 +1931,14 @@ export class GoliathClient extends GoliathClientCore {
     importContactNote: (variables: T.ImportContactNoteMutationVariables, options?: IdempotentRequestOptions): Promise<T.ImportContactNoteMutation> =>
       this.request('importContactNote', variables, options, { operationType: 'mutation' }),
     /**
-     * Create-or-get a deal migrated from an external system. Keyed on (sourceSystem, externalId): replaying the same record returns the existing deal with wasCreated=false instead of duplicating. Honors historical createdAt/updatedAt (must be in the past) and suppresses live side effects — no workflow triggers (neither DEAL stage-entered nor per-contact deal-created events fire), no notifications. The deal field takes the same shape as createDeal: stageId from listPipelineStages, linked contacts/users by id, propertyStrings for unresolved addresses, customFieldValues from listDealCustomFields. The create is atomic — the deal row and every link (contacts, properties, users, splits) commit together or not at all, so a failed call leaves nothing behind and a retry re-creates cleanly. A replay (wasCreated=false) never rewrites the existing deal — links and edits made since the import are left alone — with one deliberate exception: custom-field values are filled where still MISSING (crash-retry recovery for the one write applied after the create) and never overwritten.
+     * Create-or-get a pipeline item migrated from an external system. Keyed on (sourceSystem, externalId): replaying the same record returns the existing pipeline item with wasCreated=false instead of duplicating. Honors historical createdAt/updatedAt (must be in the past) and suppresses live side effects — no workflow triggers (neither DEAL stage-entered nor per-contact pipeline item-created events fire), no notifications. The pipeline item field takes the same shape as createPipelineItem: stageId from listPipelineStages, linked contacts/users by id, propertyStrings for unresolved addresses, customFieldValues from listPipelineItemCustomFields. The create is atomic — the pipeline item row and every link (contacts, properties, users, splits) commit together or not at all, so a failed call leaves nothing behind and a retry re-creates cleanly. A replay (wasCreated=false) never rewrites the existing pipeline item — links and edits made since the import are left alone — with one deliberate exception: custom-field values are filled where still MISSING (crash-retry recovery for the one write applied after the create) and never overwritten.
      *
      * @remarks Requires the IMPORT scope.
      *
      * Idempotent: pass `options.idempotencyKey` to make retries safe.
      */
-    importDeal: (variables: T.ImportDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.ImportDealMutation> =>
-      this.request('importDeal', variables, options, { operationType: 'mutation' }),
-  }
-
-  readonly deals = {
-    /**
-     * Append a comment to a deal's activity feed, attributed to the API key's owner. Requires a non-empty body (max 10,000 chars). The deal must be in a pipeline owned by or shared with your organization. Returns the created COMMENT event; read the thread back with listDealComments.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    addDealComment: (variables: T.AddDealCommentMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddDealCommentMutation> =>
-      this.request('addDealComment', variables, options, { operationType: 'mutation' }),
-    /**
-     * Append ONE option to a DROPDOWN deal custom field (id from listDealCustomFields). Never removes anything, unlike updateDealCustomField whose `options` replace the list; a label already there (any case) is kept as is. Returns the field with its options.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    addDealCustomFieldOption: (variables: T.AddDealCustomFieldOptionMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddDealCustomFieldOptionMutation> =>
-      this.request('addDealCustomFieldOption', variables, options, { operationType: 'mutation' }),
-    /**
-     * Add a titled URL to a deal's Links card (getDeal externalLinks). To change one, remove it and add it again.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    addDealExternalLink: (variables: T.AddDealExternalLinkMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddDealExternalLinkMutation> =>
-      this.request('addDealExternalLink', variables, options, { operationType: 'mutation' }),
-    /**
-     * Append one or more stages to a pipeline (by pipelineId). Each stage: name (required), plus optional description, order, isTerminal, terminalType (WON|LOST|NEUTRAL), winProbability (0-100). Owner-only: the pipeline must be OWNED by your organization. Returns the pipeline with its full, ordered stage list.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    addPipelineStages: (variables: T.AddPipelineStagesMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddPipelineStagesMutation> =>
-      this.request('addPipelineStages', variables, options, { operationType: 'mutation' }),
-    /**
-     * Archive or RESTORE one deal by id (isArchived true or false); archiveDeals archives many. Reversible: archiving takes the deal off the pipeline BOARD and deletes nothing. findDeals finds archived ones with isArchived: true. Archiving triggers no workflow, so it never sends a message. The deal must be in a pipeline owned by or shared with your organization.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    archiveDeal: (variables: T.ArchiveDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.ArchiveDealMutation> =>
-      this.request('archiveDeal', variables, options, { operationType: 'mutation' }),
-    /**
-     * Archive many deals of one pipeline by id (restore with archiveDeal); a whole filter is the board's own select-all Archive. Runs as a background task: follow `bulkTaskId` with getBulkTask.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    archiveDeals: (variables: T.ArchiveDealsMutationVariables, options?: IdempotentRequestOptions): Promise<T.ArchiveDealsMutation> =>
-      this.request('archiveDeals', variables, options, { operationType: 'mutation' }),
-    /**
-     * Attach a CHAT file to a deal — the write twin of listDealFiles. Pass the artifactId of a file your organization already holds: the id the chat assistant sees on its artifact shelf (`(artifactId: …) [origin] filename`). A Library item id is refused: use fileLibraryItemsOnDeal. The server resolves it to the underlying file, org-scoped, links it to dealId, and returns the file (id, fileName, fileUrl, createdAt); read it back with listDealFiles. The deal must be in a pipeline owned by or shared with your organization, and the artifact's file must belong to your organization — a foreign artifact is refused, so you cannot link another org's bytes onto a deal you own. There is no raw-bytes upload op yet (the shared upload key is not org-scoped).
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    attachDealFile: (variables: T.AttachDealFileMutationVariables, options?: IdempotentRequestOptions): Promise<T.AttachDealFileMutation> =>
-      this.request('attachDealFile', variables, options, { operationType: 'mutation' }),
-    /**
-     * A new deal per contact from a createDeal `deal` template (the bulk bar's Add to pipeline). propertyAttachmentMode ALL attaches each contact's properties as the bulk bar does (default NONE); skipContactsWithDeal skips contacts that have a deal; autoNameDeals titles each from its contact and property. A background task (`bulkTaskId`, getBulkTask). Every new deal has a contact, so it wakes stage and contact workflows: it needs their yes; a card's counts.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    bulkCreateDealsOnContacts: (variables: T.BulkCreateDealsOnContactsMutationVariables, options?: IdempotentRequestOptions): Promise<T.BulkCreateDealsOnContactsMutation> =>
-      this.request('bulkCreateDealsOnContacts', variables, options, { operationType: 'mutation' }),
-    /**
-     * One updateDeal `input` for many deals (stage, close date, owners, contacts); every id must be a deal your org owns or shares, or the whole call is refused. Each deal runs a full updateDeal, so a stage move wakes workflows: confirm as updateDeal says. Large sets run as a background task (`bulkTaskId`, getBulkTask).
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    bulkUpdateDeals: (variables: T.BulkUpdateDealsMutationVariables, options?: IdempotentRequestOptions): Promise<T.BulkUpdateDealsMutation> =>
-      this.request('bulkUpdateDeals', variables, options, { operationType: 'mutation' }),
-    /**
-     * Create a deal in a pipeline stage. Requires title and stageId (listPipelineStages); optional priceCents, closeDate, contact/property/user ids. Entering the stage can text or email a real person, as an updateDeal move can: confirm as updateDeal says. The stage must be in a pipeline owned by or shared with your organization, and any linked contactIds/userIds must belong to your organization. userIds is the deal’s TEAM, and My deals shows only deals the viewer is on. The app’s Create Deal form puts its creator on the team, so when acting for a person include the key owner (getMyProfile) unless they name a different team. MONEY AND CUSTOM FIELDS (the whole input is one variable, so discovery cannot expand it). Commission takes ONE source per side, never both: `commissionAmountCents` (a fixed dollar figure in cents) XOR `commissionPercentBps` (basis points — 300 = 3% — applied to priceCents); and `teamSplitAmountCents` XOR `teamSplitPercentBps` (basis points applied to the resulting COMMISSION, not the price). Sending both halves of a pair with values is rejected; sending one explicitly as null CLEARS that side. The server derives `commissionCents` (GCI) and returns it: read it there. A percent re-derives when priceCents changes; an amount does not. `participantSplits` is [{ userId, splitAmountCents | splitPercentBps }] allocating what remains after the team fee, and it must not exceed the pool. `customFieldValues` is [{ customFieldId (from listDealCustomFields — deal fields are PER-PIPELINE), and exactly ONE of textValue (TEXT/LINK) | numberValue (NUMBER/DOLLAR, a plain number, NOT cents) | dateValue (DATE, ISO 8601) | dropdownSelectedValues (DROPDOWN — the option LABEL strings, not option ids) matching the field’s type }]. The response echoes the money and custom fields: confirm the write from it.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    createDeal: (variables: T.CreateDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateDealMutation> =>
-      this.request('createDeal', variables, options, { operationType: 'mutation' }),
-    /**
-     * Create a custom-field DEFINITION on a deal pipeline you OWN (pipelineId from listPipelines): name + type (TEXT | NUMBER | DOLLAR | DATE | LINK | DROPDOWN; `options` required and non-empty for DROPDOWN; `allowMultiple`/`defaultValue` optional). Applied synchronously. Deal custom fields are per-pipeline, and a shared pipeline cannot be modified. Returns the pipeline's field set; read the new id back by matching the name (or use listDealCustomFields), then write values via the deal's customFieldValues input on createDeal / updateDeal.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    createDealCustomField: (variables: T.CreateDealCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateDealCustomFieldMutation> =>
-      this.request('createDealCustomField', variables, options, { operationType: 'mutation' }),
-    /**
-     * Create a deal pipeline in your organization. Requires a title; optionally a description and an ordered list of initial stages (each: name, plus optional description, order, isTerminal, terminalType WON|LOST|NEUTRAL, winProbability 0-100). Returns the created pipeline: its id, name, description and stages in order.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    createPipeline: (variables: T.CreatePipelineMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineMutation> =>
-      this.request('createPipeline', variables, options, { operationType: 'mutation' }),
-    /**
-     * Add a role of `kind` (CONTACT when omitted), as any member can. Names are unique per kind, case-folded: reuse a listPipelineRoles match. It is never Only one: that stays admin list upkeep in the app.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    createPipelineRole: (variables: T.CreatePipelineRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineRoleMutation> =>
-      this.request('createPipelineRole', variables, options, { operationType: 'mutation' }),
-    /**
-     * Delete a deal for good; archiveDeal hides it instead, so prefer that unless they said delete. Org-owned pipelines only. dependencyResolution from getDeletionImpact(targetKind: DEAL). Returns `stageItWasOn`.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    deleteDeal: (variables: T.DeleteDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteDealMutation> =>
-      this.request('deleteDeal', variables, options, { operationType: 'mutation' }),
-    /**
-     * Delete a deal comment you wrote, for good. Ask first.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    deleteDealComment: (variables: T.DeleteDealCommentMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteDealCommentMutation> =>
-      this.request('deleteDealComment', variables, options, { operationType: 'mutation' }),
-    /**
-     * Permanently delete a deal custom-field DEFINITION (id from listDealCustomFields). IRREVERSIBLE: every value recorded on every deal for it is deleted. Prefer updateDealCustomField when the field is wrong rather than unwanted. Call getDeletionImpact first (targetKind DEAL_CUSTOM_FIELD) and hand back its impactVersion as dependencyResolution.impactVersion, with a replacement field for each reported requirement (filters, workflows); an empty `replacements` when none. A replacement redirects those references, never the values. System-defined fields cannot be deleted. Returns the remaining fields of `pipelineId` (the field's pipeline). Confirm with the user before calling.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    deleteDealCustomField: (variables: T.DeleteDealCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteDealCustomFieldMutation> =>
-      this.request('deleteDealCustomField', variables, options, { operationType: 'mutation' }),
-    /**
-     * Delete a deal pipeline (owner-only). Pass a dependencyResolution built from getDeletionImpact: its impactVersion, plus a replacement for every deal the pipeline still holds (empty replacements if getDeletionImpact reports none). Deals are moved to the replacement pipeline/stage you choose, then the pipeline is removed.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    deletePipeline: (variables: T.DeletePipelineMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePipelineMutation> =>
-      this.request('deletePipeline', variables, options, { operationType: 'mutation' }),
-    /**
-     * Delete a single pipeline stage (owner-only). Pass a dependencyResolution from getDeletionImpact (targetKind DEAL_STAGE): its impactVersion plus a replacement stage for any deals currently on the stage.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    deletePipelineStage: (variables: T.DeletePipelineStageMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePipelineStageMutation> =>
-      this.request('deletePipelineStage', variables, options, { operationType: 'mutation' }),
-    /**
-     * Replace the body of your own deal comment (listDealComments id).
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    editDealComment: (variables: T.EditDealCommentMutationVariables, options?: IdempotentRequestOptions): Promise<T.EditDealCommentMutation> =>
-      this.request('editDealComment', variables, options, { operationType: 'mutation' }),
-    /**
-     * Run a SAVED deal filter (`filterId` from listDealFilters or saveFilter type DEAL) over ONE pipeline (`pipelineId` from listPipelineNames) and page the matching deals with limit/offset: id, title, isArchived, stage and assignees, plus pagination.total (every match, not the page) and hasMore. Saved filters only: to try criteria first, save the filter, run it here, and fix it in place with updateFilter. A deal filter does not carry its pipeline, so the same filter can run over any pipeline you pass. Use getDeal for one deal in full.
-     *
-     * @remarks Requires the READ scope.
-     *
-     * The `limit` variable is clamped server-side to a maximum of 50.
-     */
-    filterDeals: (variables: T.FilterDealsQueryVariables, options?: RequestOptions): Promise<T.FilterDealsQuery> =>
-      this.request('filterDeals', variables, options, { operationType: 'query' }),
-    /**
-     * Search AND TOTAL the deals you can see: `totals` sums EVERY match, not the page (price, average, commission; totalCount is the count), so a total is one call. Filters: title, contact (contactIds: deals of ANY of these contacts in ONE read, matched by each row's linked contacts; page hasMore before calling one dealless, never a findDeals per contact), pipeline, stage (stageId, or stageName in all your own pipelines), outcome OPEN/WON/LOST, stageChangedAfter/Before (last stage move, eg a win; Before exclusive), closeDateAfter/Before, archived, assignees. NUMBERS — quote `totals` as they read; never add, average or count rows yourself. IMPORTANT: archived deals are INCLUDED BY DEFAULT (they sort last). Pass isArchived: false for active-only, always for "what is in my pipeline", or true to find archived ones (to restore with archiveDeal); check each result's isArchived before calling a deal current. Each deal carries its assigned users — an empty array means the deal is UNASSIGNED, nobody owns it — and its linked contacts (id + name). hasAssignedUsers: false gives the unowned deals over every deal you can see (totalCount is the count); userIds (listTeammates, never empty) gives one person's. Whether anyone is on a linked CONTACT comes only from getContact, one call per contact; a partner org's contact it refuses is "not visible to you", not "nobody". Each row carries the commission figures: commissionCents (the derived GCI) and the stored commissionAmountCents / commissionPercentBps / teamSplitAmountCents / teamSplitPercentBps, so a portfolio money question ("our GCI on everything closing this month") is one page. Read them as getDeal documents: amount XOR percent per side; all-null means no commission RECORDED, not zero. participantSplits is NOT here (getDeal). `customFieldValues` IS here, LEANER than on getDeal: the value plus the field NAME (`dealCustomField { name }`), no ids or type, for surveying (who holds which card, which have no Difficulty set) rather than writing back. Read the ONE sub-field matching the type, as getDeal documents. A field never given a value is absent, so an empty list means nothing filled in, never no fields. Custom fields multiply per row: on a `truncated` page lower `limit` rather than assume the missing deals have no values. TASKS — `taskSummary` counts open tasks and appointments on the DEAL (not its contacts); 0 means none, so "which deals have no task" is this page. In Ask Goliath omitting isArchived reads live deals only; null reads both.
-     *
-     * @remarks Requires the READ scope.
-     *
-     * The `limit` variable is clamped server-side to a maximum of 50.
-     */
-    findDeals: (variables?: T.FindDealsQueryVariables, options?: RequestOptions): Promise<T.FindDealsQuery> =>
-      this.request('findDeals', variables, options, { operationType: 'query' }),
-    /**
-     * Fetch one deal by id — title, value, close date, stage, pipeline, COMMISSION AND TEAM SPLIT, CUSTOM-FIELD VALUES, assigned users (empty = unassigned), linked contacts (id + name), and linked deals (`linkedItems`). It does NOT return who is on those contacts: this op also reaches deals on pipelines another org SHARED with yours, whose contacts belong to that org, and the participant read is scoped to your own org — it would come back empty for them and read as "nobody is on this contact" when someone is. To see who is on a contact, call getContact with that contactId: it is guarded to your org, so a contact you cannot see fails loudly instead of answering empty. MONEY — `priceFormatted`/`commissionFormatted` are the price and GCI in dollars: quote them. Commission, team split and participant splits are now READABLE here, and they are the answer to GCI questions. `commissionCents` is the DERIVED total commission on the deal: quote THAT as the deal’s GCI. The other four are the stored write SOURCES, and each side is amount-XOR-percent, so exactly one of a pair is ever non-null: `commissionAmountCents` (a fixed dollar figure, in cents) or `commissionPercentBps` (basis points — 300 bps = 3%, applied to priceCents); and `teamSplitAmountCents` or `teamSplitPercentBps` (basis points applied to the COMMISSION, not the price). So when commissionPercentBps is set, commissionCents is priceCents x bps/10000 and changing the price silently changes the commission; when commissionAmountCents is set, commissionCents equals it and the price is irrelevant. All four sources null with commissionCents null means no commission has been recorded — NOT zero commission; do not report $0 for a deal nobody has filled in. `participantSplits` is the per-teammate allocation of what is left after the team fee (each row: user, splitAmountCents or splitPercentBps). Write all of these through updateDeal / createDeal, which echo them back. CUSTOM FIELDS — `customFieldValues` is the read-back for the customFieldValues input on createDeal / updateDeal (INT-907; there was no read path before). It carries ONLY the fields this deal actually has a value for: a defined field the deal has never been given a value for is ABSENT from the list, not present-and-null, which is the opposite of a contact’s customFields. So an empty list means nothing is filled in, never that the pipeline has no fields — get the pipeline’s full definition set from listDealCustomFields(pipelineId). Each entry names its definition under `dealCustomField` (id, name, type) and carries the value in the ONE sub-field matching that type: TEXT/LINK -> textValue, NUMBER/DOLLAR -> numberValue (a plain number, NOT cents), DATE -> dateValue (ISO 8601), DROPDOWN -> dropdownSelectedValues (the option LABEL strings, not option ids; more than one only when the definition’s allowMultiple is true).
-     *
-     * @remarks Requires the READ scope.
-     */
-    getDeal: (variables: T.GetDealQueryVariables, options?: RequestOptions): Promise<T.GetDealQuery> =>
-      this.request('getDeal', variables, options, { operationType: 'query' }),
-    /**
-     * One pipeline's deal-sheet tabs: each tab's name and its fields in order (`native:<key>` or `custom:<fieldId>`), with the layout version.
-     *
-     * @remarks Requires the READ scope.
-     */
-    getDealDetailTabs: (variables: T.GetDealDetailTabsQueryVariables, options?: RequestOptions): Promise<T.GetDealDetailTabsQuery> =>
-      this.request('getDealDetailTabs', variables, options, { operationType: 'query' }),
-    /**
-     * One pipeline's field layout: each custom field with its display order, showOnCard and cardDisplayOrder (the up-to-5 fields the board card shows), and hiddenDetailFieldKeys (what the deal sheet and create/edit form hide: `native:team|closeDate|dealValue|commission` or `custom:<fieldId>`; null or empty = all shown). Read it before setDealCardFields or setDealDetailHiddenFields, which replace the whole list.
-     *
-     * @remarks Requires the READ scope.
-     */
-    getDealPipelineLayout: (variables: T.GetDealPipelineLayoutQueryVariables, options?: RequestOptions): Promise<T.GetDealPipelineLayoutQuery> =>
-      this.request('getDealPipelineLayout', variables, options, { operationType: 'query' }),
-    /**
-     * Preview what deleting an org-owned record affects, for every delete op that takes a dependencyResolution. Pass targetKind + targetId; returns impactVersion (hand it back to the matching delete op), requiresReplacement, the dependent records grouped, and replacementRequirements (what needs a new home, with its valid options). Supported targetKinds: DEAL (deleteDeal), DEAL_PIPELINE / DEAL_STAGE (deletePipeline / deletePipelineStage), CONTACT_CUSTOM_FIELD (deleteContactCustomField), CONTACT_CUSTOM_FIELD_OPTION / DEAL_CUSTOM_FIELD_OPTION (a dropdown option dropped by updateContactCustomField / updateDealCustomField's optionDependencyResolutions), CONTACT_TAG (deleteContactTags), CONTACT_LIST (deleteContactLists), and CONTENT_TEMPLATE (deleteContentTemplate). WORKFLOW_GROUP (a workflow's or appointment reminder's group id): deleteAppointmentReminder takes the result as its dependencyResolution; for a workflow it is read-only (deleteWorkflow takes no impactVersion). isBlocking=false items (e.g. pending AI suggestions) never block and retire automatically. Never delete a saved filter to free an option: re-point or trim it. Always call this first; impactVersion goes stale when anything changes, so re-read rather than reuse it.
-     *
-     * @remarks Requires the READ scope.
-     */
-    getDeletionImpact: (variables: T.GetDeletionImpactQueryVariables, options?: RequestOptions): Promise<T.GetDeletionImpactQuery> =>
-      this.request('getDeletionImpact', variables, options, { operationType: 'query' }),
-    /**
-     * Per-pipeline TRENDS for a rolling period (SEVEN_DAYS | FOURTEEN_DAYS | THIRTY_DAYS | YEAR_TO_DATE; THIRTY_DAYS is the last 30 days, not this month) from a NIGHTLY snapshot (asOfDate): stage duration, stage mix, won/lost/active. wonDeals / lostDeals count EVENTS (moves into a won or lost stage in the window, archived deals included) and miss moves since the snapshot, so they can disagree with the deals as they stand: for "how many won", a win rate or money use findDeals `totals` (outcome WON / LOST, a stageChanged window). Requires the ADMIN scope.
-     *
-     * @remarks Requires the ADMIN scope.
-     *
-     * The organization is derived from your API key — `orgId` is never caller-supplied.
-     *
-     * Rate limited: shares the per-key analytics bucket (60/min); 429s carry Retry-After.
-     */
-    getPipelineAnalytics: (variables?: Omit<T.GetPipelineAnalyticsQueryVariables, 'orgId'>, options?: RequestOptions): Promise<T.GetPipelineAnalyticsQuery> =>
-      this.request('getPipelineAnalytics', variables, options, { operationType: 'query' }),
-    /**
-     * Link two unarchived deals on your org's own pipelines; both list it (getDeal linkedItems).
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    linkPipelineItems: (variables: T.LinkPipelineItemsMutationVariables, options?: IdempotentRequestOptions): Promise<T.LinkPipelineItemsMutation> =>
-      this.request('linkPipelineItems', variables, options, { operationType: 'mutation' }),
-    /**
-     * One deal's activity feed, most-recent-first — the audit trail behind "who changed the price on this deal, and when did it get reassigned?". Each event carries eventType, createdAt, actor (the person, null for system/automation), and a SuperJSON `payload` whose `json` object holds the per-eventType detail. Pass `eventTypes` to narrow to the types you care about — a narrowed read pages at the DATABASE, so a sparse type's full history stays reachable however busy the rest of the feed is; omit it for the mixed feed, which caps at the 200 most recent events. Page with `offset`. THE FULL eventType VOCABULARY, with the payload keys under `payload.json` for each (there is no schema expansion for a SuperJSON scalar, so this text is the only description of the shape). Money keys are cents, `*Bps` are basis points, dates are ISO 8601, and a `from*` key is null when the field had no previous value: `STAGE_CHANGED` (fromStageId, fromStageName, toStageId, toStageName — names are snapshotted at write time, so a renamed stage keeps them; workflow: {workflowAutomationId, name} of the workflow VERSION that made the move (not its workflowGroupId; a republish gives a new one), else absent or null; byPerson: true if a person moved it in-app); `VALUE_CHANGED` (fromCents, toCents — the deal price); `COMMISSION_CHANGED` and `TEAM_SPLIT_CHANGED` (fromCents, toCents, fromBps, toBps — the pair that answers commission-history questions); `CLOSE_DATE_CHANGED` (fromDate, toDate); `DESCRIPTION_CHANGED` (no keys beyond actor: the text is the pinned note; only a person's own in-app edit writes one); `ASSIGNED` and `UNASSIGNED` (userId, userName — the person the deal was assigned to or taken from, NOT the actor who did it); `CONTACT_LINKED` and `CONTACT_UNLINKED` (contactId, contactName); `TASK_ADDED` and `TASK_COMPLETED` (taskId, taskTitle, isAppointment — true means it was an appointment, not a to-do); `FILE_ADDED` and `FILE_REMOVED` (fileId, fileName); `DEAL_CREATED`, `DEAL_ARCHIVED`, `DEAL_RESTORED` (no payload keys beyond actor); `COMMENT` (body — the comment text; listDealComments is the same feed pre-narrowed to this type); `SCRAPER_HEALTH_MOVED` (only on Scraper Health cards — the reasoning written with each move by moveScraperHealthCard / upsertScraperHealthCard: healthActor (monitor | doctor | person — which kind of mover, since `actor` is always the key owner), fromStage and toStage (stage NAMES, fromStage null on the event that opened the card), why, checked, found, nextTime (free text, null when not given), delivered, expected, windowDays (the numbers at that moment), handoffSummary (the short "what happened, where it stands" a person reads first)); `CONTRACT_EVENT` (contractId, envelopeId: the contract and its signing attempt; kind: SENT, OPENED, SIGNED, COMPLETED, DECLINED, VOIDED or EXPIRED; recipientId: the signer who opened, signed or declined, null otherwise; fileId: on COMPLETED, the signed PDF filed on the contract contacts. The title and names are not in the payload: read the contract for them). Those twenty are the whole vocabulary: an eventType outside this list does not exist. What the feed does NOT record is edits to a deal's title or custom-field values — no event type covers them, so their history is not reconstructable here — nor a description edit made through this API, an AI employee or an agent tool (DESCRIPTION_CHANGED covers only a person's own in-app edits), so no DESCRIPTION_CHANGED event does not mean the description was never changed.
-     *
-     * @remarks Requires the READ scope.
-     *
-     * The `limit` variable is clamped server-side to a maximum of 50.
-     */
-    listDealActivity: (variables: T.ListDealActivityQueryVariables, options?: RequestOptions): Promise<T.ListDealActivityQuery> =>
-      this.request('listDealActivity', variables, options, { operationType: 'query' }),
-    /**
-     * One deal's comment thread, most-recent-first (the activity feed narrowed to COMMENT events, paged at the database — the full thread stays reachable however busy the rest of the feed is). The comment text is in the SuperJSON payload at `json.body`; actor identifies the commenter. Page with offset.
-     *
-     * @remarks Requires the READ scope.
-     *
-     * The `limit` variable is clamped server-side to a maximum of 50.
-     */
-    listDealComments: (variables: T.ListDealCommentsQueryVariables, options?: RequestOptions): Promise<T.ListDealCommentsQuery> =>
-      this.request('listDealComments', variables, options, { operationType: 'query' }),
-    /**
-     * List a deal pipeline's custom-field DEFINITIONS (by pipelineId from listPipelines): id, name, type (TEXT/NUMBER/DOLLAR/DATE/LINK/DROPDOWN), dropdown options, allowMultiple, defaultValue. Deal custom fields are per-pipeline. DEFINITIONS ONLY — no deal's recorded value appears here: read those from getDeal's `customFieldValues`, which lists only the fields a given deal has been given a value for. Use each id as the customFieldId in the deal's customFieldValues input on createDeal / updateDeal to write values.
-     *
-     * @remarks Requires the READ scope.
-     */
-    listDealCustomFields: (variables: T.ListDealCustomFieldsQueryVariables, options?: RequestOptions): Promise<T.ListDealCustomFieldsQuery> =>
-      this.request('listDealCustomFields', variables, options, { operationType: 'query' }),
-    /**
-     * Files attached to a deal, most-recent-first — screenshots, recordings, documents. Each entry carries id, fileName, contentType-bearing fileUrl and createdAt. fileUrl is a time-limited signed HTTPS URL: fetch it promptly and do not persist or share it, and re-read this op rather than caching the URL. Each URL is signed per file, so the page is small (limit defaults to 25 and is capped there) — a full page means there may be more, so page with offset. This is the ONLY way to reach an attachment's bytes — a Slack-sourced deal records its attachments as a bare filename at the end of the description (`Attachments: Screenshot ….png`), which names the file but cannot open it. To ADD a file your org already holds (by its artifactId), use attachDealFile; to detach one, removeDealFile. Returns an empty list for a deal with no files, which is different from a deal you cannot see: a foreign or unknown dealId is refused at the gateway.
-     *
-     * @remarks Requires the READ scope.
-     *
-     * The `limit` variable is clamped server-side to a maximum of 25.
-     */
-    listDealFiles: (variables: T.ListDealFilesQueryVariables, options?: RequestOptions): Promise<T.ListDealFilesQuery> =>
-      this.request('listDealFiles', variables, options, { operationType: 'query' }),
-    /**
-     * List the saved DEAL filters VISIBLE to the key owner: every shared deal filter in the organization plus your own private ones. Metadata plus `criteriaSummary` (its conditions in one line); read one filter's whole tree with getFilter, create one with saveFilter (type: DEAL), change it with updateFilter. Run one with filterDeals. The Deals board in the app has no saved-filter list, so a deal filter lives here, not in a sidebar. Every row carries `userId`, the OWNER: a row whose userId is not the key owner's is a teammate's filter, so say whose it is before changing or deleting it.
-     *
-     * @remarks Requires the READ scope.
-     */
-    listDealFilters: (options?: RequestOptions): Promise<T.ListDealFiltersQuery> =>
-      this.request('listDealFilters', undefined, options, { operationType: 'query' }),
-    /**
-     * List the organization's own deal pipelines, id and name only, oldest first. `sameNameCount` is how many share the row's name. Use this to find a pipeline id by name. For every pipeline's stages in one call, use listPipelines.
-     *
-     * @remarks Requires the READ scope.
-     */
-    listPipelineNames: (options?: RequestOptions): Promise<T.ListPipelineNamesQuery> =>
-      this.request('listPipelineNames', undefined, options, { operationType: 'query' }),
-    /**
-     * The org's roles of one `kind` (CONTACT when omitted): CONTACT a deal's people, USER teammates, PROPERTY a deal's properties, ITEM_LINK linked deals, RELATIONSHIP related people, CONTACT_PROPERTY a contact's properties. `dealId`: the roles its pipeline owner offers. Ids for every set…Role op.
-     *
-     * @remarks Requires the READ scope.
-     */
-    listPipelineRoles: (variables?: T.ListPipelineRolesQueryVariables, options?: RequestOptions): Promise<T.ListPipelineRolesQuery> =>
-      this.request('listPipelineRoles', variables, options, { operationType: 'query' }),
-    /**
-     * List the organization's deal pipelines with per-stage deal counts and values. Counts cover only deals you can see. `total` and stage `value` are WHOLE DOLLARS, not cents (1355000 is $1,355,000). Archived deals are excluded; a date window or a won total is findDeals `totals`. `deals`/`total` include won/lost stages; open is `outcome` open. `sameNameCount` is how many pipelines share the row's name: quote it, never count rows. Use the returned pipeline id with findDeals (its pipelineId filter) to list a pipeline's deals.
-     *
-     * @remarks Requires the READ scope.
-     */
-    listPipelines: (options?: RequestOptions): Promise<T.ListPipelinesQuery> =>
-      this.request('listPipelines', undefined, options, { operationType: 'query' }),
-    /**
-     * One pipeline's stages, in order (all pipelines: listStagesOfPipelines).
-     *
-     * @remarks Requires the READ scope.
-     */
-    listPipelineStages: (variables: T.ListPipelineStagesQueryVariables, options?: RequestOptions): Promise<T.ListPipelineStagesQuery> =>
-      this.request('listPipelineStages', variables, options, { operationType: 'query' }),
-    /**
-     * Stage-to-stage deal movement (the funnel) for a reporting period (same period values as getPipelineAnalytics), optionally narrowed to one pipelineId — per transition: deal counts, exits from the source stage, and won/lost outcomes. Data is a nightly snapshot — see asOfDate. Requires the ADMIN scope (key owner must be a team admin).
-     *
-     * @remarks Requires the ADMIN scope.
-     *
-     * The organization is derived from your API key — `orgId` is never caller-supplied.
-     *
-     * Rate limited: shares the per-key analytics bucket (60/min); 429s carry Retry-After.
-     */
-    listPipelineTransitions: (variables?: Omit<T.ListPipelineTransitionsQueryVariables, 'orgId'>, options?: RequestOptions): Promise<T.ListPipelineTransitionsQuery> =>
-      this.request('listPipelineTransitions', variables, options, { operationType: 'query' }),
-    /**
-     * Every owned and shared pipeline and its stages, in order; a large organization's answer is cut short. A stage by name is SEARCH_CONTEXT DEAL_STAGE (every pipeline; a miss is final), and every deal in it, in your own pipelines, findDeals `stageName`. Names repeat: move a deal only within its own pipeline.
-     *
-     * @remarks Requires the READ scope.
-     */
-    listStagesOfPipelines: (options?: RequestOptions): Promise<T.ListStagesOfPipelinesQuery> =>
-      this.request('listStagesOfPipelines', undefined, options, { operationType: 'query' }),
-    /**
-     * List deals going cold — no activity for a while, ordered by days inactive, of deals you can see. Returns each deal with its stage, pipeline, linked contact, and inactiveDays.
-     *
-     * @remarks Requires the READ scope.
-     *
-     * The `limit` variable is clamped server-side to a maximum of 50.
-     */
-    listStalledDeals: (variables?: T.ListStalledDealsQueryVariables, options?: RequestOptions): Promise<T.ListStalledDealsQuery> =>
-      this.request('listStalledDeals', variables, options, { operationType: 'query' }),
-    /**
-     * Remove a deal link.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    removeDealExternalLink: (variables: T.RemoveDealExternalLinkMutationVariables, options?: IdempotentRequestOptions): Promise<T.RemoveDealExternalLinkMutation> =>
-      this.request('removeDealExternalLink', variables, options, { operationType: 'mutation' }),
-    /**
-     * Detach one file from a deal by fileId (fileIds come from listDealFiles). This removes the link only — the underlying stored file/bytes are not deleted. Removing a file that is not on the deal, or already removed, is a no-op. Returns the deal id. The deal must be in a pipeline owned by or shared with your organization.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    removeDealFile: (variables: T.RemoveDealFileMutationVariables, options?: IdempotentRequestOptions): Promise<T.RemoveDealFileMutation> =>
-      this.request('removeDealFile', variables, options, { operationType: 'mutation' }),
-    /**
-     * Set the display order of one pipeline's custom fields: pass every field id of that pipeline (listDealCustomFields), first = top. An id from another pipeline is refused. Presentation only: no value, filter or workflow changes. Org admins only.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    reorderDealCustomFields: (variables: T.ReorderDealCustomFieldsMutationVariables, options?: IdempotentRequestOptions): Promise<T.ReorderDealCustomFieldsMutation> =>
-      this.request('reorderDealCustomFields', variables, options, { operationType: 'mutation' }),
-    /**
-     * Reorder a pipeline's stages (by pipelineId): pass every stage id in the desired order. Owner-only: the pipeline must be OWNED by your organization. Returns the pipeline with its stages in the new order.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    reorderPipelineStages: (variables: T.ReorderPipelineStagesMutationVariables, options?: IdempotentRequestOptions): Promise<T.ReorderPipelineStagesMutation> =>
-      this.request('reorderPipelineStages', variables, options, { operationType: 'mutation' }),
-    /**
-     * Make a teammate assigned to the deal its Agent (getDeal agent), who speaks for it.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealAgent: (variables: T.SetDealAgentMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealAgentMutation> =>
-      this.request('setDealAgent', variables, options, { operationType: 'mutation' }),
-    /**
-     * Choose the fields every deal card on one pipeline's board shows: at most 5 field ids of that pipeline, built-ins included, in order. REPLACES the set (empty shows none), for everyone. Org admins only. Returns the fields with showOnCard and cardDisplayOrder.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealCardFields: (variables: T.SetDealCardFieldsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealCardFieldsMutation> =>
-      this.request('setDealCardFields', variables, options, { operationType: 'mutation' }),
-    /**
-     * The CONTACT role a person on the deal plays ("Seller"). roleId null clears it. An Only-one role moves off its previous holder.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealContactRole: (variables: T.SetDealContactRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealContactRoleMutation> =>
-      this.request('setDealContactRole', variables, options, { operationType: 'mutation' }),
-    /**
-     * Hide fields from one pipeline's deal sheet and create/edit form, for everyone: `hiddenFieldKeys` REPLACES the hidden set (getDealPipelineLayout first; an empty list shows everything). Keys are `native:team|closeDate|dealValue|commission` or `custom:<fieldId>`; Stage is never hidden and an unknown key is dropped. Hiding keeps every value.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealDetailHiddenFields: (variables: T.SetDealDetailHiddenFieldsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealDetailHiddenFieldsMutation> =>
-      this.request('setDealDetailHiddenFields', variables, options, { operationType: 'mutation' }),
-    /**
-     * Replace one pipeline's deal-sheet tabs for everyone (getDealDetailTabs first, and pass its version as expectedVersion: a stale one is refused). Owner pipelines only.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealDetailTabs: (variables: T.SetDealDetailTabsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealDetailTabsMutation> =>
-      this.request('setDealDetailTabs', variables, options, { operationType: 'mutation' }),
-    /**
-     * The ITEM_LINK role of a link between two deals (getDeal linkedItems id); the link's label becomes its name. roleId null clears the role AND the link's label. An Only-one role moves off its previous holder.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealLinkRole: (variables: T.SetDealLinkRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealLinkRoleMutation> =>
-      this.request('setDealLinkRole', variables, options, { operationType: 'mutation' }),
-    /**
-     * The PROPERTY role a property on the deal plays ("Subject property"); `propertyId` as getDeal properties gives it. roleId null clears it. An Only-one role moves off its previous holder.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealPropertyRole: (variables: T.SetDealPropertyRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealPropertyRoleMutation> =>
-      this.request('setDealPropertyRole', variables, options, { operationType: 'mutation' }),
-    /**
-     * The USER role a teammate on the deal plays. roleId null clears it. An Only-one role moves off its previous holder.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setDealUserRole: (variables: T.SetDealUserRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetDealUserRoleMutation> =>
-      this.request('setDealUserRole', variables, options, { operationType: 'mutation' }),
-    /**
-     * Survey deals — findDeals' search (same visibility), without stageName/outcome/windows/totals, with a deliberately LEAN row: deal id, title, isArchived, stage NAME, pipeline NAME, assigned users by NAME, open-task counts, and custom-field values. Use this whenever the question is about MANY deals rather than about a few in full — "who holds which card", "which cards have no Difficulty set", "what is on this board", any board-wide count or grouping. Use findDeals instead when you need money (commission / team split), linked contacts, close date, price, createdAt/updatedAt, or the ids inside a row; use getDeal for one deal in full. A capped result DROPS WHOLE DEALS silently: when `truncated` is true, lower `limit` and page (`__omittedItems` counts the dropped rows). `totalCount` is the UNPAGED total to quote for "how many". IDS — the row carries names, not ids, for everything except the deal itself: stage ids from listStagesOfPipelines, user ids from listTeammates, custom-field ids and types from listDealCustomFields. The deal `id` IS here — pass it to getDeal or updateDeal to act on a row. ARCHIVED deals are included when isArchived is omitted, as in findDeals; check each row's isArchived. ASSIGNEES — an EMPTY `users` means UNASSIGNED; filter with hasAssignedUsers / userIds as in findDeals. No linked contacts here. CUSTOM FIELDS — each entry carries the value plus the field NAME (no id, no type). Read the value from the ONE slot matching the field type: TEXT/LINK -> textValue, NUMBER/DOLLAR -> numberValue (a plain number, NOT cents), DATE -> dateValue (ISO 8601), DROPDOWN -> dropdownSelectedValues (the option LABEL strings). A field the deal has never been given a value for is ABSENT from the list rather than present-and-null, so an empty list means nothing is filled in on that deal — never that the pipeline has no fields (get the definitions from listDealCustomFields(pipelineId)). TASKS — `taskSummary` counts open tasks and appointments on the DEAL (not its contacts); 0 means none, so "which deals have no task" is this page. In Ask Goliath omitting isArchived reads live deals only; null reads both.
-     *
-     * @remarks Requires the READ scope.
-     *
-     * The `limit` variable is clamped server-side to a maximum of 45.
-     */
-    surveyDeals: (variables?: T.SurveyDealsQueryVariables, options?: RequestOptions): Promise<T.SurveyDealsQuery> =>
-      this.request('surveyDeals', variables, options, { operationType: 'query' }),
-    /**
-     * Remove a deal link (getDeal linkedItems id).
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    unlinkPipelineItems: (variables: T.UnlinkPipelineItemsMutationVariables, options?: IdempotentRequestOptions): Promise<T.UnlinkPipelineItemsMutation> =>
-      this.request('unlinkPipelineItems', variables, options, { operationType: 'mutation' }),
-    /**
-     * Update a deal by id: title, price, close date, stage. THIS IS THE STAGE-MOVE OPERATION: send input { stageId } alone (from listPipelineStages); fields left out are untouched, and the move stamps lastStageChangeAt. A stage change is POTENTIALLY OUTBOUND by TWO paths: (1) entering the stage wakes any DEAL workflow triggered on it; (2) it fires a deal-updated event for EVERY attached contact, and a CONTACT workflow anywhere in the org can match the destination stage, so a clean pipeline does NOT prove the move is silent. Either can text or email a real person. Do NOT reason "reversible, so just do it": undoing the move does not recall a message. A move the person asked for by name is their yes; any other move of a deal with contacts needs their yes before it runs (a card counts). The deal, stage and linked contactIds/userIds must belong to your organization (or a pipeline shared with it). contactIds, propertyIds and userIds REPLACE the whole linked set: send every id to keep. Pass expectedUpdatedAt (updatedAt from getDeal, findDeals or a previous write) whenever you decided from an earlier read, so a concurrent edit fails loudly. It makes the write conditional and ALL-OR-NOTHING: a change since gives CONFLICT with nothing written, and a rejected userIds, participantSplits or customFieldValues rolls the whole edit back. The token is single-use: re-read before guarding again. Without it a later custom-field failure cannot undo the committed core write. A deleted deal is NOT_FOUND (do not retry); a bad token is BAD_USER_INPUT. MONEY AND CUSTOM FIELDS (the whole input is one variable, so discovery cannot expand it). One commission source per side: `commissionAmountCents` XOR `commissionPercentBps` (basis points, 300 = 3%, of priceCents), and `teamSplitAmountCents` XOR `teamSplitPercentBps` (of the COMMISSION). Both halves with values is rejected; one sent as null CLEARS that side. The server derives `commissionCents` (GCI) and returns it: read it there. A percent re-derives when priceCents changes; an amount does not. `participantSplits` is [{ userId, splitAmountCents | splitPercentBps }] of what remains after the team fee, within the pool. `customFieldValues` is [{ customFieldId (listDealCustomFields; fields are PER-PIPELINE), exactly ONE of textValue (TEXT/LINK) | numberValue (NUMBER/DOLLAR, a plain number, NOT cents) | dateValue (DATE, ISO 8601) | dropdownSelectedValues (DROPDOWN option LABELS, not ids) }]. The response echoes the money and custom fields: confirm the write from it.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    updateDeal: (variables: T.UpdateDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateDealMutation> =>
-      this.request('updateDeal', variables, options, { operationType: 'mutation' }),
-    /**
-     * Edit an existing deal custom-field DEFINITION in place (by id from listDealCustomFields). THIS IS THE CORRECT WAY TO ADD A DROPDOWN OPTION or fix a wrong name or default — do not create a second field. Owner-only: the field's pipeline must be OWNED by your organization; a field on a pipeline merely shared with you cannot be edited. Omitted fields are untouched. The field's TYPE cannot be changed. `options` applies to DROPDOWN fields and REPLACES the whole option list rather than appending: send every option you want to keep, each existing one as { id, label } with its id from listDealCustomFields, and each new one as { label } with no id. To RENAME an option, send its existing id with the new label: every value already recorded on deals, the field's default, and the saved filters and queued bulk tasks naming the old label all move to the new one. Sending a new label WITHOUT the id instead removes the old option and creates a different one. Any existing option you leave out is REMOVED; if deals or filters still reference a removed option the call is rejected until you pass optionDependencyResolutions: from getDeletionImpact (DEAL_CUSTOM_FIELD_OPTION, the option id), the person picking each replacement. A default that is no longer one of the options is cleared. Names must be unique within the pipeline. Returns the updated field with its full option list.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    updateDealCustomField: (variables: T.UpdateDealCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateDealCustomFieldMutation> =>
-      this.request('updateDealCustomField', variables, options, { operationType: 'mutation' }),
-    /**
-     * Change a deal link's title or url (linkId from getDeal's externalLinks); an omitted one is kept.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    updateDealExternalLink: (variables: T.UpdateDealExternalLinkMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateDealExternalLinkMutation> =>
-      this.request('updateDealExternalLink', variables, options, { operationType: 'mutation' }),
-    /**
-     * Update a deal pipeline's title and/or description (by pipelineId from listPipelines). Owner-only: the pipeline must be OWNED by your organization — a pipeline merely shared with you cannot be edited.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    updatePipeline: (variables: T.UpdatePipelineMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineMutation> =>
-      this.request('updatePipeline', variables, options, { operationType: 'mutation' }),
-    /**
-     * Update one pipeline stage (by stageId from listPipelineStages) — rename, change description, toggle isTerminal / terminalType (WON|LOST|NEUTRAL), or set winProbability (0-100). Only the fields you pass change, except that a new terminalType sent without winProbability also sets it to the outcome's (WON 100, LOST or NEUTRAL 0), and isTerminal false without a terminalType clears it. Owner-only: the stage's pipeline must be OWNED by your organization.
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    updatePipelineStage: (variables: T.UpdatePipelineStageMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineStageMutation> =>
-      this.request('updatePipelineStage', variables, options, { operationType: 'mutation' }),
+    importPipelineItem: (variables: T.ImportPipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.ImportPipelineItemMutation> =>
+      this.request('importPipelineItem', variables, options, { operationType: 'mutation' }),
   }
 
   readonly emailChecks = {
@@ -2884,7 +2377,7 @@ export class GoliathClient extends GoliathClientCore {
     renameDataExport: (variables: T.RenameDataExportMutationVariables, options?: IdempotentRequestOptions): Promise<T.RenameDataExportMutation> =>
       this.request('renameDataExport', variables, options, { operationType: 'mutation' }),
     /**
-     * Rename an uploaded file (listFiles `uploads[].file.id`, or a deal's or contact's file).
+     * Rename an uploaded file (listFiles `uploads[].file.id`, or a pipeline item's or contact's file).
      *
      * @remarks Requires the WRITE scope.
      *
@@ -3185,7 +2678,7 @@ export class GoliathClient extends GoliathClientCore {
     hideTaskSourceOnToday: (variables: T.HideTaskSourceOnTodayMutationVariables, options?: IdempotentRequestOptions): Promise<T.HideTaskSourceOnTodayMutation> =>
       this.request('hideTaskSourceOnToday', variables, options, { operationType: 'mutation' }),
     /**
-     * The key owner's Catch up deck, ranked as the app deals it: each card's id, kind, the sentence it asks (`ask`, else `title`), its rows (`bundleRows`, each `defaultChecked`) and `suggestionIds`. `nextCursor` continues the same ranking. What decideCatchUpCard takes.
+     * The key owner's Catch up deck, ranked as the app pipeline items it: each card's id, kind, the sentence it asks (`ask`, else `title`), its rows (`bundleRows`, each `defaultChecked`) and `suggestionIds`. `nextCursor` continues the same ranking. What decideCatchUpCard takes.
      *
      * @remarks Requires the READ scope.
      *
@@ -3194,7 +2687,7 @@ export class GoliathClient extends GoliathClientCore {
     listCatchUpCards: (variables?: T.ListCatchUpCardsQueryVariables, options?: RequestOptions): Promise<T.ListCatchUpCardsQuery> =>
       this.request('listCatchUpCards', variables, options, { operationType: 'query' }),
     /**
-     * List your in-app notifications (the bell feed), newest first. Optional filters: notificationTypeFilter (one notification type — use an EXACT value from getAvailableNotificationTypes; an unrecognized string is not an error, it just returns an empty feed with total 0), seen (true = only read, false = only unread, omitted = both), and searchTerm. Cursor-paginated — pass the returned canFetchNext as a signal there is another page and re-call with cursor set to the last notification's id (limit defaults to 25, capped at 50). total is the full match count and hasUnread flags any unread in the feed, so nothing is silently truncated. Reads ONLY your own notifications — true for EVERY key including an admin's, because this operation exposes no recipient selector at all. The app does have the admin/Goliath-staff teammate feed (one or more teammates' notifications combined), so if the user asks to see a colleague's bell, point them at the app instead of saying nobody can see it. Each row carries the related-record ids (contactId, dealId, noteId, replyId, taskId, callId) and actionType/actionTargetId for deep-linking.
+     * List your in-app notifications (the bell feed), newest first. Optional filters: notificationTypeFilter (one notification type — use an EXACT value from getAvailableNotificationTypes; an unrecognized string is not an error, it just returns an empty feed with total 0), seen (true = only read, false = only unread, omitted = both), and searchTerm. Cursor-paginated — pass the returned canFetchNext as a signal there is another page and re-call with cursor set to the last notification's id (limit defaults to 25, capped at 50). total is the full match count and hasUnread flags any unread in the feed, so nothing is silently truncated. Reads ONLY your own notifications — true for EVERY key including an admin's, because this operation exposes no recipient selector at all. The app does have the admin/Goliath-staff teammate feed (one or more teammates' notifications combined), so if the user asks to see a colleague's bell, point them at the app instead of saying nobody can see it. Each row carries the related-record ids (contactId, pipelineItemId, noteId, replyId, taskId, callId) and actionType/actionTargetId for deep-linking.
      *
      * @remarks Requires the READ scope.
      *
@@ -3505,6 +2998,513 @@ export class GoliathClient extends GoliathClientCore {
       this.request('unrestDialingPoolNumber', variables, options, { operationType: 'mutation' }),
   }
 
+  readonly pipelineItems = {
+    /**
+     * Append a comment to a pipeline item's activity feed, attributed to the API key's owner. Requires a non-empty body (max 10,000 chars). The pipeline item must be in a pipeline owned by or shared with your organization. Returns the created COMMENT event; read the thread back with listPipelineItemComments.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    addPipelineItemComment: (variables: T.AddPipelineItemCommentMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddPipelineItemCommentMutation> =>
+      this.request('addPipelineItemComment', variables, options, { operationType: 'mutation' }),
+    /**
+     * Append ONE option to a DROPDOWN pipeline item custom field (id from listPipelineItemCustomFields). Never removes anything, unlike updatePipelineItemCustomField whose `options` replace the list; a label already there (any case) is kept as is. Returns the field with its options.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    addPipelineItemCustomFieldOption: (variables: T.AddPipelineItemCustomFieldOptionMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddPipelineItemCustomFieldOptionMutation> =>
+      this.request('addPipelineItemCustomFieldOption', variables, options, { operationType: 'mutation' }),
+    /**
+     * Add a titled URL to a pipeline item's Links card (getPipelineItem externalLinks). To change one, remove it and add it again.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    addPipelineItemExternalLink: (variables: T.AddPipelineItemExternalLinkMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddPipelineItemExternalLinkMutation> =>
+      this.request('addPipelineItemExternalLink', variables, options, { operationType: 'mutation' }),
+    /**
+     * Append one or more stages to a pipeline (by pipelineId). Each stage: name (required), plus optional description, order, isTerminal, terminalType (WON|LOST|NEUTRAL), winProbability (0-100). Owner-only: the pipeline must be OWNED by your organization. Returns the pipeline with its full, ordered stage list.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    addPipelineStages: (variables: T.AddPipelineStagesMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddPipelineStagesMutation> =>
+      this.request('addPipelineStages', variables, options, { operationType: 'mutation' }),
+    /**
+     * Archive or RESTORE one pipeline item by id (isArchived true or false); archivePipelineItems archives many. Reversible: archiving takes the pipeline item off the pipeline BOARD and deletes nothing. findPipelineItems finds archived ones with isArchived: true. Archiving triggers no workflow, so it never sends a message. The pipeline item must be in a pipeline owned by or shared with your organization.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    archivePipelineItem: (variables: T.ArchivePipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.ArchivePipelineItemMutation> =>
+      this.request('archivePipelineItem', variables, options, { operationType: 'mutation' }),
+    /**
+     * Archive many pipeline items of one pipeline by id (restore with archivePipelineItem); a whole filter is the board's own select-all Archive. Runs as a background task: follow `bulkTaskId` with getBulkTask.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    archivePipelineItems: (variables: T.ArchivePipelineItemsMutationVariables, options?: IdempotentRequestOptions): Promise<T.ArchivePipelineItemsMutation> =>
+      this.request('archivePipelineItems', variables, options, { operationType: 'mutation' }),
+    /**
+     * Attach a CHAT file to a pipeline item — the write twin of listPipelineItemFiles. Pass the artifactId of a file your organization already holds: the id the chat assistant sees on its artifact shelf (`(artifactId: …) [origin] filename`). A Library item id is refused: use fileLibraryItemsOnPipelineItem. The server resolves it to the underlying file, org-scoped, links it to pipelineItemId, and returns the file (id, fileName, fileUrl, createdAt); read it back with listPipelineItemFiles. The pipeline item must be in a pipeline owned by or shared with your organization, and the artifact's file must belong to your organization — a foreign artifact is refused, so you cannot link another org's bytes onto a pipeline item you own. There is no raw-bytes upload op yet (the shared upload key is not org-scoped).
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    attachPipelineItemFile: (variables: T.AttachPipelineItemFileMutationVariables, options?: IdempotentRequestOptions): Promise<T.AttachPipelineItemFileMutation> =>
+      this.request('attachPipelineItemFile', variables, options, { operationType: 'mutation' }),
+    /**
+     * A new pipeline item per contact from a createPipelineItem `pipelineItem` template (the bulk bar's Add to pipeline). propertyAttachmentMode ALL attaches each contact's properties as the bulk bar does (default NONE); skipContactsWithPipelineItem skips contacts that have a pipeline item; autoNamePipelineItems titles each from its contact and property. A background task (`bulkTaskId`, getBulkTask). Every new pipeline item has a contact, so it wakes stage and contact workflows: it needs their yes; a card's counts.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    bulkCreatePipelineItemsOnContacts: (variables: T.BulkCreatePipelineItemsOnContactsMutationVariables, options?: IdempotentRequestOptions): Promise<T.BulkCreatePipelineItemsOnContactsMutation> =>
+      this.request('bulkCreatePipelineItemsOnContacts', variables, options, { operationType: 'mutation' }),
+    /**
+     * One updatePipelineItem `input` for many pipeline items (stage, close date, owners, contacts); every id must be a pipeline item your org owns or shares, or the whole call is refused. Each pipeline item runs a full updatePipelineItem, so a stage move wakes workflows: confirm as updatePipelineItem says. Large sets run as a background task (`bulkTaskId`, getBulkTask).
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    bulkUpdatePipelineItems: (variables: T.BulkUpdatePipelineItemsMutationVariables, options?: IdempotentRequestOptions): Promise<T.BulkUpdatePipelineItemsMutation> =>
+      this.request('bulkUpdatePipelineItems', variables, options, { operationType: 'mutation' }),
+    /**
+     * Create a pipeline in your organization. Requires a title; optionally a description and an ordered list of initial stages (each: name, plus optional description, order, isTerminal, terminalType WON|LOST|NEUTRAL, winProbability 0-100). Returns the created pipeline: its id, name, description and stages in order.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    createPipeline: (variables: T.CreatePipelineMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineMutation> =>
+      this.request('createPipeline', variables, options, { operationType: 'mutation' }),
+    /**
+     * Create a pipeline item in a pipeline stage. Requires title and stageId (listPipelineStages); optional priceCents, closeDate, contact/property/user ids. Entering the stage can text or email a real person, as an updatePipelineItem move can: confirm as updatePipelineItem says. The stage must be in a pipeline owned by or shared with your organization, and any linked contactIds/userIds must belong to your organization. userIds is the pipeline item’s TEAM, and My pipeline items shows only pipeline items the viewer is on. The app’s Create Pipeline item form puts its creator on the team, so when acting for a person include the key owner (getMyProfile) unless they name a different team. MONEY AND CUSTOM FIELDS (the whole input is one variable, so discovery cannot expand it). Commission takes ONE source per side, never both: `commissionAmountCents` (a fixed dollar figure in cents) XOR `commissionPercentBps` (basis points — 300 = 3% — applied to priceCents); and `teamSplitAmountCents` XOR `teamSplitPercentBps` (basis points applied to the resulting COMMISSION, not the price). Sending both halves of a pair with values is rejected; sending one explicitly as null CLEARS that side. The server derives `commissionCents` (GCI) and returns it: read it there. A percent re-derives when priceCents changes; an amount does not. `participantSplits` is [{ userId, splitAmountCents | splitPercentBps }] allocating what remains after the team fee, and it must not exceed the pool. `customFieldValues` is [{ customFieldId (from listPipelineItemCustomFields — pipeline item fields are PER-PIPELINE), and exactly ONE of textValue (TEXT/LINK) | numberValue (NUMBER/DOLLAR, a plain number, NOT cents) | dateValue (DATE, ISO 8601) | dropdownSelectedValues (DROPDOWN — the option LABEL strings, not option ids) matching the field’s type }]. The response echoes the money and custom fields: confirm the write from it.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    createPipelineItem: (variables: T.CreatePipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineItemMutation> =>
+      this.request('createPipelineItem', variables, options, { operationType: 'mutation' }),
+    /**
+     * Create a custom-field DEFINITION on a pipeline you OWN (pipelineId from listPipelines): name + type (TEXT | NUMBER | DOLLAR | DATE | LINK | DROPDOWN; `options` required and non-empty for DROPDOWN; `allowMultiple`/`defaultValue` optional). Applied synchronously. Pipeline item custom fields are per-pipeline, and a shared pipeline cannot be modified. Returns the pipeline's field set; read the new id back by matching the name (or use listPipelineItemCustomFields), then write values via the pipeline item's customFieldValues input on createPipelineItem / updatePipelineItem.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    createPipelineItemCustomField: (variables: T.CreatePipelineItemCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineItemCustomFieldMutation> =>
+      this.request('createPipelineItemCustomField', variables, options, { operationType: 'mutation' }),
+    /**
+     * Add a role of `kind` (CONTACT when omitted), as any member can. Names are unique per kind, case-folded: reuse a listPipelineRoles match. It is never Only one: that stays admin list upkeep in the app.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    createPipelineRole: (variables: T.CreatePipelineRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreatePipelineRoleMutation> =>
+      this.request('createPipelineRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * Delete a pipeline (owner-only). Pass a dependencyResolution built from getDeletionImpact: its impactVersion, plus a replacement for every pipeline item the pipeline still holds (empty replacements if getDeletionImpact reports none). Pipeline items are moved to the replacement pipeline/stage you choose, then the pipeline is removed.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    deletePipeline: (variables: T.DeletePipelineMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePipelineMutation> =>
+      this.request('deletePipeline', variables, options, { operationType: 'mutation' }),
+    /**
+     * Delete a pipeline item for good; archivePipelineItem hides it instead, so prefer that unless they said delete. Org-owned pipelines only. dependencyResolution from getDeletionImpact(targetKind: DEAL). Returns `stageItWasOn`.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    deletePipelineItem: (variables: T.DeletePipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePipelineItemMutation> =>
+      this.request('deletePipelineItem', variables, options, { operationType: 'mutation' }),
+    /**
+     * Delete a pipeline item comment you wrote, for good. Ask first.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    deletePipelineItemComment: (variables: T.DeletePipelineItemCommentMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePipelineItemCommentMutation> =>
+      this.request('deletePipelineItemComment', variables, options, { operationType: 'mutation' }),
+    /**
+     * Permanently delete a pipeline item custom-field DEFINITION (id from listPipelineItemCustomFields). IRREVERSIBLE: every value recorded on every pipeline item for it is deleted. Prefer updatePipelineItemCustomField when the field is wrong rather than unwanted. Call getDeletionImpact first (targetKind DEAL_CUSTOM_FIELD) and hand back its impactVersion as dependencyResolution.impactVersion, with a replacement field for each reported requirement (filters, workflows); an empty `replacements` when none. A replacement redirects those references, never the values. System-defined fields cannot be deleted. Returns the remaining fields of `pipelineId` (the field's pipeline). Confirm with the user before calling.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    deletePipelineItemCustomField: (variables: T.DeletePipelineItemCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePipelineItemCustomFieldMutation> =>
+      this.request('deletePipelineItemCustomField', variables, options, { operationType: 'mutation' }),
+    /**
+     * Delete a single pipeline stage (owner-only). Pass a dependencyResolution from getDeletionImpact (targetKind DEAL_STAGE): its impactVersion plus a replacement stage for any pipeline items currently on the stage.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    deletePipelineStage: (variables: T.DeletePipelineStageMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePipelineStageMutation> =>
+      this.request('deletePipelineStage', variables, options, { operationType: 'mutation' }),
+    /**
+     * Replace the body of your own pipeline item comment (listPipelineItemComments id).
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    editPipelineItemComment: (variables: T.EditPipelineItemCommentMutationVariables, options?: IdempotentRequestOptions): Promise<T.EditPipelineItemCommentMutation> =>
+      this.request('editPipelineItemComment', variables, options, { operationType: 'mutation' }),
+    /**
+     * Run a SAVED pipeline item filter (`filterId` from listPipelineItemFilters or saveFilter type DEAL) over ONE pipeline (`pipelineId` from listPipelineNames) and page the matching pipeline items with limit/offset: id, title, isArchived, stage and assignees, plus pagination.total (every match, not the page) and hasMore. Saved filters only: to try criteria first, save the filter, run it here, and fix it in place with updateFilter. A pipeline item filter does not carry its pipeline, so the same filter can run over any pipeline you pass. Use getPipelineItem for one pipeline item in full.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 50.
+     */
+    filterPipelineItems: (variables: T.FilterPipelineItemsQueryVariables, options?: RequestOptions): Promise<T.FilterPipelineItemsQuery> =>
+      this.request('filterPipelineItems', variables, options, { operationType: 'query' }),
+    /**
+     * Search AND TOTAL the pipeline items you can see: `totals` sums EVERY match, not the page (price, average, commission; totalCount is the count), so a total is one call. Filters: title, contact (contactIds: pipeline items of ANY of these contacts in ONE read, matched by each row's linked contacts; page hasMore before calling one dealless, never a findPipelineItems per contact), pipeline, stage (stageId, or stageName in all your own pipelines), outcome OPEN/WON/LOST, stageChangedAfter/Before (last stage move, eg a win; Before exclusive), closeDateAfter/Before, archived, assignees. NUMBERS — quote `totals` as they read; never add, average or count rows yourself. IMPORTANT: archived pipeline items are INCLUDED BY DEFAULT (they sort last). Pass isArchived: false for active-only, always for "what is in my pipeline", or true to find archived ones (to restore with archivePipelineItem); check each result's isArchived before calling a pipeline item current. Each pipeline item carries its assigned users — an empty array means the pipeline item is UNASSIGNED, nobody owns it — and its linked contacts (id + name). hasAssignedUsers: false gives the unowned pipeline items over every pipeline item you can see (totalCount is the count); userIds (listTeammates, never empty) gives one person's. Whether anyone is on a linked CONTACT comes only from getContact, one call per contact; a partner org's contact it refuses is "not visible to you", not "nobody". Each row carries the commission figures: commissionCents (the derived GCI) and the stored commissionAmountCents / commissionPercentBps / teamSplitAmountCents / teamSplitPercentBps, so a portfolio money question ("our GCI on everything closing this month") is one page. Read them as getPipelineItem documents: amount XOR percent per side; all-null means no commission RECORDED, not zero. participantSplits is NOT here (getPipelineItem). `customFieldValues` IS here, LEANER than on getPipelineItem: the value plus the field NAME (`pipelineItemCustomField { name }`), no ids or type, for surveying (who holds which card, which have no Difficulty set) rather than writing back. Read the ONE sub-field matching the type, as getPipelineItem documents. A field never given a value is absent, so an empty list means nothing filled in, never no fields. Custom fields multiply per row: on a `truncated` page lower `limit` rather than assume the missing pipeline items have no values. TASKS — `taskSummary` counts open tasks and appointments on the DEAL (not its contacts); 0 means none, so "which pipeline items have no task" is this page. In Ask Goliath omitting isArchived reads live pipeline items only; null reads both.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 50.
+     */
+    findPipelineItems: (variables?: T.FindPipelineItemsQueryVariables, options?: RequestOptions): Promise<T.FindPipelineItemsQuery> =>
+      this.request('findPipelineItems', variables, options, { operationType: 'query' }),
+    /**
+     * Preview what deleting an org-owned record affects, for every delete op that takes a dependencyResolution. Pass targetKind + targetId; returns impactVersion (hand it back to the matching delete op), requiresReplacement, the dependent records grouped, and replacementRequirements (what needs a new home, with its valid options). Supported targetKinds: DEAL (deletePipelineItem), DEAL_PIPELINE / DEAL_STAGE (deletePipeline / deletePipelineStage), CONTACT_CUSTOM_FIELD (deleteContactCustomField), CONTACT_CUSTOM_FIELD_OPTION / DEAL_CUSTOM_FIELD_OPTION (a dropdown option dropped by updateContactCustomField / updatePipelineItemCustomField's optionDependencyResolutions), CONTACT_TAG (deleteContactTags), CONTACT_LIST (deleteContactLists), and CONTENT_TEMPLATE (deleteContentTemplate). WORKFLOW_GROUP (a workflow's or appointment reminder's group id): deleteAppointmentReminder takes the result as its dependencyResolution; for a workflow it is read-only (deleteWorkflow takes no impactVersion). isBlocking=false items (e.g. pending AI suggestions) never block and retire automatically. Never delete a saved filter to free an option: re-point or trim it. Always call this first; impactVersion goes stale when anything changes, so re-read rather than reuse it.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getDeletionImpact: (variables: T.GetDeletionImpactQueryVariables, options?: RequestOptions): Promise<T.GetDeletionImpactQuery> =>
+      this.request('getDeletionImpact', variables, options, { operationType: 'query' }),
+    /**
+     * Per-pipeline TRENDS for a rolling period (SEVEN_DAYS | FOURTEEN_DAYS | THIRTY_DAYS | YEAR_TO_DATE; THIRTY_DAYS is the last 30 days, not this month) from a NIGHTLY snapshot (asOfDate): stage duration, stage mix, won/lost/active. wonDeals / lostDeals count EVENTS (moves into a won or lost stage in the window, archived pipeline items included) and miss moves since the snapshot, so they can disagree with the pipeline items as they stand: for "how many won", a win rate or money use findPipelineItems `totals` (outcome WON / LOST, a stageChanged window). Requires the ADMIN scope.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * The organization is derived from your API key — `orgId` is never caller-supplied.
+     *
+     * Rate limited: shares the per-key analytics bucket (60/min); 429s carry Retry-After.
+     */
+    getPipelineAnalytics: (variables?: Omit<T.GetPipelineAnalyticsQueryVariables, 'orgId'>, options?: RequestOptions): Promise<T.GetPipelineAnalyticsQuery> =>
+      this.request('getPipelineAnalytics', variables, options, { operationType: 'query' }),
+    /**
+     * One pipeline's pipeline item-sheet tabs: each tab's name and its fields in order (`native:<key>` or `custom:<fieldId>`), with the layout version.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getPipelineDetailTabs: (variables: T.GetPipelineDetailTabsQueryVariables, options?: RequestOptions): Promise<T.GetPipelineDetailTabsQuery> =>
+      this.request('getPipelineDetailTabs', variables, options, { operationType: 'query' }),
+    /**
+     * Fetch one pipeline item by id — title, value, close date, stage, pipeline, COMMISSION AND TEAM SPLIT, CUSTOM-FIELD VALUES, assigned users (empty = unassigned), linked contacts (id + name), and linked pipeline items (`linkedItems`). It does NOT return who is on those contacts: this op also reaches pipeline items on pipelines another org SHARED with yours, whose contacts belong to that org, and the participant read is scoped to your own org — it would come back empty for them and read as "nobody is on this contact" when someone is. To see who is on a contact, call getContact with that contactId: it is guarded to your org, so a contact you cannot see fails loudly instead of answering empty. MONEY — `priceFormatted`/`commissionFormatted` are the price and GCI in dollars: quote them. Commission, team split and participant splits are now READABLE here, and they are the answer to GCI questions. `commissionCents` is the DERIVED total commission on the pipeline item: quote THAT as the pipeline item’s GCI. The other four are the stored write SOURCES, and each side is amount-XOR-percent, so exactly one of a pair is ever non-null: `commissionAmountCents` (a fixed dollar figure, in cents) or `commissionPercentBps` (basis points — 300 bps = 3%, applied to priceCents); and `teamSplitAmountCents` or `teamSplitPercentBps` (basis points applied to the COMMISSION, not the price). So when commissionPercentBps is set, commissionCents is priceCents x bps/10000 and changing the price silently changes the commission; when commissionAmountCents is set, commissionCents equals it and the price is irrelevant. All four sources null with commissionCents null means no commission has been recorded — NOT zero commission; do not report $0 for a pipeline item nobody has filled in. `participantSplits` is the per-teammate allocation of what is left after the team fee (each row: user, splitAmountCents or splitPercentBps). Write all of these through updatePipelineItem / createPipelineItem, which echo them back. CUSTOM FIELDS — `customFieldValues` is the read-back for the customFieldValues input on createPipelineItem / updatePipelineItem (INT-907; there was no read path before). It carries ONLY the fields this pipeline item actually has a value for: a defined field the pipeline item has never been given a value for is ABSENT from the list, not present-and-null, which is the opposite of a contact’s customFields. So an empty list means nothing is filled in, never that the pipeline has no fields — get the pipeline’s full definition set from listPipelineItemCustomFields(pipelineId). Each entry names its definition under `pipelineItemCustomField` (id, name, type) and carries the value in the ONE sub-field matching that type: TEXT/LINK -> textValue, NUMBER/DOLLAR -> numberValue (a plain number, NOT cents), DATE -> dateValue (ISO 8601), DROPDOWN -> dropdownSelectedValues (the option LABEL strings, not option ids; more than one only when the definition’s allowMultiple is true).
+     *
+     * @remarks Requires the READ scope.
+     */
+    getPipelineItem: (variables: T.GetPipelineItemQueryVariables, options?: RequestOptions): Promise<T.GetPipelineItemQuery> =>
+      this.request('getPipelineItem', variables, options, { operationType: 'query' }),
+    /**
+     * One pipeline's field layout: each custom field with its display order, showOnCard and cardDisplayOrder (the up-to-5 fields the board card shows), and hiddenDetailFieldKeys (what the pipeline item sheet and create/edit form hide: `native:team|closeDate|dealValue|commission` or `custom:<fieldId>`; null or empty = all shown). Read it before setPipelineItemCardFields or setPipelineItemDetailHiddenFields, which replace the whole list.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getPipelineLayout: (variables: T.GetPipelineLayoutQueryVariables, options?: RequestOptions): Promise<T.GetPipelineLayoutQuery> =>
+      this.request('getPipelineLayout', variables, options, { operationType: 'query' }),
+    /**
+     * Link two unarchived pipeline items on your org's own pipelines; both list it (getPipelineItem linkedItems).
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    linkPipelineItems: (variables: T.LinkPipelineItemsMutationVariables, options?: IdempotentRequestOptions): Promise<T.LinkPipelineItemsMutation> =>
+      this.request('linkPipelineItems', variables, options, { operationType: 'mutation' }),
+    /**
+     * One pipeline item's activity feed, most-recent-first — the audit trail behind "who changed the price on this pipeline item, and when did it get reassigned?". Each event carries eventType, createdAt, actor (the person, null for system/automation), and a SuperJSON `payload` whose `json` object holds the per-eventType detail. Pass `eventTypes` to narrow to the types you care about — a narrowed read pages at the DATABASE, so a sparse type's full history stays reachable however busy the rest of the feed is; omit it for the mixed feed, which caps at the 200 most recent events. Page with `offset`. THE FULL eventType VOCABULARY, with the payload keys under `payload.json` for each (there is no schema expansion for a SuperJSON scalar, so this text is the only description of the shape). Money keys are cents, `*Bps` are basis points, dates are ISO 8601, and a `from*` key is null when the field had no previous value: `STAGE_CHANGED` (fromStageId, fromStageName, toStageId, toStageName — names are snapshotted at write time, so a renamed stage keeps them; workflow: {workflowAutomationId, name} of the workflow VERSION that made the move (not its workflowGroupId; a republish gives a new one), else absent or null; byPerson: true if a person moved it in-app); `VALUE_CHANGED` (fromCents, toCents — the pipeline item price); `COMMISSION_CHANGED` and `TEAM_SPLIT_CHANGED` (fromCents, toCents, fromBps, toBps — the pair that answers commission-history questions); `CLOSE_DATE_CHANGED` (fromDate, toDate); `DESCRIPTION_CHANGED` (no keys beyond actor: the text is the pinned note; only a person's own in-app edit writes one); `ASSIGNED` and `UNASSIGNED` (userId, userName — the person the pipeline item was assigned to or taken from, NOT the actor who did it); `CONTACT_LINKED` and `CONTACT_UNLINKED` (contactId, contactName); `TASK_ADDED` and `TASK_COMPLETED` (taskId, taskTitle, isAppointment — true means it was an appointment, not a to-do); `FILE_ADDED` and `FILE_REMOVED` (fileId, fileName); `DEAL_CREATED`, `DEAL_ARCHIVED`, `DEAL_RESTORED` (no payload keys beyond actor); `COMMENT` (body — the comment text; listPipelineItemComments is the same feed pre-narrowed to this type); `SCRAPER_HEALTH_MOVED` (only on Scraper Health cards — the reasoning written with each move by moveScraperHealthCard / upsertScraperHealthCard: healthActor (monitor | doctor | person — which kind of mover, since `actor` is always the key owner), fromStage and toStage (stage NAMES, fromStage null on the event that opened the card), why, checked, found, nextTime (free text, null when not given), delivered, expected, windowDays (the numbers at that moment), handoffSummary (the short "what happened, where it stands" a person reads first)); `CONTRACT_EVENT` (contractId, envelopeId: the contract and its signing attempt; kind: SENT, OPENED, SIGNED, COMPLETED, DECLINED, VOIDED or EXPIRED; recipientId: the signer who opened, signed or declined, null otherwise; fileId: on COMPLETED, the signed PDF filed on the contract contacts. The title and names are not in the payload: read the contract for them). Those twenty are the whole vocabulary: an eventType outside this list does not exist. What the feed does NOT record is edits to a pipeline item's title or custom-field values — no event type covers them, so their history is not reconstructable here — nor a description edit made through this API, an AI employee or an agent tool (DESCRIPTION_CHANGED covers only a person's own in-app edits), so no DESCRIPTION_CHANGED event does not mean the description was never changed.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 50.
+     */
+    listPipelineItemActivity: (variables: T.ListPipelineItemActivityQueryVariables, options?: RequestOptions): Promise<T.ListPipelineItemActivityQuery> =>
+      this.request('listPipelineItemActivity', variables, options, { operationType: 'query' }),
+    /**
+     * One pipeline item's comment thread, most-recent-first (the activity feed narrowed to COMMENT events, paged at the database — the full thread stays reachable however busy the rest of the feed is). The comment text is in the SuperJSON payload at `json.body`; actor identifies the commenter. Page with offset.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 50.
+     */
+    listPipelineItemComments: (variables: T.ListPipelineItemCommentsQueryVariables, options?: RequestOptions): Promise<T.ListPipelineItemCommentsQuery> =>
+      this.request('listPipelineItemComments', variables, options, { operationType: 'query' }),
+    /**
+     * List a pipeline's custom-field DEFINITIONS (by pipelineId from listPipelines): id, name, type (TEXT/NUMBER/DOLLAR/DATE/LINK/DROPDOWN), dropdown options, allowMultiple, defaultValue. Pipeline item custom fields are per-pipeline. DEFINITIONS ONLY — no pipeline item's recorded value appears here: read those from getPipelineItem's `customFieldValues`, which lists only the fields a given pipeline item has been given a value for. Use each id as the customFieldId in the pipeline item's customFieldValues input on createPipelineItem / updatePipelineItem to write values.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listPipelineItemCustomFields: (variables: T.ListPipelineItemCustomFieldsQueryVariables, options?: RequestOptions): Promise<T.ListPipelineItemCustomFieldsQuery> =>
+      this.request('listPipelineItemCustomFields', variables, options, { operationType: 'query' }),
+    /**
+     * Files attached to a pipeline item, most-recent-first — screenshots, recordings, documents. Each entry carries id, fileName, contentType-bearing fileUrl and createdAt. fileUrl is a time-limited signed HTTPS URL: fetch it promptly and do not persist or share it, and re-read this op rather than caching the URL. Each URL is signed per file, so the page is small (limit defaults to 25 and is capped there) — a full page means there may be more, so page with offset. This is the ONLY way to reach an attachment's bytes — a Slack-sourced pipeline item records its attachments as a bare filename at the end of the description (`Attachments: Screenshot ….png`), which names the file but cannot open it. To ADD a file your org already holds (by its artifactId), use attachPipelineItemFile; to detach one, removePipelineItemFile. Returns an empty list for a pipeline item with no files, which is different from a pipeline item you cannot see: a foreign or unknown pipelineItemId is refused at the gateway.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 25.
+     */
+    listPipelineItemFiles: (variables: T.ListPipelineItemFilesQueryVariables, options?: RequestOptions): Promise<T.ListPipelineItemFilesQuery> =>
+      this.request('listPipelineItemFiles', variables, options, { operationType: 'query' }),
+    /**
+     * List the saved DEAL filters VISIBLE to the key owner: every shared pipeline item filter in the organization plus your own private ones. Metadata plus `criteriaSummary` (its conditions in one line); read one filter's whole tree with getFilter, create one with saveFilter (type: DEAL), change it with updateFilter. Run one with filterPipelineItems. The Pipeline items board in the app has no saved-filter list, so a pipeline item filter lives here, not in a sidebar. Every row carries `userId`, the OWNER: a row whose userId is not the key owner's is a teammate's filter, so say whose it is before changing or deleting it.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listPipelineItemFilters: (options?: RequestOptions): Promise<T.ListPipelineItemFiltersQuery> =>
+      this.request('listPipelineItemFilters', undefined, options, { operationType: 'query' }),
+    /**
+     * List the organization's own pipelines, id and name only, oldest first. `sameNameCount` is how many share the row's name. Use this to find a pipeline id by name. For every pipeline's stages in one call, use listPipelines.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listPipelineNames: (options?: RequestOptions): Promise<T.ListPipelineNamesQuery> =>
+      this.request('listPipelineNames', undefined, options, { operationType: 'query' }),
+    /**
+     * The org's roles of one `kind` (CONTACT when omitted): CONTACT a pipeline item's people, USER teammates, PROPERTY a pipeline item's properties, ITEM_LINK linked pipeline items, RELATIONSHIP related people, CONTACT_PROPERTY a contact's properties. `pipelineItemId`: the roles its pipeline owner offers. Ids for every set…Role op.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listPipelineRoles: (variables?: T.ListPipelineRolesQueryVariables, options?: RequestOptions): Promise<T.ListPipelineRolesQuery> =>
+      this.request('listPipelineRoles', variables, options, { operationType: 'query' }),
+    /**
+     * List the organization's pipelines with per-stage pipeline item counts and values. Counts cover only pipeline items you can see. `total` and stage `value` are WHOLE DOLLARS, not cents (1355000 is $1,355,000). Archived pipeline items are excluded; a date window or a won total is findPipelineItems `totals`. `pipelineItems`/`total` include won/lost stages; open is `outcome` open. `sameNameCount` is how many pipelines share the row's name: quote it, never count rows. Use the returned pipeline id with findPipelineItems (its pipelineId filter) to list a pipeline's pipeline items.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listPipelines: (options?: RequestOptions): Promise<T.ListPipelinesQuery> =>
+      this.request('listPipelines', undefined, options, { operationType: 'query' }),
+    /**
+     * One pipeline's stages, in order (all pipelines: listStagesOfPipelines).
+     *
+     * @remarks Requires the READ scope.
+     */
+    listPipelineStages: (variables: T.ListPipelineStagesQueryVariables, options?: RequestOptions): Promise<T.ListPipelineStagesQuery> =>
+      this.request('listPipelineStages', variables, options, { operationType: 'query' }),
+    /**
+     * Stage-to-stage pipeline item movement (the funnel) for a reporting period (same period values as getPipelineAnalytics), optionally narrowed to one pipelineId — per transition: pipeline item counts, exits from the source stage, and won/lost outcomes. Data is a nightly snapshot — see asOfDate. Requires the ADMIN scope (key owner must be a team admin).
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * The organization is derived from your API key — `orgId` is never caller-supplied.
+     *
+     * Rate limited: shares the per-key analytics bucket (60/min); 429s carry Retry-After.
+     */
+    listPipelineTransitions: (variables?: Omit<T.ListPipelineTransitionsQueryVariables, 'orgId'>, options?: RequestOptions): Promise<T.ListPipelineTransitionsQuery> =>
+      this.request('listPipelineTransitions', variables, options, { operationType: 'query' }),
+    /**
+     * Every owned and shared pipeline and its stages, in order; a large organization's answer is cut short. A stage by name is SEARCH_CONTEXT DEAL_STAGE (every pipeline; a miss is final), and every pipeline item in it, in your own pipelines, findPipelineItems `stageName`. Names repeat: move a pipeline item only within its own pipeline.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listStagesOfPipelines: (options?: RequestOptions): Promise<T.ListStagesOfPipelinesQuery> =>
+      this.request('listStagesOfPipelines', undefined, options, { operationType: 'query' }),
+    /**
+     * List pipeline items going cold — no activity for a while, ordered by days inactive, of pipeline items you can see. Returns each pipeline item with its stage, pipeline, linked contact, and inactiveDays.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 50.
+     */
+    listStalledPipelineItems: (variables?: T.ListStalledPipelineItemsQueryVariables, options?: RequestOptions): Promise<T.ListStalledPipelineItemsQuery> =>
+      this.request('listStalledPipelineItems', variables, options, { operationType: 'query' }),
+    /**
+     * Remove a pipeline item link.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    removePipelineItemExternalLink: (variables: T.RemovePipelineItemExternalLinkMutationVariables, options?: IdempotentRequestOptions): Promise<T.RemovePipelineItemExternalLinkMutation> =>
+      this.request('removePipelineItemExternalLink', variables, options, { operationType: 'mutation' }),
+    /**
+     * Detach one file from a pipeline item by fileId (fileIds come from listPipelineItemFiles). This removes the link only — the underlying stored file/bytes are not deleted. Removing a file that is not on the pipeline item, or already removed, is a no-op. Returns the pipeline item id. The pipeline item must be in a pipeline owned by or shared with your organization.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    removePipelineItemFile: (variables: T.RemovePipelineItemFileMutationVariables, options?: IdempotentRequestOptions): Promise<T.RemovePipelineItemFileMutation> =>
+      this.request('removePipelineItemFile', variables, options, { operationType: 'mutation' }),
+    /**
+     * Set the display order of one pipeline's custom fields: pass every field id of that pipeline (listPipelineItemCustomFields), first = top. An id from another pipeline is refused. Presentation only: no value, filter or workflow changes. Org admins only.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    reorderPipelineItemCustomFields: (variables: T.ReorderPipelineItemCustomFieldsMutationVariables, options?: IdempotentRequestOptions): Promise<T.ReorderPipelineItemCustomFieldsMutation> =>
+      this.request('reorderPipelineItemCustomFields', variables, options, { operationType: 'mutation' }),
+    /**
+     * Reorder a pipeline's stages (by pipelineId): pass every stage id in the desired order. Owner-only: the pipeline must be OWNED by your organization. Returns the pipeline with its stages in the new order.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    reorderPipelineStages: (variables: T.ReorderPipelineStagesMutationVariables, options?: IdempotentRequestOptions): Promise<T.ReorderPipelineStagesMutation> =>
+      this.request('reorderPipelineStages', variables, options, { operationType: 'mutation' }),
+    /**
+     * Replace one pipeline's pipeline item-sheet tabs for everyone (getPipelineDetailTabs first, and pass its version as expectedVersion: a stale one is refused). Owner pipelines only.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineDetailTabs: (variables: T.SetPipelineDetailTabsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineDetailTabsMutation> =>
+      this.request('setPipelineDetailTabs', variables, options, { operationType: 'mutation' }),
+    /**
+     * Make a teammate assigned to the pipeline item its Agent (getPipelineItem agent), who speaks for it.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineItemAgent: (variables: T.SetPipelineItemAgentMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineItemAgentMutation> =>
+      this.request('setPipelineItemAgent', variables, options, { operationType: 'mutation' }),
+    /**
+     * Choose the fields every pipeline item card on one pipeline's board shows: at most 5 field ids of that pipeline, built-ins included, in order. REPLACES the set (empty shows none), for everyone. Org admins only. Returns the fields with showOnCard and cardDisplayOrder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineItemCardFields: (variables: T.SetPipelineItemCardFieldsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineItemCardFieldsMutation> =>
+      this.request('setPipelineItemCardFields', variables, options, { operationType: 'mutation' }),
+    /**
+     * The CONTACT role a person on the pipeline item plays ("Seller"). roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineItemContactRole: (variables: T.SetPipelineItemContactRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineItemContactRoleMutation> =>
+      this.request('setPipelineItemContactRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * Hide fields from one pipeline's pipeline item sheet and create/edit form, for everyone: `hiddenFieldKeys` REPLACES the hidden set (getPipelineLayout first; an empty list shows everything). Keys are `native:team|closeDate|dealValue|commission` or `custom:<fieldId>`; Stage is never hidden and an unknown key is dropped. Hiding keeps every value.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineItemDetailHiddenFields: (variables: T.SetPipelineItemDetailHiddenFieldsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineItemDetailHiddenFieldsMutation> =>
+      this.request('setPipelineItemDetailHiddenFields', variables, options, { operationType: 'mutation' }),
+    /**
+     * The ITEM_LINK role of a link between two pipeline items (getPipelineItem linkedItems id); the link's label becomes its name. roleId null clears the role AND the link's label. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineItemLinkRole: (variables: T.SetPipelineItemLinkRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineItemLinkRoleMutation> =>
+      this.request('setPipelineItemLinkRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * The PROPERTY role a property on the pipeline item plays ("Subject property"); `propertyId` as getPipelineItem properties gives it. roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineItemPropertyRole: (variables: T.SetPipelineItemPropertyRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineItemPropertyRoleMutation> =>
+      this.request('setPipelineItemPropertyRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * The USER role a teammate on the pipeline item plays. roleId null clears it. An Only-one role moves off its previous holder.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setPipelineItemUserRole: (variables: T.SetPipelineItemUserRoleMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetPipelineItemUserRoleMutation> =>
+      this.request('setPipelineItemUserRole', variables, options, { operationType: 'mutation' }),
+    /**
+     * Survey pipeline items — findPipelineItems' search (same visibility), without stageName/outcome/windows/totals, with a deliberately LEAN row: pipeline item id, title, isArchived, stage NAME, pipeline NAME, assigned users by NAME, open-task counts, and custom-field values. Use this whenever the question is about MANY pipeline items rather than about a few in full — "who holds which card", "which cards have no Difficulty set", "what is on this board", any board-wide count or grouping. Use findPipelineItems instead when you need money (commission / team split), linked contacts, close date, price, createdAt/updatedAt, or the ids inside a row; use getPipelineItem for one pipeline item in full. A capped result DROPS WHOLE PIPELINE ITEMS silently: when `truncated` is true, lower `limit` and page (`__omittedItems` counts the dropped rows). `totalCount` is the UNPAGED total to quote for "how many". IDS — the row carries names, not ids, for everything except the pipeline item itself: stage ids from listStagesOfPipelines, user ids from listTeammates, custom-field ids and types from listPipelineItemCustomFields. The pipeline item `id` IS here — pass it to getPipelineItem or updatePipelineItem to act on a row. ARCHIVED pipeline items are included when isArchived is omitted, as in findPipelineItems; check each row's isArchived. ASSIGNEES — an EMPTY `users` means UNASSIGNED; filter with hasAssignedUsers / userIds as in findPipelineItems. No linked contacts here. CUSTOM FIELDS — each entry carries the value plus the field NAME (no id, no type). Read the value from the ONE slot matching the field type: TEXT/LINK -> textValue, NUMBER/DOLLAR -> numberValue (a plain number, NOT cents), DATE -> dateValue (ISO 8601), DROPDOWN -> dropdownSelectedValues (the option LABEL strings). A field the pipeline item has never been given a value for is ABSENT from the list rather than present-and-null, so an empty list means nothing is filled in on that pipeline item — never that the pipeline has no fields (get the definitions from listPipelineItemCustomFields(pipelineId)). TASKS — `taskSummary` counts open tasks and appointments on the DEAL (not its contacts); 0 means none, so "which pipeline items have no task" is this page. In Ask Goliath omitting isArchived reads live pipeline items only; null reads both.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 45.
+     */
+    surveyPipelineItems: (variables?: T.SurveyPipelineItemsQueryVariables, options?: RequestOptions): Promise<T.SurveyPipelineItemsQuery> =>
+      this.request('surveyPipelineItems', variables, options, { operationType: 'query' }),
+    /**
+     * Remove a pipeline item link (getPipelineItem linkedItems id).
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    unlinkPipelineItems: (variables: T.UnlinkPipelineItemsMutationVariables, options?: IdempotentRequestOptions): Promise<T.UnlinkPipelineItemsMutation> =>
+      this.request('unlinkPipelineItems', variables, options, { operationType: 'mutation' }),
+    /**
+     * Update a pipeline's title and/or description (by pipelineId from listPipelines). Owner-only: the pipeline must be OWNED by your organization — a pipeline merely shared with you cannot be edited.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    updatePipeline: (variables: T.UpdatePipelineMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineMutation> =>
+      this.request('updatePipeline', variables, options, { operationType: 'mutation' }),
+    /**
+     * Update a pipeline item by id: title, price, close date, stage. THIS IS THE STAGE-MOVE OPERATION: send input { stageId } alone (from listPipelineStages); fields left out are untouched, and the move stamps lastStageChangeAt. A stage change is POTENTIALLY OUTBOUND by TWO paths: (1) entering the stage wakes any DEAL workflow triggered on it; (2) it fires a pipeline item-updated event for EVERY attached contact, and a CONTACT workflow anywhere in the org can match the destination stage, so a clean pipeline does NOT prove the move is silent. Either can text or email a real person. Do NOT reason "reversible, so just do it": undoing the move does not recall a message. A move the person asked for by name is their yes; any other move of a pipeline item with contacts needs their yes before it runs (a card counts). The pipeline item, stage and linked contactIds/userIds must belong to your organization (or a pipeline shared with it). contactIds, propertyIds and userIds REPLACE the whole linked set: send every id to keep. Pass expectedUpdatedAt (updatedAt from getPipelineItem, findPipelineItems or a previous write) whenever you decided from an earlier read, so a concurrent edit fails loudly. It makes the write conditional and ALL-OR-NOTHING: a change since gives CONFLICT with nothing written, and a rejected userIds, participantSplits or customFieldValues rolls the whole edit back. The token is single-use: re-read before guarding again. Without it a later custom-field failure cannot undo the committed core write. A deleted pipeline item is NOT_FOUND (do not retry); a bad token is BAD_USER_INPUT. MONEY AND CUSTOM FIELDS (the whole input is one variable, so discovery cannot expand it). One commission source per side: `commissionAmountCents` XOR `commissionPercentBps` (basis points, 300 = 3%, of priceCents), and `teamSplitAmountCents` XOR `teamSplitPercentBps` (of the COMMISSION). Both halves with values is rejected; one sent as null CLEARS that side. The server derives `commissionCents` (GCI) and returns it: read it there. A percent re-derives when priceCents changes; an amount does not. `participantSplits` is [{ userId, splitAmountCents | splitPercentBps }] of what remains after the team fee, within the pool. `customFieldValues` is [{ customFieldId (listPipelineItemCustomFields; fields are PER-PIPELINE), exactly ONE of textValue (TEXT/LINK) | numberValue (NUMBER/DOLLAR, a plain number, NOT cents) | dateValue (DATE, ISO 8601) | dropdownSelectedValues (DROPDOWN option LABELS, not ids) }]. The response echoes the money and custom fields: confirm the write from it.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    updatePipelineItem: (variables: T.UpdatePipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineItemMutation> =>
+      this.request('updatePipelineItem', variables, options, { operationType: 'mutation' }),
+    /**
+     * Edit an existing pipeline item custom-field DEFINITION in place (by id from listPipelineItemCustomFields). THIS IS THE CORRECT WAY TO ADD A DROPDOWN OPTION or fix a wrong name or default — do not create a second field. Owner-only: the field's pipeline must be OWNED by your organization; a field on a pipeline merely shared with you cannot be edited. Omitted fields are untouched. The field's TYPE cannot be changed. `options` applies to DROPDOWN fields and REPLACES the whole option list rather than appending: send every option you want to keep, each existing one as { id, label } with its id from listPipelineItemCustomFields, and each new one as { label } with no id. To RENAME an option, send its existing id with the new label: every value already recorded on pipeline items, the field's default, and the saved filters and queued bulk tasks naming the old label all move to the new one. Sending a new label WITHOUT the id instead removes the old option and creates a different one. Any existing option you leave out is REMOVED; if pipeline items or filters still reference a removed option the call is rejected until you pass optionDependencyResolutions: from getDeletionImpact (DEAL_CUSTOM_FIELD_OPTION, the option id), the person picking each replacement. A default that is no longer one of the options is cleared. Names must be unique within the pipeline. Returns the updated field with its full option list.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    updatePipelineItemCustomField: (variables: T.UpdatePipelineItemCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineItemCustomFieldMutation> =>
+      this.request('updatePipelineItemCustomField', variables, options, { operationType: 'mutation' }),
+    /**
+     * Change a pipeline item link's title or url (linkId from getPipelineItem's externalLinks); an omitted one is kept.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    updatePipelineItemExternalLink: (variables: T.UpdatePipelineItemExternalLinkMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineItemExternalLinkMutation> =>
+      this.request('updatePipelineItemExternalLink', variables, options, { operationType: 'mutation' }),
+    /**
+     * Update one pipeline stage (by stageId from listPipelineStages) — rename, change description, toggle isTerminal / terminalType (WON|LOST|NEUTRAL), or set winProbability (0-100). Only the fields you pass change, except that a new terminalType sent without winProbability also sets it to the outcome's (WON 100, LOST or NEUTRAL 0), and isTerminal false without a terminalType clears it. Owner-only: the stage's pipeline must be OWNED by your organization.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    updatePipelineStage: (variables: T.UpdatePipelineStageMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePipelineStageMutation> =>
+      this.request('updatePipelineStage', variables, options, { operationType: 'mutation' }),
+  }
+
   readonly properties = {
     /**
      * Add properties to one or more lists (list ids from searchPropertyTags). ASYNC bulk-task op — returns bulkTaskId before the change applies; poll getBulkTask. TWO selection forms, never combined (ids with a filter is rejected). EXPLICIT: `propertyIds` (esIds) with `totalCount` = how many. FILTER-BACKED: `filterId` (saved; must be visible to the key owner — a teammate's private filter is refused) OR `filterTree` (inline, saveFilter's DSL, parsed STRICTLY — an unknown fieldId rejects the call) with `selectAll: true` for EVERY match or `selectCount: N` for the first N in the runner's DEFAULT traversal order — NOT the `sort` you previewed with on filterProperties, which the bulk task does not take; for a sorted top-N, pass that sorted page's ids as `propertyIds` (one window, not both; neither is REFUSED). An inline filterTree has no saved areas: save one with inSavedAreas and pass its filterId. `excludeIds` applies to a filter-backed selection only (on the explicit form, leave the id out). `totalCount` is an EXECUTION CAP the task stops at. It is DERIVED server-side for explicit ids (their count) and for `selectCount: N` (N — exclusions are not subtracted, the runner drops them as it goes) — whatever you send is ignored there, and a negative value is rejected — and TRUSTED only for `selectAll: true`: pass the filter's `total` from filterProperties UNSUBTRACTED (never minus `excludeIds` — the runner handles exclusions). An understated select-all count silently turns it into a partial write, so round UP. Pass the same `includeIncompleteRecords` you used on filterProperties. A filter-backed selection can touch thousands of properties in one call: state the match count to the user and get a go-ahead BEFORE submitting one.
@@ -3631,7 +3631,7 @@ export class GoliathClient extends GoliathClientCore {
     findPropertiesNearPoint: (variables: T.FindPropertiesNearPointQueryVariables, options?: RequestOptions): Promise<T.FindPropertiesNearPointQuery> =>
       this.request('findPropertiesNearPoint', variables, options, { operationType: 'query' }),
     /**
-     * Fetch ONE saved filter by id, including its full `root` criteria tree — the only operation that returns the tree (listPropertyFilters / listContactFilters / listDealFilters return metadata only). Works for contact, property and deal filters. Call this BEFORE updateFilter whenever you are changing PART of a filter: updateFilter replaces `root` wholesale, so without reading the current tree first you would be re-authoring it blind and would silently drop every condition you didn't know was there. Read it, modify the one condition you mean to change, and send the modified tree back. The tree is saveFilter's DSL. Tag and list conditions hold ids: name them via searchContactTags (searchPropertyTags for PROPERTY). `queryOptions` (PROPERTY only) holds execution options outside the tree — `{ includeIncompleteRecords: true }` runs the filter with the completeness gate OFF (~39% more of the index), which is why a count can exceed what the tree explains.
+     * Fetch ONE saved filter by id, including its full `root` criteria tree — the only operation that returns the tree (listPropertyFilters / listContactFilters / listPipelineItemFilters return metadata only). Works for contact, property and pipeline item filters. Call this BEFORE updateFilter whenever you are changing PART of a filter: updateFilter replaces `root` wholesale, so without reading the current tree first you would be re-authoring it blind and would silently drop every condition you didn't know was there. Read it, modify the one condition you mean to change, and send the modified tree back. The tree is saveFilter's DSL. Tag and list conditions hold ids: name them via searchContactTags (searchPropertyTags for PROPERTY). `queryOptions` (PROPERTY only) holds execution options outside the tree — `{ includeIncompleteRecords: true }` runs the filter with the completeness gate OFF (~39% more of the index), which is why a count can exceed what the tree explains.
      *
      * @remarks Requires the READ scope.
      */
@@ -3778,7 +3778,7 @@ export class GoliathClient extends GoliathClientCore {
     renameFolder: (variables: T.RenameFolderMutationVariables, options?: IdempotentRequestOptions): Promise<T.RenameFolderMutation> =>
       this.request('renameFolder', variables, options, { operationType: 'mutation' }),
     /**
-     * Set the display order of saved filters: `filterIds` first to last (listPropertyFilters / listContactFilters / listDealFilters ids).
+     * Set the display order of saved filters: `filterIds` first to last (listPropertyFilters / listContactFilters / listPipelineItemFilters ids).
      *
      * @remarks Requires the WRITE scope.
      *
@@ -3832,7 +3832,7 @@ export class GoliathClient extends GoliathClientCore {
     runPropertyComparables: (variables: T.RunPropertyComparablesMutationVariables, options?: IdempotentRequestOptions): Promise<T.RunPropertyComparablesMutation> =>
       this.request('runPropertyComparables', variables, options, { operationType: 'mutation' }),
     /**
-     * Create a saved filter. `type` CONTACT runs with filterContacts, PROPERTY with filterProperties, DEAL (status, title, pipeline stage, assignees, deal custom fields) with filterDeals — find deal filters with listDealFilters; the Deals board shows no saved-filter list, so tell the user it lives in the API. Other FilterType values are rejected. `root` is the filter-tree DSL, a recursive group: { id, operator: "AND"|"OR", negated?: boolean, conditions: [{ id, fieldId, value }], groups: [<group>] }. `negated: true` inverts a whole GROUP (group-level only) — the way to say "not already on any of my lists". EVERY group and condition needs its own caller-minted non-empty `id` (mint a UUID each); missing ids are the most common rejection. Every `fieldId` must be a real field of the domain: an unknown one, or a bad value, rejects the whole save naming the field and saves nothing, so NEVER probe by saving — read listFilterFields FIRST. Geo conditions take ids: `countyFilters` a `fips` from searchCounties, `cityFilters` a city `id` from searchCities (a county name or unknown FIPS is rejected on any type, a bare city name on PROPERTY). To see what a tree DOES first — its count, whether it keeps records with no value — run it inline as `filterTree` on filterProperties/filterContacts/countContacts, which saves nothing. Save only the final filter the user asked for: a measuring filter is visible to them and their team. File it into a folder with `folderId` (listFilterFolders). Owner + org come from the API key; no userId/organizationId input, so a key cannot plant a filter in another tenant. The response may carry `warnings`: non-fatal notes on the saved criteria (e.g. same-named counties from DIFFERENT states, like Cook, IL + Cook, MN — saved, and it matches all of them). RELAY each one with the result, not as a failure; if the selection is not what the user meant, fix it with updateFilter.
+     * Create a saved filter. `type` CONTACT runs with filterContacts, PROPERTY with filterProperties, DEAL (status, title, pipeline stage, assignees, pipeline item custom fields) with filterPipelineItems — find pipeline item filters with listPipelineItemFilters; the Pipeline items board shows no saved-filter list, so tell the user it lives in the API. Other FilterType values are rejected. `root` is the filter-tree DSL, a recursive group: { id, operator: "AND"|"OR", negated?: boolean, conditions: [{ id, fieldId, value }], groups: [<group>] }. `negated: true` inverts a whole GROUP (group-level only) — the way to say "not already on any of my lists". EVERY group and condition needs its own caller-minted non-empty `id` (mint a UUID each); missing ids are the most common rejection. Every `fieldId` must be a real field of the domain: an unknown one, or a bad value, rejects the whole save naming the field and saves nothing, so NEVER probe by saving — read listFilterFields FIRST. Geo conditions take ids: `countyFilters` a `fips` from searchCounties, `cityFilters` a city `id` from searchCities (a county name or unknown FIPS is rejected on any type, a bare city name on PROPERTY). To see what a tree DOES first — its count, whether it keeps records with no value — run it inline as `filterTree` on filterProperties/filterContacts/countContacts, which saves nothing. Save only the final filter the user asked for: a measuring filter is visible to them and their team. File it into a folder with `folderId` (listFilterFolders). Owner + org come from the API key; no userId/organizationId input, so a key cannot plant a filter in another tenant. The response may carry `warnings`: non-fatal notes on the saved criteria (e.g. same-named counties from DIFFERENT states, like Cook, IL + Cook, MN — saved, and it matches all of them). RELAY each one with the result, not as a failure; if the selection is not what the user meant, fix it with updateFilter.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -3875,7 +3875,7 @@ export class GoliathClient extends GoliathClientCore {
     skipTraceProperty: (variables: T.SkipTracePropertyMutationVariables, options?: IdempotentRequestOptions): Promise<T.SkipTracePropertyMutation> =>
       this.request('skipTraceProperty', variables, options, { operationType: 'mutation' }),
     /**
-     * Edit a saved filter IN PLACE by id (property, contact or deal) — its criteria, name, description, folder or visibility. Never saveFilter again under the same name: that makes a SECOND filter and leaves the wrong one. Ids come from listPropertyFilters / listContactFilters / listDealFilters or the saveFilter response. Every field but the id is optional and an OMITTED one is untouched, so a rename keeps criteria, folder and visibility. An explicit null differs: `folderId: null` takes the filter OUT of its folder (the only way to), while `description: null` is ignored (a description can be replaced, not cleared). `root` REPLACES the whole tree, never merges: to change PART of a filter, getFilter (the only op returning `root`), edit the one condition, and send the whole tree back — never author a replacement from the user's description alone, or you drop every condition you never saw. The tree is saveFilter's DSL (every node needs its own non-empty `id`), validated the same way: an unknown fieldId or invalid value rejects the WHOLE update naming the condition, nothing saved — so NEVER probe by updating; read listFilterFields first (pass `fieldIds` for just those). County/city values as on saveFilter (`fips` from searchCounties, city `id` from searchCities). The response echoes the persisted tree. `type` cannot change — delete and re-create. WHOSE FILTER IS IT: getFilter and the list ops return `userId`, the owner. A TEAMMATE's shared filter is writable here by an org admin with no confirmation and no history, so check `userId` against getMyProfile (`currentUser.id`) and, when it is not yours, say whose it is (getTeammatesByIds) before changing it. A teammate's PRIVATE filter is refused outright and never appears in the list ops. The response may carry `warnings`: non-fatal notes on the saved criteria (e.g. same-named counties from DIFFERENT states, like Cook, IL + Cook, MN — saved, and it matches all of them). RELAY each one with the result, not as a failure; if the selection is not what the user meant, fix it with updateFilter.
+     * Edit a saved filter IN PLACE by id (property, contact or pipeline item) — its criteria, name, description, folder or visibility. Never saveFilter again under the same name: that makes a SECOND filter and leaves the wrong one. Ids come from listPropertyFilters / listContactFilters / listPipelineItemFilters or the saveFilter response. Every field but the id is optional and an OMITTED one is untouched, so a rename keeps criteria, folder and visibility. An explicit null differs: `folderId: null` takes the filter OUT of its folder (the only way to), while `description: null` is ignored (a description can be replaced, not cleared). `root` REPLACES the whole tree, never merges: to change PART of a filter, getFilter (the only op returning `root`), edit the one condition, and send the whole tree back — never author a replacement from the user's description alone, or you drop every condition you never saw. The tree is saveFilter's DSL (every node needs its own non-empty `id`), validated the same way: an unknown fieldId or invalid value rejects the WHOLE update naming the condition, nothing saved — so NEVER probe by updating; read listFilterFields first (pass `fieldIds` for just those). County/city values as on saveFilter (`fips` from searchCounties, city `id` from searchCities). The response echoes the persisted tree. `type` cannot change — delete and re-create. WHOSE FILTER IS IT: getFilter and the list ops return `userId`, the owner. A TEAMMATE's shared filter is writable here by an org admin with no confirmation and no history, so check `userId` against getMyProfile (`currentUser.id`) and, when it is not yours, say whose it is (getTeammatesByIds) before changing it. A teammate's PRIVATE filter is refused outright and never appears in the list ops. The response may carry `warnings`: non-fatal notes on the saved criteria (e.g. same-named counties from DIFFERENT states, like Cook, IL + Cook, MN — saved, and it matches all of them). RELAY each one with the result, not as a failure; if the selection is not what the user meant, fix it with updateFilter.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4066,14 +4066,14 @@ export class GoliathClient extends GoliathClientCore {
     fileLibraryItemsOnContact: (variables: T.FileLibraryItemsOnContactMutationVariables, options?: IdempotentRequestOptions): Promise<T.FileLibraryItemsOnContactMutation> =>
       this.request('fileLibraryItemsOnContact', variables, options, { operationType: 'mutation' }),
     /**
-     * fileLibraryItemsOnContact for a deal's files: a snapshot copy of each Library file, a page as its PDF. Library item ids, never a chat artifactId (that is attachDealFile). Undo with removeDealFile (the copy's `uploadedFileId`).
+     * fileLibraryItemsOnContact for a pipeline item's files: a snapshot copy of each Library file, a page as its PDF. Library item ids, never a chat artifactId (that is attachPipelineItemFile). Undo with removePipelineItemFile (the copy's `uploadedFileId`).
      *
      * @remarks Requires the WRITE scope.
      *
      * Idempotent: pass `options.idempotencyKey` to make retries safe.
      */
-    fileLibraryItemsOnDeal: (variables: T.FileLibraryItemsOnDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.FileLibraryItemsOnDealMutation> =>
-      this.request('fileLibraryItemsOnDeal', variables, options, { operationType: 'mutation' }),
+    fileLibraryItemsOnPipelineItem: (variables: T.FileLibraryItemsOnPipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.FileLibraryItemsOnPipelineItemMutation> =>
+      this.request('fileLibraryItemsOnPipelineItem', variables, options, { operationType: 'mutation' }),
     /**
      * A filtered list from a spreadsheet as a NEW CSV beside it, every row read on the server. Use it for any "the rows where…" job; never retype readSpaceSheet rows into a file or split the job up. `columns`: headers to keep (`as` renames); `where`: conditions all kept rows meet (EMPTY, NOT_EMPTY, or EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS with `values`). A repeated group is `{n}` ("Phone {n} Type") with `repeat` ["1","2","3"]: one row per value that passes; column `{n}` outputs it. Report the returned counts.
      *
@@ -4178,7 +4178,7 @@ export class GoliathClient extends GoliathClientCore {
     listSpaceCalls: (variables?: T.ListSpaceCallsQueryVariables, options?: RequestOptions): Promise<T.ListSpaceCallsQuery> =>
       this.request('listSpaceCalls', variables, options, { operationType: 'query' }),
     /**
-     * Records › Contact files: attachments and voicemails contacts sent or received, newest first. Filter by `contactId`, `dealId` (any contact on the deal), `channel`, `direction`, or `query` (the file's or the contact's name). Only files whose contact you may open. Each row's `source` says where it came from (a text thread, an email subject, a call). Page with `after` = `nextCursor`.
+     * Records › Contact files: attachments and voicemails contacts sent or received, newest first. Filter by `contactId`, `pipelineItemId` (any contact on the pipeline item), `channel`, `direction`, or `query` (the file's or the contact's name). Only files whose contact you may open. Each row's `source` says where it came from (a text thread, an email subject, a call). Page with `after` = `nextCursor`.
      *
      * @remarks Requires the READ scope.
      *
@@ -4451,7 +4451,7 @@ export class GoliathClient extends GoliathClientCore {
     completeTaskById: (variables: T.CompleteTaskByIdMutationVariables, options?: IdempotentRequestOptions): Promise<T.CompleteTaskByIdMutation> =>
       this.request('completeTaskById', variables, options, { operationType: 'mutation' }),
     /**
-     * Create a to-do task on a contact: one line item (title, optional description, due day, assignees) in someone's queue, checked off with completeTask; NOT a calendar event (createAppointment) and NOT a background job (bulkTasks). Requires contactId, title, dueDate, timezone. DUE DATES ARE A LOCAL DAY, NOT AN INSTANT: timezone (PST/MST/CST/EST/…) is the zone the day is read in, and it decides the TODAY/OVERDUE bucket in listMyTasks; send the user's zone, and for a day-level ask ("follow up Friday") pick an end-of-business time there, not a bare midnight. ALWAYS pass participants (getMyProfile for the key owner, listTeammates for a colleague; same-org): with none the task is UNASSIGNED and in nobody's listMyTasks, which is how a checklist silently goes missing. ONE TASK PER CALL: an ad-hoc multi-step checklist is one call per step, in order, with staggered due dates (a saved TASK_SET is one applyTaskSet call). bulkCreateTasksOnContacts puts ONE task on many contacts, so a checklist over many contacts is STILL one action per step even there; never promise a whole ad-hoc multi-step checklist in one click, here or in the app. The response echoes the contact's FULL task list: confirm the checklist from the last call's list. From a chat, a dealIds deal holding an open task refuses the create and names it: ask whether to move that one or add another, then resend with alongsideOpenTasks: true. Confirm the plan with the user before creating tasks for them.
+     * Create a to-do task on a contact: one line item (title, optional description, due day, assignees) in someone's queue, checked off with completeTask; NOT a calendar event (createAppointment) and NOT a background job (bulkTasks). Requires contactId, title, dueDate, timezone. DUE DATES ARE A LOCAL DAY, NOT AN INSTANT: timezone (PST/MST/CST/EST/…) is the zone the day is read in, and it decides the TODAY/OVERDUE bucket in listMyTasks; send the user's zone, and for a day-level ask ("follow up Friday") pick an end-of-business time there, not a bare midnight. ALWAYS pass participants (getMyProfile for the key owner, listTeammates for a colleague; same-org): with none the task is UNASSIGNED and in nobody's listMyTasks, which is how a checklist silently goes missing. ONE TASK PER CALL: an ad-hoc multi-step checklist is one call per step, in order, with staggered due dates (a saved TASK_SET is one applyTaskSet call). bulkCreateTasksOnContacts puts ONE task on many contacts, so a checklist over many contacts is STILL one action per step even there; never promise a whole ad-hoc multi-step checklist in one click, here or in the app. The response echoes the contact's FULL task list: confirm the checklist from the last call's list. From a chat, a pipelineItemIds pipeline item holding an open task refuses the create and names it: ask whether to move that one or add another, then resend with alongsideOpenTasks: true. Confirm the plan with the user before creating tasks for them.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4460,16 +4460,16 @@ export class GoliathClient extends GoliathClientCore {
     createTaskOnContact: (variables: T.CreateTaskOnContactMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateTaskOnContactMutation> =>
       this.request('createTaskOnContact', variables, options, { operationType: 'mutation' }),
     /**
-     * Create a to-do task on a deal with no contact: pipeline work that belongs to the deal (order the title search, chase the inspection report). dealId from findDeals/getDeal. createTaskOnContact's rules apply: timezone is the zone the due day is read in, participants (getMyProfile/listTeammates) put it in a real queue (none = unassigned, invisible to listMyTasks), and a multi-step checklist is one call per step with staggered due dates. The response echoes the deal's full task list; getDeal `tasks` reads it too (never listContactTasks). Edit or delete it with updateTaskOnDeal / deleteTaskOnDeal. From a chat, a deal holding an open task refuses the create and names it: ask whether to move that one or add another, then resend with alongsideOpenTasks: true. Confirm with the user before creating tasks for them.
+     * Create a to-do task on a pipeline item with no contact: pipeline work that belongs to the pipeline item (order the title search, chase the inspection report). pipelineItemId from findPipelineItems/getPipelineItem. createTaskOnContact's rules apply: timezone is the zone the due day is read in, participants (getMyProfile/listTeammates) put it in a real queue (none = unassigned, invisible to listMyTasks), and a multi-step checklist is one call per step with staggered due dates. The response echoes the pipeline item's full task list; getPipelineItem `tasks` reads it too (never listContactTasks). Edit or delete it with updateTaskOnPipelineItem / deleteTaskOnPipelineItem. From a chat, a pipeline item holding an open task refuses the create and names it: ask whether to move that one or add another, then resend with alongsideOpenTasks: true. Confirm with the user before creating tasks for them.
      *
      * @remarks Requires the WRITE scope.
      *
      * Idempotent: pass `options.idempotencyKey` to make retries safe.
      */
-    createTaskOnDeal: (variables: T.CreateTaskOnDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateTaskOnDealMutation> =>
-      this.request('createTaskOnDeal', variables, options, { operationType: 'mutation' }),
+    createTaskOnPipelineItem: (variables: T.CreateTaskOnPipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateTaskOnPipelineItemMutation> =>
+      this.request('createTaskOnPipelineItem', variables, options, { operationType: 'mutation' }),
     /**
-     * PERMANENTLY delete ONE task by taskId + its contactId: gone from the contact and the queue with NO undo, so ALWAYS confirm with the user, naming the task. Prefer completeTask if the work is DONE (keeps the record and completedAt) or updateTask if details were wrong; delete is for a task that should never have existed. Many at once is deleteTasks: for a sweep ('delete my completed tasks') list them with listMyTasks, get explicit confirmation of the list, then delete. Returns the contact's remaining tasks. The task must belong to the given contact; a task with no contact is deleteTaskOnDeal.
+     * PERMANENTLY delete ONE task by taskId + its contactId: gone from the contact and the queue with NO undo, so ALWAYS confirm with the user, naming the task. Prefer completeTask if the work is DONE (keeps the record and completedAt) or updateTask if details were wrong; delete is for a task that should never have existed. Many at once is deleteTasks: for a sweep ('delete my completed tasks') list them with listMyTasks, get explicit confirmation of the list, then delete. Returns the contact's remaining tasks. The task must belong to the given contact; a task with no contact is deleteTaskOnPipelineItem.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4478,14 +4478,14 @@ export class GoliathClient extends GoliathClientCore {
     deleteTask: (variables: T.DeleteTaskMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteTaskMutation> =>
       this.request('deleteTask', variables, options, { operationType: 'mutation' }),
     /**
-     * deleteTask ONLY for a row whose contact is null, by taskId + its dealId; refused like updateTaskOnDeal for a contact (use deleteTask), an appointment (deleteAppointment) or a task the non-admin key is not on. Same rules.
+     * deleteTask ONLY for a row whose contact is null, by taskId + its pipelineItemId; refused like updateTaskOnPipelineItem for a contact (use deleteTask), an appointment (deleteAppointment) or a task the non-admin key is not on. Same rules.
      *
      * @remarks Requires the WRITE scope.
      *
      * Idempotent: pass `options.idempotencyKey` to make retries safe.
      */
-    deleteTaskOnDeal: (variables: T.DeleteTaskOnDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteTaskOnDealMutation> =>
-      this.request('deleteTaskOnDeal', variables, options, { operationType: 'mutation' }),
+    deleteTaskOnPipelineItem: (variables: T.DeleteTaskOnPipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteTaskOnPipelineItemMutation> =>
+      this.request('deleteTaskOnPipelineItem', variables, options, { operationType: 'mutation' }),
     /**
      * deleteTask for many: items [{ id: taskId, contactId }] (up to 200), each task on its own contact; returns deletedCount. Same rules: no undo. List them; needs their yes (Ask Goliath: bulk card). An appointment is refused (deleteAppointment).
      *
@@ -4503,7 +4503,7 @@ export class GoliathClient extends GoliathClientCore {
     listContactTasks: (variables: T.ListContactTasksQueryVariables, options?: RequestOptions): Promise<T.ListContactTasksQuery> =>
       this.request('listContactTasks', variables, options, { operationType: 'query' }),
     /**
-     * The key owner's OWN to-do queue (appointments, never OVERDUE here: listAppointments). With no participants filter it is the key owner's, for every role. Pass userIds in participants (listTeammates, same-org) for a teammate's queue or a team backlog; a MEMBER key stays narrowed to itself regardless, and a team-admin key sees only tasks on contacts THE KEY OWNER CAN ACCESS, never a complete backlog. A task with no participants is unassigned and appears in neither. Each row's participants say WHO IT BELONGS TO: read them before acting, never assume the reader owns what came back. OVERDUE is INCOMPLETE tasks due before TODAY in timezone, so a task due 9am today is not in it. For what is overdue or past due, read completed: false with dueBefore now. Also filter by taskStatus TODAY/FUTURE, completed, dueBefore/dueAfter, searchTerm; timezone sets day boundaries: EST/CST/MST/AZ/PST/HST or that zone's IANA name (America/New_York, America/Chicago, America/Denver, America/Phoenix, America/Los_Angeles, Pacific/Honolulu; AZ is Arizona, which keeps MST all year); any other is refused. Rows carry dueDate, completedAt, the contact (id + name: the contactId completeTask needs; null when it has none) and deals (the dealId updateTaskOnDeal needs when contact is null). PAGING: this operation IS cursor-paginated, so "show me the rest" is answerable here. When canFetchNext is true, re-call with the SAME filters and cursor set to the LAST row's id to get the rows after it; repeat until canFetchNext is false. Forward only — there is no backwards page, so to revisit earlier rows restart from the top. Keep every filter identical between pages; changing one restarts the walk. total is the unpaged match count for the filters, so nothing is silently truncated. Order: latest-due first with dueBefore/OVERDUE and no dueAfter/TODAY/FUTURE; completed: true by latest completion; else soonest-first, open first.
+     * The key owner's OWN to-do queue (appointments, never OVERDUE here: listAppointments). With no participants filter it is the key owner's, for every role. Pass userIds in participants (listTeammates, same-org) for a teammate's queue or a team backlog; a MEMBER key stays narrowed to itself regardless, and a team-admin key sees only tasks on contacts THE KEY OWNER CAN ACCESS, never a complete backlog. A task with no participants is unassigned and appears in neither. Each row's participants say WHO IT BELONGS TO: read them before acting, never assume the reader owns what came back. OVERDUE is INCOMPLETE tasks due before TODAY in timezone, so a task due 9am today is not in it. For what is overdue or past due, read completed: false with dueBefore now. Also filter by taskStatus TODAY/FUTURE, completed, dueBefore/dueAfter, searchTerm; timezone sets day boundaries: EST/CST/MST/AZ/PST/HST or that zone's IANA name (America/New_York, America/Chicago, America/Denver, America/Phoenix, America/Los_Angeles, Pacific/Honolulu; AZ is Arizona, which keeps MST all year); any other is refused. Rows carry dueDate, completedAt, the contact (id + name: the contactId completeTask needs; null when it has none) and pipeline items (the pipelineItemId updateTaskOnPipelineItem needs when contact is null). PAGING: this operation IS cursor-paginated, so "show me the rest" is answerable here. When canFetchNext is true, re-call with the SAME filters and cursor set to the LAST row's id to get the rows after it; repeat until canFetchNext is false. Forward only — there is no backwards page, so to revisit earlier rows restart from the top. Keep every filter identical between pages; changing one restarts the walk. total is the unpaged match count for the filters, so nothing is silently truncated. Order: latest-due first with dueBefore/OVERDUE and no dueAfter/TODAY/FUTURE; completed: true by latest completion; else soonest-first, open first.
      *
      * @remarks Requires the READ scope.
      *
@@ -4512,7 +4512,7 @@ export class GoliathClient extends GoliathClientCore {
     listMyTasks: (variables?: T.ListMyTasksQueryVariables, options?: RequestOptions): Promise<T.ListMyTasksQuery> =>
       this.request('listMyTasks', variables, options, { operationType: 'query' }),
     /**
-     * Move MANY tasks to ONE due date in one call ('all my overdue tasks to tomorrow'): taskIds (up to 200, from listMyTasks) OR dueBefore + expectedCount: the key owner's own open tasks due before then, never their ids (up to 500), moved only if exactly expectedCount (listMyTasks' total); dueDate (ISO) and timezone (the user's zone; every task gets it). Each task is saved as updateTask saves it (contact tasks get their UPDATED_TASK timeline entry; deal tasks, which have none, keep no old date); no contactId needed. By ids it does NOT check ownership: a teammate's contact task the key owner can see moves too, so read participants first (a dueBefore selection: only tasks the key owner is on). Every task is checked first, and nothing moves (the refusal names the ids) if any is deleted, an APPOINTMENT (use updateAppointment), on a contact the key owner cannot access, or, for a non-admin key, a contact-less task the key owner is not on. A save failing after that names the ids that did not move: retry only those. Confirm first. Ask Goliath: bulk card.
+     * Move MANY tasks to ONE due date in one call ('all my overdue tasks to tomorrow'): taskIds (up to 200, from listMyTasks) OR dueBefore + expectedCount: the key owner's own open tasks due before then, never their ids (up to 500), moved only if exactly expectedCount (listMyTasks' total); dueDate (ISO) and timezone (the user's zone; every task gets it). Each task is saved as updateTask saves it (contact tasks get their UPDATED_TASK timeline entry; pipeline item tasks, which have none, keep no old date); no contactId needed. By ids it does NOT check ownership: a teammate's contact task the key owner can see moves too, so read participants first (a dueBefore selection: only tasks the key owner is on). Every task is checked first, and nothing moves (the refusal names the ids) if any is deleted, an APPOINTMENT (use updateAppointment), on a contact the key owner cannot access, or, for a non-admin key, a contact-less task the key owner is not on. A save failing after that names the ids that did not move: retry only those. Confirm first. Ask Goliath: bulk card.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4530,7 +4530,7 @@ export class GoliathClient extends GoliathClientCore {
     restoreClearedTasks: (variables: T.RestoreClearedTasksMutationVariables, options?: IdempotentRequestOptions): Promise<T.RestoreClearedTasksMutation> =>
       this.request('restoreClearedTasks', variables, options, { operationType: 'mutation' }),
     /**
-     * Fix an existing task by taskId + its linked contactId (from listMyTasks or listContactTasks): title, description, taskType, dueDate (ISO, with timezone), timezone, or participants (teammate userIds from listTeammates). PATCH: only the fields you pass change; participants REPLACES the whole assignee list. UNDO: Task keeps no history, but every edit on a contact-linked task writes an UPDATED_TASK entry with oldValues to the contact's timeline (listContactActivities; one per edit, the oldest holds the original) — read it and write the old value back; never call a value unrecoverable without looking. WHOSE TASK: empty participants = UNASSIGNED, nobody's; a NON-EMPTY list that does not include the key owner is a TEAMMATE's task — an admin key may write it, but say whose first; a queue read is never proof a task is the reader's. The tool for 'push that follow-up to Friday': reschedule in place; many tasks to one date is rescheduleTasks. contactId IDENTIFIES the task's existing contact, it does NOT move it: any other is rejected, and nothing here re-links a task. Delete-then-recreate is NOT a move — it loses completedAt, the outcome, the created date and every notification and automation link — so say the task can't be moved, and rebuild it only if they ask after hearing that. To tick a task off use completeTask. A task with no contact: updateTaskOnDeal.
+     * Fix an existing task by taskId + its linked contactId (from listMyTasks or listContactTasks): title, description, taskType, dueDate (ISO, with timezone), timezone, or participants (teammate userIds from listTeammates). PATCH: only the fields you pass change; participants REPLACES the whole assignee list. UNDO: Task keeps no history, but every edit on a contact-linked task writes an UPDATED_TASK entry with oldValues to the contact's timeline (listContactActivities; one per edit, the oldest holds the original) — read it and write the old value back; never call a value unrecoverable without looking. WHOSE TASK: empty participants = UNASSIGNED, nobody's; a NON-EMPTY list that does not include the key owner is a TEAMMATE's task — an admin key may write it, but say whose first; a queue read is never proof a task is the reader's. The tool for 'push that follow-up to Friday': reschedule in place; many tasks to one date is rescheduleTasks. contactId IDENTIFIES the task's existing contact, it does NOT move it: any other is rejected, and nothing here re-links a task. Delete-then-recreate is NOT a move — it loses completedAt, the outcome, the created date and every notification and automation link — so say the task can't be moved, and rebuild it only if they ask after hearing that. To tick a task off use completeTask. A task with no contact: updateTaskOnPipelineItem.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4539,14 +4539,14 @@ export class GoliathClient extends GoliathClientCore {
     updateTask: (variables: T.UpdateTaskMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateTaskMutation> =>
       this.request('updateTask', variables, options, { operationType: 'mutation' }),
     /**
-     * updateTask ONLY for a row whose contact is null, by taskId + its dealId (listMyTasks `deals`); one with a contact is refused (use updateTask), an appointment too, and for a non-admin key one it is not on. Same fields and rules; no timeline keeps old values: note them first to undo.
+     * updateTask ONLY for a row whose contact is null, by taskId + its pipelineItemId (listMyTasks `pipelineItems`); one with a contact is refused (use updateTask), an appointment too, and for a non-admin key one it is not on. Same fields and rules; no timeline keeps old values: note them first to undo.
      *
      * @remarks Requires the WRITE scope.
      *
      * Idempotent: pass `options.idempotencyKey` to make retries safe.
      */
-    updateTaskOnDeal: (variables: T.UpdateTaskOnDealMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateTaskOnDealMutation> =>
-      this.request('updateTaskOnDeal', variables, options, { operationType: 'mutation' }),
+    updateTaskOnPipelineItem: (variables: T.UpdateTaskOnPipelineItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateTaskOnPipelineItemMutation> =>
+      this.request('updateTaskOnPipelineItem', variables, options, { operationType: 'mutation' }),
   }
 
   readonly team = {
@@ -4641,14 +4641,14 @@ export class GoliathClient extends GoliathClientCore {
     emailPermanentTeamInvite: (variables: T.EmailPermanentTeamInviteMutationVariables, options?: IdempotentRequestOptions): Promise<T.EmailPermanentTeamInviteMutation> =>
       this.request('emailPermanentTeamInvite', variables, options, { operationType: 'mutation' }),
     /**
-     * Your goals for the month containing periodStartDate (YYYY-MM-DD): draftPlan (being edited) and activePlan (published), either null. Commission goals are targetCents per pipeline (null pipelineId = all pipelines); metric EARNED counts won deals, TOTAL adds pending ones. Personal goals are free text. Your own plan; a teammate’s is the *Teammate* op (ADMIN).
+     * Your goals for the month containing periodStartDate (YYYY-MM-DD): draftPlan (being edited) and activePlan (published), either null. Commission goals are targetCents per pipeline (null pipelineId = all pipelines); metric EARNED counts won pipeline items, TOTAL adds pending ones. Personal goals are free text. Your own plan; a teammate’s is the *Teammate* op (ADMIN).
      *
      * @remarks Requires the READ scope.
      */
     getGoalPlan: (variables: T.GetGoalPlanQueryVariables, options?: RequestOptions): Promise<T.GetGoalPlanQuery> =>
       this.request('getGoalPlan', variables, options, { operationType: 'query' }),
     /**
-     * WHAT ONE PERSON DID in a time window — "what did I do today", "how was my week", "what did Sam get done yesterday" — in ONE call: their own texts (sent/delivered/failed), calls (outbound, inbound, connected, conversations, talkSeconds), emailsSent, notesWritten, tasksCreated, appointmentsBooked, tasksCompleted and dealStageMoves. Counts only, live. Use it instead of combining countOutboundTexts, getTeamCallStats and timeline reads. WINDOW: startDate (inclusive) and endDate (exclusive) as ISO datetimes WITH an offset, resolved in the USER's timezone (getMyProfile.resolvedTimezone): "today" is local midnight to now or to the next midnight. At most 93 calendar days; wider is REFUSED. WHO: omit userId for the key owner; naming a teammate needs VIEW_ALL_PHONES (org admins hold it) and is REFUSED otherwise. WHAT IS THEIRS: only work the person did themselves; an AI employee, a workflow or an outreach tool working on their behalf is never counted, nor is a bulk action or import, and notes, tasks and appointments count when made by hand in the app (texts and calls follow countOutboundTexts and getTeamCallStats). emailsSent is outbound mail from their connected mailbox. tasksCompleted is tasks they are on that were completed in the window (who ticked it is not recorded). dealStageMoves is moves they made by hand. For the records themselves, read the timeline or lists afterwards.
+     * WHAT ONE PERSON DID in a time window — "what did I do today", "how was my week", "what did Sam get done yesterday" — in ONE call: their own texts (sent/delivered/failed), calls (outbound, inbound, connected, conversations, talkSeconds), emailsSent, notesWritten, tasksCreated, appointmentsBooked, tasksCompleted and pipelineStageMoves. Counts only, live. Use it instead of combining countOutboundTexts, getTeamCallStats and timeline reads. WINDOW: startDate (inclusive) and endDate (exclusive) as ISO datetimes WITH an offset, resolved in the USER's timezone (getMyProfile.resolvedTimezone): "today" is local midnight to now or to the next midnight. At most 93 calendar days; wider is REFUSED. WHO: omit userId for the key owner; naming a teammate needs VIEW_ALL_PHONES (org admins hold it) and is REFUSED otherwise. WHAT IS THEIRS: only work the person did themselves; an AI employee, a workflow or an outreach tool working on their behalf is never counted, nor is a bulk action or import, and notes, tasks and appointments count when made by hand in the app (texts and calls follow countOutboundTexts and getTeamCallStats). emailsSent is outbound mail from their connected mailbox. tasksCompleted is tasks they are on that were completed in the window (who ticked it is not recorded). pipelineStageMoves is moves they made by hand. For the records themselves, read the timeline or lists afterwards.
      *
      * @remarks Requires the READ scope.
      */
@@ -4721,7 +4721,7 @@ export class GoliathClient extends GoliathClientCore {
     listTeamInvites: (options?: RequestOptions): Promise<T.ListTeamInvitesQuery> =>
       this.request('listTeamInvites', undefined, options, { operationType: 'query' }),
     /**
-     * Fuzzy-search ACTIVE teammates by name, email or phone (optional searchTerm; omit it for an alphabetical page). This is the PICKER, not the roster: it returns at most `limit` rows (default 20, maximum 50), ranked by match quality, and SUSPENDED members are excluded at the query — so a page that comes back full may be a truncated page, and a person missing from it may be removed rather than absent. An empty or partial result is NOT 'no such person': they may be invited and not yet joined, so an admin reads listTeamInvites before saying nobody by that name is on the team. For the whole team, for anyone's role, or to tell a current member from a removed one, use listTeamMembers; to resolve a bare user id, use getTeammatesByIds. Use the returned userId with updateContact (addCollaborators), assignContact, and the userIds filter on findDeals.
+     * Fuzzy-search ACTIVE teammates by name, email or phone (optional searchTerm; omit it for an alphabetical page). This is the PICKER, not the roster: it returns at most `limit` rows (default 20, maximum 50), ranked by match quality, and SUSPENDED members are excluded at the query — so a page that comes back full may be a truncated page, and a person missing from it may be removed rather than absent. An empty or partial result is NOT 'no such person': they may be invited and not yet joined, so an admin reads listTeamInvites before saying nobody by that name is on the team. For the whole team, for anyone's role, or to tell a current member from a removed one, use listTeamMembers; to resolve a bare user id, use getTeammatesByIds. Use the returned userId with updateContact (addCollaborators), assignContact, and the userIds filter on findPipelineItems.
      *
      * @remarks Requires the READ scope.
      *
@@ -4897,7 +4897,7 @@ export class GoliathClient extends GoliathClientCore {
     addLibraryFileFromArtifact: (variables: T.AddLibraryFileFromArtifactMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddLibraryFileFromArtifactMutation> =>
       this.request('addLibraryFileFromArtifact', variables, options, { operationType: 'mutation' }),
     /**
-     * Run a whole TASK_SET against a contact: creates every step as a task in one call, all assigned to the acting user and linked to the contact (and any dealIds). Each step's due date is ITS OWN relative offset from one shared “now”, snapped to its own preferred time-of-day; the referenced template's timing is ignored inside a set. Steps run in due order and stop at the FIRST failure, KEEPING what was created: the payload carries the tasks that landed plus failedStep { index, taskTemplateId, message }, and it does NOT error, so read failedStep before reporting success. Rejects a template not of type TASK_SET. Set ids: listContentTemplates(type: TASK_SET).
+     * Run a whole TASK_SET against a contact: creates every step as a task in one call, all assigned to the acting user and linked to the contact (and any pipelineItemIds). Each step's due date is ITS OWN relative offset from one shared “now”, snapped to its own preferred time-of-day; the referenced template's timing is ignored inside a set. Steps run in due order and stop at the FIRST failure, KEEPING what was created: the payload carries the tasks that landed plus failedStep { index, taskTemplateId, message }, and it does NOT error, so read failedStep before reporting success. Rejects a template not of type TASK_SET. Set ids: listContentTemplates(type: TASK_SET).
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4906,7 +4906,7 @@ export class GoliathClient extends GoliathClientCore {
     applyTaskSet: (variables: T.ApplyTaskSetMutationVariables, options?: IdempotentRequestOptions): Promise<T.ApplyTaskSetMutation> =>
       this.request('applyTaskSet', variables, options, { operationType: 'mutation' }),
     /**
-     * Run a TASK template against a contact: creates one task, assigned to the acting user, linked to the contact (and any dealIds). Title/description render the template's merge fields + spintax against that contact, and the RELATIVE dueOffset resolves from now, snapped to its preferred time-of-day. Rejects a template not of type TASK. overrides { title?, description?, endDate?, timezone?, taskType?, autoCompleteOnNoteAdded?, autoCompleteOnReassignment? } replace what the template would produce for this one apply: an endDate override skips the relative due date, and what is not overridable (origin, supporting-file links, the contact/deal links) still applies. Send timezone with any endDate override: the task is stored and read back in it, and without it keeps the TEMPLATE's zone, so an instant chosen in one zone can render as a different day. Template ids: listContentTemplates(type: TASK). A whole saved SOP is applyTaskSet, not this per step.
+     * Run a TASK template against a contact: creates one task, assigned to the acting user, linked to the contact (and any pipelineItemIds). Title/description render the template's merge fields + spintax against that contact, and the RELATIVE dueOffset resolves from now, snapped to its preferred time-of-day. Rejects a template not of type TASK. overrides { title?, description?, endDate?, timezone?, taskType?, autoCompleteOnNoteAdded?, autoCompleteOnReassignment? } replace what the template would produce for this one apply: an endDate override skips the relative due date, and what is not overridable (origin, supporting-file links, the contact/pipeline item links) still applies. Send timezone with any endDate override: the task is stored and read back in it, and without it keeps the TEMPLATE's zone, so an instant chosen in one zone can render as a different day. Template ids: listContentTemplates(type: TASK). A whole saved SOP is applyTaskSet, not this per step.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -5294,7 +5294,7 @@ export class GoliathClient extends GoliathClientCore {
     previewWorkflowAiText: (variables: T.PreviewWorkflowAiTextMutationVariables, options?: IdempotentRequestOptions): Promise<T.PreviewWorkflowAiTextMutation> =>
       this.request('previewWorkflowAiText', variables, options, { operationType: 'mutation' }),
     /**
-     * Call this before you say which row, or which value, a named contact, property, deal or appointment gets from a table: a county or key guessed from an address is not the answer. Which row of one Workflow Table a run on a record would use, and each column's value by `columnId` (names from getWorkflowTable): `input` takes `workflowTableId` and a `contactId`, `propertyId`, `dealId` or `appointmentId`, resolved exactly as a workflow run resolves it (fallback levels, ranges, composite keys). `match` DEFAULT means no key matched and the default row answered; NONE means nothing answered. `missingSubjects` names records the key needed and the record could not reach. Same gate as the rows.
+     * Call this before you say which row, or which value, a named contact, property, pipeline item or appointment gets from a table: a county or key guessed from an address is not the answer. Which row of one Workflow Table a run on a record would use, and each column's value by `columnId` (names from getWorkflowTable): `input` takes `workflowTableId` and a `contactId`, `propertyId`, `pipelineItemId` or `appointmentId`, resolved exactly as a workflow run resolves it (fallback levels, ranges, composite keys). `match` DEFAULT means no key matched and the default row answered; NONE means nothing answered. `missingSubjects` names records the key needed and the record could not reach. Same gate as the rows.
      *
      * @remarks Requires the READ scope.
      */
@@ -5454,7 +5454,7 @@ export class GoliathClient extends GoliathClientCore {
     stopWorkflowRun: (variables: T.StopWorkflowRunMutationVariables, options?: IdempotentRequestOptions): Promise<T.StopWorkflowRunMutation> =>
       this.request('stopWorkflowRun', variables, options, { operationType: 'mutation' }),
     /**
-     * Manually start one run of a workflow's ACTIVE version against a record. recordId must match the workflow's domain: a contactId for CONTACT workflows, propertyId for PROPERTY, dealId for DEAL, taskId for APPOINTMENT.
+     * Manually start one run of a workflow's ACTIVE version against a record. recordId must match the workflow's domain: a contactId for CONTACT workflows, propertyId for PROPERTY, pipelineItemId for DEAL, taskId for APPOINTMENT.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -5481,7 +5481,7 @@ export class GoliathClient extends GoliathClientCore {
     updateLibraryFile: (variables: T.UpdateLibraryFileMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateLibraryFileMutation> =>
       this.request('updateLibraryFile', variables, options, { operationType: 'mutation' }),
     /**
-     * Replace a workflow version's node/edge graph AND its triggers (to edit, patchWorkflowGraph). Edit the DRAFT (createOrReturnWorkflowDraft). A PAUSED version is writable too, off the normal path. workflowGraph is the superjson-serialized WorkflowGraph shape returned by getWorkflowVersionGraph; send back a modified copy of the existing graph, same serialized field names (node/edge ids are caller-minted strings). An OMITTED top-level key keeps its stored value ({nodes, edges} alone is valid); a trigger needs only {config}; a text/email step lacking its channel's communicationConfig gets the editor default. A valid graph needs at least a trigger node and an end node joined by an edge; every node is {id, type, config} and every edge is {id, config, parentNodeId, childNodeId} (edge config is {} except conditional branches, below; a Wait until signed step: {path}). NODE VOCABULARY — every authorable step type, generated from the registry the writer validates against. STRUCTURAL STEPS — the same in every domain. "trigger" (The graph entry point. Every valid graph has exactly one, and every run starts here. It does not decide WHEN the workflow fires — the graph-level `triggers` array does. config {} — no settings); "conditional" (A two-way fork decided by a filter. Give it TWO outgoing edges: {eval:true} is taken when the record matches, {eval:false} otherwise. config {filter {id, operator "AND" | "OR", negated?, conditions, groups}, uiMode? "PROPERTY" | "USER" | "DEAL" | "TAG" | "CUSTOM_FIELD" | "CONTRACTS" | "CUSTOM_CONDITION" | "RUN_VALUES" | "REPLY", filterMode? "simple" | "manual", valueConditions? {match "all" | "any", conditions}}); "ai_conditional" (The same two-edge {eval:true}/{eval:false} fork as `conditional`, decided by a MODEL reading the record. Every evaluation is a billed model call, so prefer `conditional` wherever a filter answers. config {prompt, model "gpt-6-astra" | "gpt-6-sol" | "gpt-6-luna" | "gpt-6.1-sol" | "claude-fable-5-1" | "claude-opus-5-5" | "claude-sonnet-5-5" | "claude-haiku-5-5" | "gemini-3.8-flash" | "jev-1.13.0", context {contact?, deal?, property?, appointment?, organization?, event? {mode:"whole"} | {mode:"fields", paths}}, reasoningVariableKey?}); "wait" (Hold the run until a deadline, optionally ending early on a predicate. `mode` picks the deadline (fixed | range | datetime | record_date | recurring); `until` or the interrupt* trio is the early exit. A wait has exactly ONE outgoing edge: early exit and timeout share it. config {mode:"fixed", seconds, secondsTableColumnId?} | {mode:"range", minSeconds, maxSeconds} | {mode:"datetime", date, time {hour, minute}, timezone? "Etc/GMT+12" | "Pacific/Pago_Pago" | "Pacific/Honolulu" | "America/Anchorage" | "America/Los_Angeles" | "America/Denver" | "America/Phoenix" | "America/Chicago" | "America/New_York" | "America/Halifax" | "America/Sao_Paulo" | "America/Noronha" | "Atlantic/Azores" | "Etc/UTC" | "Europe/Berlin" | "Europe/Athens" | "Europe/Moscow" | "Asia/Dubai" | "Asia/Karachi" | "Asia/Dhaka" | "Asia/Bangkok" | "Asia/Shanghai" | "Asia/Tokyo" | "Australia/Sydney" | "Pacific/Noumea" | "Pacific/Auckland"} | {mode:"record_date", field, customFieldId?, offsetSeconds, ifPassed? "advance" | "stop", graceSeconds?} | {mode:"recurring", window {timezone (same values as the first "timezone" above), days, timezoneMode? "RECIPIENT" | "CONFIGURED", monthDays?}}, plus on every shape: interruptEnabled?, interruptFilterMode? "simple" | "manual", interruptFilter {id, operator "AND" | "OR", negated?, conditions, groups}, until? {kind:"reply", channels? ("CALL" | "TEXT" | "EMAIL")[]} | {kind:"action", action, targetId?}); "end" (Terminates the run. A valid graph needs at least one, reachable from the trigger. config {} — no settings); EXCEPTION — on EVENT, "conditional" config is a `uiMode` union. Absent/"EVENT_PAYLOAD" = payload arm, NO filter: {groupOperator?: "AND"|"OR", conditions [{accessor: string, operator: string, values?: string[], mode?: "any"|"all"}]}; `accessor` a dot/bracket path into the webhook body ("event." aliases its root), `operator` equals|not_equals|contains|not_contains|is_set|is_not_set, `values` an ARRAY (a bare string is rejected) required except for is_set/is_not_set, `mode` lowercase where `groupOperator` is uppercase. PROPERTY|USER|DEAL|TAG|CUSTOM_FIELD|CUSTOM_CONDITION = contact arm: {uiMode, filter}, a CONTACT (not EVENT) FilterGroup over the contact the find/create step resolved. A step type you find in a stored graph but not documented for its domain below is RETIRED (it parses so old graphs still load, and its executor stops the run): never author one, and never copy one into a new graph. PROPERTY actions: "create_contact_action" (Skiptrace the property's owner and FIND-OR-CREATE the contact — so it lands on contacts that already have an owner. It spends a skiptrace credit, and an org out of credits STOPS the run. The daily skip-trace permit is refunded on that stop only on a PROPERTY_SIGNAL_SKIP_TRACE graph, the only kind that took one. Finding nobody advances the run. config {target? "OWNER" | "LISTING_AGENT", contactListIds?, triggerContactWorkflowGroupIds?, contributorUserIds?, assignAgent? {mode:"single_user", userId?} | {mode:"round_robin", userIds} | {mode:"workspace_lead_routing"}, contactListTableColumnId?, triggerContactWorkflowTableColumnId?, assignAgentTableColumnId?, contributorTableColumnId?, replaceExistingAgent, deal? {title, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackDealTitle?, description?, pipelineId, stageId, assigneeUserIds?, usePointPersonAssignee?, propertyConfig "none" | "add_all_verified_properties" | "add_all_properties" | "add_first_verified_property"}, autoReskiptraceOnNewInformation?}); "add_to_list_action" (Add the property this run is about to one or more property lists. config {listIds, listTableColumnId?}); "send_slack_action" (Post a Block Kit message about this property into a Slack channel. config {slackChannelId?, slackChannelName?, message? {text, blocks?}, textBody?}); "send_webhook_action" (POST the property's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it. config {urls?, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?}); "property_ai_employee_action" (Run one AI employee on THIS PROPERTY once, without waiting for it; it messages no one from here. config {agentId, instructions?}); CONTACT actions: "text_action" (Send an SMS to the contact, and allowed ONLY where the communication channel is TEXT — any other workflow rejects it. How many numbers it targets and when it may send are workflow-level (config.communicationConfig); who it sends from is too, unless the step carries its own `senderOverride`. config {mode:"single", templateId?, textBody?, skipIfEmptyBody?} | {mode:"multiple", textBodies} | {mode:"generative", systemPrompt}, plus on every shape: missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", timeSensitive?, senderOverride? {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"PHONE", fromPhoneNumberId} | {type:"RANDOM_PHONE", fromPhoneNumberIds}, fallbackTextBody?, senderTableColumnId?, templateTableColumnId?, attachments? [{uploadedFileId, fileName, contentType, fileSize, sendAs? "picture" | "link", coverFileId?, linkUrl?}]); "email_action" (Send an email to the contact; allowed ONLY in an EMAIL-channel workflow. Recipient count, send window and sender are workflow-level (config.communicationConfig) unless the step sets `senderOverride`. config {generate:true, systemPrompt} | {generate:false, templateId, templateTableColumnId?} | {generate:false, emailBody, emailBodyFormat?:"TIPTAP_JSON", emailSubject?}, plus on every shape: missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", timeSensitive?, senderOverride? {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"IDENTITY", fromEmail, fromClientId} | {type:"RANDOM_IDENTITY", identities}, emailThread? "CONTINUE" | "NEW", fallbackEmailSubject?, fallbackEmailBody?, attachments? [{uploadedFileId, fileName, contentType, fileSize, page?}]); "notification_action" (Text a TEAMMATE about this contact — never the contact. It always sends from the internal notifications line, so the workflow sender does not apply. config {recipientType:"POINT_PERSON"} | {recipientType:"SPECIFIC_USER", recipientUserIds?, recipientUserId?} | {recipientType:"PHONE_NUMBER", recipientPhoneNumber}, plus on every shape: missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK" | "OMIT_BLANKS", fallbackTextBody?, urgent?, textBody); "ai_employee_action" (`start` (or an older runNow) runs the employee now; neither only ADDS it (it answers later replies). A `schedule` also ADDS it and pins a cadence. config {agentId, runNow?, instructions?, waitForCompletion?, schedule? {cronExpression, timezone, maxRuns}, start? "ANSWER" | "RUN_NOW", waitTimeoutMinutes?}); "set_custom_field_action" (Write one value onto one of the contact's custom fields. `customFieldType` picks which value field the config must carry; the write is stamped as an AUTOMATION change. config {customFieldType:"TEXT", textValue} | {customFieldType:"NUMBER", numberValue} | {customFieldType:"DOLLAR", numberValue} | {customFieldType:"DATE", dateIso, relative?:"RUN_DATE"} | {customFieldType:"DROPDOWN", dropdownOptionId} | {customFieldType:"LINK", textValue}, plus on every shape: customFieldId, customFieldName); "tags_action" (Apply tags (and/or add the contact to lists) by id. config {tagIds, contactListTableColumnId?}); "add_user_group_action" (Add the contact to one or more teams, optionally auto-assigning an Agent from one of them. config {userGroupIds, agentAssignment? {kind:"NONE"} | {kind:"TEAM_ROUND_ROBIN", userGroupId} | {kind:"SPECIFIC_USER", userId}}); "contributors_action" (Attach users to the contact, as the single Agent or as Participants. Skips anyone away. BOTH booleans are required — an omission used to mean notify-and-displace, which is not what a new node means. config {contributors [{userId, status "REVOKED" | "POINT_PERSON" | "PARTICIPANT"}], roundRobin? {userIds, role "REVOKED" | "POINT_PERSON" | "PARTICIPANT"}, sendNotificationToContributor, replaceExistingAgent}); "task_action" (Create a CRM task about this contact, either spelled out here or from a content template. config {mode:"inline", name, taskType, dueOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, description?} | {mode:"template", templateId}, plus on every shape: assigneeUserIds, assigneeTableColumnId?, usePointPersonAssignee?, createGoogleCalendarEvent?); "appointment_action" (Book an appointment with this contact at an offset from now. config {name, startOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredStartTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, durationMinutes, description?, attendeeUserIds, attendeeTableColumnId?, usePointPersonAssignee?, createGoogleCalendarEvent?}); "deal_action" (Open a deal for this contact in a named pipeline and stage. config {title, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackDealTitle?, description?, pipelineId, stageId, assigneeUserIds?, usePointPersonAssignee?, propertyConfig "none" | "add_all_verified_properties" | "add_all_properties" | "add_first_verified_property", skipIfContactHasOpenDealInPipeline?}); "update_deal_action" (Move the contact's EXISTING open deals on one board to a stage, or archive them — on one board, or on every board with `anyBoard`. Creates nothing — deal_action opens a deal. config {operation "move_stage" | "archive", pipelineId, anyBoard?, stageId?, fromStageIds?}); "send_webhook_action" (POST the contact's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it and pages. config {urls?, phoneCompliance? "NONE" | "EXCLUDE_DNC" | "EXCLUDE_LITIGATOR" | "EXCLUDE_DNC_OR_LITIGATOR" | "EXCLUDE_DNC_AND_LITIGATOR" | "EXCLUDE_DNC_AND_LITIGATOR_ONLY", payloadBlocks? {calls?, texts?, notes?, deals?, properties?}, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?, credentialId?}); "send_slack_action" (Post a Block Kit message about this contact into a Slack channel. config {slackChannelId?, slackChannelName?, message? {text, blocks?}}); "trigger_contact_workflow_action" (Start other CONTACT workflows on this contact, even where their own trigger would not match. config {workflowGroupIds, workflowGroupTableColumnId?}); "enrich_action" (Skiptrace the contact and fold the result back onto it — the same enrichment the Enrich button runs. Already-enriched contacts dedupe server-side, so reaching this step twice neither re-skiptraces nor charges twice. It spends a SKIPTRACE credit per skiptrace that actually runs, and the author must hold the skiptrace capability. config {} — no settings); "archive_contact_action" (Archive the contact, as the Archive button does. A text back un-archives them. Put it last. config {} — no settings); "mark_do_not_contact_action" (Mark the contact Do Not Contact. It stops every live run for the contact, this one included: put it last in its branch. config {reason?}); "send_mail_action" (Mail one letter to the run's contact through the org's connected mail account. A refusal (no usable address, unverified template, disconnected account) is recorded and the run continues. config {campaignRef {providerKey:"OPEN_LETTER_CONNECT", templateId, productId, returnAddressSettings, rosOfferPercentage} | {providerKey:"LOB", product:"LETTER", templateId, printOptions} | {providerKey:"POSTGRID", product:"LETTER", templateId, printOptions}, campaignLabel, connectionId, sender {version:1, firstName, lastName, companyName, line1, line2, city, state, zip, countryCode:"US"}, mergeFields [{key, required, value {kind:"LITERAL", text} | {kind:"FIELD", field}}], addressSource "CONTACT_ONLY" | "CONTACT_THEN_OWNER_MAILING", sendTiming {mode:"IMMEDIATE"} | {mode:"PROVIDER_SCHEDULED", releaseAfterDays}}); "add_to_email_campaign_action" (Add the run's contact as a lead to a campaign in the org's connected cold-email account, which sends on its own schedule. A refusal is recorded; the run continues. config {connectionId, campaign {providerKey "INSTANTLY" | "SMARTLEAD" | "LEMLIST" | "REPLYIO", campaignId, campaignName}, variables [{key, field "COMPANY_NAME" | "PROPERTY_ADDRESS" | "PROPERTY_CITY" | "PROPERTY_STATE" | "PROPERTY_ZIP" | "MAILING_ADDRESS"}], launchAfterAdd?}); "go_to_action" (Terminal: loops back to an earlier step on its branch. Needs 1h of Waits and an exit (reply exit or a branch to an End). config {targetNodeId}); "contact_wait_for_contract_action" (Wait on the sent contract; edge path signed|declined|not_signed. config {timeoutSeconds}); DEAL actions: "assign_to_user_action" (Assign users to the deal this run is about. Skips anyone away. config {userIds, userTableColumnId?}); "notification_action" (Text teammates about this deal. Always sends from the internal notifications line. config {recipientType:"DEAL_USERS"} | {recipientType:"SPECIFIC_USERS", userIds} | {recipientType:"DEAL_ROLE", roleId} | {recipientType:"DEAL_AGENT"}, plus on every shape: recipientTableColumnId?, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackTextBody?, textBody); "deal_text_action" (Text people on THIS DEAL (everyone, or one role's holders) as its Agent or a team role's holder, within the sending schedule. config {recipient {kind:"ROLE", roleId} | {kind:"EVERYONE"}, sender {type:"UNSET"} | {type:"DEAL_AGENT"} | {type:"DEAL_ROLE_USER", roleId}, textBody, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackTextBody?}); "trigger_contact_workflow_action" (Enroll each of this deal's CONTACTS in the listed CONTACT workflows; not the deal itself; no contacts starts nothing. Each passes the usual enrolment gates (do-not-contact, one live run per workflow, consent). config {workflowGroupIds, workflowGroupTableColumnId?, roleId?}); "trigger_deal_workflow_action" (Enroll THIS DEAL in other DEAL workflows (`trigger_contact_workflow_action` enrolls its contacts). Each target passes the deal enrolment door (trigger window, dry-run flag, one live run per deal); this graph's group and every group upstream of the run are never targets. config {workflowGroupIds, workflowGroupTableColumnId?, linkedPipelineId?}); "create_deal_action" (Open a NEW deal, cloning the properties of the deal this run is about. config {title, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackDealTitle?, description?, pipelineId, stageId, assigneeUserIds?, usePointPersonAssignee?, propertyConfig "none" | "add_all_verified_properties" | "add_all_properties" | "add_first_verified_property", copyDealValues?, copyContacts?, linkToThisItem? {label, thisItemIsParent}}); "send_slack_action" (Post a Block Kit message about this deal into a Slack channel. DEAL and run merge fields. config {slackChannelId?, slackChannelName?, message? {text, blocks?}}); "send_webhook_action" (POST the deal's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it. config {urls?, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?}); "deal_set_custom_field_action" (Write one value onto a deal custom field; `customFieldType` picks the value field. Pipeline-scoped: the run STOPS if the deal is in another pipeline or the field/option is deleted. config {customFieldType:"TEXT", textValue} | {customFieldType:"NUMBER", numberValue} | {customFieldType:"DOLLAR", numberValue} | {customFieldType:"DATE", dateIso, relative?:"RUN_DATE"} | {customFieldType:"DROPDOWN", dropdownOptionId} | {customFieldType:"LINK", textValue} | {customFieldType:"CHECKBOX", booleanValue}, plus on every shape: pipelineId, customFieldId, customFieldName); "deal_add_note_action" (Add a system-attributed note to the deal's activity feed. A blank rendered note is skipped and the run continues. config {body, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackBody?}); "deal_move_stage_action" (Move THIS DEAL to a stage of its board, as a drag does: that stage's triggers fire. config {pipelineId, stageId}); "deal_task_action" (Create a task linked to THIS DEAL (not its contacts), spelled out here or from a content template. config {mode:"inline", name, taskType, dueOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, description?} | {mode:"template", templateId}, plus on every shape: assigneeUserIds, assigneeTableColumnId?, assignDealUsers?, assignDealRoleId?, assignDealAgent?, createGoogleCalendarEvent?); "deal_appointment_action" (Book an appointment linked to THIS DEAL at an offset from now. The run STOPS (NO_ATTENDEES) when every attendee source resolves to nobody. config {name, startOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredStartTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, durationMinutes, description?, attendeeUserIds, attendeeTableColumnId?, inviteDealUsers?, inviteDealRoleId?, inviteDealAgent?, createGoogleCalendarEvent?}); "deal_wait_for_contract_action" (Wait on the sent contract; edge path signed|declined|not_signed. config {timeoutSeconds}); "deal_ai_employee_action" (Run one AI employee on THIS DEAL once, without waiting for it; it messages no contact from here. config {agentId, instructions?}); "deal_move_linked_item_action" (FLAG pipeline-item-move-steps (off: refused). Move the items linked to THIS item by `label`, filtered by `end`, to a stage. Only items on that stage's board move; the rest are skipped and logged. config {label, end "any" | "parent" | "child", pipelineId, stageId}); APPOINTMENT actions: "text_action" (Text the appointment's contact. Deliberately narrower than the CONTACT text step: it IGNORES the workflow send window and the daily-cap cooldown, and has no AI or variations mode. The sender comes from the meeting's own participants, booking host first. config {missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackTextBody?, senderTableColumnId?, templateTableColumnId?, onlyIfUnconfirmed?, skipIfTextedWithinSeconds?, mode:"single", templateId?, textBody?}); "trigger_contact_workflow_action" (Start CONTACT workflows for this appointment's contacts. config {workflowGroupIds, workflowGroupTableColumnId?}); "appointment_task_action" (A task for the appointment's own users, once per appointment. config {name, taskType, description?, dueOffset? {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredTimeOfDay? {hour, minute, timezone (same values as the first "timezone" above)}, onlyIfUnconfirmed?}); "send_slack_action" (Post a Block Kit message about this appointment to a Slack channel. It loads the TASK alone, so contact merge fields render literally here. config {slackChannelId?, slackChannelName?, message? {text, blocks?}}); "send_webhook_action" (POST the appointment's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it. config {urls?, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?}); EVENT actions: "find_create_contact_action" (Find or create the payload's contact; later steps run on it. config {mode:"field_mapping", nameAccessor, phoneAccessors?, emailAccessors?, propertyAddressAccessors?, mailingAddressAccessors?, noteAccessors?, customFieldMappings? [{customFieldId?, attributionKey?, accessor?, literalValue?, valueMappings?, unmappedValuePolicy?}], tagMappings? [{kind, accessor?, literalValue?, valueMappings?, unmappedValuePolicy?}], webFormConsent? {consentAccessor?}, phoneAccessor?, emailAccessor?, propertyAddressAccessor?, noteAccessor?} | {mode:"transformer", hint?}, plus on every shape: triggerContactWorkflowGroupIds?, triggerContactWorkflow? {workflowGroupId}, source?, contactMatchRule? {keys}); "event_send_slack_action" (Post a plain-text Slack message built from the inbound payload. A distinct node from the shared Block Kit one. config {slackChannelId?, slackChannelName?, message}); "event_find_property_action" (Resolve a property from the inbound payload, then act on it. A FLAT config with string mode fields on purpose — nested unions blow the TypeScript complexity ceiling once distributed across every domain — so which fields are required per mode is enforced by the validator and the executor, not by the shape. config {resolutionMode, addressAccessor?, line1Accessor?, cityAccessor?, stateAccessor?, zipAccessor?, countyNameAccessor?, parcelAccessor?, countyFipsAccessor?, transformerHint?, lastMappedResolutionMode?, actionType, listIds?, triggerContactWorkflowGroupIds?}); "event_contact_status_action" (Flag the contact this run is anchored to: mark it do-not-contact, or mark one of its phone numbers wrong. It acts on the contact an earlier find/create step resolved, never resolving one; with no contact it records that and advances. It does NOT stop the run; an end node does. config {action, phoneAccessor?, appliesToOutcomes?, outcomeAccessor?}); "event_contact_fields_action" (Write custom-field values on the contact this run is anchored to. It never resolves or creates one, so it can sit on a branch that must not mint anybody; with no contact it records that and advances. config {customFieldMappings? [{customFieldId?, attributionKey?, accessor?, literalValue?, valueMappings?, unmappedValuePolicy?}]}); "event_attach_call_recording" (Download the recording the payload names and file it on the contact an earlier step resolved, as a Call. It resolves no contact of its own, and every skip or failure is recorded and advanced rather than failing the run. config {recordingUrlAccessor, recordingIdAccessor?, phoneAccessor?, occurredAtAccessor?, directionAccessor?, durationSecondsAccessor?}); SLACK actions: "slack_reply_action" (Post back into Slack — into the thread the run came from, or into a fixed channel. config {target "triggering_thread" | "channel", slackChannelId?, slackChannelName?, message}); CONTRACT actions: "contract_move_deal_action" (Move the contract's deal to a stage, the way dragging its card does. A contract with no deal skips the step and the run carries on. config {pipelineId, stageId}); "contract_tag_signers_action" (Tag the contract's signers (and/or add them to lists). config {signers "contact_a" | "contact_b" | "each_signer", tagIds}); "contract_start_workflow_action" (Hand the contract's contacts to an existing Contact workflow (a seller nurture after a decline). That workflow keeps its own rules. config {signers "contact_a" | "contact_b" | "each_signer", workflowGroupIds}); "contract_notify_action" (Text teammates about the contract. Nobody to reach skips it. config {teammates ("sender" | "deal_users" | "contact_a_agent")[], userIds, textBody, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK" | "OMIT_BLANKS", fallbackTextBody?}); "contract_remind_signers_action" (Send a fresh link to each signer whose turn it is. Skipped when nobody is waiting. config {} — no settings); "contract_extend_expiry_action" (Move the contract's expiry later. Skipped unless out for signature. config {days}); "contract_void_action" (Void the contract; no link works again. Skipped once signed or closed. config {reason});THAT FilterGroup IS THE FULL SAVED-FILTER VOCABULARY FOR THE DOMAIN, not an automation-only subset. For CONTACT, PROPERTY and DEAL that vocabulary is enumerable: listFilterFieldNames returns it complete, and any field it lists a conditional can evaluate. NEVER tell a user an automation cannot consider some attribute without reading that list for the workflow DOMAIN first — "it cannot see it" is usually a domain mismatch (last sold date, year built, estimated value are PROPERTY fields, not contact fields). APPOINTMENT conditionals take their own full filter group, but listFilterFieldNames and listFilterFields do not accept APPOINTMENT. That is a gap in DISCOVERY, never evidence about the capability: copy a conditional already in the graph; if you cannot confirm a field, say so rather than that it cannot be done. AI CONDITION CONTEXT — an "ai_conditional" step's `context` is a Context Layer SELECTION, not a list of ids: an object keyed by any of contact | deal | property | appointment | organization, each mapping to that source's slice flags (e.g. {contact:{includeTextMessages:true, includeNotes:false}}). A key's PRESENCE includes it; {} means that source with its defaults. Only sources the RUN carries an id for resolve (a CONTACT run has a contact), so one the domain never carries renders nothing. The step is available on APPOINTMENT graphs although "conditional" is not. A sixth key `event` is EVENT-only, and on an EVENT graph the ONE source that renders (an EVENT run carries no record): {mode:"whole"} sends the whole webhook body, {mode:"fields",paths:["call.outcome"]} only the named accessor paths (1-25, none reading the whole payload; use whole for that). `{event:{}}` is refused, and `event` on any other domain is a publish error. EVENT MAPPINGS — two rules mapping rows are REJECTED for. (1) EXACTLY ONE destination and EXACTLY ONE value source per row: a customFieldMappings row names either a customFieldId or an attributionKey (one of the org's reserved, listing-hidden attribution fields: utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, msclkid, ttclid, li_fat_id, landingUrl, referrerUrl), and either an accessor or a literalValue. A row naming two of either is dropped and counted at execution, never resolved by precedence. (2) A tagMappings row resolves its value to a tag or list BY NAME and CREATES one when the org has none, bounded at 25 distinct values per row and refusing values that are obviously not category names (a uuid, an email, a url, a long-digit platform id, over 80 characters); tags and lists share one org-wide namespace, so a name a list holds cannot become a tag and that row is dropped. Both counts ride the run's FIND_CREATE_CONTACT_RESOLVED audit event as tagsWritten/tagsDropped. MERGE FIELDS — the COMPLETE per-domain vocabulary a body may draw on. Substituted at run time: textBody, textBodies, emailBody, emailSubject, a Slack block's text and a Slack button's url, plus a deal node's title and a task node's name and description. NOT substituted, so braces there are left alone: a generative node's systemPrompt (an instruction to a model, not a template) and a deal node's description. Keys are matched EXACTLY, case-sensitively. There is NO dotted record namespace: {{contact.address1}}, {{contact.firstName}} and {{deal.title}} are not merge fields (the SLACK keys below are literal dotted names, not a namespace you may extend). Do not infer a key from another domain's spelling either — the shapes differ (CONTACT has contactPropertyAddress, PROPERTY has full_address); use a key off this list or none. An unknown token is NOT a missing variable and does NOT render blank: braces reach the reader verbatim (except a notify step on OMIT_BLANKS, which blanks them). promoteWorkflowDraft REFUSES a draft carrying one in a SCANNED FIELD — textBody, textBodies, emailBody (including one stored as emailBodyFormat "TIPTAP_JSON", whose merge fields are document pills rather than braces and are read as such), the WORKFLOW-LEVEL email subject on communicationConfig and a NODE'S OWN one, a fallbackTextBody under SEND_FALLBACK, an email step's fallbackEmailSubject and fallbackEmailBody, under SEND_FALLBACK and only where a PRIMARY can miss a variable (the EFFECTIVE subject — the workflow's unless sendInSameThread is false — or a body the graph carries), a Slack block's text or its button url, a deal node's title and fallbackDealTitle on a CONTACT or DEAL graph, and an inline task node's name and description — and updateWorkflowGraph returns that same judgement as workflowGroup.draftValidation on every write — a reading of the GROUP'S DRAFT, which is the version you just wrote whenever you followed the normal path and edited the draft. Edit a PAUSED version instead and the field still answers about the draft, so it is null when there is none and about a DIFFERENT version when there is: it is not a verdict on your write in that case, and nothing in the response says so ({isValid, errors}, each unrenderable token named with the field it sits in and the supported key it most likely meant). READ IT on the response to the write and fix what it names, rather than discovering it when activation fails. THAT LIST OF SCANNED FIELDS IS CLOSED, and SHORTER than the list of substituted fields. Anything substituted at run time but absent from it is checked by nothing, so a clean draftValidation is not evidence about it — check those against the vocabulary below yourself. What remains unscanned, and NOT an exhaustive list: a PROPERTY create-contact step's deal title and fallback title (substituted against the NEW CONTACT and the workflow user, not against the PROPERTY graph's own vocabulary, so the gate has no single vocabulary to judge them by and deliberately does not try); a Slack reply node's message; and any body that lives in a referenced templateId rather than in the graph — the graph then carries no body for the scan to look at. In every one of them a wrong key promotes clean. What the recipient sees differs by path: most render through the token renderer and arrive as LITERAL BRACES, but a Slack reply node's message is interpolated by its own function, which replaces any {{slack.<field>}} it does not recognise with an EMPTY STRING — so a typo there shows as missing text, not a broken template. PROPERTY: {{line1}}, {{line2}}, {{propertyCity}}, {{state}}, {{zip}}, {{full_address}}, {{property_url}}, {{beds}}, {{baths}}, {{sqft}}. CONTACT: {{fullName}}, {{firstName}}, {{lastName}}, {{contactUrl}}, {{contactPhoneNumber}}, {{contactEmail}}, {{contactPropertyAddress}}, {{contactPropertyStreet}}, {{contactPropertyFullAddress}}, {{contactPropertyCity}}, {{contactPropertyZipcode}}, {{contactPropertyState}}, {{contactPropertyCounty}}, {{contactPropertyAuctionDate}}, {{contactPropertyForeclosureStage}}, {{contactPropertyAmountOwed}}, {{userFullName}}, {{userFirstName}}, {{userLastName}}, {{userPhoneNumber}}, {{userEmail}}, {{userOrganizationName}}. DEAL: {{dealTitle}}, {{dealUrl}}, {{dealPipelineName}}, {{dealStageName}}, {{dealPrice}}, {{dealCloseDate}}, {{dealPropertyLine1}}, {{dealPropertyLine2}}, {{dealPropertyCity}}, {{dealPropertyState}}, {{dealPropertyZip}}, {{dealPropertyFullAddress}}, {{dealPropertyCounty}}, {{dealPropertyApn}}, {{dealPropertyLegalDescription}}, {{dealContactFullName}}, {{dealContactFirstName}}, {{dealContactLastName}}. APPOINTMENT: {{appointmentStartTime}}, {{appointmentEndTime}}, {{appointmentMeetingLink}}, {{appointmentLocation}}, {{appointmentDurationMinutes}}, {{appointmentCalendarLink}}, every CONTACT key above. EVENT: no merge fields at all — a {{...}} in an EVENT body is an ACCESSOR PATH into the inbound webhook payload (see the EVENT actions above), not a merge field, and is never validated against this vocabulary. SLACK: {{slack.text}}, {{slack.userName}}, {{slack.channelName}}, {{slack.permalink}}. CONTRACT: {{contractName}}, {{contractSigningLink}}, {{contractUrl}}, {{contractSignedPdfUrl}}, {{contractDeclineReason}}, every CONTACT key above, every DEAL key above.  Two conditional keys, and neither is legal on every graph: {{agentName}} resolves ONLY where the graph's TEXT sender is a marketing campaign, and a contact CUSTOM FIELD — addressable as {{ContactTag_<uuid>}}, where the uuid is a CUSTOM-FIELD id from listContactCustomFields and NOT a tag id from searchContactTags, however much the prefix suggests otherwise (ContactTag is the table that stores tags, lists and custom fields alike, so the GRN is named for the table rather than for the thing; a real tag id passes the shape check, is accepted by promote, and renders empty) — resolves ONLY on CONTACT and APPOINTMENT and CONTRACT graphs, the ones a send loads contact context for — and on an APPOINTMENT graph only from the TEXT REMINDER, which renders with the task, the contact and the user. An appointment Slack post loads the task alone, so every CONTACT key there, tags included, renders literally even though promote accepts it: the gate judges per DOMAIN, and this is the one place a domain is wider than one of its own nodes. Used outside its condition either one is unrenderable and blocks promote exactly like an unknown key.Triggers are managed through the `triggers` array: each entry is upserted by its id (mint a UUID to add one) and omitted entries are detached; only `config` syncs (`name` is cosmetic). Trigger config shapes: {type: "manual"}, {type: "created"}, {type: "mutation", filter: <FilterGroup>}, {type: "match", filter: <FilterGroup>}; a CONTACT match whose root AND holds one lastActivityAt or lastNoteTakenAt {comparison:"MORE_THAN", number, timeUnit} and no other relative date is the "no activity for N days" trigger: an hourly sweep enrolls each contact as it crosses N; CONTACT-only: {type: "inbound_text"|"inbound_call", twilioPhoneNumberIds: [...]}, {type: "inbound_email", connectedAccountIds?: [...]}; EVENT workflows have exactly one trigger shape, {type: "event_received"} — the workflow's minted webhook URL is the trigger. Minimal drip example: nodes: [{id:"n1",type:"trigger",config:{}}, {id:"n2",type:"text_action",config:{mode:"single",textBody:"Hi {{firstName}}"}}, {id:"n3",type:"wait",config:{mode:"fixed",seconds:172800,interruptEnabled:false,interruptFilter:{id:"f1",operator:"AND",conditions:[],groups:[]}}}, {id:"n4",type:"end",config:{}}], edges: [{id:"e1",config:{},parentNodeId:"n1",childNodeId:"n2"}, {id:"e2",config:{},parentNodeId:"n2",childNodeId:"n3"}, {id:"e3",config:{},parentNodeId:"n3",childNodeId:"n4"}]. PROMOTE GOTCHA: promoteWorkflowDraft rejects UNSET (SenderNotChosen) and, with no team line, the TEXT default; getWorkflow.draftValidation lists every blocker. GRAPH CONFIG — `graph.config`, beside `nodes`/`edges`/`triggers`, NOT per-node. Every domain: `triggerOperator` "AND"|"OR" (several triggers: all or any); `triggerWindow`, which limits when ENROLLMENT may happen; `exclusiveEnrollment` true STOPS the record's runs in every OTHER workflow (not prior versions of this one) when it enters this one — "only one campaign at a time per lead"; inert on EVENT graphs. `activation.triggerEligibleRecordsNow` is RETIRED: parsed, read by nothing, enrolls nobody — do not write it. CONTACT graphs add `exitConditions.exitConditionTypes` — any of "any_inbound_communication", "inbound_text", "inbound_email", "contact_archived", "deals_closed", "deals_archived", "outbound_from_human", "outbound_from_ai_employee", "outbound_from_other_workflow", "contact_signed_contract", "property_listed", "property_off_market", "property_sold"; there is no per-node way. The "outbound_from_*" three end the run when somebody ELSE messages the contact, never on its own workflow group's message. DEAL graphs take `exitConditions.exitConditionTypes` too: "deal_archived", on by default for a new workflow. On APPOINTMENT omit `exitConditions`: any value, even {}, is rejected. `communicationConfig` is NOT contact-only: APPOINTMENT graphs take it too, for a reminder's quiet hours and sender. SEND WINDOW — the sending schedule is not in the graph: getWorkflow.sendWindow, set by updateWorkflowSendWindow. It and `triggerWindow` share the shape {timezone, days:[{day:"MON".."SUN", intervals:[{start:{hour,minute}, end:{hour,minute}}]}], timezoneMode?}. Each day has its OWN intervals ("weekdays 9-5, Sundays 12-4" is one window); an absent day is CLOSED, an interval never passes midnight (end after start), and an end of {hour:0,minute:0} is midnight at the END of the day. The older {daysOfWeek?, startTime?, endTime?} (same hours each listed day) is still ACCEPTED, but `days` is what is stored and read back. `hour` AND `minute` are BOTH REQUIRED on each time ({hour:9} alone is rejected). Clock times, not offsets: "weekdays 9-6" is one `days` entry per MON..FRI with {start:{hour:9,minute:0}, end:{hour:18,minute:0}}. No sending schedule falls back to MON-FRI 09:00-19:00 org time, so no weekends. `timezoneMode` is WHOSE clock the times are read on: "BUSINESS" the ORGANISATION's timezone, read live (New York when unset), and what an OMITTED `sendWindow.timezoneMode` reads as; "RECIPIENT" each recipient's zone from their phone's area code (toll-free, non-NANP numbers and EMAIL fall back to the organisation's); "CONFIGURED" the window's own `timezone`, fixed. `triggerWindow.timezoneMode` accepts only "RECIPIENT"|"CONFIGURED" ("BUSINESS" there is REJECTED by the graph parser) and is inert: its times are always read in its own `timezone`. The window is final: no quiet hours are added on top, for TEXT or EMAIL. SENDER — `communicationConfig.text.sender` / `.email.sender`, both allowed at once. A mode name alone is not a valid sender: most modes carry required fields. TEXT: {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"MEETING_OWNER"} (appointment graphs) | {type:"PHONE", fromPhoneNumberId} | {type:"RANDOM_PHONE", fromPhoneNumberIds:[...]} | {type:"LOCAL_PRESENCE", scope, fallback} — LOCAL_PRESENCE picks a team number whose area code matches the recipient, and BOTH scope and fallback are required: scope is {kind:"ALL_TEAM"} | {kind:"SPECIFIC", fromPhoneNumberIds} | {kind:"EXCLUDE", excludedPhoneNumberIds}, and fallback is {type:"POINT_PERSON"} | {type:"PHONE", fromPhoneNumberId} | {type:"RANDOM_PHONE", fromPhoneNumberIds:[...]}. EMAIL: {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"IDENTITY", fromEmail, fromClientId} | {type:"RANDOM_IDENTITY", identities:[...]}. Default UNSET (CONTACT TEXT: LOCAL_PRESENCE ALL_TEAM); UNSET gates activation. A text_action or email_action step may carry its OWN `config.senderOverride` for that step alone (absent inherits): the same TEXT/EMAIL arms above except MEETING_OWNER and LOCAL_PRESENCE. SYSTEM CATEGORY — createWorkflow's separate `systemCategory` variable, not in the graph. All domains allow CUSTOM workflows, PROPERTY included, so `null` is right unless creating from a category's template. PROPERTY's one category, "PROPERTY_SIGNAL_SKIP_TRACE", is the skip-trace template with a daily cap; a `null` PROPERTY workflow is blank, started manually, by a property signal or by a custom data pipeline. A non-null `systemCategory` requires a `templateId` on the same create ("A system-category workflow needs a template id" does NOT mean property workflows are unsupported). NO domain offers "APPOINTMENT_REMINDER" or "INTEGRATION_LEAD_HANDLING" at create (READ-only): a reminder is createAppointmentReminder (isGlobal: true for every appointment); the second is minted on integration connect, then LOCKED against adding, deleting or rewiring a step.
+     * Replace a workflow version's node/edge graph AND its triggers (to edit, patchWorkflowGraph). Edit the DRAFT (createOrReturnWorkflowDraft). A PAUSED version is writable too, off the normal path. workflowGraph is the superjson-serialized WorkflowGraph shape returned by getWorkflowVersionGraph; send back a modified copy of the existing graph, same serialized field names (node/edge ids are caller-minted strings). An OMITTED top-level key keeps its stored value ({nodes, edges} alone is valid); a trigger needs only {config}; a text/email step lacking its channel's communicationConfig gets the editor default. A valid graph needs at least a trigger node and an end node joined by an edge; every node is {id, type, config} and every edge is {id, config, parentNodeId, childNodeId} (edge config is {} except conditional branches, below; a Wait until signed step: {path}). NODE VOCABULARY — every authorable step type, generated from the registry the writer validates against. STRUCTURAL STEPS — the same in every domain. "trigger" (The graph entry point. Every valid graph has exactly one, and every run starts here. It does not decide WHEN the workflow fires — the graph-level `triggers` array does. config {} — no settings); "conditional" (A two-way fork decided by a filter. Give it TWO outgoing edges: {eval:true} is taken when the record matches, {eval:false} otherwise. config {filter {id, operator "AND" | "OR", negated?, conditions, groups}, uiMode? "PROPERTY" | "USER" | "DEAL" | "TAG" | "CUSTOM_FIELD" | "CONTRACTS" | "CUSTOM_CONDITION" | "RUN_VALUES" | "REPLY", filterMode? "simple" | "manual", valueConditions? {match "all" | "any", conditions}}); "ai_conditional" (The same two-edge {eval:true}/{eval:false} fork as `conditional`, decided by a MODEL reading the record. Every evaluation is a billed model call, so prefer `conditional` wherever a filter answers. config {prompt, model "gpt-6-astra" | "gpt-6-sol" | "gpt-6-luna" | "gpt-6.1-sol" | "claude-fable-5-1" | "claude-opus-5-5" | "claude-sonnet-5-5" | "claude-haiku-5-5" | "gemini-3.8-flash" | "jev-1.13.0", context {contact?, deal?, property?, appointment?, organization?, event? {mode:"whole"} | {mode:"fields", paths}}, reasoningVariableKey?}); "wait" (Hold the run until a deadline, optionally ending early on a predicate. `mode` picks the deadline (fixed | range | datetime | record_date | recurring); `until` or the interrupt* trio is the early exit. A wait has exactly ONE outgoing edge: early exit and timeout share it. config {mode:"fixed", seconds, secondsTableColumnId?} | {mode:"range", minSeconds, maxSeconds} | {mode:"datetime", date, time {hour, minute}, timezone? "Etc/GMT+12" | "Pacific/Pago_Pago" | "Pacific/Honolulu" | "America/Anchorage" | "America/Los_Angeles" | "America/Denver" | "America/Phoenix" | "America/Chicago" | "America/New_York" | "America/Halifax" | "America/Sao_Paulo" | "America/Noronha" | "Atlantic/Azores" | "Etc/UTC" | "Europe/Berlin" | "Europe/Athens" | "Europe/Moscow" | "Asia/Dubai" | "Asia/Karachi" | "Asia/Dhaka" | "Asia/Bangkok" | "Asia/Shanghai" | "Asia/Tokyo" | "Australia/Sydney" | "Pacific/Noumea" | "Pacific/Auckland"} | {mode:"record_date", field, customFieldId?, offsetSeconds, ifPassed? "advance" | "stop", graceSeconds?} | {mode:"recurring", window {timezone (same values as the first "timezone" above), days, timezoneMode? "RECIPIENT" | "CONFIGURED", monthDays?}}, plus on every shape: interruptEnabled?, interruptFilterMode? "simple" | "manual", interruptFilter {id, operator "AND" | "OR", negated?, conditions, groups}, until? {kind:"reply", channels? ("CALL" | "TEXT" | "EMAIL")[]} | {kind:"action", action, targetId?}); "end" (Terminates the run. A valid graph needs at least one, reachable from the trigger. config {} — no settings); EXCEPTION — on EVENT, "conditional" config is a `uiMode` union. Absent/"EVENT_PAYLOAD" = payload arm, NO filter: {groupOperator?: "AND"|"OR", conditions [{accessor: string, operator: string, values?: string[], mode?: "any"|"all"}]}; `accessor` a dot/bracket path into the webhook body ("event." aliases its root), `operator` equals|not_equals|contains|not_contains|is_set|is_not_set, `values` an ARRAY (a bare string is rejected) required except for is_set/is_not_set, `mode` lowercase where `groupOperator` is uppercase. PROPERTY|USER|DEAL|TAG|CUSTOM_FIELD|CUSTOM_CONDITION = contact arm: {uiMode, filter}, a CONTACT (not EVENT) FilterGroup over the contact the find/create step resolved. A step type you find in a stored graph but not documented for its domain below is RETIRED (it parses so old graphs still load, and its executor stops the run): never author one, and never copy one into a new graph. PROPERTY actions: "create_contact_action" (Skiptrace the property's owner and FIND-OR-CREATE the contact — so it lands on contacts that already have an owner. It spends a skiptrace credit, and an org out of credits STOPS the run. The daily skip-trace permit is refunded on that stop only on a PROPERTY_SIGNAL_SKIP_TRACE graph, the only kind that took one. Finding nobody advances the run. config {target? "OWNER" | "LISTING_AGENT", contactListIds?, triggerContactWorkflowGroupIds?, contributorUserIds?, assignAgent? {mode:"single_user", userId?} | {mode:"round_robin", userIds} | {mode:"workspace_lead_routing"}, contactListTableColumnId?, triggerContactWorkflowTableColumnId?, assignAgentTableColumnId?, contributorTableColumnId?, replaceExistingAgent, deal? {title, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackDealTitle?, description?, pipelineId, stageId, assigneeUserIds?, usePointPersonAssignee?, propertyConfig "none" | "add_all_verified_properties" | "add_all_properties" | "add_first_verified_property"}, autoReskiptraceOnNewInformation?}); "add_to_list_action" (Add the property this run is about to one or more property lists. config {listIds, listTableColumnId?}); "send_slack_action" (Post a Block Kit message about this property into a Slack channel. config {slackChannelId?, slackChannelName?, message? {text, blocks?}, textBody?}); "send_webhook_action" (POST the property's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it. config {urls?, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?}); "property_ai_employee_action" (Run one AI employee on THIS PROPERTY once, without waiting for it; it messages no one from here. config {agentId, instructions?}); CONTACT actions: "text_action" (Send an SMS to the contact, and allowed ONLY where the communication channel is TEXT — any other workflow rejects it. How many numbers it targets and when it may send are workflow-level (config.communicationConfig); who it sends from is too, unless the step carries its own `senderOverride`. config {mode:"single", templateId?, textBody?, skipIfEmptyBody?} | {mode:"multiple", textBodies} | {mode:"generative", systemPrompt}, plus on every shape: missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", timeSensitive?, senderOverride? {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"PHONE", fromPhoneNumberId} | {type:"RANDOM_PHONE", fromPhoneNumberIds}, fallbackTextBody?, senderTableColumnId?, templateTableColumnId?, attachments? [{uploadedFileId, fileName, contentType, fileSize, sendAs? "picture" | "link", coverFileId?, linkUrl?}]); "email_action" (Send an email to the contact; allowed ONLY in an EMAIL-channel workflow. Recipient count, send window and sender are workflow-level (config.communicationConfig) unless the step sets `senderOverride`. config {generate:true, systemPrompt} | {generate:false, templateId, templateTableColumnId?} | {generate:false, emailBody, emailBodyFormat?:"TIPTAP_JSON", emailSubject?}, plus on every shape: missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", timeSensitive?, senderOverride? {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"IDENTITY", fromEmail, fromClientId} | {type:"RANDOM_IDENTITY", identities}, emailThread? "CONTINUE" | "NEW", fallbackEmailSubject?, fallbackEmailBody?, attachments? [{uploadedFileId, fileName, contentType, fileSize, page?}]); "notification_action" (Text a TEAMMATE about this contact — never the contact. It always sends from the internal notifications line, so the workflow sender does not apply. config {recipientType:"POINT_PERSON"} | {recipientType:"SPECIFIC_USER", recipientUserIds?, recipientUserId?} | {recipientType:"PHONE_NUMBER", recipientPhoneNumber}, plus on every shape: missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK" | "OMIT_BLANKS", fallbackTextBody?, urgent?, textBody); "ai_employee_action" (`start` (or an older runNow) runs the employee now; neither only ADDS it (it answers later replies). A `schedule` also ADDS it and pins a cadence. config {agentId, runNow?, instructions?, waitForCompletion?, schedule? {cronExpression, timezone, maxRuns}, start? "ANSWER" | "RUN_NOW", waitTimeoutMinutes?}); "set_custom_field_action" (Write one value onto one of the contact's custom fields. `customFieldType` picks which value field the config must carry; the write is stamped as an AUTOMATION change. config {customFieldType:"TEXT", textValue} | {customFieldType:"NUMBER", numberValue} | {customFieldType:"DOLLAR", numberValue} | {customFieldType:"DATE", dateIso, relative?:"RUN_DATE"} | {customFieldType:"DROPDOWN", dropdownOptionId} | {customFieldType:"LINK", textValue}, plus on every shape: customFieldId, customFieldName); "tags_action" (Apply tags (and/or add the contact to lists) by id. config {tagIds, contactListTableColumnId?}); "add_user_group_action" (Add the contact to one or more teams, optionally auto-assigning an Agent from one of them. config {userGroupIds, agentAssignment? {kind:"NONE"} | {kind:"TEAM_ROUND_ROBIN", userGroupId} | {kind:"SPECIFIC_USER", userId}}); "contributors_action" (Attach users to the contact, as the single Agent or as Participants. Skips anyone away. BOTH booleans are required — an omission used to mean notify-and-displace, which is not what a new node means. config {contributors [{userId, status "REVOKED" | "POINT_PERSON" | "PARTICIPANT"}], roundRobin? {userIds, role "REVOKED" | "POINT_PERSON" | "PARTICIPANT"}, sendNotificationToContributor, replaceExistingAgent}); "task_action" (Create a CRM task about this contact, either spelled out here or from a content template. config {mode:"inline", name, taskType, dueOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, description?} | {mode:"template", templateId}, plus on every shape: assigneeUserIds, assigneeTableColumnId?, usePointPersonAssignee?, createGoogleCalendarEvent?); "appointment_action" (Book an appointment with this contact at an offset from now. config {name, startOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredStartTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, durationMinutes, description?, attendeeUserIds, attendeeTableColumnId?, usePointPersonAssignee?, createGoogleCalendarEvent?}); "deal_action" (Open a deal for this contact in a named pipeline and stage. config {title, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackDealTitle?, description?, pipelineId, stageId, assigneeUserIds?, usePointPersonAssignee?, propertyConfig "none" | "add_all_verified_properties" | "add_all_properties" | "add_first_verified_property", skipIfContactHasOpenDealInPipeline?}); "update_deal_action" (Move the contact's EXISTING open deals on one board to a stage, or archive them — on one board, or on every board with `anyBoard`. Creates nothing — deal_action opens a deal. config {operation "move_stage" | "archive", pipelineId, anyBoard?, stageId?, fromStageIds?}); "send_webhook_action" (POST the contact's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it and pages. config {urls?, phoneCompliance? "NONE" | "EXCLUDE_DNC" | "EXCLUDE_LITIGATOR" | "EXCLUDE_DNC_OR_LITIGATOR" | "EXCLUDE_DNC_AND_LITIGATOR" | "EXCLUDE_DNC_AND_LITIGATOR_ONLY", payloadBlocks? {calls?, texts?, notes?, deals?, properties?}, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?, credentialId?}); "send_slack_action" (Post a Block Kit message about this contact into a Slack channel. config {slackChannelId?, slackChannelName?, message? {text, blocks?}}); "trigger_contact_workflow_action" (Start other CONTACT workflows on this contact, even where their own trigger would not match. config {workflowGroupIds, workflowGroupTableColumnId?}); "enrich_action" (Skiptrace the contact and fold the result back onto it — the same enrichment the Enrich button runs. Already-enriched contacts dedupe server-side, so reaching this step twice neither re-skiptraces nor charges twice. It spends a SKIPTRACE credit per skiptrace that actually runs, and the author must hold the skiptrace capability. config {} — no settings); "archive_contact_action" (Archive the contact, as the Archive button does. A text back un-archives them. Put it last. config {} — no settings); "mark_do_not_contact_action" (Mark the contact Do Not Contact. It stops every live run for the contact, this one included: put it last in its branch. config {reason?}); "send_mail_action" (Mail one letter to the run's contact through the org's connected mail account. A refusal (no usable address, unverified template, disconnected account) is recorded and the run continues. config {campaignRef {providerKey:"OPEN_LETTER_CONNECT", templateId, productId, returnAddressSettings, rosOfferPercentage} | {providerKey:"LOB", product:"LETTER", templateId, printOptions} | {providerKey:"POSTGRID", product:"LETTER", templateId, printOptions}, campaignLabel, connectionId, sender {version:1, firstName, lastName, companyName, line1, line2, city, state, zip, countryCode:"US"}, mergeFields [{key, required, value {kind:"LITERAL", text} | {kind:"FIELD", field}}], addressSource "CONTACT_ONLY" | "CONTACT_THEN_OWNER_MAILING", sendTiming {mode:"IMMEDIATE"} | {mode:"PROVIDER_SCHEDULED", releaseAfterDays}}); "add_to_email_campaign_action" (Add the run's contact as a lead to a campaign in the org's connected cold-email account, which sends on its own schedule. A refusal is recorded; the run continues. config {connectionId, campaign {providerKey "INSTANTLY" | "SMARTLEAD" | "LEMLIST" | "REPLYIO", campaignId, campaignName}, variables [{key, field "COMPANY_NAME" | "PROPERTY_ADDRESS" | "PROPERTY_CITY" | "PROPERTY_STATE" | "PROPERTY_ZIP" | "MAILING_ADDRESS"}], launchAfterAdd?}); "go_to_action" (Terminal: loops back to an earlier step on its branch. Needs 1h of Waits and an exit (reply exit or a branch to an End). config {targetNodeId}); "contact_wait_for_contract_action" (Wait on the sent contract; edge path signed|declined|not_signed. config {timeoutSeconds}); DEAL actions: "assign_to_user_action" (Assign users to the deal this run is about. Skips anyone away. config {userIds, userTableColumnId?}); "notification_action" (Text teammates about this deal. Always sends from the internal notifications line. config {recipientType:"DEAL_USERS"} | {recipientType:"SPECIFIC_USERS", userIds} | {recipientType:"DEAL_ROLE", roleId} | {recipientType:"DEAL_AGENT"}, plus on every shape: recipientTableColumnId?, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackTextBody?, textBody); "deal_text_action" (Text people on THIS DEAL (everyone, or one role's holders) as its Agent or a team role's holder, within the sending schedule. config {recipient {kind:"ROLE", roleId} | {kind:"EVERYONE"}, sender {type:"UNSET"} | {type:"DEAL_AGENT"} | {type:"DEAL_ROLE_USER", roleId}, textBody, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackTextBody?}); "trigger_contact_workflow_action" (Enroll each of this deal's CONTACTS in the listed CONTACT workflows; not the deal itself; no contacts starts nothing. Each passes the usual enrolment gates (do-not-contact, one live run per workflow, consent). config {workflowGroupIds, workflowGroupTableColumnId?, roleId?}); "trigger_deal_workflow_action" (Enroll THIS DEAL in other DEAL workflows (`trigger_contact_workflow_action` enrolls its contacts). Each target passes the deal enrolment door (trigger window, dry-run flag, one live run per deal); this graph's group and every group upstream of the run are never targets. config {workflowGroupIds, workflowGroupTableColumnId?, linkedPipelineId?}); "create_deal_action" (Open a NEW deal, cloning the properties of the deal this run is about. config {title, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackDealTitle?, description?, pipelineId, stageId, assigneeUserIds?, usePointPersonAssignee?, propertyConfig "none" | "add_all_verified_properties" | "add_all_properties" | "add_first_verified_property", copyDealValues?, copyContacts?, linkToThisItem? {label, thisItemIsParent}}); "send_slack_action" (Post a Block Kit message about this deal into a Slack channel. DEAL and run merge fields. config {slackChannelId?, slackChannelName?, message? {text, blocks?}}); "send_webhook_action" (POST the deal's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it. config {urls?, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?}); "deal_set_custom_field_action" (Write one value onto a deal custom field; `customFieldType` picks the value field. Pipeline-scoped: the run STOPS if the deal is in another pipeline or the field/option is deleted. config {customFieldType:"TEXT", textValue} | {customFieldType:"NUMBER", numberValue} | {customFieldType:"DOLLAR", numberValue} | {customFieldType:"DATE", dateIso, relative?:"RUN_DATE"} | {customFieldType:"DROPDOWN", dropdownOptionId} | {customFieldType:"LINK", textValue} | {customFieldType:"CHECKBOX", booleanValue}, plus on every shape: pipelineId, customFieldId, customFieldName); "deal_add_note_action" (Add a system-attributed note to the deal's activity feed. A blank rendered note is skipped and the run continues. config {body, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackBody?}); "deal_move_stage_action" (Move THIS DEAL to a stage of its board, as a drag does: that stage's triggers fire. config {pipelineId, stageId}); "deal_task_action" (Create a task linked to THIS DEAL (not its contacts), spelled out here or from a content template. config {mode:"inline", name, taskType, dueOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, description?} | {mode:"template", templateId}, plus on every shape: assigneeUserIds, assigneeTableColumnId?, assignDealUsers?, assignDealRoleId?, assignDealAgent?, createGoogleCalendarEvent?); "deal_appointment_action" (Book an appointment linked to THIS DEAL at an offset from now. The run STOPS (NO_ATTENDEES) when every attendee source resolves to nobody. config {name, startOffset {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredStartTimeOfDay {hour, minute, timezone (same values as the first "timezone" above)}, durationMinutes, description?, attendeeUserIds, attendeeTableColumnId?, inviteDealUsers?, inviteDealRoleId?, inviteDealAgent?, createGoogleCalendarEvent?}); "deal_wait_for_contract_action" (Wait on the sent contract; edge path signed|declined|not_signed. config {timeoutSeconds}); "deal_ai_employee_action" (Run one AI employee on THIS DEAL once, without waiting for it; it messages no contact from here. config {agentId, instructions?}); "deal_move_linked_item_action" (FLAG pipeline-item-move-steps (off: refused). Move the items linked to THIS item by `label`, filtered by `end`, to a stage. Only items on that stage's board move; the rest are skipped and logged. config {label, end "any" | "parent" | "child", pipelineId, stageId}); APPOINTMENT actions: "text_action" (Text the appointment's contact. Deliberately narrower than the CONTACT text step: it IGNORES the workflow send window and the daily-cap cooldown, and has no AI or variations mode. The sender comes from the meeting's own participants, booking host first. config {missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK", fallbackTextBody?, senderTableColumnId?, templateTableColumnId?, onlyIfUnconfirmed?, skipIfTextedWithinSeconds?, mode:"single", templateId?, textBody?}); "trigger_contact_workflow_action" (Start CONTACT workflows for this appointment's contacts. config {workflowGroupIds, workflowGroupTableColumnId?}); "appointment_task_action" (A task for the appointment's own users, once per appointment. config {name, taskType, description?, dueOffset? {amount, unit "DAYS" | "WEEKS" | "MONTHS"}, preferredTimeOfDay? {hour, minute, timezone (same values as the first "timezone" above)}, onlyIfUnconfirmed?}); "send_slack_action" (Post a Block Kit message about this appointment to a Slack channel. It loads the TASK alone, so contact merge fields render literally here. config {slackChannelId?, slackChannelName?, message? {text, blocks?}}); "send_webhook_action" (POST the appointment's record to one or more URLs. A 4xx other than 429 STOPS the run quietly; anything else FAILS it. config {urls?, auth? {kind:"HEADER", headerName, secret} | {kind:"HMAC", secret}, fields?}); EVENT actions: "find_create_contact_action" (Find or create the payload's contact; later steps run on it. config {mode:"field_mapping", nameAccessor, phoneAccessors?, emailAccessors?, propertyAddressAccessors?, mailingAddressAccessors?, noteAccessors?, customFieldMappings? [{customFieldId?, attributionKey?, accessor?, literalValue?, valueMappings?, unmappedValuePolicy?}], tagMappings? [{kind, accessor?, literalValue?, valueMappings?, unmappedValuePolicy?}], webFormConsent? {consentAccessor?}, phoneAccessor?, emailAccessor?, propertyAddressAccessor?, noteAccessor?} | {mode:"transformer", hint?}, plus on every shape: triggerContactWorkflowGroupIds?, triggerContactWorkflow? {workflowGroupId}, source?, contactMatchRule? {keys}); "event_send_slack_action" (Post a plain-text Slack message built from the inbound payload. A distinct node from the shared Block Kit one. config {slackChannelId?, slackChannelName?, message}); "event_find_property_action" (Resolve a property from the inbound payload, then act on it. A FLAT config with string mode fields on purpose — nested unions blow the TypeScript complexity ceiling once distributed across every domain — so which fields are required per mode is enforced by the validator and the executor, not by the shape. config {resolutionMode, addressAccessor?, line1Accessor?, cityAccessor?, stateAccessor?, zipAccessor?, countyNameAccessor?, parcelAccessor?, countyFipsAccessor?, transformerHint?, lastMappedResolutionMode?, actionType, listIds?, triggerContactWorkflowGroupIds?}); "event_contact_status_action" (Flag the contact this run is anchored to: mark it do-not-contact, or mark one of its phone numbers wrong. It acts on the contact an earlier find/create step resolved, never resolving one; with no contact it records that and advances. It does NOT stop the run; an end node does. config {action, phoneAccessor?, appliesToOutcomes?, outcomeAccessor?}); "event_contact_fields_action" (Write custom-field values on the contact this run is anchored to. It never resolves or creates one, so it can sit on a branch that must not mint anybody; with no contact it records that and advances. config {customFieldMappings? [{customFieldId?, attributionKey?, accessor?, literalValue?, valueMappings?, unmappedValuePolicy?}]}); "event_attach_call_recording" (Download the recording the payload names and file it on the contact an earlier step resolved, as a Call. It resolves no contact of its own, and every skip or failure is recorded and advanced rather than failing the run. config {recordingUrlAccessor, recordingIdAccessor?, phoneAccessor?, occurredAtAccessor?, directionAccessor?, durationSecondsAccessor?}); SLACK actions: "slack_reply_action" (Post back into Slack — into the thread the run came from, or into a fixed channel. config {target "triggering_thread" | "channel", slackChannelId?, slackChannelName?, message}); CONTRACT actions: "contract_move_deal_action" (Move the contract's deal to a stage, the way dragging its card does. A contract with no deal skips the step and the run carries on. config {pipelineId, stageId}); "contract_tag_signers_action" (Tag the contract's signers (and/or add them to lists). config {signers "contact_a" | "contact_b" | "each_signer", tagIds}); "contract_start_workflow_action" (Hand the contract's contacts to an existing Contact workflow (a seller nurture after a decline). That workflow keeps its own rules. config {signers "contact_a" | "contact_b" | "each_signer", workflowGroupIds}); "contract_notify_action" (Text teammates about the contract. Nobody to reach skips it. config {teammates ("sender" | "deal_users" | "contact_a_agent")[], userIds, textBody, missingVariableBehavior? "END_WORKFLOW" | "SEND_FALLBACK" | "OMIT_BLANKS", fallbackTextBody?}); "contract_remind_signers_action" (Send a fresh link to each signer whose turn it is. Skipped when nobody is waiting. config {} — no settings); "contract_extend_expiry_action" (Move the contract's expiry later. Skipped unless out for signature. config {days}); "contract_void_action" (Void the contract; no link works again. Skipped once signed or closed. config {reason});THAT FilterGroup IS THE FULL SAVED-FILTER VOCABULARY FOR THE DOMAIN, not an automation-only subset. For CONTACT, PROPERTY and DEAL that vocabulary is enumerable: listFilterFieldNames returns it complete, and any field it lists a conditional can evaluate. NEVER tell a user an automation cannot consider some attribute without reading that list for the workflow DOMAIN first — "it cannot see it" is usually a domain mismatch (last sold date, year built, estimated value are PROPERTY fields, not contact fields). APPOINTMENT conditionals take their own full filter group, but listFilterFieldNames and listFilterFields do not accept APPOINTMENT. That is a gap in DISCOVERY, never evidence about the capability: copy a conditional already in the graph; if you cannot confirm a field, say so rather than that it cannot be done. AI CONDITION CONTEXT — an "ai_conditional" step's `context` is a Context Layer SELECTION, not a list of ids: an object keyed by any of contact | pipeline item | property | appointment | organization, each mapping to that source's slice flags (e.g. {contact:{includeTextMessages:true, includeNotes:false}}). A key's PRESENCE includes it; {} means that source with its defaults. Only sources the RUN carries an id for resolve (a CONTACT run has a contact), so one the domain never carries renders nothing. The step is available on APPOINTMENT graphs although "conditional" is not. A sixth key `event` is EVENT-only, and on an EVENT graph the ONE source that renders (an EVENT run carries no record): {mode:"whole"} sends the whole webhook body, {mode:"fields",paths:["call.outcome"]} only the named accessor paths (1-25, none reading the whole payload; use whole for that). `{event:{}}` is refused, and `event` on any other domain is a publish error. EVENT MAPPINGS — two rules mapping rows are REJECTED for. (1) EXACTLY ONE destination and EXACTLY ONE value source per row: a customFieldMappings row names either a customFieldId or an attributionKey (one of the org's reserved, listing-hidden attribution fields: utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid, fbclid, msclkid, ttclid, li_fat_id, landingUrl, referrerUrl), and either an accessor or a literalValue. A row naming two of either is dropped and counted at execution, never resolved by precedence. (2) A tagMappings row resolves its value to a tag or list BY NAME and CREATES one when the org has none, bounded at 25 distinct values per row and refusing values that are obviously not category names (a uuid, an email, a url, a long-digit platform id, over 80 characters); tags and lists share one org-wide namespace, so a name a list holds cannot become a tag and that row is dropped. Both counts ride the run's FIND_CREATE_CONTACT_RESOLVED audit event as tagsWritten/tagsDropped. MERGE FIELDS — the COMPLETE per-domain vocabulary a body may draw on. Substituted at run time: textBody, textBodies, emailBody, emailSubject, a Slack block's text and a Slack button's url, plus a pipeline item node's title and a task node's name and description. NOT substituted, so braces there are left alone: a generative node's systemPrompt (an instruction to a model, not a template) and a pipeline item node's description. Keys are matched EXACTLY, case-sensitively. There is NO dotted record namespace: {{contact.address1}}, {{contact.firstName}} and {{deal.title}} are not merge fields (the SLACK keys below are literal dotted names, not a namespace you may extend). Do not infer a key from another domain's spelling either — the shapes differ (CONTACT has contactPropertyAddress, PROPERTY has full_address); use a key off this list or none. An unknown token is NOT a missing variable and does NOT render blank: braces reach the reader verbatim (except a notify step on OMIT_BLANKS, which blanks them). promoteWorkflowDraft REFUSES a draft carrying one in a SCANNED FIELD — textBody, textBodies, emailBody (including one stored as emailBodyFormat "TIPTAP_JSON", whose merge fields are document pills rather than braces and are read as such), the WORKFLOW-LEVEL email subject on communicationConfig and a NODE'S OWN one, a fallbackTextBody under SEND_FALLBACK, an email step's fallbackEmailSubject and fallbackEmailBody, under SEND_FALLBACK and only where a PRIMARY can miss a variable (the EFFECTIVE subject — the workflow's unless sendInSameThread is false — or a body the graph carries), a Slack block's text or its button url, a pipeline item node's title and fallbackDealTitle on a CONTACT or DEAL graph, and an inline task node's name and description — and updateWorkflowGraph returns that same judgement as workflowGroup.draftValidation on every write — a reading of the GROUP'S DRAFT, which is the version you just wrote whenever you followed the normal path and edited the draft. Edit a PAUSED version instead and the field still answers about the draft, so it is null when there is none and about a DIFFERENT version when there is: it is not a verdict on your write in that case, and nothing in the response says so ({isValid, errors}, each unrenderable token named with the field it sits in and the supported key it most likely meant). READ IT on the response to the write and fix what it names, rather than discovering it when activation fails. THAT LIST OF SCANNED FIELDS IS CLOSED, and SHORTER than the list of substituted fields. Anything substituted at run time but absent from it is checked by nothing, so a clean draftValidation is not evidence about it — check those against the vocabulary below yourself. What remains unscanned, and NOT an exhaustive list: a PROPERTY create-contact step's pipeline item title and fallback title (substituted against the NEW CONTACT and the workflow user, not against the PROPERTY graph's own vocabulary, so the gate has no single vocabulary to judge them by and deliberately does not try); a Slack reply node's message; and any body that lives in a referenced templateId rather than in the graph — the graph then carries no body for the scan to look at. In every one of them a wrong key promotes clean. What the recipient sees differs by path: most render through the token renderer and arrive as LITERAL BRACES, but a Slack reply node's message is interpolated by its own function, which replaces any {{slack.<field>}} it does not recognise with an EMPTY STRING — so a typo there shows as missing text, not a broken template. PROPERTY: {{line1}}, {{line2}}, {{propertyCity}}, {{state}}, {{zip}}, {{full_address}}, {{property_url}}, {{beds}}, {{baths}}, {{sqft}}. CONTACT: {{fullName}}, {{firstName}}, {{lastName}}, {{contactUrl}}, {{contactPhoneNumber}}, {{contactEmail}}, {{contactPropertyAddress}}, {{contactPropertyStreet}}, {{contactPropertyFullAddress}}, {{contactPropertyCity}}, {{contactPropertyZipcode}}, {{contactPropertyState}}, {{contactPropertyCounty}}, {{contactPropertyAuctionDate}}, {{contactPropertyForeclosureStage}}, {{contactPropertyAmountOwed}}, {{userFullName}}, {{userFirstName}}, {{userLastName}}, {{userPhoneNumber}}, {{userEmail}}, {{userOrganizationName}}. DEAL: {{dealTitle}}, {{dealUrl}}, {{dealPipelineName}}, {{dealStageName}}, {{dealPrice}}, {{dealCloseDate}}, {{dealPropertyLine1}}, {{dealPropertyLine2}}, {{dealPropertyCity}}, {{dealPropertyState}}, {{dealPropertyZip}}, {{dealPropertyFullAddress}}, {{dealPropertyCounty}}, {{dealPropertyApn}}, {{dealPropertyLegalDescription}}, {{dealContactFullName}}, {{dealContactFirstName}}, {{dealContactLastName}}. APPOINTMENT: {{appointmentStartTime}}, {{appointmentEndTime}}, {{appointmentMeetingLink}}, {{appointmentLocation}}, {{appointmentDurationMinutes}}, {{appointmentCalendarLink}}, every CONTACT key above. EVENT: no merge fields at all — a {{...}} in an EVENT body is an ACCESSOR PATH into the inbound webhook payload (see the EVENT actions above), not a merge field, and is never validated against this vocabulary. SLACK: {{slack.text}}, {{slack.userName}}, {{slack.channelName}}, {{slack.permalink}}. CONTRACT: {{contractName}}, {{contractSigningLink}}, {{contractUrl}}, {{contractSignedPdfUrl}}, {{contractDeclineReason}}, every CONTACT key above, every DEAL key above.  Two conditional keys, and neither is legal on every graph: {{agentName}} resolves ONLY where the graph's TEXT sender is a marketing campaign, and a contact CUSTOM FIELD — addressable as {{ContactTag_<uuid>}}, where the uuid is a CUSTOM-FIELD id from listContactCustomFields and NOT a tag id from searchContactTags, however much the prefix suggests otherwise (ContactTag is the table that stores tags, lists and custom fields alike, so the GRN is named for the table rather than for the thing; a real tag id passes the shape check, is accepted by promote, and renders empty) — resolves ONLY on CONTACT and APPOINTMENT and CONTRACT graphs, the ones a send loads contact context for — and on an APPOINTMENT graph only from the TEXT REMINDER, which renders with the task, the contact and the user. An appointment Slack post loads the task alone, so every CONTACT key there, tags included, renders literally even though promote accepts it: the gate judges per DOMAIN, and this is the one place a domain is wider than one of its own nodes. Used outside its condition either one is unrenderable and blocks promote exactly like an unknown key.Triggers are managed through the `triggers` array: each entry is upserted by its id (mint a UUID to add one) and omitted entries are detached; only `config` syncs (`name` is cosmetic). Trigger config shapes: {type: "manual"}, {type: "created"}, {type: "mutation", filter: <FilterGroup>}, {type: "match", filter: <FilterGroup>}; a CONTACT match whose root AND holds one lastActivityAt or lastNoteTakenAt {comparison:"MORE_THAN", number, timeUnit} and no other relative date is the "no activity for N days" trigger: an hourly sweep enrolls each contact as it crosses N; CONTACT-only: {type: "inbound_text"|"inbound_call", twilioPhoneNumberIds: [...]}, {type: "inbound_email", connectedAccountIds?: [...]}; EVENT workflows have exactly one trigger shape, {type: "event_received"} — the workflow's minted webhook URL is the trigger. Minimal drip example: nodes: [{id:"n1",type:"trigger",config:{}}, {id:"n2",type:"text_action",config:{mode:"single",textBody:"Hi {{firstName}}"}}, {id:"n3",type:"wait",config:{mode:"fixed",seconds:172800,interruptEnabled:false,interruptFilter:{id:"f1",operator:"AND",conditions:[],groups:[]}}}, {id:"n4",type:"end",config:{}}], edges: [{id:"e1",config:{},parentNodeId:"n1",childNodeId:"n2"}, {id:"e2",config:{},parentNodeId:"n2",childNodeId:"n3"}, {id:"e3",config:{},parentNodeId:"n3",childNodeId:"n4"}]. PROMOTE GOTCHA: promoteWorkflowDraft rejects UNSET (SenderNotChosen) and, with no team line, the TEXT default; getWorkflow.draftValidation lists every blocker. GRAPH CONFIG — `graph.config`, beside `nodes`/`edges`/`triggers`, NOT per-node. Every domain: `triggerOperator` "AND"|"OR" (several triggers: all or any); `triggerWindow`, which limits when ENROLLMENT may happen; `exclusiveEnrollment` true STOPS the record's runs in every OTHER workflow (not prior versions of this one) when it enters this one — "only one campaign at a time per lead"; inert on EVENT graphs. `activation.triggerEligibleRecordsNow` is RETIRED: parsed, read by nothing, enrolls nobody — do not write it. CONTACT graphs add `exitConditions.exitConditionTypes` — any of "any_inbound_communication", "inbound_text", "inbound_email", "contact_archived", "deals_closed", "deals_archived", "outbound_from_human", "outbound_from_ai_employee", "outbound_from_other_workflow", "contact_signed_contract", "property_listed", "property_off_market", "property_sold"; there is no per-node way. The "outbound_from_*" three end the run when somebody ELSE messages the contact, never on its own workflow group's message. DEAL graphs take `exitConditions.exitConditionTypes` too: "deal_archived", on by default for a new workflow. On APPOINTMENT omit `exitConditions`: any value, even {}, is rejected. `communicationConfig` is NOT contact-only: APPOINTMENT graphs take it too, for a reminder's quiet hours and sender. SEND WINDOW — the sending schedule is not in the graph: getWorkflow.sendWindow, set by updateWorkflowSendWindow. It and `triggerWindow` share the shape {timezone, days:[{day:"MON".."SUN", intervals:[{start:{hour,minute}, end:{hour,minute}}]}], timezoneMode?}. Each day has its OWN intervals ("weekdays 9-5, Sundays 12-4" is one window); an absent day is CLOSED, an interval never passes midnight (end after start), and an end of {hour:0,minute:0} is midnight at the END of the day. The older {daysOfWeek?, startTime?, endTime?} (same hours each listed day) is still ACCEPTED, but `days` is what is stored and read back. `hour` AND `minute` are BOTH REQUIRED on each time ({hour:9} alone is rejected). Clock times, not offsets: "weekdays 9-6" is one `days` entry per MON..FRI with {start:{hour:9,minute:0}, end:{hour:18,minute:0}}. No sending schedule falls back to MON-FRI 09:00-19:00 org time, so no weekends. `timezoneMode` is WHOSE clock the times are read on: "BUSINESS" the ORGANISATION's timezone, read live (New York when unset), and what an OMITTED `sendWindow.timezoneMode` reads as; "RECIPIENT" each recipient's zone from their phone's area code (toll-free, non-NANP numbers and EMAIL fall back to the organisation's); "CONFIGURED" the window's own `timezone`, fixed. `triggerWindow.timezoneMode` accepts only "RECIPIENT"|"CONFIGURED" ("BUSINESS" there is REJECTED by the graph parser) and is inert: its times are always read in its own `timezone`. The window is final: no quiet hours are added on top, for TEXT or EMAIL. SENDER — `communicationConfig.text.sender` / `.email.sender`, both allowed at once. A mode name alone is not a valid sender: most modes carry required fields. TEXT: {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"MEETING_OWNER"} (appointment graphs) | {type:"PHONE", fromPhoneNumberId} | {type:"RANDOM_PHONE", fromPhoneNumberIds:[...]} | {type:"LOCAL_PRESENCE", scope, fallback} — LOCAL_PRESENCE picks a team number whose area code matches the recipient, and BOTH scope and fallback are required: scope is {kind:"ALL_TEAM"} | {kind:"SPECIFIC", fromPhoneNumberIds} | {kind:"EXCLUDE", excludedPhoneNumberIds}, and fallback is {type:"POINT_PERSON"} | {type:"PHONE", fromPhoneNumberId} | {type:"RANDOM_PHONE", fromPhoneNumberIds:[...]}. EMAIL: {type:"UNSET"} | {type:"POINT_PERSON"} | {type:"IDENTITY", fromEmail, fromClientId} | {type:"RANDOM_IDENTITY", identities:[...]}. Default UNSET (CONTACT TEXT: LOCAL_PRESENCE ALL_TEAM); UNSET gates activation. A text_action or email_action step may carry its OWN `config.senderOverride` for that step alone (absent inherits): the same TEXT/EMAIL arms above except MEETING_OWNER and LOCAL_PRESENCE. SYSTEM CATEGORY — createWorkflow's separate `systemCategory` variable, not in the graph. All domains allow CUSTOM workflows, PROPERTY included, so `null` is right unless creating from a category's template. PROPERTY's one category, "PROPERTY_SIGNAL_SKIP_TRACE", is the skip-trace template with a daily cap; a `null` PROPERTY workflow is blank, started manually, by a property signal or by a custom data pipeline. A non-null `systemCategory` requires a `templateId` on the same create ("A system-category workflow needs a template id" does NOT mean property workflows are unsupported). NO domain offers "APPOINTMENT_REMINDER" or "INTEGRATION_LEAD_HANDLING" at create (READ-only): a reminder is createAppointmentReminder (isGlobal: true for every appointment); the second is minted on integration connect, then LOCKED against adding, deleting or rewiring a step.
      *
      * @remarks Requires the WRITE scope.
      *

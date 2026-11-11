@@ -46,7 +46,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "completedAt": true,
       "unsignedPdfUrl": true,
       "signedPdfUrl": true,
-      "deal": {
+      "pipelineItem": {
         "id": true,
         "title": true
       },

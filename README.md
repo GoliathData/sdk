@@ -35,7 +35,7 @@ if (!apiKey) throw new Error('GOLIATH_API_KEY is not set')
 const goliath = new GoliathClient({ apiKey, baseUrl: 'https://server.goliathdata.com' })
 
 // Typed queries — one method per operation, namespaced by domain.
-const { dealQuery } = await goliath.deals.findDeals({ limit: 25 })
+const { pipelineItemQuery } = await goliath.pipelineItems.findPipelineItems({ limit: 25 })
 
 // Idempotent writes — pass an Idempotency-Key so retries can never double-fire.
 await goliath.contacts.createContact(

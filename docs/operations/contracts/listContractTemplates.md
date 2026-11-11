@@ -4,7 +4,7 @@
 
 query · domain `contracts` · requires the READ scope
 
-The organization's contract templates: name, category, status (only a PUBLISHED one with a currentVersionNumber can be sent), signer roles in signing order, and the records a send asks for (`uses`: Contact A, Contact B, Deal, Property), and how many contracts went out from it (`sentCount`) and came back signed (`signedCount`). Archived ones only with includeArchived.
+The organization's contract templates: name, category, status (only a PUBLISHED one with a currentVersionNumber can be sent), signer roles in signing order, and the records a send asks for (`uses`: Contact A, Contact B, Pipeline item, Property), and how many contracts went out from it (`sentCount`) and came back signed (`signedCount`). Archived ones only with includeArchived.
 
 ## Call
 

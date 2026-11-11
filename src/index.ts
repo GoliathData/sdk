@@ -1,7 +1,7 @@
 // @goliath-data/sdk — official TypeScript client for the Goliath developer API.
 //
 // GoliathClient carries one typed method per persisted operation, namespaced by
-// domain (client.deals.findDeals(...)), generated from the server's operation
+// domain (client.pipelineItems.findPipelineItems(...)), generated from the server's operation
 // manifest. The untyped escape hatch client.execute(operationId, variables)
 // covers operations added to the API before this SDK release.
 

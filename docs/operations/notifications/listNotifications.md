@@ -4,7 +4,7 @@
 
 query · domain `notifications` · requires the READ scope
 
-List your in-app notifications (the bell feed), newest first. Optional filters: notificationTypeFilter (one notification type — use an EXACT value from getAvailableNotificationTypes; an unrecognized string is not an error, it just returns an empty feed with total 0), seen (true = only read, false = only unread, omitted = both), and searchTerm. Cursor-paginated — pass the returned canFetchNext as a signal there is another page and re-call with cursor set to the last notification's id (limit defaults to 25, capped at 50). total is the full match count and hasUnread flags any unread in the feed, so nothing is silently truncated. Reads ONLY your own notifications — true for EVERY key including an admin's, because this operation exposes no recipient selector at all. The app does have the admin/Goliath-staff teammate feed (one or more teammates' notifications combined), so if the user asks to see a colleague's bell, point them at the app instead of saying nobody can see it. Each row carries the related-record ids (contactId, dealId, noteId, replyId, taskId, callId) and actionType/actionTargetId for deep-linking.
+List your in-app notifications (the bell feed), newest first. Optional filters: notificationTypeFilter (one notification type — use an EXACT value from getAvailableNotificationTypes; an unrecognized string is not an error, it just returns an empty feed with total 0), seen (true = only read, false = only unread, omitted = both), and searchTerm. Cursor-paginated — pass the returned canFetchNext as a signal there is another page and re-call with cursor set to the last notification's id (limit defaults to 25, capped at 50). total is the full match count and hasUnread flags any unread in the feed, so nothing is silently truncated. Reads ONLY your own notifications — true for EVERY key including an admin's, because this operation exposes no recipient selector at all. The app does have the admin/Goliath-staff teammate feed (one or more teammates' notifications combined), so if the user asks to see a colleague's bell, point them at the app instead of saying nobody can see it. Each row carries the related-record ids (contactId, pipelineItemId, noteId, replyId, taskId, callId) and actionType/actionTargetId for deep-linking.
 
 ## Call
 
@@ -48,7 +48,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "actionType": true,
         "actionTargetId": true,
         "contactId": true,
-        "dealId": true,
+        "pipelineItemId": true,
         "noteId": true,
         "replyId": true,
         "taskId": true,

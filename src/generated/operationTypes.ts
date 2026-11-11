@@ -3981,7 +3981,7 @@ export type PreviewContactImportQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type PreviewContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', contactTransformerRowCount?: number | null, contactTransformerRowFindings?: { __typename?: 'ContactTransformerRowFindings', checkedRows: number, namelessRowIndexes: Array<number>, unstorablePhoneRowIndexes: Array<number>, repeats: Array<{ __typename?: 'ContactTransformerRepeatedRow', rowIndex: number, sameAsRowIndex: number, name: string }>, flaggedRowChannels: Array<{ __typename?: 'ContactTransformerFlaggedRowChannels', rowIndex: number, name?: string | null, phone?: string | null, email?: string | null, droppedPhone?: string | null }> } | null, contactTransformerPreview?: Array<{ __typename?: 'ContactPreviewResult', rowIndex: number, error?: string | null, mappedNoteBody?: string | null, unlandedCells: Array<string>, contact?: { __typename?: 'Contact', name?: string | null, subContacts?: Array<{ __typename?: 'SubContact', name: string, relation?: string | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', phoneNumber: string, phoneType: PhoneType }> | null, emails?: Array<{ __typename?: 'ContactEmail', email: string }> | null, properties?: Array<{ __typename?: 'ContactProperty', propertyString?: string | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', rawText?: string | null, address?: { __typename?: 'Address', line1: string, line2?: string | null, city: string, state: string, zip: string } | null }> | null, tags?: Array<{ __typename?: 'Tag', name: string }> | null, lists?: Array<{ __typename?: 'ContactList', name: string }> | null, deals?: Array<{ __typename?: 'Deal', title: string, stage?: { __typename?: 'PipelineStage', name: string } | null, pipeline?: { __typename?: 'Pipeline', name: string } | null }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', name: string, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, numberValue?: number | null, calendarDate?: string | null, dropdownSelectedValues?: Array<string> | null } | null }> | null } | null }> | null } | null };
+export type PreviewContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', contactTransformerRowCount?: number | null, contactTransformerRowFindings?: { __typename?: 'ContactTransformerRowFindings', checkedRows: number, namelessRowIndexes: Array<number>, unstorablePhoneRowIndexes: Array<number>, repeats: Array<{ __typename?: 'ContactTransformerRepeatedRow', rowIndex: number, sameAsRowIndex: number, name: string }>, flaggedRowChannels: Array<{ __typename?: 'ContactTransformerFlaggedRowChannels', rowIndex: number, name?: string | null, phone?: string | null, email?: string | null, droppedPhone?: string | null }> } | null, contactTransformerPreview?: Array<{ __typename?: 'ContactPreviewResult', rowIndex: number, error?: string | null, mappedNoteBody?: string | null, unlandedCells: Array<string>, contact?: { __typename?: 'Contact', name?: string | null, subContacts?: Array<{ __typename?: 'SubContact', name: string, relation?: string | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', phoneNumber: string, phoneType: PhoneType }> | null, emails?: Array<{ __typename?: 'ContactEmail', email: string }> | null, properties?: Array<{ __typename?: 'ContactProperty', propertyString?: string | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', rawText?: string | null, address?: { __typename?: 'Address', line1: string, line2?: string | null, city: string, state: string, zip: string } | null }> | null, tags?: Array<{ __typename?: 'Tag', name: string }> | null, lists?: Array<{ __typename?: 'ContactList', name: string }> | null, pipelineItems?: Array<{ __typename?: 'Deal', title: string, stage?: { __typename?: 'PipelineStage', name: string } | null, pipeline?: { __typename?: 'Pipeline', name: string } | null }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', name: string, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, numberValue?: number | null, calendarDate?: string | null, dropdownSelectedValues?: Array<string> | null } | null }> | null } | null }> | null } | null };
 
 export type ConfirmContactImportMutationVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];
@@ -4083,7 +4083,7 @@ export type GetContactQueryVariables = Exact<{
   contactId: Scalars['ID']['input'];
 }>;
 
-export type GetContactQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', contact?: { __typename?: 'Contact', id: string, name?: string | null, createdAt?: any | null, isArchived?: boolean | null, isEnriched?: boolean | null, sellerIntentScore?: number | null, doNotContact?: boolean | null, doNotContactReason?: string | null, doNotContactSetAt?: any | null, doNotContactSetBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus, emailCheck?: { __typename?: 'ContactEmailCheck', result: EmailDeliverability, reason?: string | null, checkedAt: any, source: EmailCheckSource, checkedBy?: string | null } | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus, dncStatus?: { __typename?: 'DncStatus', isDnc: boolean, isLitigator: boolean } | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', id: string, rawText?: string | null, verificationStatus: VerificationStatus, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, properties?: Array<{ __typename?: 'ContactProperty', id: string, propertyString?: string | null, status?: string | null, verificationStatus: VerificationStatus, type?: PropertyCrmContactRelation | null, property?: { __typename?: 'Property', id: string } | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedPeople?: Array<{ __typename?: 'RelatedPerson', id: string, kind: RelatedPersonKind, name: string, relation?: string | null, inContacts: boolean, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedTo?: { __typename?: 'RelatedMainContactLink', mainContactId: string, mainContactName: string, relation?: string | null } | null, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, userGroups?: Array<{ __typename?: 'UserGroup', id: string, name: string }> | null, notes?: Array<{ __typename?: 'Note', id: string, body?: string | null, createdAt?: any | null, isPinned?: boolean | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, createdByUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, replies?: Array<{ __typename?: 'NoteReply', id: string, body?: string | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null }> | null }> | null, deals?: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, isArchived: boolean, priceFormatted?: string | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null }> | null } | null } | null };
+export type GetContactQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', contact?: { __typename?: 'Contact', id: string, name?: string | null, createdAt?: any | null, isArchived?: boolean | null, isEnriched?: boolean | null, sellerIntentScore?: number | null, doNotContact?: boolean | null, doNotContactReason?: string | null, doNotContactSetAt?: any | null, doNotContactSetBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus, emailCheck?: { __typename?: 'ContactEmailCheck', result: EmailDeliverability, reason?: string | null, checkedAt: any, source: EmailCheckSource, checkedBy?: string | null } | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus, dncStatus?: { __typename?: 'DncStatus', isDnc: boolean, isLitigator: boolean } | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', id: string, rawText?: string | null, verificationStatus: VerificationStatus, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, properties?: Array<{ __typename?: 'ContactProperty', id: string, propertyString?: string | null, status?: string | null, verificationStatus: VerificationStatus, type?: PropertyCrmContactRelation | null, property?: { __typename?: 'Property', id: string } | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedPeople?: Array<{ __typename?: 'RelatedPerson', id: string, kind: RelatedPersonKind, name: string, relation?: string | null, inContacts: boolean, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedTo?: { __typename?: 'RelatedMainContactLink', mainContactId: string, mainContactName: string, relation?: string | null } | null, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, userGroups?: Array<{ __typename?: 'UserGroup', id: string, name: string }> | null, notes?: Array<{ __typename?: 'Note', id: string, body?: string | null, createdAt?: any | null, isPinned?: boolean | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, createdByUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, replies?: Array<{ __typename?: 'NoteReply', id: string, body?: string | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null }> | null }> | null, pipelineItems?: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, isArchived: boolean, priceFormatted?: string | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null }> | null } | null } | null };
 
 export type FindContactsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
@@ -4639,17 +4639,17 @@ export type ListContactContractsQueryVariables = Exact<{
 
 export type ListContactContractsQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', contactContracts?: Array<{ __typename?: 'AdminContractSummary', id: string, title: string, templateId?: string | null, status?: AdminContractStatus | null, held: boolean, contactId?: string | null, contactName: string, signerCount: number, signedCount: number, sentAt?: any | null, expiresAt?: any | null, completedAt?: any | null, signers: Array<{ __typename?: 'AdminContractSigner', displayName: string, status: AdminContractRecipientStatus, signedAt?: any | null }> }> | null } | null };
 
-export type ListDealContractsQueryVariables = Exact<{
-  dealId: Scalars['ID']['input'];
+export type ListPipelineItemContractsQueryVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
 }>;
 
-export type ListDealContractsQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', dealContracts?: Array<{ __typename?: 'AdminContractSummary', id: string, title: string, templateId?: string | null, status?: AdminContractStatus | null, held: boolean, contactId?: string | null, contactName: string, signerCount: number, signedCount: number, sentAt?: any | null, expiresAt?: any | null, completedAt?: any | null, signers: Array<{ __typename?: 'AdminContractSigner', displayName: string, status: AdminContractRecipientStatus, signedAt?: any | null }> }> | null } | null };
+export type ListPipelineItemContractsQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', pipelineItemContracts?: Array<{ __typename?: 'AdminContractSummary', id: string, title: string, templateId?: string | null, status?: AdminContractStatus | null, held: boolean, contactId?: string | null, contactName: string, signerCount: number, signedCount: number, sentAt?: any | null, expiresAt?: any | null, completedAt?: any | null, signers: Array<{ __typename?: 'AdminContractSigner', displayName: string, status: AdminContractRecipientStatus, signedAt?: any | null }> }> | null } | null };
 
 export type GetContractQueryVariables = Exact<{
   contractId: Scalars['ID']['input'];
 }>;
 
-export type GetContractQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', contract?: { __typename?: 'AdminContract', id: string, title: string, category: string, status?: AdminContractStatus | null, held: boolean, contactId?: string | null, contactName: string, revisionNumber: number, subject: string, message: string, expiryDays: number, reminderIntervalDays?: number | null, sentAt?: any | null, expiresAt?: any | null, completedAt?: any | null, unsignedPdfUrl?: string | null, signedPdfUrl?: string | null, deal?: { __typename?: 'AdminContractSendPipelineItem', id: string, title: string } | null, values: Array<{ __typename?: 'AdminContractValue', key: string, label: string, value: string }>, recipients: Array<{ __typename?: 'AdminContractRecipient', id: string, roleLabel: string, kind: AdminContractRoleKind, displayName: string, email?: string | null, phone?: string | null, signingOrder: number, status: AdminContractRecipientStatus, firstViewedAt?: any | null, signedAt?: any | null, declinedAt?: any | null, declineReason?: string | null, deliveryProblem?: string | null }> } | null } | null };
+export type GetContractQuery = { __typename?: 'RootQuery', contractsQuery?: { __typename?: 'ContractsQuery', contract?: { __typename?: 'AdminContract', id: string, title: string, category: string, status?: AdminContractStatus | null, held: boolean, contactId?: string | null, contactName: string, revisionNumber: number, subject: string, message: string, expiryDays: number, reminderIntervalDays?: number | null, sentAt?: any | null, expiresAt?: any | null, completedAt?: any | null, unsignedPdfUrl?: string | null, signedPdfUrl?: string | null, pipelineItem?: { __typename?: 'AdminContractSendPipelineItem', id: string, title: string } | null, values: Array<{ __typename?: 'AdminContractValue', key: string, label: string, value: string }>, recipients: Array<{ __typename?: 'AdminContractRecipient', id: string, roleLabel: string, kind: AdminContractRoleKind, displayName: string, email?: string | null, phone?: string | null, signingOrder: number, status: AdminContractRecipientStatus, firstViewedAt?: any | null, signedAt?: any | null, declinedAt?: any | null, declineReason?: string | null, deliveryProblem?: string | null }> } | null } | null };
 
 export type ArchiveContractTemplateMutationVariables = Exact<{
   input: AdminContractArchiveTemplateInput;
@@ -4825,373 +4825,11 @@ export type ImportContactNoteMutationVariables = Exact<{
 
 export type ImportContactNoteMutation = { __typename?: 'RootMutation', crmImportMutation?: { __typename?: 'CrmImportMutation', importContactNote?: { __typename?: 'ImportContactNoteResult', noteId: string, contactId: string, metadata?: any | null } | null } | null };
 
-export type ImportDealMutationVariables = Exact<{
+export type ImportPipelineItemMutationVariables = Exact<{
   input: ImportPipelineItemInput;
 }>;
 
-export type ImportDealMutation = { __typename?: 'RootMutation', crmImportMutation?: { __typename?: 'CrmImportMutation', importDeal?: { __typename?: 'ImportPipelineItemResult', wasCreated: boolean, dealId: string } | null } | null };
-
-export type GetDealQueryVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-}>;
-
-export type GetDealQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDeal?: { __typename?: 'Deal', id: string, title: string, description?: string | null, priceCents?: any | null, priceFormatted?: string | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionFormatted?: string | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, externalLinks?: Array<{ __typename?: 'ExternalLink', id: string, title: string, url: string }> | null, linkedItems: Array<{ __typename?: 'PipelineItemLink', id: string, label?: string | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, item: { __typename?: 'Deal', id: string, title: string } }>, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, userRoles: Array<{ __typename?: 'PipelineItemUserRole', userId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, propertyRoles: Array<{ __typename?: 'PipelineItemPropertyRole', propertyId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, completedAt?: any | null, dueDate?: any | null }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null } | null } | null };
-
-export type FindDealsQueryVariables = Exact<{
-  titleContains?: InputMaybe<Scalars['String']['input']>;
-  contactId?: InputMaybe<Scalars['ID']['input']>;
-  contactIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  pipelineId?: InputMaybe<Scalars['ID']['input']>;
-  stageId?: InputMaybe<Scalars['ID']['input']>;
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>;
-  hasAssignedUsers?: InputMaybe<Scalars['Boolean']['input']>;
-  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  stageName?: InputMaybe<Scalars['String']['input']>;
-  outcome?: InputMaybe<PipelineItemOutcomeFilter>;
-  stageChangedAfter?: InputMaybe<Scalars['DateTime']['input']>;
-  stageChangedBefore?: InputMaybe<Scalars['DateTime']['input']>;
-  closeDateAfter?: InputMaybe<Scalars['DateTime']['input']>;
-  closeDateBefore?: InputMaybe<Scalars['DateTime']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type FindDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', findDeals?: { __typename?: 'FindPipelineItemsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, priceFormatted?: string | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, taskSummary: { __typename?: 'PipelineItemTaskSummary', openTaskCount: number, openAppointmentCount: number }, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', name: string } }> | null }>, totals: { __typename?: 'FindPipelineItemsTotals', priceFormatted: string, averagePriceFormatted?: string | null, commissionFormatted: string, pricedDealCount: number, commissionDealCount: number } } | null } | null };
-
-export type SurveyDealsQueryVariables = Exact<{
-  titleContains?: InputMaybe<Scalars['String']['input']>;
-  contactId?: InputMaybe<Scalars['ID']['input']>;
-  contactIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  pipelineId?: InputMaybe<Scalars['ID']['input']>;
-  stageId?: InputMaybe<Scalars['ID']['input']>;
-  isArchived?: InputMaybe<Scalars['Boolean']['input']>;
-  hasAssignedUsers?: InputMaybe<Scalars['Boolean']['input']>;
-  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type SurveyDealsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', findDeals?: { __typename?: 'FindPipelineItemsResult', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'Deal', id: string, title: string, isArchived: boolean, stage?: { __typename?: 'PipelineStage', name: string } | null, pipeline?: { __typename?: 'Pipeline', name: string } | null, users?: Array<{ __typename?: 'User', firstName?: string | null, lastName?: string | null }> | null, taskSummary: { __typename?: 'PipelineItemTaskSummary', openTaskCount: number, openAppointmentCount: number }, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', textValue?: string | null, numberValue?: number | null, dateValue?: any | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', name: string } }> | null }> } | null } | null };
-
-export type ListStalledDealsQueryVariables = Exact<{
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type ListStalledDealsQuery = { __typename?: 'RootQuery', pipelineSummaryQuery?: { __typename?: 'PipelineSummaryQuery', stalledDealsPage?: { __typename?: 'StalledPipelineItemsPage', totalCount: number, hasMore: boolean, deals: Array<{ __typename?: 'StalledPipelineItem', id: string, name: string, value: number, stage: string, pipelineId: string, contactName?: string | null, contactId?: string | null, inactiveDays: number }> } | null } | null };
-
-export type ListPipelinesQueryVariables = Exact<{ [key: string]: never; }>;
-
-export type ListPipelinesQuery = { __typename?: 'RootQuery', pipelineSummaryQuery?: { __typename?: 'PipelineSummaryQuery', summaries?: Array<{ __typename?: 'PipelineSummary', id: string, name: string, sameNameCount: number, total: number, deals: number, stages: Array<{ __typename?: 'PipelineStageSummary', name: string, outcome: string, count: number, value: number }> }> | null } | null };
-
-export type ListDealFiltersQueryVariables = Exact<{ [key: string]: never; }>;
-
-export type ListDealFiltersQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', getFilters?: Array<{ __typename?: 'Filter', id: string, name: string, description?: string | null, folderId?: string | null, isPrivate: boolean, isDefault: boolean, userId?: string | null, createdAt: any, criteriaSummary?: string | null }> | null } | null };
-
-export type FilterDealsQueryVariables = Exact<{
-  filterId: Scalars['ID']['input'];
-  pipelineId: Scalars['ID']['input'];
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type FilterDealsQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', applyDealFilter?: { __typename?: 'FilteredPipelineItemsResponse', items: Array<{ __typename?: 'Deal', id: string, title: string, isArchived: boolean, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }>, pagination: { __typename?: 'FilterPaginationResponse', total?: number | null, hasMore?: boolean | null } } | null } | null };
-
-export type ListPipelineNamesQueryVariables = Exact<{ [key: string]: never; }>;
-
-export type ListPipelineNamesQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', listDealPipelineRefs?: Array<{ __typename?: 'PipelineRef', id: string, name: string, sameNameCount: number }> | null } | null };
-
-export type ListStagesOfPipelinesQueryVariables = Exact<{ [key: string]: never; }>;
-
-export type ListStagesOfPipelinesQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', myPipelines?: Array<{ __typename?: 'Pipeline', id: string, name: string, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, isTerminal: boolean }> | null }> | null, sharedPipelines?: Array<{ __typename?: 'Pipeline', id: string, name: string, sharedByOrganizationName?: string | null, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, isTerminal: boolean }> | null }> | null } | null };
-
-export type ListPipelineStagesQueryVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-}>;
-
-export type ListPipelineStagesQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDealPipelineStages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number }> | null } | null };
-
-export type CreateDealMutationVariables = Exact<{
-  input: CreatePipelineItemInput;
-}>;
-
-export type CreateDealMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createDeal?: { __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, updatedAt?: any | null, createdAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null } | null } | null };
-
-export type UpdateDealMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  input: PipelineItemMutationInput;
-  expectedUpdatedAt?: InputMaybe<Scalars['DateTime']['input']>;
-}>;
-
-export type UpdateDealMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', updateDeal?: { __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, dealCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null } | null } | null };
-
-export type ArchiveDealMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  isArchived: Scalars['Boolean']['input'];
-}>;
-
-export type ArchiveDealMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', changeArchiveStatus?: { __typename?: 'Deal', id: string, title: string, isArchived: boolean } | null } | null };
-
-export type CreatePipelineMutationVariables = Exact<{
-  title: Scalars['String']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  stages?: InputMaybe<Array<PipelineStageCreateInput> | PipelineStageCreateInput>;
-}>;
-
-export type CreatePipelineMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createPipeline?: { __typename?: 'Pipeline', id: string, name: string, description?: string | null, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number }> | null } | null } | null };
-
-export type UpdatePipelineMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-export type UpdatePipelineMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', updateDealPipeline?: { __typename?: 'Pipeline', id: string, name: string, description?: string | null, dealsCount: number } | null } | null };
-
-export type AddPipelineStagesMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  stages: Array<PipelineStageCreateInput> | PipelineStageCreateInput;
-}>;
-
-export type AddPipelineStagesMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createDealStages?: { __typename?: 'Pipeline', id: string, name: string, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number }> | null } | null } | null };
-
-export type UpdatePipelineStageMutationVariables = Exact<{
-  stageId: Scalars['ID']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  isTerminal?: InputMaybe<Scalars['Boolean']['input']>;
-  terminalType?: InputMaybe<PipelineStageTerminalType>;
-  winProbability?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type UpdatePipelineStageMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', updateDealStage?: { __typename?: 'PipelineStage', id: string, name: string, order: number, description?: string | null, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number } | null } | null };
-
-export type ReorderPipelineStagesMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  stageIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-}>;
-
-export type ReorderPipelineStagesMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', reorderDealStages?: { __typename?: 'Pipeline', id: string, name: string, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number }> | null } | null } | null };
-
-export type GetPipelineAnalyticsQueryVariables = Exact<{
-  orgId: Scalars['ID']['input'];
-  period?: InputMaybe<AgentAnalyticsPeriod>;
-}>;
-
-export type GetPipelineAnalyticsQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', agentPipelineInventory?: { __typename?: 'AgentPipelineInventory', asOfDate: any, period: AgentAnalyticsPeriod, reportingPeriod: string, startDate: any, endDate: any, pipelines: Array<{ __typename?: 'AgentPipelineRow', pipelineId: string, pipelineName: string, avgStageDurationDays?: number | null, wonDeals: number, lostDeals: number, activeDealsCount: number, currentStageMix: Array<{ __typename?: 'AgentStageMixItem', stageName: string, dealCount: number }> }> } | null } | null };
-
-export type ListPipelineTransitionsQueryVariables = Exact<{
-  orgId: Scalars['ID']['input'];
-  pipelineId?: InputMaybe<Scalars['ID']['input']>;
-  period?: InputMaybe<AgentAnalyticsPeriod>;
-}>;
-
-export type ListPipelineTransitionsQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', agentPipelineTransitions?: Array<{ __typename?: 'AgentPipelineTransitionRow', asOfDate: any, pipelineId: string, pipelineName: string, fromStageId?: string | null, fromStageName?: string | null, toStageId?: string | null, toStageName?: string | null, transitionsToWonStage?: boolean | null, transitionsToLostStage?: boolean | null, transitionDealsCount: number, fromStageExitDealsCount: number, wonTransitionDealsCount: number, lostTransitionDealsCount: number }> | null } | null };
-
-export type ListDealActivityQueryVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  eventTypes?: InputMaybe<Array<PipelineItemActivityEventType> | PipelineItemActivityEventType>;
-}>;
-
-export type ListDealActivityQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDeal?: { __typename?: 'Deal', id: string, events?: Array<{ __typename?: 'PipelineItemActivityEvent', id: string, eventType: PipelineItemActivityEventType, createdAt: any, payload: any, taskNow?: string | null, actor?: { __typename?: 'PipelineItemActivityActor', userId: string, name: string } | null }> | null } | null } | null };
-
-export type ListDealFilesQueryVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type ListDealFilesQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDeal?: { __typename?: 'Deal', id: string, files?: Array<{ __typename?: 'UploadedFile', id: string, fileName: string, fileUrl?: string | null, createdAt?: any | null }> | null } | null } | null };
-
-export type ListDealCommentsQueryVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  limit?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-export type ListDealCommentsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDeal?: { __typename?: 'Deal', id: string, events?: Array<{ __typename?: 'PipelineItemActivityEvent', id: string, eventType: PipelineItemActivityEventType, createdAt: any, payload: any, actor?: { __typename?: 'PipelineItemActivityActor', userId: string, name: string } | null }> | null } | null } | null };
-
-export type AddDealCommentMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  body: Scalars['String']['input'];
-}>;
-
-export type AddDealCommentMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', addDealComment?: { __typename?: 'PipelineItemActivityEvent', id: string, eventType: PipelineItemActivityEventType, createdAt: any, payload: any, actor?: { __typename?: 'PipelineItemActivityActor', userId: string, name: string } | null } | null } | null };
-
-export type GetDeletionImpactQueryVariables = Exact<{
-  targetKind: DependencyTargetKind;
-  targetId: Scalars['ID']['input'];
-}>;
-
-export type GetDeletionImpactQuery = { __typename?: 'RootQuery', dependencyQuery?: { __typename?: 'DependencyQuery', getDeletionImpact?: { __typename?: 'DeletionImpact', impactVersion: string, requiresReplacement: boolean, warnings: Array<string>, groups: Array<{ __typename?: 'DependencyImpactGroup', groupKind: DependencyImpactGroupKind, title: string, count: number }>, replacementRequirements: Array<{ __typename?: 'DependencyReplacementRequirement', targetKind: DependencyTargetKind, targetId: string, title: string, options: Array<{ __typename?: 'DependencyReplacementOption', id: string, label: string, subtitle?: string | null }> }> } | null } | null };
-
-export type DeletePipelineMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  dependencyResolution: DependencyResolutionInput;
-}>;
-
-export type DeletePipelineMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', deleteDealPipeline?: { __typename?: 'User', id: string } | null } | null };
-
-export type DeletePipelineStageMutationVariables = Exact<{
-  stageId: Scalars['ID']['input'];
-  dependencyResolution: DependencyResolutionInput;
-}>;
-
-export type DeletePipelineStageMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', deleteDealStage?: { __typename?: 'Pipeline', id: string } | null } | null };
-
-export type ListDealCustomFieldsQueryVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-}>;
-
-export type ListDealCustomFieldsQuery = { __typename?: 'RootQuery', dealCustomFieldQuery?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType, displayOrder: number, allowMultiple: boolean, defaultValue?: string | null, options?: Array<{ __typename?: 'PipelineItemCustomFieldOption', id: string, label: string }> | null }> | null } | null };
-
-export type CreateDealCustomFieldMutationVariables = Exact<{
-  input: CreatePipelineItemCustomFieldInput;
-  pipelineId: Scalars['ID']['input'];
-}>;
-
-export type CreateDealCustomFieldMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', createCustomField?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType }> | null } | null } | null };
-
-export type UpdateDealCustomFieldMutationVariables = Exact<{
-  customFieldId: Scalars['ID']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
-  options?: InputMaybe<Array<UpsertPipelineItemCustomFieldOptionInput> | UpsertPipelineItemCustomFieldOptionInput>;
-  defaultValue?: InputMaybe<Scalars['String']['input']>;
-  optionDependencyResolutions?: InputMaybe<Array<DependencyResolutionInput> | DependencyResolutionInput>;
-}>;
-
-export type UpdateDealCustomFieldMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', updateCustomField?: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType, displayOrder: number, allowMultiple: boolean, defaultValue?: string | null, options?: Array<{ __typename?: 'PipelineItemCustomFieldOption', id: string, label: string }> | null } | null } | null };
-
-export type AttachDealFileMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  artifactId: Scalars['ID']['input'];
-}>;
-
-export type AttachDealFileMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', attachDealFileFromArtifact?: { __typename?: 'UploadedFile', id: string, fileName: string, fileUrl?: string | null, createdAt?: any | null } | null } | null };
-
-export type RemoveDealFileMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  fileId: Scalars['ID']['input'];
-}>;
-
-export type RemoveDealFileMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', removeDealFiles?: { __typename?: 'Deal', id: string } | null } | null };
-
-export type DeleteDealMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  dependencyResolution: DependencyResolutionInput;
-}>;
-
-export type DeleteDealMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', stageItWasOn?: { __typename?: 'PipelineStage', id: string, name: string } | null } | null };
-
-export type ArchiveDealsMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  dealIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
-}>;
-
-export type ArchiveDealsMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', archiveDeals?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
-
-export type BulkUpdateDealsMutationVariables = Exact<{
-  dealIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-  input: PipelineItemMutationInput;
-}>;
-
-export type BulkUpdateDealsMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', bulkUpdateDeals?: { __typename?: 'PipelineItemBulkUpdateResult', mode: ContactsBulkActionMode, bulkTaskId?: string | null, updatedDealCount?: number | null } | null } | null };
-
-export type BulkCreateDealsOnContactsMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
-  deal: CreatePipelineItemInput;
-  propertyAttachmentMode?: InputMaybe<BulkPipelineItemPropertyAttachmentMode>;
-  skipContactsWithDeal?: InputMaybe<Scalars['Boolean']['input']>;
-  autoNameDeals?: InputMaybe<Scalars['Boolean']['input']>;
-}>;
-
-export type BulkCreateDealsOnContactsMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', bulkCreateDealsOnContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
-
-export type EditDealCommentMutationVariables = Exact<{
-  commentId: Scalars['ID']['input'];
-  body: Scalars['String']['input'];
-}>;
-
-export type EditDealCommentMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', editDealComment?: { __typename?: 'PipelineItemActivityEvent', id: string, createdAt: any, payload: any } | null } | null };
-
-export type DeleteDealCommentMutationVariables = Exact<{
-  commentId: Scalars['ID']['input'];
-}>;
-
-export type DeleteDealCommentMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', deleteDealComment?: string | null } | null };
-
-export type AddDealExternalLinkMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  title: Scalars['String']['input'];
-  url: Scalars['String']['input'];
-}>;
-
-export type AddDealExternalLinkMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createDealExternalLink?: { __typename?: 'ExternalLink', id: string, title: string, url: string } | null } | null };
-
-export type RemoveDealExternalLinkMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
-  linkId: Scalars['ID']['input'];
-}>;
-
-export type RemoveDealExternalLinkMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', deleteDealExternalLink?: { __typename?: 'Deal', id: string, externalLinks?: Array<{ __typename?: 'ExternalLink', id: string, title: string, url: string }> | null } | null } | null };
-
-export type LinkPipelineItemsMutationVariables = Exact<{
-  pipelineItemId: Scalars['ID']['input'];
-  otherPipelineItemId: Scalars['ID']['input'];
-  label?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-export type LinkPipelineItemsMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', linkPipelineItems?: { __typename?: 'PipelineItemLink', id: string } | null } | null };
-
-export type UnlinkPipelineItemsMutationVariables = Exact<{
-  linkId: Scalars['ID']['input'];
-}>;
-
-export type UnlinkPipelineItemsMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', unlinkPipelineItems?: boolean | null } | null };
-
-export type GetDealPipelineLayoutQueryVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-}>;
-
-export type GetDealPipelineLayoutQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getDealPipeline?: { __typename?: 'Pipeline', id: string, name: string, canEditPipeline: boolean, hiddenDetailFieldKeys?: Array<string> | null, customFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType, displayOrder: number, showOnCard?: boolean | null, cardDisplayOrder?: number | null }> | null } | null } | null };
-
-export type AddDealCustomFieldOptionMutationVariables = Exact<{
-  customFieldId: Scalars['ID']['input'];
-  label: Scalars['String']['input'];
-}>;
-
-export type AddDealCustomFieldOptionMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', addOption?: { __typename?: 'PipelineItemCustomField', id: string, name: string, options?: Array<{ __typename?: 'PipelineItemCustomFieldOption', id: string, label: string }> | null } | null } | null };
-
-export type ReorderDealCustomFieldsMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  customFieldIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-}>;
-
-export type ReorderDealCustomFieldsMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', reorderCustomFields?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, displayOrder: number }> | null } | null } | null };
-
-export type DeleteDealCustomFieldMutationVariables = Exact<{
-  customFieldId: Scalars['ID']['input'];
-  pipelineId: Scalars['ID']['input'];
-  dependencyResolution: DependencyResolutionInput;
-}>;
-
-export type DeleteDealCustomFieldMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', deleteCustomField?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string }> | null } | null } | null };
-
-export type SetDealCardFieldsMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  customFieldIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-}>;
-
-export type SetDealCardFieldsMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', updateCardDisplayFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, showOnCard?: boolean | null, cardDisplayOrder?: number | null }> | null } | null };
-
-export type SetDealDetailHiddenFieldsMutationVariables = Exact<{
-  pipelineId: Scalars['ID']['input'];
-  hiddenFieldKeys: Array<Scalars['String']['input']> | Scalars['String']['input'];
-}>;
-
-export type SetDealDetailHiddenFieldsMutation = { __typename?: 'RootMutation', dealCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', updateDealDetailFieldVisibility?: { __typename?: 'Pipeline', id: string, hiddenDetailFieldKeys?: Array<string> | null } | null } | null };
+export type ImportPipelineItemMutation = { __typename?: 'RootMutation', crmImportMutation?: { __typename?: 'CrmImportMutation', importPipelineItem?: { __typename?: 'ImportPipelineItemResult', pipelineItemId: string, wasCreated: boolean } | null } | null };
 
 export type GetDialingPoolQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -5355,7 +4993,7 @@ export type GetEmployeeQueryVariables = Exact<{
   employeeId: Scalars['ID']['input'];
 }>;
 
-export type GetEmployeeQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', contactAgent?: { __typename?: 'ContactAgent', id: string, name: string, title?: string | null, status: ContactAgentStatus, origin?: AgentOrigin | null, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null, dailyRunCap?: number | null, dailyCallCap?: number | null, configDocument: any, textHours?: string | null, quietHoursNotice?: string | null, createdAt: any, updatedAt: any, abilities: Array<{ __typename?: 'ContactAgentAbility', tool: string, label: string, on: boolean, explicitlySet: boolean, gate?: string | null }>, config: { __typename?: 'ContactAgentConfig', wakes: { __typename?: 'ContactAgentWakes', inboundText: boolean, inboundEmail: boolean, callEnded: boolean, meetingSummary: boolean, formSubmitted: boolean, inboundSlack: boolean, teammateText: boolean, teammateEmail: boolean, teammateSlack: boolean, otherEmployeeCallEnded: boolean, contactNoteAdded: boolean, taskCreated: boolean, taskCompleted: boolean, appointmentCreated: boolean, appointmentChanged: boolean, contactFieldChanged: boolean, dealStageEntered: boolean, dealCreated: boolean, dealNoteAdded: boolean } }, legacyPhoneLines: Array<{ __typename?: 'ContactAgentPhoneLine', id: string, e164Number: string, holderUserId?: string | null }>, mailboxes: Array<{ __typename?: 'ContactAgentMailbox', id: string, emailAddress: string, provider: string, hasActiveConnection: boolean }>, triggerForms: Array<{ __typename?: 'ContactAgentTriggerForm', id: string, name: string, status: string }>, defaultAssignees: { __typename?: 'ContactAgentDefaultAssignees', mode: ContactAgentDefaultAssigneeMode, assigneeUserIds: Array<string> }, commitments: { __typename?: 'ContactAgentCommitments', assignedContactCount: number, scheduledContactCount: number, bookedFollowUpContactCount: number, openSessionCount: number } } | null } | null };
+export type GetEmployeeQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', contactAgent?: { __typename?: 'ContactAgent', id: string, name: string, title?: string | null, status: ContactAgentStatus, origin?: AgentOrigin | null, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null, dailyRunCap?: number | null, dailyCallCap?: number | null, configDocument: any, textHours?: string | null, quietHoursNotice?: string | null, createdAt: any, updatedAt: any, abilities: Array<{ __typename?: 'ContactAgentAbility', tool: string, label: string, on: boolean, explicitlySet: boolean, gate?: string | null }>, config: { __typename?: 'ContactAgentConfig', wakes: { __typename?: 'ContactAgentWakes', inboundText: boolean, inboundEmail: boolean, callEnded: boolean, meetingSummary: boolean, formSubmitted: boolean, inboundSlack: boolean, teammateText: boolean, teammateEmail: boolean, teammateSlack: boolean, otherEmployeeCallEnded: boolean, pipelineStageEntered: boolean, pipelineItemCreated: boolean, contactNoteAdded: boolean, pipelineItemNoteAdded: boolean, taskCreated: boolean, taskCompleted: boolean, appointmentCreated: boolean, appointmentChanged: boolean, contactFieldChanged: boolean } }, legacyPhoneLines: Array<{ __typename?: 'ContactAgentPhoneLine', id: string, e164Number: string, holderUserId?: string | null }>, mailboxes: Array<{ __typename?: 'ContactAgentMailbox', id: string, emailAddress: string, provider: string, hasActiveConnection: boolean }>, triggerForms: Array<{ __typename?: 'ContactAgentTriggerForm', id: string, name: string, status: string }>, defaultAssignees: { __typename?: 'ContactAgentDefaultAssignees', mode: ContactAgentDefaultAssigneeMode, assigneeUserIds: Array<string> }, commitments: { __typename?: 'ContactAgentCommitments', assignedContactCount: number, scheduledContactCount: number, bookedFollowUpContactCount: number, openSessionCount: number } } | null } | null };
 
 export type GetEmployeeCaseloadQueryVariables = Exact<{
   employeeId: Scalars['ID']['input'];
@@ -5943,7 +5581,7 @@ export type ListNotificationsQueryVariables = Exact<{
   searchTerm?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type ListNotificationsQuery = { __typename?: 'RootQuery', notificationQuery?: { __typename?: 'NotificationQuery', paginateUserNotifications?: { __typename?: 'PaginateUserNotificationsResponse', total: number, hasUnread: boolean, canFetchNext?: boolean | null, canFetchPrevious?: boolean | null, notifications: Array<{ __typename?: 'UserNotification', id: string, userId?: string | null, notificationType: string, title: string, content: string, seen: boolean, createdAt: string, actionType?: string | null, actionTargetId?: string | null, contactId?: string | null, noteId?: string | null, replyId?: string | null, taskId?: string | null, callId?: string | null, dealId?: string | null }> } | null } | null };
+export type ListNotificationsQuery = { __typename?: 'RootQuery', notificationQuery?: { __typename?: 'NotificationQuery', paginateUserNotifications?: { __typename?: 'PaginateUserNotificationsResponse', total: number, hasUnread: boolean, canFetchNext?: boolean | null, canFetchPrevious?: boolean | null, notifications: Array<{ __typename?: 'UserNotification', id: string, userId?: string | null, notificationType: string, title: string, content: string, seen: boolean, createdAt: string, actionType?: string | null, actionTargetId?: string | null, contactId?: string | null, pipelineItemId?: string | null, noteId?: string | null, replyId?: string | null, taskId?: string | null, callId?: string | null }> } | null } | null };
 
 export type GetNotificationCountsQueryVariables = Exact<{
   notificationTypeFilter?: InputMaybe<Scalars['String']['input']>;
@@ -6167,6 +5805,368 @@ export type SetPhoneLineRingPolicyMutationVariables = Exact<{
 }>;
 
 export type SetPhoneLineRingPolicyMutation = { __typename?: 'RootMutation', ringPolicyMutation?: { __typename?: 'RingPolicyMutation', setPhoneLineRingPolicy?: { __typename?: 'RingPolicy', id: string } | null } | null };
+
+export type GetPipelineItemQueryVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+}>;
+
+export type GetPipelineItemQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', getPipelineItem?: { __typename?: 'Deal', id: string, title: string, description?: string | null, priceCents?: any | null, priceFormatted?: string | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionFormatted?: string | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, externalLinks?: Array<{ __typename?: 'ExternalLink', id: string, title: string, url: string }> | null, linkedItems: Array<{ __typename?: 'PipelineItemLink', id: string, label?: string | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, item: { __typename?: 'Deal', id: string, title: string } }>, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, userRoles: Array<{ __typename?: 'PipelineItemUserRole', userId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, propertyRoles: Array<{ __typename?: 'PipelineItemPropertyRole', propertyId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, completedAt?: any | null, dueDate?: any | null }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, pipelineItemCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null } | null } | null };
+
+export type FindPipelineItemsQueryVariables = Exact<{
+  titleContains?: InputMaybe<Scalars['String']['input']>;
+  contactId?: InputMaybe<Scalars['ID']['input']>;
+  contactIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  pipelineId?: InputMaybe<Scalars['ID']['input']>;
+  stageId?: InputMaybe<Scalars['ID']['input']>;
+  isArchived?: InputMaybe<Scalars['Boolean']['input']>;
+  hasAssignedUsers?: InputMaybe<Scalars['Boolean']['input']>;
+  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  stageName?: InputMaybe<Scalars['String']['input']>;
+  outcome?: InputMaybe<PipelineItemOutcomeFilter>;
+  stageChangedAfter?: InputMaybe<Scalars['DateTime']['input']>;
+  stageChangedBefore?: InputMaybe<Scalars['DateTime']['input']>;
+  closeDateAfter?: InputMaybe<Scalars['DateTime']['input']>;
+  closeDateBefore?: InputMaybe<Scalars['DateTime']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type FindPipelineItemsQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', findPipelineItems?: { __typename?: 'FindPipelineItemsResult', totalCount: number, hasMore: boolean, pipelineItems: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, priceFormatted?: string | null, closeDate?: any | null, isArchived: boolean, createdAt?: any | null, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, taskSummary: { __typename?: 'PipelineItemTaskSummary', openTaskCount: number, openAppointmentCount: number }, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, pipelineItemCustomField: { __typename?: 'PipelineItemCustomField', name: string } }> | null }>, totals: { __typename?: 'FindPipelineItemsTotals', pricedPipelineItemCount: number, priceFormatted: string, averagePriceFormatted?: string | null, commissionPipelineItemCount: number, commissionFormatted: string } } | null } | null };
+
+export type SurveyPipelineItemsQueryVariables = Exact<{
+  titleContains?: InputMaybe<Scalars['String']['input']>;
+  contactId?: InputMaybe<Scalars['ID']['input']>;
+  contactIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  pipelineId?: InputMaybe<Scalars['ID']['input']>;
+  stageId?: InputMaybe<Scalars['ID']['input']>;
+  isArchived?: InputMaybe<Scalars['Boolean']['input']>;
+  hasAssignedUsers?: InputMaybe<Scalars['Boolean']['input']>;
+  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type SurveyPipelineItemsQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', findPipelineItems?: { __typename?: 'FindPipelineItemsResult', totalCount: number, hasMore: boolean, pipelineItems: Array<{ __typename?: 'Deal', id: string, title: string, isArchived: boolean, stage?: { __typename?: 'PipelineStage', name: string } | null, pipeline?: { __typename?: 'Pipeline', name: string } | null, users?: Array<{ __typename?: 'User', firstName?: string | null, lastName?: string | null }> | null, taskSummary: { __typename?: 'PipelineItemTaskSummary', openTaskCount: number, openAppointmentCount: number }, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', textValue?: string | null, numberValue?: number | null, dateValue?: any | null, dropdownSelectedValues?: Array<string> | null, pipelineItemCustomField: { __typename?: 'PipelineItemCustomField', name: string } }> | null }> } | null } | null };
+
+export type ListStalledPipelineItemsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListStalledPipelineItemsQuery = { __typename?: 'RootQuery', pipelineSummaryQuery?: { __typename?: 'PipelineSummaryQuery', stalledPipelineItemsPage?: { __typename?: 'StalledPipelineItemsPage', totalCount: number, hasMore: boolean, pipelineItems: Array<{ __typename?: 'StalledPipelineItem', id: string, name: string, value: number, stage: string, pipelineId: string, contactName?: string | null, contactId?: string | null, inactiveDays: number }> } | null } | null };
+
+export type ListPipelinesQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type ListPipelinesQuery = { __typename?: 'RootQuery', pipelineSummaryQuery?: { __typename?: 'PipelineSummaryQuery', summaries?: Array<{ __typename?: 'PipelineSummary', id: string, name: string, sameNameCount: number, total: number, pipelineItems: number, stages: Array<{ __typename?: 'PipelineStageSummary', name: string, outcome: string, count: number, value: number }> }> | null } | null };
+
+export type ListPipelineItemFiltersQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type ListPipelineItemFiltersQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', getFilters?: Array<{ __typename?: 'Filter', id: string, name: string, description?: string | null, folderId?: string | null, isPrivate: boolean, isDefault: boolean, userId?: string | null, createdAt: any, criteriaSummary?: string | null }> | null } | null };
+
+export type FilterPipelineItemsQueryVariables = Exact<{
+  filterId: Scalars['ID']['input'];
+  pipelineId: Scalars['ID']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type FilterPipelineItemsQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', applyPipelineItemFilter?: { __typename?: 'FilteredPipelineItemsResponse', items: Array<{ __typename?: 'Deal', id: string, title: string, isArchived: boolean, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, users?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }>, pagination: { __typename?: 'FilterPaginationResponse', total?: number | null, hasMore?: boolean | null } } | null } | null };
+
+export type ListPipelineNamesQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type ListPipelineNamesQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', listPipelineRefs?: Array<{ __typename?: 'PipelineRef', id: string, name: string, sameNameCount: number }> | null } | null };
+
+export type ListStagesOfPipelinesQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type ListStagesOfPipelinesQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', myPipelines?: Array<{ __typename?: 'Pipeline', id: string, name: string, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, isTerminal: boolean }> | null }> | null, sharedPipelines?: Array<{ __typename?: 'Pipeline', id: string, name: string, sharedByOrganizationName?: string | null, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, isTerminal: boolean }> | null }> | null } | null };
+
+export type ListPipelineStagesQueryVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+}>;
+
+export type ListPipelineStagesQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', getPipelineStages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number }> | null } | null };
+
+export type CreatePipelineItemMutationVariables = Exact<{
+  input: CreatePipelineItemInput;
+}>;
+
+export type CreatePipelineItemMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', createPipelineItem?: { __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, updatedAt?: any | null, createdAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, pipelineItemCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }>, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null } | null } | null };
+
+export type UpdatePipelineItemMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  input: PipelineItemMutationInput;
+  expectedUpdatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+export type UpdatePipelineItemMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', updatePipelineItem?: { __typename?: 'Deal', id: string, title: string, priceCents?: any | null, closeDate?: any | null, isArchived: boolean, updatedAt?: any | null, lastStageChangeAt?: any | null, commissionCents?: any | null, commissionAmountCents?: any | null, commissionPercentBps?: number | null, teamSplitAmountCents?: any | null, teamSplitPercentBps?: number | null, participantSplits?: Array<{ __typename?: 'PipelineItemParticipantSplit', splitAmountCents?: any | null, splitPercentBps?: number | null, user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } }> | null, customFieldValues?: Array<{ __typename?: 'PipelineItemCustomFieldValue', id: string, textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null, pipelineItemCustomField: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType } }> | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null, pipeline?: { __typename?: 'Pipeline', id: string, name: string } | null, contacts?: Array<{ __typename?: 'Contact', id: string, name?: string | null }> | null, properties?: Array<{ __typename?: 'Property', id: string, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null } | null } | null };
+
+export type ArchivePipelineItemMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  isArchived: Scalars['Boolean']['input'];
+}>;
+
+export type ArchivePipelineItemMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', changeArchiveStatus?: { __typename?: 'Deal', id: string, title: string, isArchived: boolean } | null } | null };
+
+export type CreatePipelineMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  stages?: InputMaybe<Array<PipelineStageCreateInput> | PipelineStageCreateInput>;
+}>;
+
+export type CreatePipelineMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', createPipeline?: { __typename?: 'Pipeline', id: string, name: string, description?: string | null, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number }> | null } | null } | null };
+
+export type UpdatePipelineMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type UpdatePipelineMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', updatePipeline?: { __typename?: 'Pipeline', id: string, name: string, description?: string | null, pipelineItemsCount: number } | null } | null };
+
+export type AddPipelineStagesMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  stages: Array<PipelineStageCreateInput> | PipelineStageCreateInput;
+}>;
+
+export type AddPipelineStagesMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', createPipelineStages?: { __typename?: 'Pipeline', id: string, name: string, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number }> | null } | null } | null };
+
+export type UpdatePipelineStageMutationVariables = Exact<{
+  stageId: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  isTerminal?: InputMaybe<Scalars['Boolean']['input']>;
+  terminalType?: InputMaybe<PipelineStageTerminalType>;
+  winProbability?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type UpdatePipelineStageMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', updatePipelineStage?: { __typename?: 'PipelineStage', id: string, name: string, order: number, description?: string | null, isTerminal: boolean, terminalType?: PipelineStageTerminalType | null, winProbability: number } | null } | null };
+
+export type ReorderPipelineStagesMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  stageIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+}>;
+
+export type ReorderPipelineStagesMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', reorderPipelineStages?: { __typename?: 'Pipeline', id: string, name: string, stages?: Array<{ __typename?: 'PipelineStage', id: string, name: string, order: number }> | null } | null } | null };
+
+export type GetPipelineAnalyticsQueryVariables = Exact<{
+  orgId: Scalars['ID']['input'];
+  period?: InputMaybe<AgentAnalyticsPeriod>;
+}>;
+
+export type GetPipelineAnalyticsQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', agentPipelineInventory?: { __typename?: 'AgentPipelineInventory', asOfDate: any, period: AgentAnalyticsPeriod, reportingPeriod: string, startDate: any, endDate: any, pipelines: Array<{ __typename?: 'AgentPipelineRow', pipelineId: string, pipelineName: string, wonPipelineItems: number, lostPipelineItems: number, activePipelineItemsCount: number, avgStageDurationDays?: number | null, currentStageMix: Array<{ __typename?: 'AgentStageMixItem', stageName: string, pipelineItemCount: number }> }> } | null } | null };
+
+export type ListPipelineTransitionsQueryVariables = Exact<{
+  orgId: Scalars['ID']['input'];
+  pipelineId?: InputMaybe<Scalars['ID']['input']>;
+  period?: InputMaybe<AgentAnalyticsPeriod>;
+}>;
+
+export type ListPipelineTransitionsQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', agentPipelineTransitions?: Array<{ __typename?: 'AgentPipelineTransitionRow', asOfDate: any, pipelineId: string, pipelineName: string, fromStageId?: string | null, fromStageName?: string | null, toStageId?: string | null, toStageName?: string | null, transitionPipelineItemsCount: number, fromStageExitPipelineItemsCount: number, wonTransitionPipelineItemsCount: number, lostTransitionPipelineItemsCount: number, transitionsToWonStage?: boolean | null, transitionsToLostStage?: boolean | null }> | null } | null };
+
+export type ListPipelineItemActivityQueryVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  eventTypes?: InputMaybe<Array<PipelineItemActivityEventType> | PipelineItemActivityEventType>;
+}>;
+
+export type ListPipelineItemActivityQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', getPipelineItem?: { __typename?: 'Deal', id: string, events?: Array<{ __typename?: 'PipelineItemActivityEvent', id: string, eventType: PipelineItemActivityEventType, createdAt: any, payload: any, taskNow?: string | null, actor?: { __typename?: 'PipelineItemActivityActor', userId: string, name: string } | null }> | null } | null } | null };
+
+export type ListPipelineItemFilesQueryVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListPipelineItemFilesQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', getPipelineItem?: { __typename?: 'Deal', id: string, files?: Array<{ __typename?: 'UploadedFile', id: string, fileName: string, fileUrl?: string | null, createdAt?: any | null }> | null } | null } | null };
+
+export type ListPipelineItemCommentsQueryVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListPipelineItemCommentsQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', getPipelineItem?: { __typename?: 'Deal', id: string, events?: Array<{ __typename?: 'PipelineItemActivityEvent', id: string, eventType: PipelineItemActivityEventType, createdAt: any, payload: any, actor?: { __typename?: 'PipelineItemActivityActor', userId: string, name: string } | null }> | null } | null } | null };
+
+export type AddPipelineItemCommentMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  body: Scalars['String']['input'];
+}>;
+
+export type AddPipelineItemCommentMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', addPipelineItemComment?: { __typename?: 'PipelineItemActivityEvent', id: string, eventType: PipelineItemActivityEventType, createdAt: any, payload: any, actor?: { __typename?: 'PipelineItemActivityActor', userId: string, name: string } | null } | null } | null };
+
+export type GetDeletionImpactQueryVariables = Exact<{
+  targetKind: DependencyTargetKind;
+  targetId: Scalars['ID']['input'];
+}>;
+
+export type GetDeletionImpactQuery = { __typename?: 'RootQuery', dependencyQuery?: { __typename?: 'DependencyQuery', getDeletionImpact?: { __typename?: 'DeletionImpact', impactVersion: string, requiresReplacement: boolean, warnings: Array<string>, groups: Array<{ __typename?: 'DependencyImpactGroup', groupKind: DependencyImpactGroupKind, title: string, count: number }>, replacementRequirements: Array<{ __typename?: 'DependencyReplacementRequirement', targetKind: DependencyTargetKind, targetId: string, title: string, options: Array<{ __typename?: 'DependencyReplacementOption', id: string, label: string, subtitle?: string | null }> }> } | null } | null };
+
+export type DeletePipelineMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  dependencyResolution: DependencyResolutionInput;
+}>;
+
+export type DeletePipelineMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', deletePipeline?: { __typename?: 'User', id: string } | null } | null };
+
+export type DeletePipelineStageMutationVariables = Exact<{
+  stageId: Scalars['ID']['input'];
+  dependencyResolution: DependencyResolutionInput;
+}>;
+
+export type DeletePipelineStageMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', deletePipelineStage?: { __typename?: 'Pipeline', id: string } | null } | null };
+
+export type ListPipelineItemCustomFieldsQueryVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+}>;
+
+export type ListPipelineItemCustomFieldsQuery = { __typename?: 'RootQuery', pipelineItemCustomFieldQuery?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType, displayOrder: number, allowMultiple: boolean, defaultValue?: string | null, options?: Array<{ __typename?: 'PipelineItemCustomFieldOption', id: string, label: string }> | null }> | null } | null };
+
+export type CreatePipelineItemCustomFieldMutationVariables = Exact<{
+  input: CreatePipelineItemCustomFieldInput;
+  pipelineId: Scalars['ID']['input'];
+}>;
+
+export type CreatePipelineItemCustomFieldMutation = { __typename?: 'RootMutation', pipelineItemCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', createCustomField?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType }> | null } | null } | null };
+
+export type UpdatePipelineItemCustomFieldMutationVariables = Exact<{
+  customFieldId: Scalars['ID']['input'];
+  name?: InputMaybe<Scalars['String']['input']>;
+  options?: InputMaybe<Array<UpsertPipelineItemCustomFieldOptionInput> | UpsertPipelineItemCustomFieldOptionInput>;
+  defaultValue?: InputMaybe<Scalars['String']['input']>;
+  optionDependencyResolutions?: InputMaybe<Array<DependencyResolutionInput> | DependencyResolutionInput>;
+}>;
+
+export type UpdatePipelineItemCustomFieldMutation = { __typename?: 'RootMutation', pipelineItemCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', updateCustomField?: { __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType, displayOrder: number, allowMultiple: boolean, defaultValue?: string | null, options?: Array<{ __typename?: 'PipelineItemCustomFieldOption', id: string, label: string }> | null } | null } | null };
+
+export type AttachPipelineItemFileMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  artifactId: Scalars['ID']['input'];
+}>;
+
+export type AttachPipelineItemFileMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', attachPipelineItemFileFromArtifact?: { __typename?: 'UploadedFile', id: string, fileName: string, fileUrl?: string | null, createdAt?: any | null } | null } | null };
+
+export type RemovePipelineItemFileMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  fileId: Scalars['ID']['input'];
+}>;
+
+export type RemovePipelineItemFileMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', removePipelineItemFiles?: { __typename?: 'Deal', id: string } | null } | null };
+
+export type DeletePipelineItemMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  dependencyResolution: DependencyResolutionInput;
+}>;
+
+export type DeletePipelineItemMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', stageItWasOn?: { __typename?: 'PipelineStage', id: string, name: string } | null } | null };
+
+export type ArchivePipelineItemsMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  pipelineItemIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+export type ArchivePipelineItemsMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', archivePipelineItems?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
+
+export type BulkUpdatePipelineItemsMutationVariables = Exact<{
+  pipelineItemIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+  input: PipelineItemMutationInput;
+}>;
+
+export type BulkUpdatePipelineItemsMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', bulkUpdatePipelineItems?: { __typename?: 'PipelineItemBulkUpdateResult', mode: ContactsBulkActionMode, updatedPipelineItemCount?: number | null, bulkTaskId?: string | null } | null } | null };
+
+export type BulkCreatePipelineItemsOnContactsMutationVariables = Exact<{
+  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  pipelineItem: CreatePipelineItemInput;
+  propertyAttachmentMode?: InputMaybe<BulkPipelineItemPropertyAttachmentMode>;
+  skipContactsWithPipelineItem?: InputMaybe<Scalars['Boolean']['input']>;
+  autoNamePipelineItems?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+export type BulkCreatePipelineItemsOnContactsMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', bulkCreatePipelineItemsOnContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
+
+export type EditPipelineItemCommentMutationVariables = Exact<{
+  commentId: Scalars['ID']['input'];
+  body: Scalars['String']['input'];
+}>;
+
+export type EditPipelineItemCommentMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', editPipelineItemComment?: { __typename?: 'PipelineItemActivityEvent', id: string, createdAt: any, payload: any } | null } | null };
+
+export type DeletePipelineItemCommentMutationVariables = Exact<{
+  commentId: Scalars['ID']['input'];
+}>;
+
+export type DeletePipelineItemCommentMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', deletePipelineItemComment?: string | null } | null };
+
+export type AddPipelineItemExternalLinkMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  title: Scalars['String']['input'];
+  url: Scalars['String']['input'];
+}>;
+
+export type AddPipelineItemExternalLinkMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', createPipelineItemExternalLink?: { __typename?: 'ExternalLink', id: string, title: string, url: string } | null } | null };
+
+export type RemovePipelineItemExternalLinkMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  linkId: Scalars['ID']['input'];
+}>;
+
+export type RemovePipelineItemExternalLinkMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', deletePipelineItemExternalLink?: { __typename?: 'Deal', id: string, externalLinks?: Array<{ __typename?: 'ExternalLink', id: string, title: string, url: string }> | null } | null } | null };
+
+export type LinkPipelineItemsMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
+  otherPipelineItemId: Scalars['ID']['input'];
+  label?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type LinkPipelineItemsMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', linkPipelineItems?: { __typename?: 'PipelineItemLink', id: string } | null } | null };
+
+export type UnlinkPipelineItemsMutationVariables = Exact<{
+  linkId: Scalars['ID']['input'];
+}>;
+
+export type UnlinkPipelineItemsMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', unlinkPipelineItems?: boolean | null } | null };
+
+export type GetPipelineLayoutQueryVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+}>;
+
+export type GetPipelineLayoutQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', getPipeline?: { __typename?: 'Pipeline', id: string, name: string, canEditPipeline: boolean, hiddenDetailFieldKeys?: Array<string> | null, customFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, type: PipelineItemCustomFieldType, displayOrder: number, showOnCard?: boolean | null, cardDisplayOrder?: number | null }> | null } | null } | null };
+
+export type AddPipelineItemCustomFieldOptionMutationVariables = Exact<{
+  customFieldId: Scalars['ID']['input'];
+  label: Scalars['String']['input'];
+}>;
+
+export type AddPipelineItemCustomFieldOptionMutation = { __typename?: 'RootMutation', pipelineItemCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', addOption?: { __typename?: 'PipelineItemCustomField', id: string, name: string, options?: Array<{ __typename?: 'PipelineItemCustomFieldOption', id: string, label: string }> | null } | null } | null };
+
+export type ReorderPipelineItemCustomFieldsMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  customFieldIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+}>;
+
+export type ReorderPipelineItemCustomFieldsMutation = { __typename?: 'RootMutation', pipelineItemCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', reorderCustomFields?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, displayOrder: number }> | null } | null } | null };
+
+export type DeletePipelineItemCustomFieldMutationVariables = Exact<{
+  customFieldId: Scalars['ID']['input'];
+  pipelineId: Scalars['ID']['input'];
+  dependencyResolution: DependencyResolutionInput;
+}>;
+
+export type DeletePipelineItemCustomFieldMutation = { __typename?: 'RootMutation', pipelineItemCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', deleteCustomField?: { __typename?: 'PipelineItemCustomFieldQuery', getPipelineCustomFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string }> | null } | null } | null };
+
+export type SetPipelineItemCardFieldsMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  customFieldIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+}>;
+
+export type SetPipelineItemCardFieldsMutation = { __typename?: 'RootMutation', pipelineItemCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', updateCardDisplayFields?: Array<{ __typename?: 'PipelineItemCustomField', id: string, name: string, showOnCard?: boolean | null, cardDisplayOrder?: number | null }> | null } | null };
+
+export type SetPipelineItemDetailHiddenFieldsMutationVariables = Exact<{
+  pipelineId: Scalars['ID']['input'];
+  hiddenFieldKeys: Array<Scalars['String']['input']> | Scalars['String']['input'];
+}>;
+
+export type SetPipelineItemDetailHiddenFieldsMutation = { __typename?: 'RootMutation', pipelineItemCustomFieldMutation?: { __typename?: 'PipelineItemCustomFieldMutation', updatePipelineItemDetailFieldVisibility?: { __typename?: 'Pipeline', id: string, hiddenDetailFieldKeys?: Array<string> | null } | null } | null };
 
 export type GetPropertyQueryVariables = Exact<{
   propertyId: Scalars['ID']['input'];
@@ -6444,28 +6444,28 @@ export type GetContactFieldVisibilityQueryVariables = Exact<{ [key: string]: nev
 
 export type GetContactFieldVisibilityQuery = { __typename?: 'RootQuery', contactCustomFieldQuery?: { __typename?: 'ContactCustomFieldQuery', getMyOrganizationsCustomFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, visibleWhen?: { __typename?: 'ContactCustomFieldVisibility', fieldId: string, optionIds: Array<string> } | null }> | null } | null };
 
-export type GetDealDetailTabsQueryVariables = Exact<{
+export type GetPipelineDetailTabsQueryVariables = Exact<{
   pipelineId: Scalars['ID']['input'];
 }>;
 
-export type GetDealDetailTabsQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', getPipelineDetailLayout?: { __typename?: 'PipelineItemLayout', version: number, tabs: Array<{ __typename?: 'PipelineItemLayoutTab', id: string, name: string, displayOrder: number, fieldReferences: Array<string> }> } | null } | null };
+export type GetPipelineDetailTabsQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', getPipelineDetailLayout?: { __typename?: 'PipelineItemLayout', version: number, tabs: Array<{ __typename?: 'PipelineItemLayoutTab', id: string, name: string, displayOrder: number, fieldReferences: Array<string> }> } | null } | null };
 
-export type SetDealDetailTabsMutationVariables = Exact<{
+export type SetPipelineDetailTabsMutationVariables = Exact<{
   pipelineId: Scalars['ID']['input'];
   expectedVersion: Scalars['Int']['input'];
   tabs: Array<PipelineItemLayoutTabInput> | PipelineItemLayoutTabInput;
 }>;
 
-export type SetDealDetailTabsMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', updatePipelineDetailLayout?: { __typename?: 'PipelineItemLayout', version: number, tabs: Array<{ __typename?: 'PipelineItemLayoutTab', id: string, name: string, fieldReferences: Array<string> }> } | null } | null };
+export type SetPipelineDetailTabsMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', updatePipelineDetailLayout?: { __typename?: 'PipelineItemLayout', version: number, tabs: Array<{ __typename?: 'PipelineItemLayoutTab', id: string, name: string, fieldReferences: Array<string> }> } | null } | null };
 
-export type UpdateDealExternalLinkMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
+export type UpdatePipelineItemExternalLinkMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
   linkId: Scalars['ID']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
   url?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type UpdateDealExternalLinkMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', updateDealExternalLink?: { __typename?: 'ExternalLink', id: string, title: string, url: string } | null } | null };
+export type UpdatePipelineItemExternalLinkMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', updatePipelineItemExternalLink?: { __typename?: 'ExternalLink', id: string, title: string, url: string } | null } | null };
 
 export type RenameUploadedFileMutationVariables = Exact<{
   uploadedFileId: Scalars['String']['input'];
@@ -6504,55 +6504,55 @@ export type KeepContractAsTemplateMutation = { __typename?: 'RootMutation', cont
 
 export type ListPipelineRolesQueryVariables = Exact<{
   kind?: InputMaybe<PipelineRoleKind>;
-  dealId?: InputMaybe<Scalars['ID']['input']>;
+  pipelineItemId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type ListPipelineRolesQuery = { __typename?: 'RootQuery', dealQuery?: { __typename?: 'PipelineItemQuery', listPipelineRoles: Array<{ __typename?: 'PipelineRole', id: string, kind: PipelineRoleKind, name: string, onlyOne: boolean }> } | null };
+export type ListPipelineRolesQuery = { __typename?: 'RootQuery', pipelineItemQuery?: { __typename?: 'PipelineItemQuery', listPipelineRoles: Array<{ __typename?: 'PipelineRole', id: string, kind: PipelineRoleKind, name: string, onlyOne: boolean }> } | null };
 
 export type CreatePipelineRoleMutationVariables = Exact<{
   name: Scalars['String']['input'];
   kind?: InputMaybe<PipelineRoleKind>;
 }>;
 
-export type CreatePipelineRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', createPipelineRole: { __typename?: 'PipelineRole', id: string, kind: PipelineRoleKind, name: string, onlyOne: boolean } } | null };
+export type CreatePipelineRoleMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', createPipelineRole: { __typename?: 'PipelineRole', id: string, kind: PipelineRoleKind, name: string, onlyOne: boolean } } | null };
 
-export type SetDealContactRoleMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
+export type SetPipelineItemContactRoleMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
   contactId: Scalars['ID']['input'];
   roleId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type SetDealContactRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealContactRole?: { __typename?: 'Deal', id: string, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
+export type SetPipelineItemContactRoleMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', setPipelineItemContactRole?: { __typename?: 'Deal', id: string, contactRoles: Array<{ __typename?: 'PipelineItemContactRole', contactId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
 
-export type SetDealUserRoleMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
+export type SetPipelineItemUserRoleMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
   roleId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type SetDealUserRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealUserRole?: { __typename?: 'Deal', id: string, userRoles: Array<{ __typename?: 'PipelineItemUserRole', userId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
+export type SetPipelineItemUserRoleMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', setPipelineItemUserRole?: { __typename?: 'Deal', id: string, userRoles: Array<{ __typename?: 'PipelineItemUserRole', userId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
 
-export type SetDealPropertyRoleMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
+export type SetPipelineItemPropertyRoleMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
   propertyId: Scalars['ID']['input'];
   roleId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type SetDealPropertyRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealPropertyRole?: { __typename?: 'Deal', id: string, propertyRoles: Array<{ __typename?: 'PipelineItemPropertyRole', propertyId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
+export type SetPipelineItemPropertyRoleMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', setPipelineItemPropertyRole?: { __typename?: 'Deal', id: string, propertyRoles: Array<{ __typename?: 'PipelineItemPropertyRole', propertyId: string, role: { __typename?: 'PipelineRole', id: string, name: string } }> } | null } | null };
 
-export type SetDealLinkRoleMutationVariables = Exact<{
+export type SetPipelineItemLinkRoleMutationVariables = Exact<{
   linkId: Scalars['ID']['input'];
   roleId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type SetDealLinkRoleMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealLinkRole?: { __typename?: 'PipelineItemLink', id: string, label?: string | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null } | null } | null };
+export type SetPipelineItemLinkRoleMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', setPipelineItemLinkRole?: { __typename?: 'PipelineItemLink', id: string, label?: string | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null } | null } | null };
 
-export type SetDealAgentMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
+export type SetPipelineItemAgentMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
 }>;
 
-export type SetDealAgentMutation = { __typename?: 'RootMutation', dealMutation?: { __typename?: 'PipelineItemMutation', setDealAgent?: { __typename?: 'Deal', id: string, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null } | null } | null };
+export type SetPipelineItemAgentMutation = { __typename?: 'RootMutation', pipelineItemMutation?: { __typename?: 'PipelineItemMutation', setPipelineItemAgent?: { __typename?: 'Deal', id: string, agent?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null } | null } | null };
 
 export type SetContactRelationshipRoleMutationVariables = Exact<{
   contactId: Scalars['ID']['input'];
@@ -6901,12 +6901,12 @@ export type FileLibraryItemsOnContactMutationVariables = Exact<{
 
 export type FileLibraryItemsOnContactMutation = { __typename?: 'RootMutation', spacesMutation?: { __typename?: 'SpacesMutation', fileOnContact?: Array<{ __typename?: 'SpaceAttachment', uploadedFileId: string, itemId: string, fileName: string, contentType: string, sizeBytes: number }> | null } | null };
 
-export type FileLibraryItemsOnDealMutationVariables = Exact<{
+export type FileLibraryItemsOnPipelineItemMutationVariables = Exact<{
   itemIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-  dealId: Scalars['ID']['input'];
+  pipelineItemId: Scalars['ID']['input'];
 }>;
 
-export type FileLibraryItemsOnDealMutation = { __typename?: 'RootMutation', spacesMutation?: { __typename?: 'SpacesMutation', fileOnDeal?: Array<{ __typename?: 'SpaceAttachment', uploadedFileId: string, itemId: string, fileName: string, contentType: string, sizeBytes: number }> | null } | null };
+export type FileLibraryItemsOnPipelineItemMutation = { __typename?: 'RootMutation', spacesMutation?: { __typename?: 'SpacesMutation', fileOnPipelineItem?: Array<{ __typename?: 'SpaceAttachment', uploadedFileId: string, itemId: string, fileName: string, contentType: string, sizeBytes: number }> | null } | null };
 
 export type SavePagePdfMutationVariables = Exact<{
   itemId: Scalars['ID']['input'];
@@ -7027,7 +7027,7 @@ export type ListMyTasksQueryVariables = Exact<{
   cursor?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type ListMyTasksQuery = { __typename?: 'RootQuery', users?: { __typename?: 'UsersQuery', getUserTasks?: { __typename?: 'PaginateTaskResponse', total: number, canFetchNext: boolean, tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, taskType?: string | null, timezone?: Timezone | null, completedAt?: any | null, dueDate?: any | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null, deals?: Array<{ __typename?: 'Deal', id: string }> | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }> } | null } | null };
+export type ListMyTasksQuery = { __typename?: 'RootQuery', users?: { __typename?: 'UsersQuery', getUserTasks?: { __typename?: 'PaginateTaskResponse', total: number, canFetchNext: boolean, tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, taskType?: string | null, timezone?: Timezone | null, completedAt?: any | null, dueDate?: any | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null, pipelineItems?: Array<{ __typename?: 'Deal', id: string }> | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }> } | null } | null };
 
 export type ListContactTasksQueryVariables = Exact<{
   contactId: Scalars['ID']['input'];
@@ -7043,14 +7043,14 @@ export type CreateTaskOnContactMutationVariables = Exact<{
   description?: InputMaybe<Scalars['String']['input']>;
   taskType?: InputMaybe<Scalars['String']['input']>;
   participants?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
-  dealIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  pipelineItemIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
   alongsideOpenTasks?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
 export type CreateTaskOnContactMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', createTaskOnContact?: { __typename?: 'Contact', id: string, name?: string | null, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, taskType?: string | null, timezone?: Timezone | null, completedAt?: any | null, dueDate?: any | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }> | null } | null } | null };
 
-export type CreateTaskOnDealMutationVariables = Exact<{
-  dealId: Scalars['ID']['input'];
+export type CreateTaskOnPipelineItemMutationVariables = Exact<{
+  pipelineItemId: Scalars['ID']['input'];
   title: Scalars['String']['input'];
   dueDate: Scalars['DateTime']['input'];
   timezone: Timezone;
@@ -7060,7 +7060,7 @@ export type CreateTaskOnDealMutationVariables = Exact<{
   alongsideOpenTasks?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
-export type CreateTaskOnDealMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', createTaskOnDeal?: { __typename?: 'Deal', id: string, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, taskType?: string | null, timezone?: Timezone | null, completedAt?: any | null, dueDate?: any | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }> | null } | null } | null };
+export type CreateTaskOnPipelineItemMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', createTaskOnPipelineItem?: { __typename?: 'Deal', id: string, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, taskType?: string | null, timezone?: Timezone | null, completedAt?: any | null, dueDate?: any | null, participants?: Array<{ __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null }> | null }> | null } | null } | null };
 
 export type UpdateTaskMutationVariables = Exact<{
   taskId: Scalars['String']['input'];
@@ -7126,9 +7126,9 @@ export type BulkCreateTasksOnContactsMutationVariables = Exact<{
 
 export type BulkCreateTasksOnContactsMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', bulkCreateTasksOnContacts?: { __typename?: 'ContactsBulkActionResponse', bulkTaskId?: string | null } | null } | null };
 
-export type UpdateTaskOnDealMutationVariables = Exact<{
+export type UpdateTaskOnPipelineItemMutationVariables = Exact<{
   taskId: Scalars['ID']['input'];
-  dealId: Scalars['ID']['input'];
+  pipelineItemId: Scalars['ID']['input'];
   title?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   taskType?: InputMaybe<Scalars['String']['input']>;
@@ -7137,14 +7137,14 @@ export type UpdateTaskOnDealMutationVariables = Exact<{
   participants?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
 
-export type UpdateTaskOnDealMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', updateTaskOnDeal?: { __typename?: 'Deal', id: string, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, completedAt?: any | null, dueDate?: any | null }> | null } | null } | null };
+export type UpdateTaskOnPipelineItemMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', updateTaskOnPipelineItem?: { __typename?: 'Deal', id: string, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null, completedAt?: any | null, dueDate?: any | null }> | null } | null } | null };
 
-export type DeleteTaskOnDealMutationVariables = Exact<{
+export type DeleteTaskOnPipelineItemMutationVariables = Exact<{
   taskId: Scalars['ID']['input'];
-  dealId: Scalars['ID']['input'];
+  pipelineItemId: Scalars['ID']['input'];
 }>;
 
-export type DeleteTaskOnDealMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', deleteTaskOnDeal?: { __typename?: 'Deal', id: string, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null }> | null } | null } | null };
+export type DeleteTaskOnPipelineItemMutation = { __typename?: 'RootMutation', tasksMutation?: { __typename?: 'TasksMutation', deleteTaskOnPipelineItem?: { __typename?: 'Deal', id: string, tasks?: Array<{ __typename?: 'Task', id: string, title?: string | null }> | null } | null } | null };
 
 export type ListTeammatesQueryVariables = Exact<{
   searchTerm?: InputMaybe<Scalars['String']['input']>;
@@ -7219,7 +7219,7 @@ export type GetTeamAnalyticsOverviewQueryVariables = Exact<{
   period?: InputMaybe<AgentAnalyticsPeriod>;
 }>;
 
-export type GetTeamAnalyticsOverviewQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', agentTeamOverview?: { __typename?: 'AgentTeamOverview', asOfDate: any, period: AgentAnalyticsPeriod, reportingPeriod: string, startDate: any, endDate: any, summary: { __typename?: 'AgentTeamSummary', agentCount: number, calls: number, completedCalls: number, conversationCalls: number, callsDeltaPct?: number | null, texts: number, textsDeltaPct?: number | null, emails: number, emailsDeltaPct?: number | null, tasks: number, tasksDeltaPct?: number | null, appointments: number, appointmentsDeltaPct?: number | null, newLeads: number, newLeadsDeltaPct?: number | null, notActedOnCount: number, activeLeadsCount: number, warmLeadsCount: number, coolingLeadsCount: number, coldLeadsCount: number, deadLeadsCount: number }, agents: Array<{ __typename?: 'AgentOverviewRow', userId: string, userName: string, userEmail?: string | null, calls: number, texts: number, emails: number, tasks: number, appointments: number, newLeads: number, notActedOnCount: number, avgSpeedToFirstCallMinutes?: number | null, avgSpeedToFirstMessageMinutes?: number | null, activeLeadsCount: number, warmLeadsCount: number, coolingLeadsCount: number, coldLeadsCount: number, deadLeadsCount: number, score: number, conversationRate?: number | null }>, pipelineExposure: Array<{ __typename?: 'AgentTeamPipelineExposureRow', pipelineId: string, pipelineName: string, userId: string, userName: string, commissionEarnedCents: number, wonDealsCount: number, lostDealsCount: number }> } | null } | null };
+export type GetTeamAnalyticsOverviewQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', agentTeamOverview?: { __typename?: 'AgentTeamOverview', asOfDate: any, period: AgentAnalyticsPeriod, reportingPeriod: string, startDate: any, endDate: any, summary: { __typename?: 'AgentTeamSummary', agentCount: number, calls: number, completedCalls: number, conversationCalls: number, callsDeltaPct?: number | null, texts: number, textsDeltaPct?: number | null, emails: number, emailsDeltaPct?: number | null, tasks: number, tasksDeltaPct?: number | null, appointments: number, appointmentsDeltaPct?: number | null, newLeads: number, newLeadsDeltaPct?: number | null, notActedOnCount: number, activeLeadsCount: number, warmLeadsCount: number, coolingLeadsCount: number, coldLeadsCount: number, deadLeadsCount: number }, agents: Array<{ __typename?: 'AgentOverviewRow', userId: string, userName: string, userEmail?: string | null, calls: number, texts: number, emails: number, tasks: number, appointments: number, newLeads: number, notActedOnCount: number, avgSpeedToFirstCallMinutes?: number | null, avgSpeedToFirstMessageMinutes?: number | null, activeLeadsCount: number, warmLeadsCount: number, coolingLeadsCount: number, coldLeadsCount: number, deadLeadsCount: number, score: number, conversationRate?: number | null }>, pipelineExposure: Array<{ __typename?: 'AgentTeamPipelineExposureRow', pipelineId: string, pipelineName: string, userId: string, userName: string, wonPipelineItemsCount: number, lostPipelineItemsCount: number, commissionEarnedCents: number }> } | null } | null };
 
 export type GetTeamActivityTimeseriesQueryVariables = Exact<{
   orgId: Scalars['ID']['input'];
@@ -7366,7 +7366,7 @@ export type GetMemberActivityQueryVariables = Exact<{
   userId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type GetMemberActivityQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', memberActivity?: { __typename?: 'MemberActivity', startDate: any, endDate: any, userId: string, name?: string | null, emailsSent: number, notesWritten: number, tasksCreated: number, appointmentsBooked: number, tasksCompleted: number, dealStageMoves: number, texts: { __typename?: 'TextSendTally', sent: number, delivered: number, failed: number }, calls: { __typename?: 'CallTally', outboundCalls: number, inboundCalls: number, connectedCalls: number, conversationCalls: number, talkSeconds: number } } | null } | null };
+export type GetMemberActivityQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', memberActivity?: { __typename?: 'MemberActivity', startDate: any, endDate: any, userId: string, name?: string | null, emailsSent: number, notesWritten: number, tasksCreated: number, appointmentsBooked: number, tasksCompleted: number, pipelineStageMoves: number, texts: { __typename?: 'TextSendTally', sent: number, delivered: number, failed: number }, calls: { __typename?: 'CallTally', outboundCalls: number, inboundCalls: number, connectedCalls: number, conversationCalls: number, talkSeconds: number } } | null } | null };
 
 export type GetTeamMemberCapabilitiesQueryVariables = Exact<{
   userId: Scalars['ID']['input'];
@@ -7937,7 +7937,7 @@ export type ReorderWorkflowFoldersMutation = { __typename?: 'RootMutation', work
 export type ApplyTaskTemplateMutationVariables = Exact<{
   templateId: Scalars['ID']['input'];
   contactId: Scalars['ID']['input'];
-  dealIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  pipelineItemIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
   overrides?: InputMaybe<ApplyTaskTemplateOverridesInput>;
 }>;
 
@@ -7946,7 +7946,7 @@ export type ApplyTaskTemplateMutation = { __typename?: 'RootMutation', workflowA
 export type ApplyTaskSetMutationVariables = Exact<{
   templateId: Scalars['ID']['input'];
   contactId: Scalars['ID']['input'];
-  dealIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+  pipelineItemIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
 }>;
 
 export type ApplyTaskSetMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', applyTaskSet?: { __typename?: 'ApplyTaskSetPayload', tasks: Array<{ __typename?: 'Task', id: string, title?: string | null, description?: string | null, endDate?: any | null, completedAt?: any | null }>, failedStep?: { __typename?: 'ApplyTaskSetFailedStep', index: number, taskTemplateId: string, message: string } | null } | null } | null };

@@ -43,7 +43,6 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `conversations` | 9 |
 | `coverage` | 2 |
 | `crmImport` | 3 |
-| `deals` | 58 |
 | `emailChecks` | 3 |
 | `employees` | 36 |
 | `files` | 16 |
@@ -53,6 +52,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `notifications` | 18 |
 | `partnerships` | 10 |
 | `phoneNumbers` | 16 |
+| `pipelineItems` | 58 |
 | `properties` | 45 |
 | `scheduledTasks` | 7 |
 | `spaces` | 54 |

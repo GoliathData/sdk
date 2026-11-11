@@ -76,12 +76,14 @@ describe('transport', () => {
   it('returns the data payload on success', async () => {
     const fetchMock = vi
       .fn()
-      .mockResolvedValue(jsonResponse(200, { data: { dealQuery: { findDeals: { deals: [] } } } }))
+      .mockResolvedValue(
+        jsonResponse(200, { data: { pipelineItemQuery: { findPipelineItems: { pipelineItems: [] } } } })
+      )
     const client = makeClient(fetchMock)
 
-    const data = await client.execute('findDeals', { limit: 5 })
+    const data = await client.execute('findPipelineItems', { limit: 5 })
 
-    expect(data).toEqual({ dealQuery: { findDeals: { deals: [] } } })
+    expect(data).toEqual({ pipelineItemQuery: { findPipelineItems: { pipelineItems: [] } } })
   })
 
   it('requires apiKey and baseUrl', () => {
@@ -218,7 +220,7 @@ describe('retry behavior', () => {
     const fetchMock = vi.fn().mockResolvedValue(rejection(500, 'internal_error'))
     const client = makeClient(fetchMock)
 
-    await expect(client.execute('createDeal', { name: 'x' })).rejects.toBeInstanceOf(GoliathServerError)
+    await expect(client.execute('createPipelineItem', { name: 'x' })).rejects.toBeInstanceOf(GoliathServerError)
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
@@ -230,7 +232,7 @@ describe('retry behavior', () => {
       .mockResolvedValueOnce(jsonResponse(200, { data: { ok: true } }))
     const client = makeClient(fetchMock)
 
-    const promise = client.query('findDeals', { limit: 5 })
+    const promise = client.query('findPipelineItems', { limit: 5 })
     await vi.advanceTimersByTimeAsync(500)
 
     await expect(promise).resolves.toEqual({ ok: true })
@@ -256,7 +258,7 @@ describe('retry behavior', () => {
     const fetchMock = vi.fn().mockRejectedValue(new TypeError('fetch failed'))
     const client = makeClient(fetchMock)
 
-    await expect(client.execute('createDeal')).rejects.toBeInstanceOf(GoliathNetworkError)
+    await expect(client.execute('createPipelineItem')).rejects.toBeInstanceOf(GoliathNetworkError)
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
 
@@ -268,7 +270,7 @@ describe('retry behavior', () => {
       .mockResolvedValueOnce(jsonResponse(200, { data: { ok: true } }))
     const client = makeClient(fetchMock)
 
-    const promise = client.query('findDeals')
+    const promise = client.query('findPipelineItems')
     await vi.advanceTimersByTimeAsync(500)
 
     await expect(promise).resolves.toEqual({ ok: true })
