@@ -4,7 +4,7 @@
 
 mutation · domain `employees` · requires the WRITE scope
 
-Take an AI employee off contacts (at most 200 ids per call). It stops answering and working them and their schedules are dropped; the history stays. `changedCount` is how many it was taken off. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm with the person first.
+Remove contacts from an AI employee's list (at most 200 ids per call), so it stops answering them, and drop its schedule on them; the history stays. `changedCount` is how many were removed. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm with the person first.
 
 ## Call
 

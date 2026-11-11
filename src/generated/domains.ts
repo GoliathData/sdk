@@ -1980,7 +1980,7 @@ export class GoliathClient extends GoliathClientCore {
     acceptEmployeeSuggestion: (variables: T.AcceptEmployeeSuggestionMutationVariables, options?: IdempotentRequestOptions): Promise<T.AcceptEmployeeSuggestionMutation> =>
       this.request('acceptEmployeeSuggestion', variables, options, { operationType: 'mutation' }),
     /**
-     * Put one AI employee on one contact, optionally on a schedule, the contact card's Add. From then on it answers the contact's texts, emails and calls, and a schedule runs it on that cadence. A schedule is a 5-field cron (`cronExpression`) read in an IANA `timezone`, at most once a day, and `maxRuns`, how many runs before it stops (never open-ended; at most five years of runs). The employee must be switched on and from this organization. Many contacts with no schedule: attachEmployeeToContacts. Needs their yes; a card's counts.
+     * Add one contact to an AI employee's list ("<Name>'s contacts"), so it answers their texts, emails and calls, optionally on a schedule that runs it on that cadence: the contact card's Add. A schedule is a 5-field cron (`cronExpression`) read in an IANA `timezone`, at most once a day, and `maxRuns`, how many runs before it stops (never open-ended; at most five years of runs). The employee must be switched on and from this organization. Many contacts with no schedule: attachEmployeeToContacts. Needs their yes; a card's counts.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1998,7 +1998,7 @@ export class GoliathClient extends GoliathClientCore {
     attachEmployeeMailbox: (variables: T.AttachEmployeeMailboxMutationVariables, options?: IdempotentRequestOptions): Promise<T.AttachEmployeeMailboxMutation> =>
       this.request('attachEmployeeMailbox', variables, options, { operationType: 'mutation' }),
     /**
-     * Put an AI employee on contacts (at most 200 ids per call; send more in further calls). It then answers those contacts' texts, emails and calls and works them. The employee must be switched on (setEmployeeStatus) and every contact one the key owner can open. Recorded as the key owner's own assignment, so a contact someone took the employee off is put back because you named it. `changedCount` is how many it was newly put on; the rest already had it. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm the contacts with the person first.
+     * Add contacts to an AI employee's list ("<Name>'s contacts"), so it answers their texts, emails and calls (at most 200 ids per call; send more in further calls). The employee must be switched on (setEmployeeStatus) and every contact one the key owner can open. Recorded as the key owner's own assignment, so a contact someone took the employee off is put back because you named it. `changedCount` is how many it was newly put on; the rest already had it. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm the contacts with the person first.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -2061,7 +2061,7 @@ export class GoliathClient extends GoliathClientCore {
     deleteEmployee: (variables: T.DeleteEmployeeMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteEmployeeMutation> =>
       this.request('deleteEmployee', variables, options, { operationType: 'mutation' }),
     /**
-     * Take an AI employee off contacts (at most 200 ids per call). It stops answering and working them and their schedules are dropped; the history stays. `changedCount` is how many it was taken off. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm with the person first.
+     * Remove contacts from an AI employee's list (at most 200 ids per call), so it stops answering them, and drop its schedule on them; the history stays. `changedCount` is how many were removed. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm with the person first.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -2173,7 +2173,7 @@ export class GoliathClient extends GoliathClientCore {
     listEmployeeVoices: (variables?: T.ListEmployeeVoicesQueryVariables, options?: RequestOptions): Promise<T.ListEmployeeVoicesQuery> =>
       this.request('listEmployeeVoices', variables, options, { operationType: 'query' }),
     /**
-     * Take AI employees off contacts: they stop working them and their schedules are dropped; the history stays. EMPTY employeeIds takes off EVERY employee, system-managed ones included, so say so before you send it. A bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
+     * Remove contacts from AI employees' lists, so they stop answering them, and drop their schedules on them; the history stays. EMPTY employeeIds removes them from EVERY employee's list, system-managed ones included, so say so before you send it. A bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
      *
      * @remarks Requires the WRITE scope.
      *

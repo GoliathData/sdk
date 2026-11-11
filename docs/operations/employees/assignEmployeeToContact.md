@@ -4,7 +4,7 @@
 
 mutation · domain `employees` · requires the WRITE scope
 
-Put one AI employee on one contact, optionally on a schedule, the contact card's Add. From then on it answers the contact's texts, emails and calls, and a schedule runs it on that cadence. A schedule is a 5-field cron (`cronExpression`) read in an IANA `timezone`, at most once a day, and `maxRuns`, how many runs before it stops (never open-ended; at most five years of runs). The employee must be switched on and from this organization. Many contacts with no schedule: attachEmployeeToContacts. Needs their yes; a card's counts.
+Add one contact to an AI employee's list ("<Name>'s contacts"), so it answers their texts, emails and calls, optionally on a schedule that runs it on that cadence: the contact card's Add. A schedule is a 5-field cron (`cronExpression`) read in an IANA `timezone`, at most once a day, and `maxRuns`, how many runs before it stops (never open-ended; at most five years of runs). The employee must be switched on and from this organization. Many contacts with no schedule: attachEmployeeToContacts. Needs their yes; a card's counts.
 
 ## Call
 

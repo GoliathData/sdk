@@ -4,7 +4,7 @@
 
 mutation · domain `employees` · requires the WRITE scope
 
-Take AI employees off contacts: they stop working them and their schedules are dropped; the history stays. EMPTY employeeIds takes off EVERY employee, system-managed ones included, so say so before you send it. A bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
+Remove contacts from AI employees' lists, so they stop answering them, and drop their schedules on them; the history stays. EMPTY employeeIds removes them from EVERY employee's list, system-managed ones included, so say so before you send it. A bulk task (`bulkTaskId`, getBulkTask). The person approves it on a card.
 
 ## Call
 

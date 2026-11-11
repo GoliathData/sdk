@@ -4,7 +4,7 @@
 
 mutation · domain `employees` · requires the WRITE scope
 
-Put an AI employee on contacts (at most 200 ids per call; send more in further calls). It then answers those contacts' texts, emails and calls and works them. The employee must be switched on (setEmployeeStatus) and every contact one the key owner can open. Recorded as the key owner's own assignment, so a contact someone took the employee off is put back because you named it. `changedCount` is how many it was newly put on; the rest already had it. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm the contacts with the person first.
+Add contacts to an AI employee's list ("<Name>'s contacts"), so it answers their texts, emails and calls (at most 200 ids per call; send more in further calls). The employee must be switched on (setEmployeeStatus) and every contact one the key owner can open. Recorded as the key owner's own assignment, so a contact someone took the employee off is put back because you named it. `changedCount` is how many it was newly put on; the rest already had it. When `interruptedContactId` is set the batch stopped there (`interruptedReason` says why): the contacts before it are done, so send that one and the rest again. Confirm the contacts with the person first.
 
 ## Call
 
