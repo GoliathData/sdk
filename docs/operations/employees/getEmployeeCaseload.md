@@ -4,7 +4,7 @@
 
 query · domain `employees` · requires the READ scope
 
-The contacts one AI employee is on, newest attachment first, offset-paged (`offset`, `limit`; `total` is the full count). Each row says whether it is working that contact now, when it last worked it, the next run of a repeating schedule (`attachment.schedule`), the soonest follow-up it booked itself (`nextBookedFollowUpAt`, null when none), and whether the contact replied or escalated. A new touch on a contact with one booked comes before that follow-up. `includeRemoved: true` adds contacts a person took it off.
+The contacts one AI employee has run on, newest attachment first, offset-paged (`offset`, `limit`; `total` is the full count). Each row says whether it is working that contact now, when it last worked it, the next run of a repeating schedule (`attachment.schedule`), the soonest follow-up it booked itself (`nextBookedFollowUpAt`, null when none), and whether the contact replied or escalated. A new touch on a contact with one booked comes before that follow-up. `includeRemoved` is ignored: contacts a person took it off are always listed.
 
 ## Call
 
@@ -47,7 +47,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "attachment": {
           "id": true,
           "source": true,
-          "status": true,
           "createdAt": true,
           "schedule": {
             "nextFireAt": true

@@ -4,7 +4,7 @@
 
 query · domain `employees` · requires the READ scope
 
-The AI employees on one contact, as the contact page's card shows them. `aiEmployees[].id` is the attachment id setEmployeeSchedule and clearEmployeeSchedule take (`agentId` is the employee); `status` PAUSED means it stopped working this contact (REMOVED, with `includeRemoved`, means it was taken off); `isWorkingNow` means it is mid-conversation. `upcomingAgentRuns` is what they will do next, soonest first, AT MOST 25 with no total (when 25 come back more may be booked, so after acting on these read again before saying none are left): a CRON row is a schedule's next run, a FOLLOW_UP row a follow-up the employee booked itself, whose `id` cancelEmployeeFollowUp takes.
+The AI employees on one contact, as the contact page's card shows them. `aiEmployees` lists every employee that has run on the contact (`includeRemoved` is ignored); `aiEmployees[].id` is the attachment id setEmployeeSchedule and clearEmployeeSchedule take (`agentId` is the employee); `isWorkingNow` means it is mid-conversation. `upcomingAgentRuns` is what they will do next, soonest first, AT MOST 25 with no total (when 25 come back more may be booked, so after acting on these read again before saying none are left): a CRON row is a schedule's next run, a FOLLOW_UP row a follow-up the employee booked itself, whose `id` cancelEmployeeFollowUp takes.
 
 ## Call
 
@@ -39,7 +39,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "id": true,
         "agentId": true,
         "name": true,
-        "status": true,
         "isWorkingNow": true,
         "schedule": {
           "cronExpression": true,

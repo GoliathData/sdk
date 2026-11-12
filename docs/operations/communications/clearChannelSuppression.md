@@ -4,7 +4,7 @@
 
 mutation · domain `communications` · requires the WRITE scope
 
-Lift an organization-wide opt-out (suppressChannel's undo): the value can be texted, called or emailed again on that `medium`, on every contact carrying it. Only on the person's own word: an opt-out is the recipient's, and lifting it without their consent breaks the law the opt-out exists for. Idempotent; a value that is not suppressed is a no-op. Returns organizationId, normalizedValue, medium.
+Lift an organization-wide opt-out (suppressChannel's undo): the value can be texted, called or emailed again on that `medium`, on every contact carrying it. Only on the person's own word: an opt-out is the recipient's, and lifting it without their consent breaks the law the opt-out exists for. On SMS, `reason` is required (when and how they asked), and a number that texted STOP or that the carrier blocked is refused with INVALID_INPUT: only the person texting START lifts those. Idempotent; a value that is not suppressed is a no-op. Returns organizationId, normalizedValue, medium.
 
 ## Call
 
@@ -21,6 +21,7 @@ const result = await client.communications.clearChannelSuppression({ value: '<te
 |---|---|---|---|
 | `value` | `String!` | yes | — |
 | `medium` | `SuppressionMedium!` | yes | — |
+| `reason` | `String` | no | — |
 
 ## Gateway notes
 

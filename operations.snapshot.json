@@ -439,7 +439,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "userIds:[ID!]!,startDate:DateTime!,endDate:DateTime!,excludeAppointmentId:ID",
-    "responseShape": "{\"availabilityQuery\":{\"availabilityForSlot\":{\"available\":true,\"conflicts\":{\"start\":true,\"end\":true,\"source\":true,\"appointmentId\":true,\"title\":true}}}}"
+    "responseShape": "{\"availabilityQuery\":{\"availabilityForSlot\":{\"available\":true,\"conflicts\":{\"start\":true,\"end\":true,\"source\":true,\"appointmentId\":true,\"title\":true},\"externalCheckSkipped\":true}}}"
   },
   {
     "operationId": "createAppointment",
@@ -1036,7 +1036,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "value:String!,medium:SuppressionMedium!",
+    "variableSignature": "value:String!,medium:SuppressionMedium!,reason:String",
     "responseShape": "{\"contactMutation\":{\"clearSuppressionChannel\":{\"organizationId\":true,\"normalizedValue\":true,\"medium\":true}}}"
   },
   {
@@ -3156,7 +3156,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "contactId:ID!,includeRemoved:Boolean=false",
-    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"aiEmployees\":{\"id\":true,\"agentId\":true,\"name\":true,\"status\":true,\"isWorkingNow\":true,\"schedule\":{\"cronExpression\":true,\"timezone\":true,\"status\":true,\"nextFireAt\":true,\"lastFiredAt\":true,\"maxRuns\":true,\"runCount\":true}},\"upcomingAgentRuns\":{\"id\":true,\"agentId\":true,\"agentName\":true,\"kind\":true,\"fireAt\":true,\"cronExpression\":true,\"timezone\":true,\"runsRemaining\":true}}}}"
+    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"aiEmployees\":{\"id\":true,\"agentId\":true,\"name\":true,\"isWorkingNow\":true,\"schedule\":{\"cronExpression\":true,\"timezone\":true,\"status\":true,\"nextFireAt\":true,\"lastFiredAt\":true,\"maxRuns\":true,\"runCount\":true}},\"upcomingAgentRuns\":{\"id\":true,\"agentId\":true,\"agentName\":true,\"kind\":true,\"fireAt\":true,\"cronExpression\":true,\"timezone\":true,\"runsRemaining\":true}}}}"
   },
   {
     "operationId": "getEmployee",
@@ -3182,7 +3182,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "employeeId:ID!,offset:Int=0,limit:Int=25,includeRemoved:Boolean",
-    "responseShape": "{\"aiEmployeesQuery\":{\"contactAgentCaseload\":{\"total\":true,\"items\":{\"contactId\":true,\"contactName\":true,\"isWorkingNow\":true,\"lastWorkedAt\":true,\"lastCommunicationAt\":true,\"nextBookedFollowUpAt\":true,\"attachment\":{\"id\":true,\"source\":true,\"status\":true,\"createdAt\":true,\"schedule\":{\"nextFireAt\":true},\"engagement\":{\"receivedReply\":true,\"positivelyEscalated\":true,\"negativeIntent\":true}}}}}}"
+    "responseShape": "{\"aiEmployeesQuery\":{\"contactAgentCaseload\":{\"total\":true,\"items\":{\"contactId\":true,\"contactName\":true,\"isWorkingNow\":true,\"lastWorkedAt\":true,\"lastCommunicationAt\":true,\"nextBookedFollowUpAt\":true,\"attachment\":{\"id\":true,\"source\":true,\"createdAt\":true,\"schedule\":{\"nextFireAt\":true},\"engagement\":{\"receivedReply\":true,\"positivelyEscalated\":true,\"negativeIntent\":true}}}}}}"
   },
   {
     "operationId": "listContactReplyDrafts",
