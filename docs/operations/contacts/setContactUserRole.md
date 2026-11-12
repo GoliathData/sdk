@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-The USER role a teammate on the contact plays (getContact participants); the Agent stays the Agent. roleId null clears it. An Only-one role moves off its previous holder.
+The USER role a teammate on the contact plays (getContact participants); the contact owner stays the owner. roleId null clears it. An Only-one role moves off its previous holder.
 
 ## Call
 

@@ -4,7 +4,7 @@
 
 mutation · domain `pipelineItems` · requires the WRITE scope
 
-Make a teammate assigned to the pipeline item its Agent (getPipelineItem agent), who speaks for it.
+Make a teammate assigned to the pipeline item its deal owner (getPipelineItem agent), who speaks for it.
 
 ## Call
 

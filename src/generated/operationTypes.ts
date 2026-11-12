@@ -3193,7 +3193,7 @@ export type WorkflowTableKeyKind =
   | 'APPOINTMENT_ATTENDEE'
   /** The property's city, by the `City` record's id — never a typed name. */
   | 'CITY'
-  /** The contact's Agent, by user id. */
+  /** The contact owner, by user id. */
   | 'CONTACT_AGENT'
   /** The contact's Contributors, by user id. Several can match; the first row in the table wins. */
   | 'CONTACT_CONTRIBUTOR'
@@ -5001,7 +5001,7 @@ export type GetEmployeeQueryVariables = Exact<{
   employeeId: Scalars['ID']['input'];
 }>;
 
-export type GetEmployeeQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', contactAgent?: { __typename?: 'ContactAgent', id: string, name: string, title?: string | null, status: ContactAgentStatus, origin?: AgentOrigin | null, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null, dailyRunCap?: number | null, dailyCallCap?: number | null, configDocument: any, textHours?: string | null, quietHoursNotice?: string | null, createdAt: any, updatedAt: any, abilities: Array<{ __typename?: 'ContactAgentAbility', tool: string, label: string, on: boolean, explicitlySet: boolean, gate?: string | null }>, config: { __typename?: 'ContactAgentConfig', wakes: { __typename?: 'ContactAgentWakes', inboundText: boolean, inboundEmail: boolean, callEnded: boolean, meetingSummary: boolean, formSubmitted: boolean, inboundSlack: boolean, teammateText: boolean, teammateEmail: boolean, teammateSlack: boolean, otherEmployeeCallEnded: boolean, pipelineStageEntered: boolean, pipelineItemCreated: boolean, contactNoteAdded: boolean, pipelineItemNoteAdded: boolean, taskCreated: boolean, taskCompleted: boolean, appointmentCreated: boolean, appointmentChanged: boolean, contactFieldChanged: boolean } }, legacyPhoneLines: Array<{ __typename?: 'ContactAgentPhoneLine', id: string, e164Number: string, holderUserId?: string | null }>, mailboxes: Array<{ __typename?: 'ContactAgentMailbox', id: string, emailAddress: string, provider: string, hasActiveConnection: boolean }>, triggerForms: Array<{ __typename?: 'ContactAgentTriggerForm', id: string, name: string, status: string }>, defaultAssignees: { __typename?: 'ContactAgentDefaultAssignees', mode: ContactAgentDefaultAssigneeMode, assigneeUserIds: Array<string> }, commitments: { __typename?: 'ContactAgentCommitments', assignedContactCount: number, scheduledContactCount: number, bookedFollowUpContactCount: number, openSessionCount: number } } | null } | null };
+export type GetEmployeeQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', contactAgent?: { __typename?: 'ContactAgent', id: string, name: string, title?: string | null, status: ContactAgentStatus, origin?: AgentOrigin | null, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null, dailyRunCap?: number | null, dailyCallCap?: number | null, configDocument: any, textHours?: string | null, quietHoursNotice?: string | null, createdAt: any, updatedAt: any, abilities: Array<{ __typename?: 'ContactAgentAbility', tool: string, label: string, on: boolean, explicitlySet: boolean, gate?: string | null }>, config: { __typename?: 'ContactAgentConfig', wakes: { __typename?: 'ContactAgentWakes', inboundText: boolean, inboundEmail: boolean, callEnded: boolean, meetingSummary: boolean, formSubmitted: boolean, inboundSlack: boolean, teammateText: boolean, teammateEmail: boolean, teammateSlack: boolean, otherEmployeeCallEnded: boolean, pipelineStageEntered: boolean, pipelineItemCreated: boolean, contactNoteAdded: boolean, pipelineItemNoteAdded: boolean, taskCreated: boolean, taskCompleted: boolean, appointmentCreated: boolean, appointmentChanged: boolean, contactFieldChanged: boolean } }, mailboxes: Array<{ __typename?: 'ContactAgentMailbox', id: string, emailAddress: string, provider: string, hasActiveConnection: boolean }>, triggerForms: Array<{ __typename?: 'ContactAgentTriggerForm', id: string, name: string, status: string }>, defaultAssignees: { __typename?: 'ContactAgentDefaultAssignees', mode: ContactAgentDefaultAssigneeMode, assigneeUserIds: Array<string> }, commitments: { __typename?: 'ContactAgentCommitments', assignedContactCount: number, scheduledContactCount: number, bookedFollowUpContactCount: number, openSessionCount: number } } | null } | null };
 
 export type GetEmployeeCaseloadQueryVariables = Exact<{
   employeeId: Scalars['ID']['input'];
@@ -5126,13 +5126,6 @@ export type DetachEmployeeMailboxMutationVariables = Exact<{
 }>;
 
 export type DetachEmployeeMailboxMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', detachContactAgentMailbox?: { __typename?: 'ContactAgent', id: string, updatedAt: any, mailboxes: Array<{ __typename?: 'ContactAgentMailbox', id: string, emailAddress: string }> } | null } | null };
-
-export type DetachEmployeePhoneLineMutationVariables = Exact<{
-  employeeId: Scalars['ID']['input'];
-  phoneLineId: Scalars['ID']['input'];
-}>;
-
-export type DetachEmployeePhoneLineMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', detachContactAgentPhoneLine?: { __typename?: 'ContactAgent', id: string, updatedAt: any, legacyPhoneLines: Array<{ __typename?: 'ContactAgentPhoneLine', id: string, e164Number: string }> } | null } | null };
 
 export type SetEmployeeTriggerFormsMutationVariables = Exact<{
   employeeId: Scalars['ID']['input'];

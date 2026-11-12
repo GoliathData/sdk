@@ -44,7 +44,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `coverage` | 2 |
 | `crmImport` | 3 |
 | `emailChecks` | 3 |
-| `employees` | 36 |
+| `employees` | 35 |
 | `files` | 16 |
 | `forms` | 15 |
 | `libraryFileRuns` | 5 |

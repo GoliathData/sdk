@@ -3120,19 +3120,6 @@
     "responseShape": "{\"aiEmployeesMutation\":{\"detachContactAgentMailbox\":{\"id\":true,\"mailboxes\":{\"id\":true,\"emailAddress\":true},\"updatedAt\":true}}}"
   },
   {
-    "operationId": "detachEmployeePhoneLine",
-    "domain": "employees",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "employeeId:ID!,phoneLineId:ID!",
-    "responseShape": "{\"aiEmployeesMutation\":{\"detachContactAgentPhoneLine\":{\"id\":true,\"legacyPhoneLines\":{\"id\":true,\"e164Number\":true},\"updatedAt\":true}}}"
-  },
-  {
     "operationId": "discardEmployeeReplyDraft",
     "domain": "employees",
     "operationType": "mutation",
@@ -3182,7 +3169,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "employeeId:ID!",
-    "responseShape": "{\"aiEmployeesQuery\":{\"contactAgent\":{\"id\":true,\"name\":true,\"title\":true,\"status\":true,\"origin\":true,\"canAnswerCalls\":true,\"cannotAnswerReason\":true,\"dailyRunCap\":true,\"dailyCallCap\":true,\"configDocument\":true,\"textHours\":true,\"quietHoursNotice\":true,\"abilities\":{\"tool\":true,\"label\":true,\"on\":true,\"explicitlySet\":true,\"gate\":true},\"config\":{\"wakes\":{\"inboundText\":true,\"inboundEmail\":true,\"callEnded\":true,\"meetingSummary\":true,\"formSubmitted\":true,\"inboundSlack\":true,\"teammateText\":true,\"teammateEmail\":true,\"teammateSlack\":true,\"otherEmployeeCallEnded\":true,\"pipelineStageEntered\":true,\"pipelineItemCreated\":true,\"contactNoteAdded\":true,\"pipelineItemNoteAdded\":true,\"taskCreated\":true,\"taskCompleted\":true,\"appointmentCreated\":true,\"appointmentChanged\":true,\"contactFieldChanged\":true}},\"legacyPhoneLines\":{\"id\":true,\"e164Number\":true,\"holderUserId\":true},\"mailboxes\":{\"id\":true,\"emailAddress\":true,\"provider\":true,\"hasActiveConnection\":true},\"triggerForms\":{\"id\":true,\"name\":true,\"status\":true},\"defaultAssignees\":{\"mode\":true,\"assigneeUserIds\":true},\"commitments\":{\"assignedContactCount\":true,\"scheduledContactCount\":true,\"bookedFollowUpContactCount\":true,\"openSessionCount\":true},\"createdAt\":true,\"updatedAt\":true}}}"
+    "responseShape": "{\"aiEmployeesQuery\":{\"contactAgent\":{\"id\":true,\"name\":true,\"title\":true,\"status\":true,\"origin\":true,\"canAnswerCalls\":true,\"cannotAnswerReason\":true,\"dailyRunCap\":true,\"dailyCallCap\":true,\"configDocument\":true,\"textHours\":true,\"quietHoursNotice\":true,\"abilities\":{\"tool\":true,\"label\":true,\"on\":true,\"explicitlySet\":true,\"gate\":true},\"config\":{\"wakes\":{\"inboundText\":true,\"inboundEmail\":true,\"callEnded\":true,\"meetingSummary\":true,\"formSubmitted\":true,\"inboundSlack\":true,\"teammateText\":true,\"teammateEmail\":true,\"teammateSlack\":true,\"otherEmployeeCallEnded\":true,\"pipelineStageEntered\":true,\"pipelineItemCreated\":true,\"contactNoteAdded\":true,\"pipelineItemNoteAdded\":true,\"taskCreated\":true,\"taskCompleted\":true,\"appointmentCreated\":true,\"appointmentChanged\":true,\"contactFieldChanged\":true}},\"mailboxes\":{\"id\":true,\"emailAddress\":true,\"provider\":true,\"hasActiveConnection\":true},\"triggerForms\":{\"id\":true,\"name\":true,\"status\":true},\"defaultAssignees\":{\"mode\":true,\"assigneeUserIds\":true},\"commitments\":{\"assignedContactCount\":true,\"scheduledContactCount\":true,\"bookedFollowUpContactCount\":true,\"openSessionCount\":true},\"createdAt\":true,\"updatedAt\":true}}}"
   },
   {
     "operationId": "getEmployeeCaseload",

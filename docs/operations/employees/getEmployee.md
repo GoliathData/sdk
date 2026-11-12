@@ -4,7 +4,7 @@
 
 query · domain `employees` · requires the READ scope
 
-One AI employee in full. `abilities` is what it can do RIGHT NOW, resolved (a tool missing from the stored config follows its default, and most defaults are on, so read `abilities`, never infer from the document). `config.wakes` is which contact events run it, resolved; `configDocument` stores them as `runs` (a document or `configPatch` that still says `wakes` is read as `runs`). `mailboxes` and `triggerForms` are its channels; `legacyPhoneLines` lists only lines it still holds from before lines were shared, since an employee needs no number of its own (it texts on the number the conversation is on, otherwise a shared organization number): an empty list is the normal state, never something to attach, ask about or report; `defaultAssignees` who owns a contact it works when nobody does. `commitments`: `assignedContactCount` the contacts it is on, `scheduledContactCount` only those on a repeating schedule, and `bookedFollowUpContactCount` those with a follow-up it booked itself that has not run yet, so 0 scheduled never means no follow-up is coming. It holds no trust of its own: what it does on its own follows the trust of the person each act is for (the line or mailbox owner, else the contact's teammate, else its Manager), set on that person's Memory, Trust page. A text `sendWindow` holds only what it starts (follow-ups, outreach): its text reply to a lead who wrote in goes out at any hour. `configDocument` is the whole configuration as one JSON document; change part of it with updateEmployeeConfig's `edits` and `configPatch`. Who it transfers a live call to is `configDocument.channels.callConfig.transferDestinations`, set with setEmployeeCallTransfers. Webhook urls read back redacted and are kept on save. `updatedAt` is the `expectedUpdatedAt` to pass so a teammate's save in between is refused rather than overwritten.
+One AI employee in full. `abilities` is what it can do RIGHT NOW, resolved (a tool missing from the stored config follows its default, and most defaults are on, so read `abilities`, never infer from the document). `config.wakes` is which contact events run it, resolved; `configDocument` stores them as `runs` (a document or `configPatch` that still says `wakes` is read as `runs`). `mailboxes` and `triggerForms` are its channels; an employee needs no number of its own (it texts on the number the conversation is on, otherwise a shared organization number), so never offer to give it one; `defaultAssignees` who owns a contact it works when nobody does. `commitments`: `assignedContactCount` the contacts it is on, `scheduledContactCount` only those on a repeating schedule, and `bookedFollowUpContactCount` those with a follow-up it booked itself that has not run yet, so 0 scheduled never means no follow-up is coming. It holds no trust of its own: what it does on its own follows the trust of the person each act is for (the line or mailbox owner, else the contact's teammate, else its Manager), set on that person's Memory, Trust page. A text `sendWindow` holds only what it starts (follow-ups, outreach): its text reply to a lead who wrote in goes out at any hour. `configDocument` is the whole configuration as one JSON document; change part of it with updateEmployeeConfig's `edits` and `configPatch`. Who it transfers a live call to is `configDocument.channels.callConfig.transferDestinations`, set with setEmployeeCallTransfers. Webhook urls read back redacted and are kept on save. `updatedAt` is the `expectedUpdatedAt` to pass so a teammate's save in between is refused rather than overwritten.
 
 ## Call
 
@@ -70,11 +70,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
           "appointmentChanged": true,
           "contactFieldChanged": true
         }
-      },
-      "legacyPhoneLines": {
-        "id": true,
-        "e164Number": true,
-        "holderUserId": true
       },
       "mailboxes": {
         "id": true,
