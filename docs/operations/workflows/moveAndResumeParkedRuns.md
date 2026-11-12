@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Restart the runs a publish paused on a workflow (getWorkflow runsParkedByPublish; mostly publishes before 2026-10-23, which paused everyone in flight): moves up to `limit` (at most 200) of them onto the live version, still paused, and once `remaining` is 0 resumes them all on the live version, so their messages go out again. A run on a step the live version no longer has is finished instead (`completed`). Call again while `remaining` is above 0, unless `stuck`: then those runs cannot be moved, so say how many and stop. Offer it only when the person asks about that workflow's paused runs, and say how many people will start getting messages again first. With no live version it does nothing and returns `notLive`: the workflow has to be turned back on first. A run whose contact replied while parked stays paused.
+Restart the runs a publish paused on a workflow (getWorkflow runsParkedByPublish; mostly publishes before 2026-10-23, which paused everyone in flight): moves up to `limit` (at most 200) of them onto the live version, still paused, and once `remaining` is 0 resumes them all on the live version, so their messages go out again. A run the live version ends at finishes (`completed`); one it cannot place stays paused. Call again while `remaining` is above 0, unless `stuck`: then those runs cannot be moved, so say how many and stop. Offer it only when the person asks about that workflow's paused runs, and say how many people will start getting messages again first. With no live version it does nothing and returns `notLive`: the workflow has to be turned back on first. A run whose contact replied while parked stays paused.
 
 ## Call
 
