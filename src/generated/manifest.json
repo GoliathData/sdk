@@ -4090,6 +4090,40 @@
       }
     },
     {
+      "operationId": "sendInstagramMessage",
+      "domain": "communications",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Reply by Instagram DM to the contact's newest Instagram message, from the account they wrote to, as the key owner, within 24 hours of it. Needs the send consent attestation, like sendText. Automated, so it may open with \"This is an automated message.\" (Meta's rule): text is at most 960 bytes. Returns ok, or refusal (NOT_ENABLED, NO_CONVERSATION, WINDOW_CLOSED, NOT_CONNECTED, EMPTY, TOO_LONG, SEND_FAILED: check the timeline before retrying).",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": true,
+      "variables": [
+        {
+          "name": "contactId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "text",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "contactMutation": {
+          "sendContactInstagramMessage": {
+            "ok": true,
+            "refusal": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "sendText",
       "domain": "communications",
       "operationType": "mutation",

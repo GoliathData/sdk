@@ -804,6 +804,15 @@ export class GoliathClient extends GoliathClientCore {
     sendEmail: (variables: T.SendEmailMutationVariables, options?: IdempotentRequestOptions): Promise<T.SendEmailMutation> =>
       this.request('sendEmail', variables, options, { operationType: 'mutation' }),
     /**
+     * Reply by Instagram DM to the contact's newest Instagram message, from the account they wrote to, as the key owner, within 24 hours of it. Needs the send consent attestation, like sendText. Automated, so it may open with "This is an automated message." (Meta's rule): text is at most 960 bytes. Returns ok, or refusal (NOT_ENABLED, NO_CONVERSATION, WINDOW_CLOSED, NOT_CONNECTED, EMPTY, TOO_LONG, SEND_FAILED: check the timeline before retrying).
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    sendInstagramMessage: (variables: T.SendInstagramMessageMutationVariables, options?: IdempotentRequestOptions): Promise<T.SendInstagramMessageMutation> =>
+      this.request('sendInstagramMessage', variables, options, { operationType: 'mutation' }),
+    /**
      * Send an SMS to a phone number (E.164, e.g. +13235550100; an unparseable number is rejected up front with INVALID_PHONE_NUMBER) as the key owner. NEEDS THE ORGANIZATION'S SEND CONSENT ATTESTATION: until an org admin attests once that every contact the organization messages through the API consented (setSendConsentAttestation; read it with getSendConsentAttestation), this is refused with 403 send_consent_not_attested, and while the org has paused everything it is refused with 403 outbound_paused. A number marked Wrong on a contact, and still held un-flagged by no other live contact, is refused with PHONE_NUMBER_MARKED_WRONG before anything is sent: text another of the contact's numbers instead. Runs the checks the app's composer runs: opt-out and Do-Not-Contact guard, A2P active-campaign gate, send throttles and daily caps, find-or-create contact from the number, and conversation + activity logging. A 200 response is NOT delivery — check status: FAILED or SKIPPED means the message never reached the contact (errorCode/errorMessage say why) even though the row is returned without a GraphQL error. Omit fromPhoneLineId to use your assigned line; sending from another user's assigned line requires the VIEW_ALL_PHONES capability (org-shared bulk lines are usable by any org member without it; another organization's line is never usable). Call listCommunicationChannels first and pick a line whose canSendSms is true.
      *
      * @remarks Requires the WRITE scope.

@@ -1222,6 +1222,19 @@
     "responseShape": "{\"emailMutation\":{\"sendEmail\":{\"ok\":true,\"failureReason\":true,\"failureMessage\":true,\"contact\":{\"id\":true}}}}"
   },
   {
+    "operationId": "sendInstagramMessage",
+    "domain": "communications",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactId:ID!,text:String!",
+    "responseShape": "{\"contactMutation\":{\"sendContactInstagramMessage\":{\"ok\":true,\"refusal\":true}}}"
+  },
+  {
     "operationId": "sendText",
     "domain": "communications",
     "operationType": "mutation",

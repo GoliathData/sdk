@@ -1467,6 +1467,23 @@ export type InsertSpaceTextLinesInput = {
   itemId: Scalars['ID']['input'];
 };
 
+/** Why a manual Instagram reply cannot go, or did not. */
+export type InstagramReplyRefusal =
+  /** The message has no words. */
+  | 'EMPTY'
+  /** The account the person wrote to is disconnected, or has no usable token. */
+  | 'NOT_CONNECTED'
+  /** The organization does not have Instagram as a contact channel. */
+  | 'NOT_ENABLED'
+  /** The contact has never messaged a connected Instagram account. */
+  | 'NO_CONVERSATION'
+  /** Meta refused or did not answer the send. It may still have gone: the timeline shows it if it did. */
+  | 'SEND_FAILED'
+  /** The message is over Instagram's 1,000-byte limit. */
+  | 'TOO_LONG'
+  /** Meta's 24-hour window after the person's newest message has shut. */
+  | 'WINDOW_CLOSED';
+
 export type InteractionKind =
   | 'BRIEF'
   | 'CALL_SUMMARY'
@@ -3879,6 +3896,13 @@ export type SendTextMutationVariables = Exact<{
 }>;
 
 export type SendTextMutation = { __typename?: 'RootMutation', smsMutation?: { __typename?: 'SmsMutation', sendSms?: { __typename?: 'TwilioMessage', id: string, message?: string | null, status?: TextMessageStatus | null, errorCode?: string | null, errorMessage?: string | null, fromPhoneNumber?: string | null, toPhoneNumber?: string | null, createdAt?: any | null } | null } | null };
+
+export type SendInstagramMessageMutationVariables = Exact<{
+  contactId: Scalars['ID']['input'];
+  text: Scalars['String']['input'];
+}>;
+
+export type SendInstagramMessageMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', sendContactInstagramMessage: { __typename?: 'SendContactInstagramMessageResult', ok: boolean, refusal?: InstagramReplyRefusal | null } } | null };
 
 export type SendEmailMutationVariables = Exact<{
   fromClientId: Scalars['String']['input'];
