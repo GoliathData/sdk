@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Create a contact; needs sellerFirstName, sellerLastName, and type (LISTING | INVESTMENT | BUYER | UNDETERMINED); phones/emails optional. Search findContacts by the name and each phone/email first: a match is a same-person-or-new question for the user BEFORE creating.
+Create a contact; needs sellerFirstName, sellerLastName, and type (LISTING | INVESTMENT | BUYER | UNDETERMINED); phones/emails optional. addCustomFieldValues sets custom fields as updateContact's updateCustomFieldValues does. An org's own fields (a client status, a stage) are custom fields: read listContactCustomFields before saying a contact has no such field. Search findContacts by the name and each phone/email first: a match is a same-person-or-new question for the user BEFORE creating.
 
 ## Call
 

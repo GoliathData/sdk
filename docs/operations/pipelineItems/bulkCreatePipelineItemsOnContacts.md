@@ -4,7 +4,7 @@
 
 mutation · domain `pipelineItems` · requires the WRITE scope
 
-A new pipeline item per contact from a createPipelineItem `pipelineItem` template (the bulk bar's Add to pipeline). propertyAttachmentMode ALL attaches each contact's properties as the bulk bar does (default NONE); skipContactsWithPipelineItem skips contacts that have a pipeline item; autoNamePipelineItems titles each from its contact and property. A background task (`bulkTaskId`, getBulkTask). Every new pipeline item has a contact, so it wakes stage and contact workflows: it needs their yes; a card's counts.
+A new pipeline item per contact from a createPipelineItem `pipelineItem` template (the bulk bar's Add to pipeline). propertyAttachmentMode ALL attaches each contact's properties as the bulk bar does (default NONE); skipContactsWithPipelineItem skips contacts that have a pipeline item; autoNamePipelineItems titles each from its contact and property. Field ids: listPipelineItemCustomFields. A background task (`bulkTaskId`, getBulkTask). Every new pipeline item has a contact, so it wakes stage and contact workflows: it needs their yes; a card's counts.
 
 ## Call
 

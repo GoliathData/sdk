@@ -2963,7 +2963,6 @@ export type WorkThroughFamily =
   | 'PROMPT_UPDATE'
   /** An open question an AI employee asked a person. */
   | 'QUESTION'
-  | 'QUIET_ACCOUNT'
   /**
    * Calm deal (`catch-up-calm`): one AI employee's reply drafts it was sure of, each a row in `bundleRows` the person can
    * untick, sent in one press through `decideContactSuggestionsInBulk` with only the ticked, shown ids. Never a rule.

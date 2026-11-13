@@ -4,7 +4,7 @@
 
 mutation · domain `pipelineItems` · requires the WRITE scope
 
-One updatePipelineItem `input` for many pipeline items (stage, close date, owners, contacts); every id must be a pipeline item your org owns or shares, or the whole call is refused. Each pipeline item runs a full updatePipelineItem, so a stage move wakes workflows: confirm as updatePipelineItem says. Large sets run as a background task (`bulkTaskId`, getBulkTask).
+One updatePipelineItem `input` for many pipeline items (stage, close date, owners, contacts); every id must be a pipeline item your org owns or shares, or the whole call is refused. Each pipeline item runs a full updatePipelineItem, so a stage move wakes workflows: confirm as updatePipelineItem says. Field ids: listPipelineItemCustomFields. Large sets run as a background task (`bulkTaskId`, getBulkTask).
 
 ## Call
 

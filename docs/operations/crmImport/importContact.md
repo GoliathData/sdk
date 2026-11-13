@@ -4,7 +4,7 @@
 
 mutation · domain `crmImport` · requires the IMPORT scope
 
-Create-or-get a contact migrated from an external system. Keyed on (sourceSystem, externalId): replaying the same record returns the existing contact with wasCreated=false instead of duplicating. Honors historical createdAt/updatedAt (must be in the past) and suppresses live side effects — no workflow triggers, no notifications, no default assignments. The contact field takes the same shape as createContact.
+Create-or-get a contact migrated from an external system. Keyed on (sourceSystem, externalId): replaying the same record returns the existing contact with wasCreated=false instead of duplicating. Honors historical createdAt/updatedAt (must be in the past) and suppresses live side effects — no workflow triggers, no notifications, no default assignments. The contact field takes the same shape as createContact (field ids: listContactCustomFields).
 
 ## Call
 
