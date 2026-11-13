@@ -2963,7 +2963,7 @@ export type WorkThroughFamily =
   /** An open question an AI employee asked a person. */
   | 'QUESTION'
   /**
-   * Calm deal (`catch-up-calm`): one AI employee's reply drafts it was sure of, each a row in `bundleRows` the person can
+   * One AI employee's reply drafts it was sure of, each a row in `bundleRows` the person can
    * untick, sent in one press through `decideContactSuggestionsInBulk` with only the ticked, shown ids. Never a rule.
    */
   | 'REPLY_BATCH'
