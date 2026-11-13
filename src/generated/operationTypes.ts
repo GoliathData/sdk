@@ -1241,7 +1241,6 @@ export type FilterType =
   | 'OWNER'
   | 'PERSON'
   | 'PIPELINE_ITEM'
-  | 'POST'
   | 'PROPERTY'
   | 'USER';
 
