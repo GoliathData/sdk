@@ -1446,6 +1446,7 @@ export type InboxFilterType =
 export type InboxItemType =
   | 'CALL'
   | 'EMAIL'
+  | 'GROUP'
   | 'INSTAGRAM'
   | 'MESSAGE';
 
