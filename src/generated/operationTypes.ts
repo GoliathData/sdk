@@ -378,24 +378,6 @@ export type BulkPipelineItemPropertyAttachmentMode =
   | 'FIRST_VERIFIED'
   | 'NONE';
 
-export type BulkShareContactCreateTaskInput = {
-  autoCompleteOnNoteAdded?: InputMaybe<Scalars['Boolean']['input']>;
-  autoCompleteOnReassignment?: InputMaybe<Scalars['Boolean']['input']>;
-  createCalendarEvent?: InputMaybe<Scalars['Boolean']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  endDate: Scalars['DateTime']['input'];
-  participants?: InputMaybe<Array<Scalars['String']['input']>>;
-  taskType?: InputMaybe<Scalars['String']['input']>;
-  timezone: Timezone;
-  title: Scalars['String']['input'];
-};
-
-export type BulkShareContactUserAssignmentInput = {
-  createTask?: InputMaybe<BulkShareContactCreateTaskInput>;
-  role: ShareContactAssignmentRole;
-  userId: Scalars['ID']['input'];
-};
-
 /** Lifecycle status of a bulk task. Mirrors the Prisma BulkTaskStatus enum. */
 export type BulkTaskStatus =
   /** Withdrawn by the person who started it before any of it ran (an Undo). Nothing was changed. */
@@ -2254,16 +2236,6 @@ export type SetSpaceGrantInput = {
   itemId: Scalars['ID']['input'];
   /** Null stops sharing with them. */
   role?: InputMaybe<SpaceRole>;
-  userId: Scalars['ID']['input'];
-};
-
-export type ShareContactAssignmentRole =
-  | 'PARTICIPANT'
-  | 'POINT_PERSON';
-
-export type ShareContactUserAssignmentInput = {
-  createTask?: InputMaybe<CreateTaskInput>;
-  role: ShareContactAssignmentRole;
   userId: Scalars['ID']['input'];
 };
 
@@ -4601,39 +4573,6 @@ export type ClearContactPhotoMutationVariables = Exact<{
 }>;
 
 export type ClearContactPhotoMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', clearContactPhoto?: { __typename?: 'Contact', id: string } | null } | null };
-
-export type ShareContactWithPartnerMutationVariables = Exact<{
-  contactId: Scalars['ID']['input'];
-  partnerOrganizationId: Scalars['ID']['input'];
-  assignments: Array<ShareContactUserAssignmentInput> | ShareContactUserAssignmentInput;
-  includeContactCore?: InputMaybe<Scalars['Boolean']['input']>;
-  includeTasks?: InputMaybe<Scalars['Boolean']['input']>;
-  includeNotes?: InputMaybe<Scalars['Boolean']['input']>;
-  includeCalls?: InputMaybe<Scalars['Boolean']['input']>;
-  includeTexts?: InputMaybe<Scalars['Boolean']['input']>;
-}>;
-
-export type ShareContactWithPartnerMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', shareContact?: { __typename?: 'ShareContactResult', baseContactId: string, copiedContactId: string } | null } | null };
-
-export type UnshareContactWithPartnerMutationVariables = Exact<{
-  contactId: Scalars['ID']['input'];
-  partnerOrganizationId: Scalars['ID']['input'];
-}>;
-
-export type UnshareContactWithPartnerMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', unshareContact?: { __typename?: 'UnshareContactResult', baseContactId: string, copiedContactId: string, revokedUsersCount: number } | null } | null };
-
-export type ShareContactsWithPartnerMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
-  partnerOrganizationId: Scalars['ID']['input'];
-  assignments: Array<BulkShareContactUserAssignmentInput> | BulkShareContactUserAssignmentInput;
-  includeContactCore?: InputMaybe<Scalars['Boolean']['input']>;
-  includeTasks?: InputMaybe<Scalars['Boolean']['input']>;
-  includeNotes?: InputMaybe<Scalars['Boolean']['input']>;
-  includeCalls?: InputMaybe<Scalars['Boolean']['input']>;
-  includeTexts?: InputMaybe<Scalars['Boolean']['input']>;
-}>;
-
-export type ShareContactsWithPartnerMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', bulkShareContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type SetContactsTeamsMutationVariables = Exact<{
   contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];

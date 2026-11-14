@@ -2470,32 +2470,6 @@
     "responseShape": "{\"contactMutation\":{\"setPhoneDoNotContact\":{\"normalizedValue\":true,\"doNotContact\":true}}}"
   },
   {
-    "operationId": "shareContactsWithPartner",
-    "domain": "contacts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,partnerOrganizationId:ID!,assignments:[BulkShareContactUserAssignmentInput!]!,includeContactCore:Boolean,includeTasks:Boolean,includeNotes:Boolean,includeCalls:Boolean,includeTexts:Boolean",
-    "responseShape": "{\"contactMutation\":{\"bulkShareContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
-  },
-  {
-    "operationId": "shareContactWithPartner",
-    "domain": "contacts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "contactId:ID!,partnerOrganizationId:ID!,assignments:[ShareContactUserAssignmentInput!]!,includeContactCore:Boolean,includeTasks:Boolean,includeNotes:Boolean,includeCalls:Boolean,includeTexts:Boolean",
-    "responseShape": "{\"contactMutation\":{\"shareContact\":{\"baseContactId\":true,\"copiedContactId\":true}}}"
-  },
-  {
     "operationId": "unarchiveContacts",
     "domain": "contacts",
     "operationType": "mutation",
@@ -2533,19 +2507,6 @@
     "hasAuthorize": false,
     "variableSignature": "relationshipId:ID!",
     "responseShape": "{\"contactMutation\":{\"unlinkRelatedContact\":true}}"
-  },
-  {
-    "operationId": "unshareContactWithPartner",
-    "domain": "contacts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "contactId:ID!,partnerOrganizationId:ID!",
-    "responseShape": "{\"contactMutation\":{\"unshareContact\":{\"baseContactId\":true,\"copiedContactId\":true,\"revokedUsersCount\":true}}}"
   },
   {
     "operationId": "updateContact",

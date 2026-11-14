@@ -38,7 +38,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `callLists` | 10 |
 | `communications` | 22 |
 | `contactImports` | 7 |
-| `contacts` | 92 |
+| `contacts` | 89 |
 | `contracts` | 12 |
 | `conversations` | 9 |
 | `coverage` | 2 |
