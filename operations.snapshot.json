@@ -4290,6 +4290,19 @@
     "responseShape": "{\"dialingPoolMutation\":{\"addExistingNumbersToPool\":{\"id\":true,\"isDialingPoolLine\":true}}}"
   },
   {
+    "operationId": "assignPhoneLine",
+    "domain": "phoneNumbers",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "phoneLineId:ID!,userId:ID!,makePrimary:Boolean,leaveDialingRotation:Boolean",
+    "responseShape": "{\"twilioMutation\":{\"transferPhoneNumber\":{\"id\":true,\"e164Number\":true,\"isPrimary\":true,\"isDialingPoolLine\":true,\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true}}}}"
+  },
+  {
     "operationId": "buyDialingPoolNumbers",
     "domain": "phoneNumbers",
     "operationType": "mutation",
@@ -5302,6 +5315,19 @@
     "hasAuthorize": false,
     "variableSignature": "scope:FolderScope!,name:String!,parentId:ID,personal:Boolean",
     "responseShape": "{\"folderMutation\":{\"createFolder\":{\"id\":true,\"name\":true,\"parentId\":true,\"ownerUserId\":true}}}"
+  },
+  {
+    "operationId": "createFolder",
+    "domain": "properties",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "scope:FolderScope!,name:String!,parentId:ID,personal:Boolean",
+    "responseShape": "{\"folderMutation\":{\"createFolder\":{\"id\":true,\"name\":true,\"scope\":true,\"parentId\":true,\"ownerUserId\":true}}}"
   },
   {
     "operationId": "createPropertyList",

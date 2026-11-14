@@ -5341,6 +5341,15 @@ export type ListFoldersQueryVariables = Exact<{
 
 export type ListFoldersQuery = { __typename?: 'RootQuery', folderQuery?: { __typename?: 'FolderQuery', folders?: Array<{ __typename?: 'Folder', id: string, name: string, scope: FolderScope, parentId?: string | null, ownerUserId?: string | null, displayOrder: number, itemCount: number }> | null } | null };
 
+export type CreateFolderMutationVariables = Exact<{
+  scope: FolderScope;
+  name: Scalars['String']['input'];
+  parentId?: InputMaybe<Scalars['ID']['input']>;
+  personal?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+export type CreateFolderMutation = { __typename?: 'RootMutation', folderMutation?: { __typename?: 'FolderMutation', createFolder?: { __typename?: 'Folder', id: string, name: string, scope: FolderScope, parentId?: string | null, ownerUserId?: string | null } | null } | null };
+
 export type RenameFolderMutationVariables = Exact<{
   folderId: Scalars['ID']['input'];
   name: Scalars['String']['input'];
@@ -5832,6 +5841,15 @@ export type SetPhoneLineRingPolicyMutationVariables = Exact<{
 }>;
 
 export type SetPhoneLineRingPolicyMutation = { __typename?: 'RootMutation', ringPolicyMutation?: { __typename?: 'RingPolicyMutation', setPhoneLineRingPolicy?: { __typename?: 'RingPolicy', id: string } | null } | null };
+
+export type AssignPhoneLineMutationVariables = Exact<{
+  phoneLineId: Scalars['ID']['input'];
+  userId: Scalars['ID']['input'];
+  makePrimary?: InputMaybe<Scalars['Boolean']['input']>;
+  leaveDialingRotation?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+export type AssignPhoneLineMutation = { __typename?: 'RootMutation', twilioMutation?: { __typename?: 'TwilioMutation', transferPhoneNumber?: Array<{ __typename?: 'TwilioPhoneNumber', id: string, e164Number: string, isPrimary?: boolean | null, isDialingPoolLine?: boolean | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null } | null };
 
 export type GetPipelineItemQueryVariables = Exact<{
   pipelineItemId: Scalars['ID']['input'];

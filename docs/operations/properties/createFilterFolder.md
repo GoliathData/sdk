@@ -4,7 +4,7 @@
 
 mutation · domain `properties` · requires the WRITE scope
 
-Create a saved-filter folder (returns id). `scope` is the filters' type (PROPERTY, CONTACT, DEAL); `personal: true` makes it private, else it and filters filed in it are shared; with `parentId` it takes the parent's visibility instead. Reuse a listFilterFolders row only if name, parentId and isPrivate all match.
+Create a saved-filter folder (returns id). `scope` is the filters' type (PROPERTY, CONTACT, PIPELINE_ITEM; never the retired DEAL; a folder for anything else is createFolder); `personal: true` makes it private, else it and filters filed in it are shared; with `parentId` it takes the parent's visibility instead. Reuse a listFilterFolders row only if name, parentId and isPrivate all match.
 
 ## Call
 
