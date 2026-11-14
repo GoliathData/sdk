@@ -1564,11 +1564,6 @@ export type MoveSpaceItemsInput = {
   itemIds: Array<Scalars['ID']['input']>;
 };
 
-export type OrgPartnershipStatus =
-  | 'ACTIVE'
-  | 'PENDING'
-  | 'TERMINATED';
-
 /** The honest "no" cases. Each one names a different remedy. */
 export type OrgTextingBlockedReason =
   /**
@@ -1646,14 +1641,6 @@ export type OrganizationSuggestionAudience =
 export type OrganizationToUserMappingType =
   | 'ADMIN'
   | 'MEMBER';
-
-export type PartnershipDirection =
-  /** Both directions active. */
-  | 'BIDIRECTIONAL'
-  /** Partner org sends leads to current org only. */
-  | 'RECEIVE_ONLY'
-  /** Current org sends leads to partner org only. */
-  | 'SEND_ONLY';
 
 /** The lifecycle state of an organization's provider connection. */
 export type PhoneEnrichmentConnectionStatus =
@@ -5740,66 +5727,6 @@ export type SetMyTimezoneMutationVariables = Exact<{
 }>;
 
 export type SetMyTimezoneMutation = { __typename?: 'RootMutation', users?: { __typename?: 'UsersMutation', updateMyTimezone?: { __typename?: 'User', id: string, timezone?: string | null, resolvedTimezone?: string | null } | null } | null };
-
-export type ListPartnershipsQueryVariables = Exact<{ [key: string]: never; }>;
-
-export type ListPartnershipsQuery = { __typename?: 'RootQuery', orgPartnershipQuery?: { __typename?: 'OrgPartnershipQuery', partnershipsForCurrentOrg?: Array<{ __typename?: 'OrgPartnership', id: string, status: OrgPartnershipStatus, direction: PartnershipDirection, awaitingCurrentOrgResponse: boolean, permittedUserIds?: Array<string> | null, createdAt: any, updatedAt: any, partnerOrg: { __typename?: 'Organization', id: string, name?: string | null } }> | null } | null };
-
-export type ListPendingPartnershipInvitesQueryVariables = Exact<{ [key: string]: never; }>;
-
-export type ListPendingPartnershipInvitesQuery = { __typename?: 'RootQuery', orgPartnershipQuery?: { __typename?: 'OrgPartnershipQuery', pendingInvitationsForCurrentOrg?: Array<{ __typename?: 'OrgPartnership', id: string, status: OrgPartnershipStatus, direction: PartnershipDirection, awaitingCurrentOrgResponse: boolean, permittedUserIds?: Array<string> | null, createdAt: any, updatedAt: any, partnerOrg: { __typename?: 'Organization', id: string, name?: string | null } }> | null } | null };
-
-export type CanShareWithPartnersQueryVariables = Exact<{ [key: string]: never; }>;
-
-export type CanShareWithPartnersQuery = { __typename?: 'RootQuery', orgPartnershipQuery?: { __typename?: 'OrgPartnershipQuery', canShareWithPartners?: boolean | null } | null };
-
-export type LookupPartnerOrgQueryVariables = Exact<{
-  phoneNumber?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-export type LookupPartnerOrgQuery = { __typename?: 'RootQuery', orgPartnershipQuery?: { __typename?: 'OrgPartnershipQuery', lookupInvitee?: { __typename?: 'PartnershipInviteeLookupResult', user: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null }, organization: { __typename?: 'Organization', id: string, name?: string | null } } | null } | null };
-
-export type CreatePartnershipInviteMutationVariables = Exact<{
-  partnerOrgId: Scalars['ID']['input'];
-  direction: PartnershipDirection;
-  permittedUserIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  recipientUserIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-}>;
-
-export type CreatePartnershipInviteMutation = { __typename?: 'RootMutation', orgPartnershipMutation?: { __typename?: 'OrgPartnershipMutation', createInvitation?: { __typename?: 'OrgPartnership', id: string, status: OrgPartnershipStatus, direction: PartnershipDirection, permittedUserIds?: Array<string> | null, createdAt: any, updatedAt: any, partnerOrg: { __typename?: 'Organization', id: string, name?: string | null } } | null } | null };
-
-export type AcceptPartnershipInviteMutationVariables = Exact<{
-  partnerOrgId: Scalars['ID']['input'];
-  permittedUserIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-}>;
-
-export type AcceptPartnershipInviteMutation = { __typename?: 'RootMutation', orgPartnershipMutation?: { __typename?: 'OrgPartnershipMutation', acceptInvitation?: { __typename?: 'OrgPartnership', id: string, status: OrgPartnershipStatus, direction: PartnershipDirection, permittedUserIds?: Array<string> | null, updatedAt: any, partnerOrg: { __typename?: 'Organization', id: string, name?: string | null } } | null } | null };
-
-export type RejectPartnershipInviteMutationVariables = Exact<{
-  partnerOrgId: Scalars['ID']['input'];
-}>;
-
-export type RejectPartnershipInviteMutation = { __typename?: 'RootMutation', orgPartnershipMutation?: { __typename?: 'OrgPartnershipMutation', rejectInvitation?: { __typename?: 'OrgPartnership', id: string, status: OrgPartnershipStatus, updatedAt: any } | null } | null };
-
-export type CancelPartnershipInviteMutationVariables = Exact<{
-  partnerOrgId: Scalars['ID']['input'];
-}>;
-
-export type CancelPartnershipInviteMutation = { __typename?: 'RootMutation', orgPartnershipMutation?: { __typename?: 'OrgPartnershipMutation', cancelInvitation?: { __typename?: 'OrgPartnership', id: string, status: OrgPartnershipStatus, updatedAt: any } | null } | null };
-
-export type TerminatePartnershipMutationVariables = Exact<{
-  partnerOrgId: Scalars['ID']['input'];
-}>;
-
-export type TerminatePartnershipMutation = { __typename?: 'RootMutation', orgPartnershipMutation?: { __typename?: 'OrgPartnershipMutation', terminatePartnership?: { __typename?: 'OrgPartnership', id: string, status: OrgPartnershipStatus, updatedAt: any } | null } | null };
-
-export type UpdatePartnershipPermittedUsersMutationVariables = Exact<{
-  partnerOrgId: Scalars['ID']['input'];
-  permittedUserIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-}>;
-
-export type UpdatePartnershipPermittedUsersMutation = { __typename?: 'RootMutation', orgPartnershipMutation?: { __typename?: 'OrgPartnershipMutation', updatePermittedUsers?: { __typename?: 'OrgPartnership', id: string, permittedUserIds?: Array<string> | null, updatedAt: any } | null } | null };
 
 export type SearchAvailablePhoneNumbersQueryVariables = Exact<{
   areaCode?: InputMaybe<Scalars['Int']['input']>;
