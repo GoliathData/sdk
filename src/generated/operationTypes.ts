@@ -1255,13 +1255,13 @@ export type FolderItemRef = {
  * lists as well. Scope is the SURFACE, not the item kind.
  */
 export type FolderScope =
-  /** The Calendar's saved views (list-pages-v2). */
+  /** The Calendar's saved views. */
   | 'CALENDAR_VIEW'
   | 'CONTACT'
   | 'DEAL'
   | 'ENTITY'
   | 'FORM'
-  /** The Inbox's saved views (list-pages-v2). */
+  /** The Inbox's saved views. */
   | 'INBOX_VIEW'
   | 'LIBRARY'
   | 'ORGANIZATION'
@@ -1270,7 +1270,7 @@ export type FolderScope =
   | 'PIPELINE_ITEM'
   | 'POST'
   | 'PROPERTY'
-  /** The Tasks page's saved views (list-pages-v2). */
+  /** The Tasks page's saved views. */
   | 'TASKS_VIEW'
   | 'USER'
   | 'WORKFLOW';
