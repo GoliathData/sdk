@@ -272,6 +272,15 @@ export class GoliathClient extends GoliathClientCore {
     setSuggestionAudience: (variables: T.SetSuggestionAudienceMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetSuggestionAudienceMutation> =>
       this.request('setSuggestionAudience', variables, options, { operationType: 'mutation' }),
     /**
+     * Set who gets Catch up work no person holds: one active member (a user id from listTeammates), or null for the organization admins. Waiting cards move in the background. Organization admins only.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setUnownedWork: (variables?: T.SetUnownedWorkMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetUnownedWorkMutation> =>
+      this.request('setUnownedWork', variables, options, { operationType: 'mutation' }),
+    /**
      * Update the key owner's own profile. All three of firstName, lastName, and phoneNumber are required together (send the current values for the ones you're not changing — read them with getMyProfile); an EMPTY phoneNumber clears the number. Two more fields are OPTIONAL and PARTIAL: profilePictureUrl (an https URL to the new picture) and howDidYouHearAboutUs (free text) — omit either and the stored value is left untouched, send it to set it. The phone number is normalized and must be unique across users; email is not editable here (parity with the app). Returns the updated profile including profilePictureUrl, so quote what came back rather than assuming the picture took.
      *
      * @remarks Requires the WRITE scope.

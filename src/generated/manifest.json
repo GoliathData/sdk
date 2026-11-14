@@ -986,6 +986,34 @@
       }
     },
     {
+      "operationId": "setUnownedWork",
+      "domain": "account",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Set who gets Catch up work no person holds: one active member (a user id from listTeammates), or null for the organization admins. Waiting cards move in the background. Organization admins only.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "userId",
+          "type": "ID",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "organizationMutation": {
+          "updateOrganizationUnownedWork": {
+            "id": true,
+            "unownedWorkUserId": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "updateMyProfile",
       "domain": "account",
       "operationType": "mutation",

@@ -3348,6 +3348,12 @@ export type SetSuggestionAudienceMutationVariables = Exact<{
 
 export type SetSuggestionAudienceMutation = { __typename?: 'RootMutation', organizationMutation?: { __typename?: 'OrganizationMutation', updateOrganizationSuggestionAudience?: { __typename?: 'Organization', id: string, suggestionAudience?: OrganizationSuggestionAudience | null } | null } | null };
 
+export type SetUnownedWorkMutationVariables = Exact<{
+  userId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type SetUnownedWorkMutation = { __typename?: 'RootMutation', organizationMutation?: { __typename?: 'OrganizationMutation', updateOrganizationUnownedWork?: { __typename?: 'Organization', id: string, unownedWorkUserId?: string | null } | null } | null };
+
 export type GetOrganizationAreasOfOperationQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetOrganizationAreasOfOperationQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, organization?: { __typename?: 'Organization', id: string, areasOfOperation?: any | null } | null } | null };

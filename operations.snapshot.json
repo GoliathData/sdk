@@ -403,6 +403,19 @@
     "responseShape": "{\"organizationMutation\":{\"updateOrganizationSuggestionAudience\":{\"id\":true,\"suggestionAudience\":true}}}"
   },
   {
+    "operationId": "setUnownedWork",
+    "domain": "account",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "userId:ID",
+    "responseShape": "{\"organizationMutation\":{\"updateOrganizationUnownedWork\":{\"id\":true,\"unownedWorkUserId\":true}}}"
+  },
+  {
     "operationId": "updateMyProfile",
     "domain": "account",
     "operationType": "mutation",

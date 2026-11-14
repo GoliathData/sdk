@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-624 operations across 29 domains — small enough to read whole. One line each:
+625 operations across 29 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -41,6 +41,7 @@ Full detail per operation (variables, call example, gateway notes, response shap
 - `setOrganizationTextReplyLinePolicy` (mutation, ADMIN) [idempotent] — Which line a contact's text composer opens on: USER_PRIMARY_LINE (the sender's own line) or LAST_THREAD_LINE (the line the contact last talked to, which widens who may text from a line). Organization admins only.
 - `setOrganizationTimezone` (mutation, ADMIN) [idempotent] — Set the organization's own clock: an IANA zone the product schedules in ("America/Chicago"; EST, CST, MST, AZ, PST and HST are accepted and normalized). Null clears it. New schedules start from it; stored ones are not rewritten. Organization admins only.
 - `setSuggestionAudience` (mutation, ADMIN) [idempotent] — Set who contact suggestion cards go to: WHOLE_TEAM or POINT_PERSON. Organization admins only.
+- `setUnownedWork` (mutation, ADMIN) [idempotent] — Set who gets Catch up work no person holds: one active member (a user id from listTeammates), or null for the organization admins. Waiting cards move in the background. Organization admins only.
 - `updateMyProfile` (mutation, WRITE) [idempotent] — Update the key owner's own profile. All three of firstName, lastName, and phoneNumber are required together (send the current values for the ones you're not changing — read them with getMyProfile); an EMPTY phoneNumber clears the number. Two more fields are OPTIONAL and PARTIAL: profilePictureUrl (an https URL to the new picture) and howDidYouHearAboutUs (free text) — omit either and the stored value is left untouched, send it to set it. The phone number is normalized and must be unique across users; email is not editable here (parity with the app). Returns the updated profile including profilePictureUrl, so quote what came back rather than assuming the picture took.
 - `updateOrganizationAreasOfOperation` (mutation, ADMIN) [idempotent] — Replace the organization's markets: `{version: 1, regions, polygons, updatedAt}`, a region `{kind: "county"|"city"|"zip", fips|cityId|zip, label}` (searchCounties/searchCities). Send back all you keep of getOrganizationAreasOfOperation, polygons too. An added market can buy phone numbers once the number plan buys: confirm first. Admins only.
 
