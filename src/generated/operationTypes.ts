@@ -1903,6 +1903,12 @@ export type PropertySignalType =
   | 'NEGATIVE_EQUITY'
   | 'NOTICE_OF_COMMENCEMENT'
   | 'NOTICE_OF_DEFAULT'
+  /**
+   * A suit to partition real property among its co-owners (most often heirs), so
+   * the court divides it or orders it sold: a lead of its own, not a quiet-title
+   * action (INT-18610).
+   */
+  | 'PARTITION_ACTION'
   | 'PERMIT_FILING'
   | 'POLICE_INCIDENT'
   | 'PREFORECLOSURE'
