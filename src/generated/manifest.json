@@ -9979,7 +9979,6 @@
           "assignAiEmployeeToContact": {
             "id": true,
             "agentId": true,
-            "status": true,
             "schedule": {
               "nextFireAt": true,
               "maxRuns": true
@@ -10117,8 +10116,7 @@
         "aiEmployeesMutation": {
           "clearAiEmployeeSchedule": {
             "id": true,
-            "agentId": true,
-            "status": true
+            "agentId": true
           }
         }
       }

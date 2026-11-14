@@ -2961,7 +2961,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "contactId:ID!,employeeId:ID!,schedule:AiEmployeeScheduleInput",
-    "responseShape": "{\"aiEmployeesMutation\":{\"assignAiEmployeeToContact\":{\"id\":true,\"agentId\":true,\"status\":true,\"schedule\":{\"nextFireAt\":true,\"maxRuns\":true}}}}"
+    "responseShape": "{\"aiEmployeesMutation\":{\"assignAiEmployeeToContact\":{\"id\":true,\"agentId\":true,\"schedule\":{\"nextFireAt\":true,\"maxRuns\":true}}}}"
   },
   {
     "operationId": "attachEmployeeMailbox",
@@ -3013,7 +3013,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "attachmentId:ID!",
-    "responseShape": "{\"aiEmployeesMutation\":{\"clearAiEmployeeSchedule\":{\"id\":true,\"agentId\":true,\"status\":true}}}"
+    "responseShape": "{\"aiEmployeesMutation\":{\"clearAiEmployeeSchedule\":{\"id\":true,\"agentId\":true}}}"
   },
   {
     "operationId": "commentOnEmployeeSuggestion",

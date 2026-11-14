@@ -536,11 +536,6 @@ export type ContactAiEmployeeSource =
   | 'SELF_ATTACH'
   | 'WORKFLOW';
 
-export type ContactAiEmployeeStatus =
-  | 'ACTIVE'
-  | 'PAUSED'
-  | 'REMOVED';
-
 /** What an AI pause on a contact stops. One switch, Drafts only: ALL and MESSAGES are retired, a pause input that names either writes DRAFTS, and every pause reads back as DRAFTS. */
 export type ContactAiPauseMode =
   /** Retired: written as DRAFTS, and a pause stored with it reads and acts as DRAFTS. */
@@ -4885,7 +4880,7 @@ export type AssignEmployeeToContactMutationVariables = Exact<{
   schedule?: InputMaybe<AiEmployeeScheduleInput>;
 }>;
 
-export type AssignEmployeeToContactMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', assignAiEmployeeToContact?: { __typename?: 'ContactAiEmployee', id: string, agentId: string, status: ContactAiEmployeeStatus, schedule?: { __typename?: 'ContactAiEmployeeSchedule', nextFireAt?: any | null, maxRuns?: number | null } | null } | null } | null };
+export type AssignEmployeeToContactMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', assignAiEmployeeToContact?: { __typename?: 'ContactAiEmployee', id: string, agentId: string, schedule?: { __typename?: 'ContactAiEmployeeSchedule', nextFireAt?: any | null, maxRuns?: number | null } | null } | null } | null };
 
 export type SetEmployeeScheduleMutationVariables = Exact<{
   attachmentId: Scalars['ID']['input'];
@@ -4900,7 +4895,7 @@ export type ClearEmployeeScheduleMutationVariables = Exact<{
   attachmentId: Scalars['ID']['input'];
 }>;
 
-export type ClearEmployeeScheduleMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', clearAiEmployeeSchedule?: { __typename?: 'ContactAiEmployee', id: string, agentId: string, status: ContactAiEmployeeStatus } | null } | null };
+export type ClearEmployeeScheduleMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', clearAiEmployeeSchedule?: { __typename?: 'ContactAiEmployee', id: string, agentId: string } | null } | null };
 
 export type StopEmployeeRunsMutationVariables = Exact<{
   contactId: Scalars['ID']['input'];

@@ -34,8 +34,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
   "aiEmployeesMutation": {
     "clearAiEmployeeSchedule": {
       "id": true,
-      "agentId": true,
-      "status": true
+      "agentId": true
     }
   }
 }

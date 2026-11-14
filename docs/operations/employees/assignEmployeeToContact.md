@@ -38,7 +38,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
     "assignAiEmployeeToContact": {
       "id": true,
       "agentId": true,
-      "status": true,
       "schedule": {
         "nextFireAt": true,
         "maxRuns": true
