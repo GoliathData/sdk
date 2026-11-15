@@ -2422,6 +2422,11 @@ export type SpacesMemoryNoteOrigin =
  */
 export type SpacesMemoryShelf =
   | 'CONTACT'
+  /**
+   * An AI employee's shelf. Retired as a Library shelf (INT-15894): never listed or opened, and a dream proposal still
+   * names one. While employee-own-trust is on it carries the employee's own trust: memoryTrust reads it (subjectId the
+   * employee's id) and the trust writes change it, both for its editors only: an admin or its Manager (INT-18645).
+   */
   | 'EMPLOYEE'
   | 'GROUP'
   | 'PERSON'
