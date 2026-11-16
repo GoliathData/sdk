@@ -1268,7 +1268,6 @@ export type FolderScope =
   | 'OWNER'
   | 'PERSON'
   | 'PIPELINE_ITEM'
-  | 'POST'
   | 'PROPERTY'
   /** The Tasks page's saved views. */
   | 'TASKS_VIEW'
@@ -1591,7 +1590,6 @@ export type OrganizationCapability =
   | 'CAN_USE_AUTOMATIONS'
   | 'CAN_USE_COMPUTER'
   | 'CAN_USE_FILES'
-  | 'CAN_USE_MARKETPLACE'
   | 'CAN_WORKFLOW'
   | 'CONTRACTS_MANAGE'
   | 'CONTRACTS_VIEW'
