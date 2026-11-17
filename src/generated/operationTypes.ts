@@ -2238,6 +2238,11 @@ export type SetSpaceGrantInput = {
   userId: Scalars['ID']['input'];
 };
 
+/** Which value contacts are grouped on when they share it. */
+export type SharedContactInfoKind =
+  | 'EMAIL'
+  | 'PHONE';
+
 export type SkipTraceStatus =
   | 'FAILED'
   | 'NOT_ENOUGH_BALANCE'
@@ -3940,6 +3945,14 @@ export type FindSharedPropertyAddressesQueryVariables = Exact<{
 }>;
 
 export type FindSharedPropertyAddressesQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', sharedPropertyAddressGroups?: { __typename?: 'SharedPropertyAddressGroupsPage', totalCount: number, truncated: boolean, hasMore: boolean, groups: Array<{ __typename?: 'SharedPropertyAddressGroup', address?: string | null, propertyId?: string | null, members: Array<{ __typename?: 'SharedPropertyAddressMember', id: string, name: string, relations: Array<string> }> }> } | null } | null };
+
+export type FindSharedPhonesAndEmailsQueryVariables = Exact<{
+  kind?: InputMaybe<SharedContactInfoKind>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type FindSharedPhonesAndEmailsQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', sharedContactInfoGroups?: { __typename?: 'SharedContactInfoGroupsPage', totalCount: number, truncated: boolean, hasMore: boolean, groups: Array<{ __typename?: 'SharedContactInfoGroup', value: string, memberCount: number, members: Array<{ __typename?: 'SharedContactInfoMember', id: string, name: string, statuses: Array<VerificationStatus> }> }> } | null } | null };
 
 export type ContactListUsageQueryVariables = Exact<{
   kinds?: InputMaybe<Array<ContactListKind> | ContactListKind>;

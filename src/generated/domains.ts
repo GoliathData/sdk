@@ -1309,6 +1309,15 @@ export class GoliathClient extends GoliathClientCore {
     findDuplicateContactGroups: (variables?: T.FindDuplicateContactGroupsQueryVariables, options?: RequestOptions): Promise<T.FindDuplicateContactGroupsQuery> =>
       this.request('findDuplicateContactGroups', variables, options, { operationType: 'query' }),
     /**
+     * Groups of 2+ contacts carrying the same phone number (kind PHONE, the default) or email (kind EMAIL), WHATEVER THEIR NAMES, largest first, in ONE call: value (10-digit number or lowercase email), memberCount (every contact you see carrying it: say this number), members (the first 25, VERIFIED holders first) with their statuses for it. "How many times does this number show up", "who else has this number", a household or family on one line: this, not findDuplicateContactGroups (same name only). Never counted: a number marked WRONG, a relative's (sub-contact) number, a reserved-domain email (example.com). totalCount = groups across everything you see.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 100.
+     */
+    findSharedPhonesAndEmails: (variables?: T.FindSharedPhonesAndEmailsQueryVariables, options?: RequestOptions): Promise<T.FindSharedPhonesAndEmailsQuery> =>
+      this.request('findSharedPhonesAndEmails', variables, options, { operationType: 'query' }),
+    /**
      * Groups of 2+ contacts linked to the same property address (the parcel, else the mailing address row, else the text folded for case and punctuation), largest first, in ONE call: address, propertyId, members with how each is linked (OWNS, MAILING, FORMER_OWNER, RELATED_TO_OWNER). totalCount = groups across everything you see.
      *
      * @remarks Requires the READ scope.

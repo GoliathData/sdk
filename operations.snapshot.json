@@ -1963,6 +1963,19 @@
     "responseShape": "{\"contactQuery\":{\"duplicateContactGroups\":{\"groups\":{\"contacts\":{\"id\":true,\"name\":true},\"sharedPhoneNumbers\":true,\"sharedEmails\":true},\"totalCount\":true,\"truncated\":true,\"hasMore\":true,\"reservedEmailGroupCount\":true}}}"
   },
   {
+    "operationId": "findSharedPhonesAndEmails",
+    "domain": "contacts",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": 100,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "kind:SharedContactInfoKind=PHONE,limit:Int=50,offset:Int=0",
+    "responseShape": "{\"contactQuery\":{\"sharedContactInfoGroups\":{\"groups\":{\"value\":true,\"memberCount\":true,\"members\":{\"id\":true,\"name\":true,\"statuses\":true}},\"totalCount\":true,\"truncated\":true,\"hasMore\":true}}}"
+  },
+  {
     "operationId": "findSharedPropertyAddresses",
     "domain": "contacts",
     "operationType": "query",

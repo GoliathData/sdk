@@ -6452,6 +6452,56 @@
       }
     },
     {
+      "operationId": "findSharedPhonesAndEmails",
+      "domain": "contacts",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "Groups of 2+ contacts carrying the same phone number (kind PHONE, the default) or email (kind EMAIL), WHATEVER THEIR NAMES, largest first, in ONE call: value (10-digit number or lowercase email), memberCount (every contact you see carrying it: say this number), members (the first 25, VERIFIED holders first) with their statuses for it. \"How many times does this number show up\", \"who else has this number\", a household or family on one line: this, not findDuplicateContactGroups (same name only). Never counted: a number marked WRONG, a relative's (sub-contact) number, a reserved-domain email (example.com). totalCount = groups across everything you see.",
+      "resultCap": 100,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "kind",
+          "type": "SharedContactInfoKind",
+          "required": false,
+          "defaultValue": "PHONE"
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false,
+          "defaultValue": "50"
+        },
+        {
+          "name": "offset",
+          "type": "Int",
+          "required": false,
+          "defaultValue": "0"
+        }
+      ],
+      "responseShape": {
+        "contactQuery": {
+          "sharedContactInfoGroups": {
+            "groups": {
+              "value": true,
+              "memberCount": true,
+              "members": {
+                "id": true,
+                "name": true,
+                "statuses": true
+              }
+            },
+            "totalCount": true,
+            "truncated": true,
+            "hasMore": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "findSharedPropertyAddresses",
       "domain": "contacts",
       "operationType": "query",
