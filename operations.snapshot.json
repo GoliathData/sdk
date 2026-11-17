@@ -3533,7 +3533,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "filterTree:JSON={id: \"root\", operator: \"AND\", conditions: [], groups: []},limit:Int=25,offset:Int=0",
-    "responseShape": "{\"filterQuery\":{\"applyFilesFilter\":{\"uploads\":{\"id\":true,\"status\":true,\"type\":true,\"createdAt\":true,\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"file\":{\"id\":true,\"fileName\":true},\"totalRows\":true,\"producedRecordsCount\":true,\"dataExport\":{\"id\":true,\"status\":true,\"fileName\":true}},\"downloads\":{\"id\":true,\"fileName\":true,\"status\":true,\"type\":true,\"numRows\":true,\"createdAt\":true,\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true}},\"pagination\":{\"total\":true,\"hasMore\":true}}}}"
+    "responseShape": "{\"filterQuery\":{\"applyFilesFilter\":{\"uploads\":{\"id\":true,\"status\":true,\"type\":true,\"createdAt\":true,\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"file\":{\"id\":true,\"fileName\":true},\"totalRows\":true,\"producedRecordsCount\":true,\"dataExport\":{\"id\":true,\"status\":true,\"fileName\":true,\"bulkTaskId\":true}},\"downloads\":{\"id\":true,\"fileName\":true,\"status\":true,\"type\":true,\"numRows\":true,\"createdAt\":true,\"bulkTaskId\":true,\"estimatedRemainingTimeInSeconds\":true,\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true}},\"pagination\":{\"total\":true,\"hasMore\":true}}}}"
   },
   {
     "operationId": "listUploadReportRows",

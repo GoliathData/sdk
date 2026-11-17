@@ -4,7 +4,7 @@
 
 query · domain `files` · requires the READ scope
 
-The Files list, newest first: `uploads` (imports — status, type, file name, rows, who and when; the id is the `fileProcessingTaskId` for getUploadReport) and `downloads` (standalone exports — the id is the `dataExportId` for getExportReport). `filterTree` is a BULK_TASK filter tree, the same `{ id, operator, conditions: [{ id, fieldId, value }], groups }` shape every filter takes. Uploads only: `{"id":"r","operator":"AND","groups":[],"conditions":[{"id":"u","fieldId":"hasFileProcessingTask","value":true}]}`. Downloads only: conditions `hasDataExport` true AND `hasFileProcessingTask` false. Both: an OR group of the two presence conditions. Add `fileName` (text) to search names, `fileProcessingTaskType` / `dataExportType` (["CONTACTS"|"PROPERTIES"|"SKIPTRACES"|"PROPERTY_SIGNALS"]) for a type. Page with limit/offset.
+The Files list, newest first, running jobs included: every skip trace and export in Library Downloads, wherever it was started, with the `bulkTaskId` getBulkTask reads its progress by. `uploads` (imports — status, type, file name, rows, who and when; the id is the `fileProcessingTaskId` for getUploadReport) and `downloads` (standalone exports and skip traces, listed while they run — the id is the `dataExportId` for getExportReport). A download, or the `dataExport` of an upload, whose `status` is PROCESSING is that job still running: its `bulkTaskId` is the job; with no `bulkTaskId` it cannot be followed, so say it is in progress and its file lands in Downloads. A download carries `estimatedRemainingTimeInSeconds`, a best-effort ETA (null = no estimate) that runs high early: never promise a finish time from it. `filterTree` is a BULK_TASK filter tree, the same `{ id, operator, conditions: [{ id, fieldId, value }], groups }` shape every filter takes. Uploads only: `{"id":"r","operator":"AND","groups":[],"conditions":[{"id":"u","fieldId":"hasFileProcessingTask","value":true}]}`. Downloads only: conditions `hasDataExport` true AND `hasFileProcessingTask` false. Both: an OR group of the two presence conditions. Add `fileName` (text) to search names, `fileProcessingTaskType` / `dataExportType` (["CONTACTS"|"PROPERTIES"|"SKIPTRACES"|"PROPERTY_SIGNALS"]) for a type. Page with limit/offset.
 
 ## Call
 
@@ -54,7 +54,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "dataExport": {
           "id": true,
           "status": true,
-          "fileName": true
+          "fileName": true,
+          "bulkTaskId": true
         }
       },
       "downloads": {
@@ -64,6 +65,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "type": true,
         "numRows": true,
         "createdAt": true,
+        "bulkTaskId": true,
+        "estimatedRemainingTimeInSeconds": true,
         "createdByUser": {
           "id": true,
           "firstName": true,

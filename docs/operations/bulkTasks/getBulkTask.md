@@ -4,7 +4,7 @@
 
 query · domain `bulkTasks` · requires the READ scope
 
-Status of an async bulk task by the bulkTaskId an async op returned (addPropertiesToList and the like): status (CREATED = queued, PROCESSING = being applied, COMPLETED, FAILED = the change was NOT applied), progress (processedItemCount of estimatedItemCount) and a best-effort ETA (secondsRemaining; null = no estimate, not an error; status is authoritative). `emailChecks` is the counts of a checkContactEmails run (null for any other task). Null for an id not in your organization. Poll every 3-5 seconds.
+Status of one bulk task by its bulkTaskId: the one an async op returned, or the one on a download from listFiles, which lists skip traces and exports started in the app, running ones included. Status (CREATED = queued, PROCESSING = being applied, COMPLETED, FAILED = the change was NOT applied), progress (processedItemCount of estimatedItemCount) and a best-effort ETA (secondsRemaining; null = no estimate, not an error; status is authoritative). `emailChecks` is the counts of a checkContactEmails run (null for any other task). Null for an id not in your organization. Poll every 3-5 seconds.
 
 ## Call
 
