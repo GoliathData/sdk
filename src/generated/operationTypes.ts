@@ -1731,7 +1731,7 @@ export type PipelineItemParticipantSplitInput = {
 
 export type PipelineItemTaskType =
   | 'APPOINTMENT'
-  /** A parent task over ordered subtasks (INT-16582). Only written while the task-subtasks flag is on; never counts as work. */
+  /** A parent task over ordered subtasks (INT-16582). Never counts as work. */
   | 'PARENT'
   | 'TASK';
 
@@ -2577,7 +2577,7 @@ export type SuppressionMedium =
   | 'VOICE';
 
 /**
- * Who a Task set step, or a grouped set's parent task, goes to when the set is applied (behind `task-subtasks`).
+ * Who a Task set step, or a grouped set's parent task, goes to when the set is applied.
  * APPLIER is the person applying it; a workflow or bulk apply has nobody applying and uses POINT_PERSON. POINT_PERSON
  * is the contact's point person (none: the workflow's own assignee, else unassigned). USER is a named teammate.
  */
@@ -2587,7 +2587,7 @@ export type TaskSetAssigneeRule =
   | 'USER';
 
 /**
- * A TASK_SET's grouping (behind `task-subtasks`): whether applying it creates one parent task over its steps, the
+ * A TASK_SET's grouping: whether applying it creates one parent task over its steps, the
  * parent's title (blank = the set's name) and who owns it. A USER owner must be an active teammate.
  */
 export type TaskSetGroupingInput = {
