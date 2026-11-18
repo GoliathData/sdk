@@ -4664,7 +4664,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "pipelineItemId:ID!",
-    "responseShape": "{\"pipelineItemQuery\":{\"getPipelineItem\":{\"id\":true,\"title\":true,\"description\":true,\"priceCents\":true,\"priceFormatted\":true,\"closeDate\":true,\"isArchived\":true,\"createdAt\":true,\"updatedAt\":true,\"lastStageChangeAt\":true,\"commissionCents\":true,\"commissionFormatted\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"participantSplits\":{\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"splitAmountCents\":true,\"splitPercentBps\":true},\"stage\":{\"id\":true,\"name\":true},\"externalLinks\":{\"id\":true,\"title\":true,\"url\":true},\"linkedItems\":{\"id\":true,\"label\":true,\"role\":{\"id\":true,\"name\":true},\"item\":{\"id\":true,\"title\":true}},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"properties\":{\"id\":true,\"address\":{\"addressFull\":true}},\"contactRoles\":{\"contactId\":true,\"role\":{\"id\":true,\"name\":true}},\"userRoles\":{\"userId\":true,\"role\":{\"id\":true,\"name\":true}},\"propertyRoles\":{\"propertyId\":true,\"role\":{\"id\":true,\"name\":true}},\"agent\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"tasks\":{\"id\":true,\"title\":true,\"dueDate\":true,\"completedAt\":true},\"customFieldValues\":{\"id\":true,\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"pipelineItemCustomField\":{\"id\":true,\"name\":true,\"type\":true}}}}}"
+    "responseShape": "{\"pipelineItemQuery\":{\"getPipelineItem\":{\"id\":true,\"title\":true,\"description\":true,\"priceCents\":true,\"priceFormatted\":true,\"closeDate\":true,\"isArchived\":true,\"createdAt\":true,\"updatedAt\":true,\"lastStageChangeAt\":true,\"commissionCents\":true,\"commissionFormatted\":true,\"commissionAmountCents\":true,\"commissionPercentBps\":true,\"teamSplitAmountCents\":true,\"teamSplitPercentBps\":true,\"participantSplits\":{\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"splitAmountCents\":true,\"splitPercentBps\":true},\"stage\":{\"id\":true,\"name\":true},\"externalLinks\":{\"id\":true,\"title\":true,\"url\":true},\"pipeline\":{\"id\":true,\"name\":true},\"users\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true},\"properties\":{\"id\":true,\"address\":{\"addressFull\":true}},\"contactRoles\":{\"contactId\":true,\"role\":{\"id\":true,\"name\":true}},\"userRoles\":{\"userId\":true,\"role\":{\"id\":true,\"name\":true}},\"propertyRoles\":{\"propertyId\":true,\"role\":{\"id\":true,\"name\":true}},\"agent\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"tasks\":{\"id\":true,\"title\":true,\"dueDate\":true,\"completedAt\":true},\"customFieldValues\":{\"id\":true,\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true,\"pipelineItemCustomField\":{\"id\":true,\"name\":true,\"type\":true}}}}}"
   },
   {
     "operationId": "getPipelineLayout",
@@ -4678,19 +4678,6 @@
     "hasAuthorize": true,
     "variableSignature": "pipelineId:ID!",
     "responseShape": "{\"pipelineItemQuery\":{\"getPipeline\":{\"id\":true,\"name\":true,\"canEditPipeline\":true,\"hiddenDetailFieldKeys\":true,\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"displayOrder\":true,\"showOnCard\":true,\"cardDisplayOrder\":true}}}}"
-  },
-  {
-    "operationId": "linkPipelineItems",
-    "domain": "pipelineItems",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "pipelineItemId:ID!,otherPipelineItemId:ID!,label:String",
-    "responseShape": "{\"pipelineItemMutation\":{\"linkPipelineItems\":{\"id\":true}}}"
   },
   {
     "operationId": "listPipelineItemActivity",
@@ -4966,19 +4953,6 @@
     "responseShape": "{\"pipelineItemCustomFieldMutation\":{\"updatePipelineItemDetailFieldVisibility\":{\"id\":true,\"hiddenDetailFieldKeys\":true}}}"
   },
   {
-    "operationId": "setPipelineItemLinkRole",
-    "domain": "pipelineItems",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "linkId:ID!,roleId:ID",
-    "responseShape": "{\"pipelineItemMutation\":{\"setPipelineItemLinkRole\":{\"id\":true,\"label\":true,\"role\":{\"id\":true,\"name\":true}}}}"
-  },
-  {
     "operationId": "setPipelineItemPropertyRole",
     "domain": "pipelineItems",
     "operationType": "mutation",
@@ -5016,19 +4990,6 @@
     "hasAuthorize": true,
     "variableSignature": "titleContains:String,contactId:ID,contactIds:[ID!],pipelineId:ID,stageId:ID,isArchived:Boolean,hasAssignedUsers:Boolean,userIds:[ID!],limit:Int=15,offset:Int=0",
     "responseShape": "{\"pipelineItemQuery\":{\"findPipelineItems\":{\"pipelineItems\":{\"id\":true,\"title\":true,\"isArchived\":true,\"stage\":{\"name\":true},\"pipeline\":{\"name\":true},\"users\":{\"firstName\":true,\"lastName\":true},\"taskSummary\":{\"openTaskCount\":true,\"openAppointmentCount\":true},\"customFieldValues\":{\"textValue\":true,\"numberValue\":true,\"dateValue\":true,\"dropdownSelectedValues\":true,\"pipelineItemCustomField\":{\"name\":true}}},\"totalCount\":true,\"hasMore\":true}}}"
-  },
-  {
-    "operationId": "unlinkPipelineItems",
-    "domain": "pipelineItems",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "linkId:ID!",
-    "responseShape": "{\"pipelineItemMutation\":{\"unlinkPipelineItems\":true}}"
   },
   {
     "operationId": "updatePipeline",

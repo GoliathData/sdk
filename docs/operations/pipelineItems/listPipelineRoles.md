@@ -4,7 +4,7 @@
 
 query · domain `pipelineItems` · requires the READ scope
 
-The org's roles of one `kind` (CONTACT when omitted): CONTACT a pipeline item's people, USER teammates, PROPERTY a pipeline item's properties, ITEM_LINK linked pipeline items, RELATIONSHIP related people, CONTACT_PROPERTY a contact's properties. `pipelineItemId`: the roles its pipeline owner offers. Ids for every set…Role op.
+The org's roles of one `kind` (CONTACT when omitted): CONTACT a pipeline item's people, USER teammates, PROPERTY a pipeline item's properties, RELATIONSHIP related people, CONTACT_PROPERTY a contact's properties. `pipelineItemId`: the roles its pipeline owner offers. Ids for every set…Role op.
 
 ## Call
 

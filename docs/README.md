@@ -51,7 +51,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `memory` | 1 |
 | `notifications` | 17 |
 | `phoneNumbers` | 17 |
-| `pipelineItems` | 58 |
+| `pipelineItems` | 55 |
 | `properties` | 46 |
 | `scheduledTasks` | 7 |
 | `spaces` | 54 |
