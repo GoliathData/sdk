@@ -2029,6 +2029,7 @@ export type RingPolicyHumanStageInput = {
   schedule?: InputMaybe<ContactAgentCallScheduleInput>;
   specificUserId?: InputMaybe<Scalars['ID']['input']>;
   targetKind: CallRoundRobinTargetKind;
+  teamUserIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   userGroupId?: InputMaybe<Scalars['ID']['input']>;
 };
 
