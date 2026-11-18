@@ -14284,48 +14284,6 @@
       }
     },
     {
-      "operationId": "setQuietHours",
-      "domain": "notifications",
-      "operationType": "mutation",
-      "requiredScope": "WRITE",
-      "description": "Your quiet hours, in minutes after local midnight (0 to 1410, multiples of 30; default 1260 to 480; start equal to end is no window). Scheduled task results wait until they end; answers to your own asks do not.",
-      "resultCap": null,
-      "rateLimited": false,
-      "idempotent": true,
-      "orgIdVariable": null,
-      "hasAuthorize": false,
-      "variables": [
-        {
-          "name": "enabled",
-          "type": "Boolean!",
-          "required": true,
-          "defaultValue": null
-        },
-        {
-          "name": "startMinute",
-          "type": "Int!",
-          "required": true,
-          "defaultValue": null
-        },
-        {
-          "name": "endMinute",
-          "type": "Int!",
-          "required": true,
-          "defaultValue": null
-        }
-      ],
-      "responseShape": {
-        "notificationMutation": {
-          "setQuietHours": {
-            "id": true,
-            "quietHoursEnabled": true,
-            "quietHoursStartMinute": true,
-            "quietHoursEndMinute": true
-          }
-        }
-      }
-    },
-    {
       "operationId": "skipOnToday",
       "domain": "notifications",
       "operationType": "mutation",

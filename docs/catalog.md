@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-626 operations across 29 domains — small enough to read whole. One line each:
+625 operations across 29 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -384,7 +384,6 @@ Full detail per operation (variables, call example, gateway notes, response shap
 - `markNotificationsRead` (mutation, WRITE) [idempotent] — Mark specific notifications read or unread by id. Pass isSeen: true to mark read (clears them from the unread badge) or false to mark unread. notificationIds come from listNotifications. Only your own notifications are affected — a notification id belonging to another user is a silent no-op, never an error. Returns the updated {id, seen} for each row that changed.
 - `markWrongOnToday` (mutation, WRITE) [idempotent] — "This is wrong": a hide with the person's reason and an optional note (at most 280 characters). subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY.
 - `setEmailDigestCadence` (mutation, WRITE) [idempotent] — When your notification emails go out: AS_IT_HAPPENS (one email a few minutes after a notification) or DAILY (one email each morning at 8am in your timezone; AI hand-offs and workflow pages still arrive right away). Yours only.
-- `setQuietHours` (mutation, WRITE) [idempotent] — Your quiet hours, in minutes after local midnight (0 to 1410, multiples of 30; default 1260 to 480; start equal to end is no window). Scheduled task results wait until they end; answers to your own asks do not.
 - `skipOnToday` (mutation, WRITE) [idempotent] — "Not now": the row leaves the key owner's Today until their next local day, or sooner when something newer happens (anchorAt: when the row's event happened). subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY.
 - `undoCatchUpDecision` (mutation, WRITE) [idempotent] — Take back a decideCatchUpCard: the same cardId and verb, `suggestionIds` the rows it decided (its ticked rows less `remainingIds`), and for an ACCEPT `setAsideIds` its unticked `shownIds` (only rows it set aside come back). Dismissals and set-asides come back; an applied row (a merge, a spend, a send) stands and is counted in `refused`. Card decisions only: trust and memory moves are the person's, in the app.
 - `unhideOnToday` (mutation, WRITE) [idempotent] — Show a row again: undoes a skip, hide or "this is wrong". subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY. To undo hideTaskSourceOnToday instead, send that source's GRN with kind TODAY_TASKS.

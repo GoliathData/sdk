@@ -49,7 +49,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `forms` | 15 |
 | `libraryFileRuns` | 5 |
 | `memory` | 1 |
-| `notifications` | 18 |
+| `notifications` | 17 |
 | `phoneNumbers` | 17 |
 | `pipelineItems` | 58 |
 | `properties` | 46 |

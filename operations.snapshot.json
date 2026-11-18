@@ -4082,19 +4082,6 @@
     "responseShape": "{\"notificationMutation\":{\"setEmailDigestCadence\":{\"id\":true,\"emailDigestCadence\":true}}}"
   },
   {
-    "operationId": "setQuietHours",
-    "domain": "notifications",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "enabled:Boolean!,startMinute:Int!,endMinute:Int!",
-    "responseShape": "{\"notificationMutation\":{\"setQuietHours\":{\"id\":true,\"quietHoursEnabled\":true,\"quietHoursStartMinute\":true,\"quietHoursEndMinute\":true}}}"
-  },
-  {
     "operationId": "skipOnToday",
     "domain": "notifications",
     "operationType": "mutation",

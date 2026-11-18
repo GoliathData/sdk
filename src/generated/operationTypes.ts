@@ -5604,14 +5604,6 @@ export type SetEmailDigestCadenceMutationVariables = Exact<{
 
 export type SetEmailDigestCadenceMutation = { __typename?: 'RootMutation', notificationMutation?: { __typename?: 'NotificationMutation', setEmailDigestCadence?: { __typename?: 'UserNotificationPreference', id: string, emailDigestCadence: EmailDigestCadence } | null } | null };
 
-export type SetQuietHoursMutationVariables = Exact<{
-  enabled: Scalars['Boolean']['input'];
-  startMinute: Scalars['Int']['input'];
-  endMinute: Scalars['Int']['input'];
-}>;
-
-export type SetQuietHoursMutation = { __typename?: 'RootMutation', notificationMutation?: { __typename?: 'NotificationMutation', setQuietHours?: { __typename?: 'UserNotificationPreference', id: string, quietHoursEnabled: boolean, quietHoursStartMinute: number, quietHoursEndMinute: number } | null } | null };
-
 export type MarkAllNotificationsReadMutationVariables = Exact<{
   userId: Scalars['String']['input'];
   isSeen: Scalars['Boolean']['input'];
