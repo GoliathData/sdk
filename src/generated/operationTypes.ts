@@ -1652,7 +1652,8 @@ export type PipelineItemActivityEventType =
   | 'TASK_COMPLETED'
   | 'TEAM_SPLIT_CHANGED'
   | 'UNASSIGNED'
-  | 'VALUE_CHANGED';
+  | 'VALUE_CHANGED'
+  | 'WORKFLOW_UPDATED';
 
 /** A checkbox field's card color when checked. */
 export type PipelineItemCustomFieldTone =
