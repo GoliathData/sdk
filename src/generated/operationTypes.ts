@@ -7577,7 +7577,7 @@ export type ListWorkflowRunsQueryVariables = Exact<{
   offset?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type ListWorkflowRunsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listWorkflowRuns?: Array<{ __typename?: 'WorkflowAutomationRun', id: string, status: WorkflowAutomationRunStatus, dryRun: boolean, createdAt: any, updatedAt: any, scheduledExecution?: any | null, stoppedReason?: string | null, pausedReason?: string | null, sendFailureCode?: string | null, queuedSend?: { __typename?: 'WorkflowQueuedSend', reason?: WorkflowQueuedSendReason | null, nextAttemptAt?: any | null } | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null }> | null } | null };
+export type ListWorkflowRunsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listWorkflowRuns?: Array<{ __typename?: 'WorkflowAutomationRun', id: string, status: WorkflowAutomationRunStatus, dryRun: boolean, createdAt: any, updatedAt: any, scheduledExecution?: any | null, stoppedReason?: string | null, pausedReason?: string | null, pauseCause?: string | null, currentNodeId?: string | null, sendFailureCode?: string | null, queuedSend?: { __typename?: 'WorkflowQueuedSend', reason?: WorkflowQueuedSendReason | null, nextAttemptAt?: any | null } | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null }> | null } | null };
 
 export type GetContentTemplateQueryVariables = Exact<{
   templateId: Scalars['ID']['input'];

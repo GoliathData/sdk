@@ -7648,13 +7648,13 @@
     "domain": "workflows",
     "operationType": "query",
     "requiredScope": "READ",
-    "resultCap": 34,
+    "resultCap": 28,
     "rateLimited": false,
     "idempotent": false,
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!,statuses:[WorkflowAutomationRunStatus!],limit:Int=20,offset:Int=0",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"listWorkflowRuns\":{\"id\":true,\"status\":true,\"dryRun\":true,\"createdAt\":true,\"updatedAt\":true,\"scheduledExecution\":true,\"stoppedReason\":true,\"pausedReason\":true,\"sendFailureCode\":true,\"queuedSend\":{\"reason\":true,\"nextAttemptAt\":true},\"contact\":{\"id\":true,\"name\":true}}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"listWorkflowRuns\":{\"id\":true,\"status\":true,\"dryRun\":true,\"createdAt\":true,\"updatedAt\":true,\"scheduledExecution\":true,\"stoppedReason\":true,\"pausedReason\":true,\"pauseCause\":true,\"currentNodeId\":true,\"sendFailureCode\":true,\"queuedSend\":{\"reason\":true,\"nextAttemptAt\":true},\"contact\":{\"id\":true,\"name\":true}}}}"
   },
   {
     "operationId": "listWorkflows",
