@@ -7485,7 +7485,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "workflowGroupId:ID!",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroup\":{\"id\":true,\"name\":true,\"description\":true,\"status\":true,\"channels\":true,\"channelsAcrossVersions\":true,\"workflowDomain\":true,\"systemCategory\":true,\"sendWindow\":true,\"folderId\":true,\"createdAt\":true,\"updatedAt\":true,\"archivedAt\":true,\"currentVersion\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true},\"pendingDraft\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true},\"versions\":{\"id\":true,\"name\":true,\"status\":true,\"publishedAt\":true,\"createdAt\":true,\"updatedAt\":true},\"draftValidation\":{\"isValid\":true,\"errors\":true,\"carrierRisk\":{\"nodeId\":true,\"body\":true,\"band\":true,\"templateId\":true,\"isFallback\":true}},\"runsPausedWithWorkflow\":true,\"runsParkedByPublish\":true}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowGroup\":{\"id\":true,\"name\":true,\"description\":true,\"status\":true,\"channels\":true,\"channelsAcrossVersions\":true,\"workflowDomain\":true,\"systemCategory\":true,\"sendWindow\":true,\"folderId\":true,\"createdAt\":true,\"updatedAt\":true,\"archivedAt\":true,\"currentVersion\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true},\"pendingDraft\":{\"id\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true},\"versions\":{\"id\":true,\"name\":true,\"status\":true,\"publishedAt\":true,\"createdAt\":true,\"updatedAt\":true},\"draftValidation\":{\"isValid\":true,\"errors\":true,\"carrierRisk\":{\"nodeId\":true,\"body\":true,\"band\":true,\"templateId\":true,\"isFallback\":true}},\"draftSetupFindings\":{\"checkId\":true,\"severity\":true,\"nodeId\":true,\"message\":true,\"fixHint\":true,\"fieldKey\":true},\"runsPausedWithWorkflow\":true,\"runsParkedByPublish\":true}}}"
   },
   {
     "operationId": "getWorkflowStats",
@@ -7784,7 +7784,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!,graphPatch:JSON!,expectedUpdatedAt:DateTime,acknowledgeGraphWeakening:Boolean",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationGraph\":{\"id\":true,\"workflowGroupId\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true,\"graph\":true,\"workflowGroup\":{\"id\":true,\"draftValidation\":{\"isValid\":true,\"errors\":true}}}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationGraph\":{\"id\":true,\"workflowGroupId\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true,\"graph\":true,\"workflowGroup\":{\"id\":true,\"draftValidation\":{\"isValid\":true,\"errors\":true},\"draftSetupFindings\":{\"checkId\":true,\"severity\":true,\"nodeId\":true,\"message\":true,\"fixHint\":true,\"fieldKey\":true}}}}}"
   },
   {
     "operationId": "pauseWorkflow",
@@ -8109,7 +8109,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!,workflowGraph:SuperJSON!,expectedUpdatedAt:DateTime,acknowledgeGraphWeakening:Boolean",
-    "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationGraph\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true,\"workflowGroup\":{\"id\":true,\"status\":true,\"draftValidation\":{\"isValid\":true,\"errors\":true}}}}}"
+    "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationGraph\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true,\"workflowGroup\":{\"id\":true,\"status\":true,\"draftValidation\":{\"isValid\":true,\"errors\":true},\"draftSetupFindings\":{\"checkId\":true,\"severity\":true,\"nodeId\":true,\"message\":true,\"fixHint\":true,\"fieldKey\":true}}}}}"
   },
   {
     "operationId": "updateWorkflowPriority",

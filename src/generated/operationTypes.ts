@@ -3081,6 +3081,13 @@ export type WorkflowRunBulkOperation =
   | 'PAUSE'
   | 'RESUME';
 
+/** How much a setup-check finding matters. Both are advisory: neither blocks anything. */
+export type WorkflowSetupFindingSeverity =
+  /** It works, but probably not as meant. */
+  | 'NOTICE'
+  /** The step will do nothing, or its work goes nowhere. */
+  | 'WARNING';
+
 /** What a change to a Workflow Table was: the create, a details/columns save, an archive, or a rows save. */
 export type WorkflowTableChangeAction =
   | 'ROWS_SAVED'
@@ -7568,7 +7575,7 @@ export type GetWorkflowQueryVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
 }>;
 
-export type GetWorkflowQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, channels?: Array<WorkflowCommChannel> | null, channelsAcrossVersions: Array<WorkflowCommChannel>, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, sendWindow?: any | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null, runsPausedWithWorkflow: number, runsParkedByPublish: number, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any } | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any } | null, versions?: Array<{ __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, publishedAt?: any | null, createdAt: any, updatedAt: any }> | null, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string>, carrierRisk: Array<{ __typename?: 'WorkflowSmsCarrierRisk', nodeId: string, body: string, band: string, templateId?: string | null, isFallback: boolean }> } | null } | null } | null };
+export type GetWorkflowQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, description?: string | null, status: WorkflowGroupStatus, channels?: Array<WorkflowCommChannel> | null, channelsAcrossVersions: Array<WorkflowCommChannel>, workflowDomain?: WorkflowDomain | null, systemCategory?: string | null, sendWindow?: any | null, folderId?: string | null, createdAt: any, updatedAt: any, archivedAt?: any | null, runsPausedWithWorkflow: number, runsParkedByPublish: number, currentVersion?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any } | null, pendingDraft?: { __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any } | null, versions?: Array<{ __typename?: 'WorkflowAutomation', id: string, name: string, status: WorkflowAutomationStatus, publishedAt?: any | null, createdAt: any, updatedAt: any }> | null, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string>, carrierRisk: Array<{ __typename?: 'WorkflowSmsCarrierRisk', nodeId: string, body: string, band: string, templateId?: string | null, isFallback: boolean }> } | null, draftSetupFindings: Array<{ __typename?: 'WorkflowSetupFinding', checkId: string, severity: WorkflowSetupFindingSeverity, nodeId?: string | null, message: string, fixHint?: string | null, fieldKey?: string | null }> } | null } | null };
 
 export type GetWorkflowVersionGraphQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
@@ -7652,7 +7659,7 @@ export type UpdateWorkflowGraphMutationVariables = Exact<{
   acknowledgeGraphWeakening?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
-export type UpdateWorkflowGraphMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationGraph?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any, workflowGroup: { __typename?: 'WorkflowGroup', id: string, status: WorkflowGroupStatus, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null } } | null } | null };
+export type UpdateWorkflowGraphMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationGraph?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any, workflowGroup: { __typename?: 'WorkflowGroup', id: string, status: WorkflowGroupStatus, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null, draftSetupFindings: Array<{ __typename?: 'WorkflowSetupFinding', checkId: string, severity: WorkflowSetupFindingSeverity, nodeId?: string | null, message: string, fixHint?: string | null, fieldKey?: string | null }> } } | null } | null };
 
 export type PatchWorkflowGraphMutationVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
@@ -7661,7 +7668,7 @@ export type PatchWorkflowGraphMutationVariables = Exact<{
   acknowledgeGraphWeakening?: InputMaybe<Scalars['Boolean']['input']>;
 }>;
 
-export type PatchWorkflowGraphMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationGraph?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any, graph?: any | null, workflowGroup: { __typename?: 'WorkflowGroup', id: string, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null } } | null } | null };
+export type PatchWorkflowGraphMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationGraph?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any, graph?: any | null, workflowGroup: { __typename?: 'WorkflowGroup', id: string, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null, draftSetupFindings: Array<{ __typename?: 'WorkflowSetupFinding', checkId: string, severity: WorkflowSetupFindingSeverity, nodeId?: string | null, message: string, fixHint?: string | null, fieldKey?: string | null }> } } | null } | null };
 
 export type RenameWorkflowMutationVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];

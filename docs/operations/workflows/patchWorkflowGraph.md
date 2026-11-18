@@ -48,6 +48,14 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "draftValidation": {
           "isValid": true,
           "errors": true
+        },
+        "draftSetupFindings": {
+          "checkId": true,
+          "severity": true,
+          "nodeId": true,
+          "message": true,
+          "fixHint": true,
+          "fieldKey": true
         }
       }
     }
