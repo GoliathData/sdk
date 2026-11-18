@@ -910,7 +910,6 @@ export type DependencyImpactGroupKind =
   | 'LIVE_STAGES'
   | 'ORGANIZATION_API_KEY'
   | 'ORGANIZATION_SITE'
-  | 'ORG_PARTNERSHIP'
   | 'PIPELINE_LAYOUT'
   | 'TASK'
   | 'TASK_SET_STEPS'
