@@ -1894,6 +1894,12 @@ export type PropertySignalType =
   | 'LIEN_SALE'
   | 'LISTING_FAILED'
   | 'LIS_PENDENS'
+  /**
+   * A recorded release (or dismissal and release) of a lis pendens: the suit the
+   * notice announced has ended. Its outcome, so it counts toward no benchmark
+   * family and is not a seller-motivation event.
+   */
+  | 'LIS_PENDENS_RELEASED'
   | 'MARRIAGE'
   | 'MECHANIC_LIEN'
   | 'MEDICAL_LIEN'
