@@ -43,7 +43,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
           "name": true
         },
         "phoneLineIds": true,
-        "userGroupId": true,
+        "teamUserIds": true,
         "ringAllTeamMembers": true,
         "areaCodeForwardingMap": true,
         "ownerlessStep": {
@@ -53,8 +53,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
             "id": true,
             "name": true
           },
-          "phoneLineIds": true,
-          "userGroupId": true
+          "phoneLineIds": true
         },
         "schedule": {
           "timezone": true,

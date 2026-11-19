@@ -89,7 +89,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
             "inRotation": true
           }
         },
-        "teamIds": true,
         "participantUserIds": true
       },
       "createdAt": true,

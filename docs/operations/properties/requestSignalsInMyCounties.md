@@ -4,7 +4,7 @@
 
 mutation · domain `properties` · requires the WRITE scope
 
-Ask for signal types that are not live yet in every county the org works, as a builder's "Request it" does; the 2-week promise starts now. context names what was being built (`workflowGroup:<id>`, `filter:<id>`).
+Ask for signal types that are not live yet in every county the org works, as a builder's "Request it" does; the 2-week promise starts now. context names what was being built (`workflowGroup:<id>`, `filter:<id>`). Gated as requestCoverage.
 
 ## Call
 

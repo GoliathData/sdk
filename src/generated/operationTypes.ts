@@ -1134,8 +1134,8 @@ export type EmbedFormAssignmentConfigInput = {
   assignees: Array<EmbedFormAssigneeInput>;
   /** User ids attached as PARTICIPANT on every created/matched contact. */
   participantUserIds: Array<Scalars['ID']['input']>;
-  /** UserGroup ids added to every created/matched contact (source: 'FORM'). */
-  teamIds: Array<Scalars['ID']['input']>;
+  /** @deprecated Ignored: Teams retired (INT-19467). Removed once no bundle that sends it is promoted. */
+  teamIds?: InputMaybe<Array<Scalars['ID']['input']>>;
 };
 
 export type EmbedFormDedupeField =
@@ -2031,6 +2031,7 @@ export type RingPolicyHumanStageInput = {
   specificUserId?: InputMaybe<Scalars['ID']['input']>;
   targetKind: CallRoundRobinTargetKind;
   teamUserIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  /** @deprecated Refused when set: Teams retired (INT-19467). Removed once no bundle that sends it is promoted. */
   userGroupId?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -2044,6 +2045,7 @@ export type RingPolicyOwnerlessStepInput = {
   phoneLineIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   specificUserId?: InputMaybe<Scalars['ID']['input']>;
   targetKind: CallRoundRobinTargetKind;
+  /** @deprecated Ignored: Teams retired (INT-19467). Removed once no bundle that sends it is promoted. */
   userGroupId?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -2056,10 +2058,12 @@ export type RingPolicyPickupBlockedReason =
 export type RingPolicyStepInput = {
   externalE164?: InputMaybe<Scalars['String']['input']>;
   phoneLineIds?: InputMaybe<Array<Scalars['ID']['input']>>;
+  /** @deprecated Ignored: Teams retired (INT-19467). Removed once no bundle that sends it is promoted. */
   ringAllTeamMembers?: InputMaybe<Scalars['Boolean']['input']>;
   ringSeconds: Scalars['Int']['input'];
   specificUserId?: InputMaybe<Scalars['ID']['input']>;
   targetKind: CallRoundRobinTargetKind;
+  /** @deprecated Ignored: Teams retired (INT-19467). Removed once no bundle that sends it is promoted. */
   userGroupId?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -3741,23 +3745,22 @@ export type DeleteCallListMutation = { __typename?: 'RootMutation', callListsMut
 
 export type GetLineIntakeAssignmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetLineIntakeAssignmentsQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', organization?: { __typename?: 'Organization', id: string, twilioPhoneNumbers?: Array<{ __typename?: 'TwilioPhoneNumber', id: string, e164Number: string, label?: string | null, assignmentPolicy?: { __typename?: 'AssignmentPolicy', id: string, assigneeUserIds: Array<string>, participantUserIds: Array<string>, teamIds: Array<string>, tags: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string> } | null }> | null } | null } | null };
+export type GetLineIntakeAssignmentsQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', organization?: { __typename?: 'Organization', id: string, twilioPhoneNumbers?: Array<{ __typename?: 'TwilioPhoneNumber', id: string, e164Number: string, label?: string | null, assignmentPolicy?: { __typename?: 'AssignmentPolicy', id: string, assigneeUserIds: Array<string>, participantUserIds: Array<string>, tags: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string> } | null }> | null } | null } | null };
 
 export type GetMetaPageIntakeAssignmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetMetaPageIntakeAssignmentsQuery = { __typename?: 'RootQuery', oauthQuery?: { __typename?: 'OAuthQuery', listFacebookPages?: Array<{ __typename?: 'FacebookPage', id: string, name?: string | null, connected: boolean, assignmentPolicy?: { __typename?: 'AssignmentPolicy', id: string, assigneeUserIds: Array<string>, participantUserIds: Array<string>, teamIds: Array<string>, tags: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string> } | null }> | null } | null };
+export type GetMetaPageIntakeAssignmentsQuery = { __typename?: 'RootQuery', oauthQuery?: { __typename?: 'OAuthQuery', listFacebookPages?: Array<{ __typename?: 'FacebookPage', id: string, name?: string | null, connected: boolean, assignmentPolicy?: { __typename?: 'AssignmentPolicy', id: string, assigneeUserIds: Array<string>, participantUserIds: Array<string>, tags: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string> } | null }> | null } | null };
 
 export type GetWorkflowIntakeAssignmentQueryVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
 }>;
 
-export type GetWorkflowIntakeAssignmentQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, workflowDomain?: WorkflowDomain | null, assignmentPolicy?: { __typename?: 'AssignmentPolicy', id: string, assigneeUserIds: Array<string>, participantUserIds: Array<string>, teamIds: Array<string>, tags: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string> } | null } | null } | null };
+export type GetWorkflowIntakeAssignmentQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowGroup?: { __typename?: 'WorkflowGroup', id: string, name: string, workflowDomain?: WorkflowDomain | null, assignmentPolicy?: { __typename?: 'AssignmentPolicy', id: string, assigneeUserIds: Array<string>, participantUserIds: Array<string>, tags: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string> } | null } | null } | null };
 
 export type SetIntakeAssignmentMutationVariables = Exact<{
   owner: AssignmentPolicyOwnerInput;
   assigneeUserIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
   participantUserIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-  teamIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
   tags: Array<Scalars['String']['input']> | Scalars['String']['input'];
   agentAssigneeIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
   workflowGroupIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
@@ -5370,7 +5373,7 @@ export type GetFormQueryVariables = Exact<{
   formId: Scalars['ID']['input'];
 }>;
 
-export type GetFormQuery = { __typename?: 'RootQuery', embedFormQuery?: { __typename?: 'EmbedFormQuery', get?: { __typename?: 'EmbedForm', id: string, name: string, slug?: string | null, status: EmbedFormStatus, publicUrl: string, shortUrl?: string | null, submissionCount: number, source?: string | null, ownerType: EmbedFormOwnerType, headerText?: string | null, descriptionText?: string | null, submitButtonLabel?: string | null, successMessage?: string | null, successSubtitle?: string | null, successIcon?: string | null, successIconColor?: string | null, fieldConfig: any, styleConfig?: any | null, autoTagIds: Array<string>, autoListIds: Array<string>, allowDuplicateContact: boolean, dedupePrimaryField: EmbedFormDedupeField, dedupeSecondaryField?: EmbedFormDedupeField | null, enableEmailNotification: boolean, enableSmsNotification: boolean, enableSlackNotification: boolean, slackChannelId?: string | null, slackChannelName?: string | null, slackMessageTemplate?: string | null, collectSmsConsent: boolean, smsTransactionalConsentText?: string | null, smsMarketingConsentText?: string | null, smsDisclaimerText?: string | null, showMarketingConsent: boolean, marketingConsentText?: string | null, termsAndConditionsText?: string | null, privacyPolicyUrl?: string | null, termsOfServiceUrl?: string | null, privacyPolicyContent?: string | null, termsOfServiceContent?: string | null, showPoweredBy: boolean, gtmContainerId?: string | null, createdAt: any, updatedAt: any, triggerAgents?: Array<{ __typename?: 'EmbedFormTriggerAgent', id: string, name: string, status: ContactAgentStatus }> | null, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', teamIds: Array<string>, participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean, inRotation: boolean } | null }> } } | null } | null };
+export type GetFormQuery = { __typename?: 'RootQuery', embedFormQuery?: { __typename?: 'EmbedFormQuery', get?: { __typename?: 'EmbedForm', id: string, name: string, slug?: string | null, status: EmbedFormStatus, publicUrl: string, shortUrl?: string | null, submissionCount: number, source?: string | null, ownerType: EmbedFormOwnerType, headerText?: string | null, descriptionText?: string | null, submitButtonLabel?: string | null, successMessage?: string | null, successSubtitle?: string | null, successIcon?: string | null, successIconColor?: string | null, fieldConfig: any, styleConfig?: any | null, autoTagIds: Array<string>, autoListIds: Array<string>, allowDuplicateContact: boolean, dedupePrimaryField: EmbedFormDedupeField, dedupeSecondaryField?: EmbedFormDedupeField | null, enableEmailNotification: boolean, enableSmsNotification: boolean, enableSlackNotification: boolean, slackChannelId?: string | null, slackChannelName?: string | null, slackMessageTemplate?: string | null, collectSmsConsent: boolean, smsTransactionalConsentText?: string | null, smsMarketingConsentText?: string | null, smsDisclaimerText?: string | null, showMarketingConsent: boolean, marketingConsentText?: string | null, termsAndConditionsText?: string | null, privacyPolicyUrl?: string | null, termsOfServiceUrl?: string | null, privacyPolicyContent?: string | null, termsOfServiceContent?: string | null, showPoweredBy: boolean, gtmContainerId?: string | null, createdAt: any, updatedAt: any, triggerAgents?: Array<{ __typename?: 'EmbedFormTriggerAgent', id: string, name: string, status: ContactAgentStatus }> | null, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean, inRotation: boolean } | null }> } } | null } | null };
 
 export type ListFormSubmissionsQueryVariables = Exact<{
   formId?: InputMaybe<Scalars['ID']['input']>;
@@ -5470,7 +5473,7 @@ export type CreateFormMutationVariables = Exact<{
   slackChannelId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type CreateFormMutation = { __typename?: 'RootMutation', embedFormMutation?: { __typename?: 'EmbedFormMutation', create?: { __typename?: 'EmbedForm', id: string, name: string, slug?: string | null, status: EmbedFormStatus, publicUrl: string, submissionCount: number, fieldConfig: any, createdAt: any, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', teamIds: Array<string>, participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean, inRotation: boolean } | null }> } } | null } | null };
+export type CreateFormMutation = { __typename?: 'RootMutation', embedFormMutation?: { __typename?: 'EmbedFormMutation', create?: { __typename?: 'EmbedForm', id: string, name: string, slug?: string | null, status: EmbedFormStatus, publicUrl: string, submissionCount: number, fieldConfig: any, createdAt: any, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean, inRotation: boolean } | null }> } } | null } | null };
 
 export type UpdateFormMutationVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -5513,7 +5516,7 @@ export type UpdateFormMutationVariables = Exact<{
   slackChannelId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
-export type UpdateFormMutation = { __typename?: 'RootMutation', embedFormMutation?: { __typename?: 'EmbedFormMutation', update?: { __typename?: 'EmbedForm', id: string, name: string, status: EmbedFormStatus, fieldConfig: any, submitButtonLabel?: string | null, styleConfig?: any | null, updatedAt: any, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', teamIds: Array<string>, participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean, inRotation: boolean } | null }> } } | null } | null };
+export type UpdateFormMutation = { __typename?: 'RootMutation', embedFormMutation?: { __typename?: 'EmbedFormMutation', update?: { __typename?: 'EmbedForm', id: string, name: string, status: EmbedFormStatus, fieldConfig: any, submitButtonLabel?: string | null, styleConfig?: any | null, updatedAt: any, assignmentConfig: { __typename?: 'EmbedFormAssignmentConfig', participantUserIds: Array<string>, assignees: Array<{ __typename?: 'EmbedFormAssignee', userId: string, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, calendarConfig?: { __typename?: 'EmbedFormAssigneeCalendar', isFixed: boolean, checkExternalCalendars: boolean, inRotation: boolean } | null }> } } | null } | null };
 
 export type DeleteFormMutationVariables = Exact<{
   formId: Scalars['ID']['input'];
@@ -5717,13 +5720,13 @@ export type ProvisionPhoneNumberMutation = { __typename?: 'RootMutation', twilio
 
 export type GetPhoneRoutingQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetPhoneRoutingQuery = { __typename?: 'RootQuery', ringPolicyQuery?: { __typename?: 'RingPolicyQuery', orgDefaultRingPolicy?: { __typename?: 'RingPolicy', id: string, humanStage?: { __typename?: 'RingPolicyHumanStage', targetKind: CallRoundRobinTargetKind, ringSeconds: number, externalE164?: string | null, phoneLineIds: Array<string>, userGroupId?: string | null, ringAllTeamMembers: boolean, areaCodeForwardingMap?: any | null, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null, ownerlessStep?: { __typename?: 'RingPolicyOwnerlessStep', targetKind: CallRoundRobinTargetKind, externalE164?: string | null, phoneLineIds: Array<string>, userGroupId?: string | null, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null } | null, schedule?: { __typename?: 'ContactAgentCallSchedule', timezone: string, days: Array<{ __typename?: 'ContactAgentCallScheduleDay', day: ContactAgentDayOfWeek, open: string, close: string, enabled: boolean }> } | null } | null, aiStage?: { __typename?: 'RingPolicyAiStage', rotation: RingPolicyAiRotation, agents: Array<{ __typename?: 'RingPolicyAiAgent', id?: string | null, name: string, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null }> } | null } | null } | null, currentUser?: { __typename?: 'User', id: string, organization?: { __typename?: 'Organization', id: string, defaultInboundIntakePolicy?: { __typename?: 'AssignmentPolicy', assigneeUserIds: Array<string>, participantUserIds: Array<string>, teamIds: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string>, tags: Array<string> } | null, twilioPhoneNumbers?: Array<{ __typename?: 'TwilioPhoneNumber', id: string, e164Number: string, ringPolicyId?: string | null, assignmentPolicyId?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null } | null } | null };
+export type GetPhoneRoutingQuery = { __typename?: 'RootQuery', ringPolicyQuery?: { __typename?: 'RingPolicyQuery', orgDefaultRingPolicy?: { __typename?: 'RingPolicy', id: string, humanStage?: { __typename?: 'RingPolicyHumanStage', targetKind: CallRoundRobinTargetKind, ringSeconds: number, externalE164?: string | null, phoneLineIds: Array<string>, teamUserIds: Array<string>, ringAllTeamMembers: boolean, areaCodeForwardingMap?: any | null, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null, ownerlessStep?: { __typename?: 'RingPolicyOwnerlessStep', targetKind: CallRoundRobinTargetKind, externalE164?: string | null, phoneLineIds: Array<string>, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null } | null, schedule?: { __typename?: 'ContactAgentCallSchedule', timezone: string, days: Array<{ __typename?: 'ContactAgentCallScheduleDay', day: ContactAgentDayOfWeek, open: string, close: string, enabled: boolean }> } | null } | null, aiStage?: { __typename?: 'RingPolicyAiStage', rotation: RingPolicyAiRotation, agents: Array<{ __typename?: 'RingPolicyAiAgent', id?: string | null, name: string, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null }> } | null } | null } | null, currentUser?: { __typename?: 'User', id: string, organization?: { __typename?: 'Organization', id: string, defaultInboundIntakePolicy?: { __typename?: 'AssignmentPolicy', assigneeUserIds: Array<string>, participantUserIds: Array<string>, agentAssigneeIds: Array<string>, workflowGroupIds: Array<string>, tags: Array<string> } | null, twilioPhoneNumbers?: Array<{ __typename?: 'TwilioPhoneNumber', id: string, e164Number: string, ringPolicyId?: string | null, assignmentPolicyId?: string | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null }> | null } | null } | null };
 
 export type GetPhoneLineRingPolicyQueryVariables = Exact<{
   phoneLineId: Scalars['ID']['input'];
 }>;
 
-export type GetPhoneLineRingPolicyQuery = { __typename?: 'RootQuery', ringPolicyQuery?: { __typename?: 'RingPolicyQuery', phoneLineRingPolicy?: { __typename?: 'RingPolicy', id: string, humanStage?: { __typename?: 'RingPolicyHumanStage', targetKind: CallRoundRobinTargetKind, ringSeconds: number, externalE164?: string | null, phoneLineIds: Array<string>, userGroupId?: string | null, ringAllTeamMembers: boolean, areaCodeForwardingMap?: any | null, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null, ownerlessStep?: { __typename?: 'RingPolicyOwnerlessStep', targetKind: CallRoundRobinTargetKind, externalE164?: string | null, phoneLineIds: Array<string>, userGroupId?: string | null, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null } | null, schedule?: { __typename?: 'ContactAgentCallSchedule', timezone: string, days: Array<{ __typename?: 'ContactAgentCallScheduleDay', day: ContactAgentDayOfWeek, open: string, close: string, enabled: boolean }> } | null } | null, aiStage?: { __typename?: 'RingPolicyAiStage', rotation: RingPolicyAiRotation, agents: Array<{ __typename?: 'RingPolicyAiAgent', id?: string | null, name: string, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null }> } | null } | null } | null };
+export type GetPhoneLineRingPolicyQuery = { __typename?: 'RootQuery', ringPolicyQuery?: { __typename?: 'RingPolicyQuery', phoneLineRingPolicy?: { __typename?: 'RingPolicy', id: string, humanStage?: { __typename?: 'RingPolicyHumanStage', targetKind: CallRoundRobinTargetKind, ringSeconds: number, externalE164?: string | null, phoneLineIds: Array<string>, teamUserIds: Array<string>, ringAllTeamMembers: boolean, areaCodeForwardingMap?: any | null, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null, ownerlessStep?: { __typename?: 'RingPolicyOwnerlessStep', targetKind: CallRoundRobinTargetKind, externalE164?: string | null, phoneLineIds: Array<string>, specificUser?: { __typename?: 'RingPolicyUser', id: string, name: string } | null } | null, schedule?: { __typename?: 'ContactAgentCallSchedule', timezone: string, days: Array<{ __typename?: 'ContactAgentCallScheduleDay', day: ContactAgentDayOfWeek, open: string, close: string, enabled: boolean }> } | null } | null, aiStage?: { __typename?: 'RingPolicyAiStage', rotation: RingPolicyAiRotation, agents: Array<{ __typename?: 'RingPolicyAiAgent', id?: string | null, name: string, canAnswerCalls: boolean, cannotAnswerReason?: RingPolicyPickupBlockedReason | null }> } | null } | null } | null };
 
 export type SetOrgDefaultRingPolicyMutationVariables = Exact<{
   policy?: InputMaybe<RingPolicyInput>;

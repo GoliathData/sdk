@@ -34,7 +34,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "id": true,
         "assigneeUserIds": true,
         "participantUserIds": true,
-        "teamIds": true,
         "tags": true,
         "agentAssigneeIds": true,
         "workflowGroupIds": true
