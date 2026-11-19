@@ -1649,6 +1649,7 @@ export type PipelineItemActivityEventType =
   | 'SCRAPER_HEALTH_MOVED'
   | 'STAGE_CHANGED'
   | 'TASK_ADDED'
+  | 'TASK_CHANGED'
   | 'TASK_COMPLETED'
   | 'TEAM_SPLIT_CHANGED'
   | 'UNASSIGNED'
