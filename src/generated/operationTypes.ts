@@ -705,7 +705,6 @@ export type CreateContactInput = {
   addEmails?: InputMaybe<Array<CreateContactEmailInput>>;
   addMailingAddresses?: InputMaybe<Array<CreateContactMailingAddressInput>>;
   addPhoneNumbers?: InputMaybe<Array<CreateContactPhoneNumberInput>>;
-  addUserGroupIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   address?: InputMaybe<AddressInput>;
   addressString?: InputMaybe<Scalars['String']['input']>;
   sellerFirstName: Scalars['String']['input'];
@@ -2767,7 +2766,6 @@ export type UpdateContactInput = {
   addProperties?: InputMaybe<Array<CreateContactPropertyInput>>;
   addTagIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   addToListIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-  addUserGroupIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   contactId: Scalars['String']['input'];
   deleteFileIds?: InputMaybe<Array<Scalars['String']['input']>>;
   importantNote?: InputMaybe<Scalars['String']['input']>;
@@ -2781,7 +2779,6 @@ export type UpdateContactInput = {
   removeProperties?: InputMaybe<Array<Scalars['String']['input']>>;
   removeSubContacts?: InputMaybe<Array<Scalars['String']['input']>>;
   removeTagIds?: InputMaybe<Array<Scalars['ID']['input']>>;
-  removeUserGroupIds?: InputMaybe<Array<Scalars['ID']['input']>>;
   subContacts?: InputMaybe<Array<SubContactMutationInput>>;
   updateCustomFieldValues?: InputMaybe<Array<UpdateContactCustomFieldInput>>;
   updateEmails?: InputMaybe<Array<UpdateContactEmailInput>>;
@@ -4117,7 +4114,7 @@ export type GetContactQueryVariables = Exact<{
   contactId: Scalars['ID']['input'];
 }>;
 
-export type GetContactQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', contact?: { __typename?: 'Contact', id: string, name?: string | null, createdAt?: any | null, isArchived?: boolean | null, isEnriched?: boolean | null, sellerIntentScore?: number | null, doNotContact?: boolean | null, doNotContactReason?: string | null, doNotContactSetAt?: any | null, doNotContactSetBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus, emailCheck?: { __typename?: 'ContactEmailCheck', result: EmailDeliverability, reason?: string | null, checkedAt: any, source: EmailCheckSource, checkedBy?: string | null } | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus, dncStatus?: { __typename?: 'DncStatus', isDnc: boolean, isLitigator: boolean } | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', id: string, rawText?: string | null, verificationStatus: VerificationStatus, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, properties?: Array<{ __typename?: 'ContactProperty', id: string, propertyString?: string | null, status?: string | null, verificationStatus: VerificationStatus, type?: PropertyCrmContactRelation | null, property?: { __typename?: 'Property', id: string } | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedPeople?: Array<{ __typename?: 'RelatedPerson', id: string, kind: RelatedPersonKind, name: string, relation?: string | null, inContacts: boolean, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedTo?: { __typename?: 'RelatedMainContactLink', mainContactId: string, mainContactName: string, relation?: string | null } | null, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, userGroups?: Array<{ __typename?: 'UserGroup', id: string, name: string }> | null, notes?: Array<{ __typename?: 'Note', id: string, body?: string | null, createdAt?: any | null, isPinned?: boolean | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, createdByUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, replies?: Array<{ __typename?: 'NoteReply', id: string, body?: string | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null }> | null }> | null, pipelineItems?: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, isArchived: boolean, priceFormatted?: string | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null }> | null } | null } | null };
+export type GetContactQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', contact?: { __typename?: 'Contact', id: string, name?: string | null, createdAt?: any | null, isArchived?: boolean | null, isEnriched?: boolean | null, sellerIntentScore?: number | null, doNotContact?: boolean | null, doNotContactReason?: string | null, doNotContactSetAt?: any | null, doNotContactSetBy?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus, emailCheck?: { __typename?: 'ContactEmailCheck', result: EmailDeliverability, reason?: string | null, checkedAt: any, source: EmailCheckSource, checkedBy?: string | null } | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus, dncStatus?: { __typename?: 'DncStatus', isDnc: boolean, isLitigator: boolean } | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', id: string, rawText?: string | null, verificationStatus: VerificationStatus, address?: { __typename?: 'Address', addressFull?: string | null } | null }> | null, properties?: Array<{ __typename?: 'ContactProperty', id: string, propertyString?: string | null, status?: string | null, verificationStatus: VerificationStatus, type?: PropertyCrmContactRelation | null, property?: { __typename?: 'Property', id: string } | null, role?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedPeople?: Array<{ __typename?: 'RelatedPerson', id: string, kind: RelatedPersonKind, name: string, relation?: string | null, inContacts: boolean, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null }> | null, relatedTo?: { __typename?: 'RelatedMainContactLink', mainContactId: string, mainContactName: string, relation?: string | null } | null, relationshipRole?: { __typename?: 'PipelineRole', id: string, name: string } | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, role?: { __typename?: 'PipelineRole', id: string, name: string } | null, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, notes?: Array<{ __typename?: 'Note', id: string, body?: string | null, createdAt?: any | null, isPinned?: boolean | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null, createdByUser?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null } | null, replies?: Array<{ __typename?: 'NoteReply', id: string, body?: string | null, isHidden?: boolean | null, author?: { __typename?: 'ArtifactAuthor', kind: ArtifactAuthorKind, id?: string | null, name: string } | null }> | null }> | null, pipelineItems?: Array<{ __typename?: 'Deal', id: string, title: string, priceCents?: any | null, isArchived: boolean, priceFormatted?: string | null, stage?: { __typename?: 'PipelineStage', id: string, name: string } | null }> | null } | null } | null };
 
 export type FindContactsQueryVariables = Exact<{
   searchTerm: Scalars['String']['input'];
@@ -4196,7 +4193,7 @@ export type UpdateContactMutationVariables = Exact<{
   input: UpdateContactInput;
 }>;
 
-export type UpdateContactMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', updateContact?: { __typename?: 'Contact', id: string, name?: string | null, isArchived?: boolean | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus }> | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, userGroups?: Array<{ __typename?: 'UserGroup', id: string, name: string }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null } | null } | null };
+export type UpdateContactMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', updateContact?: { __typename?: 'Contact', id: string, name?: string | null, isArchived?: boolean | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus }> | null, tags?: Array<{ __typename?: 'Tag', id: string, name: string }> | null, lists?: Array<{ __typename?: 'ContactList', id: string, name: string }> | null, participants?: Array<{ __typename?: 'ContactToUserMapping', status: ContactToUserMappingStatus, user?: { __typename?: 'User', id: string, firstName?: string | null, lastName?: string | null, email?: string | null } | null }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', id: string, name: string, type: ContactCustomFieldType, allowMultiple: boolean, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, dateValue?: any | null, numberValue?: number | null, dropdownSelectedValues?: Array<string> | null } | null }> | null } | null } | null };
 
 export type AddContactNoteMutationVariables = Exact<{
   contactId: Scalars['ID']['input'];
@@ -4614,15 +4611,6 @@ export type ClearContactPhotoMutationVariables = Exact<{
 }>;
 
 export type ClearContactPhotoMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', clearContactPhoto?: { __typename?: 'Contact', id: string } | null } | null };
-
-export type SetContactsTeamsMutationVariables = Exact<{
-  contactIds: Array<Scalars['String']['input']> | Scalars['String']['input'];
-  addTeamIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-  removeTeamIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-  replaceExisting?: InputMaybe<Scalars['Boolean']['input']>;
-}>;
-
-export type SetContactsTeamsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', bulkAssignUserGroupsOnContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
 export type ListContractTemplatesQueryVariables = Exact<{
   includeArchived?: InputMaybe<Scalars['Boolean']['input']>;
@@ -7310,47 +7298,6 @@ export type RevokeTeamMemberCapabilityMutationVariables = Exact<{
 }>;
 
 export type RevokeTeamMemberCapabilityMutation = { __typename?: 'RootMutation', teamMutation?: { __typename?: 'TeamMutation', revokeTeamMemberCapability?: { __typename?: 'User', id: string } | null } | null };
-
-export type ListTeamsQueryVariables = Exact<{
-  search?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-export type ListTeamsQuery = { __typename?: 'RootQuery', userGroupQuery?: { __typename?: 'UserGroupQuery', list?: Array<{ __typename?: 'UserGroup', id: string, name: string, description?: string | null, memberCount: number, members: Array<{ __typename?: 'UserGroupMember', id: string, firstName?: string | null, lastName?: string | null, email: string }> }> | null } | null };
-
-export type CreateTeamMutationVariables = Exact<{
-  name: Scalars['String']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  emoji?: InputMaybe<Scalars['String']['input']>;
-  color?: InputMaybe<Scalars['String']['input']>;
-  memberUserIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-}>;
-
-export type CreateTeamMutation = { __typename?: 'RootMutation', userGroupMutation?: { __typename?: 'UserGroupMutation', create?: { __typename?: 'UserGroup', id: string, name: string, memberCount: number } | null } | null };
-
-export type UpdateTeamMutationVariables = Exact<{
-  teamId: Scalars['ID']['input'];
-  name?: InputMaybe<Scalars['String']['input']>;
-  description?: InputMaybe<Scalars['String']['input']>;
-  emoji?: InputMaybe<Scalars['String']['input']>;
-  color?: InputMaybe<Scalars['String']['input']>;
-  memberUserIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
-}>;
-
-export type UpdateTeamMutation = { __typename?: 'RootMutation', userGroupMutation?: { __typename?: 'UserGroupMutation', update?: { __typename?: 'UserGroup', id: string, name: string, description?: string | null, memberCount: number } | null } | null };
-
-export type SetTeamMembersMutationVariables = Exact<{
-  teamId: Scalars['ID']['input'];
-  memberUserIds: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
-}>;
-
-export type SetTeamMembersMutation = { __typename?: 'RootMutation', userGroupMutation?: { __typename?: 'UserGroupMutation', setMembers?: { __typename?: 'UserGroup', id: string, memberCount: number, members: Array<{ __typename?: 'UserGroupMember', id: string, email: string }> } | null } | null };
-
-export type DeleteTeamMutationVariables = Exact<{
-  teamId: Scalars['ID']['input'];
-  dependencyResolution?: InputMaybe<DependencyResolutionInput>;
-}>;
-
-export type DeleteTeamMutation = { __typename?: 'RootMutation', userGroupMutation?: { __typename?: 'UserGroupMutation', delete?: boolean | null } | null };
 
 export type SkipOnTodayMutationVariables = Exact<{
   subjectGrn: Scalars['String']['input'];

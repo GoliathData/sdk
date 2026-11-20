@@ -1266,7 +1266,7 @@ export class GoliathClient extends GoliathClientCore {
     enrichContact: (variables: T.EnrichContactMutationVariables, options?: IdempotentRequestOptions): Promise<T.EnrichContactMutation> =>
       this.request('enrichContact', variables, options, { operationType: 'mutation' }),
     /**
-     * Run a contact filter and paginate the matches with limit/offset. Returns a page of contacts (name, tags, phones, emails, `doNotContact`, reason, date, linked `properties`: no getContact per row) plus total and hasMore. Pass EITHER filterId (a saved filter from listContactFilters) OR filterTree (saveFilter's filter-tree DSL; conditions key `fieldId`, not `field`) to run an UNSAVED tree: same path and totals, nothing saved. filterTree verifies a filter before creating it and settles what a condition does (fetch a record with no value for the field and see whether the tree returns it). NEVER save a filter to measure one; save only the one asked for. Sort with sort: { field, direction } (`ASC` / `DESC`); field is a CLOSED vocabulary: `NAME` (A–Z), `SELLER_INTENT_SCORE`, `LAST_COMMUNICATION`, `LAST_ACTIVITY`, `DIAL_ATTEMPTS` (org-wide dials), `MY_LAST_CALL`, `MY_LAST_TEXT`, `LAST_UPDATED`, `CREATED_AT`, `TASK_HIGHLIGHT`, `AUCTION_DATE` (earliest upcoming auction; none sort last), `AGENT` (the point person's name; ignored without the team directory), `ADDRESS` (the main property), `TEAM` (first team A–Z; ignored without the team directory), `SENTIMENT` (by label), `LAST_OUTBOUND_CALL`, `LAST_OUTBOUND_TEXT`, `LAST_OUTBOUND_EMAIL`; blanks sort last. Any other field is silently IGNORED. `participants`: its assignees (REVOKED: no longer assigned).
+     * Run a contact filter and paginate the matches with limit/offset. Returns a page of contacts (name, tags, phones, emails, `doNotContact`, reason, date, linked `properties`: no getContact per row) plus total and hasMore. Pass EITHER filterId (a saved filter from listContactFilters) OR filterTree (saveFilter's filter-tree DSL; conditions key `fieldId`, not `field`) to run an UNSAVED tree: same path and totals, nothing saved. filterTree verifies a filter before creating it and settles what a condition does (fetch a record with no value for the field and see whether the tree returns it). NEVER save a filter to measure one; save only the one asked for. Sort with sort: { field, direction } (`ASC` / `DESC`); field is a CLOSED vocabulary: `NAME` (A–Z), `SELLER_INTENT_SCORE`, `LAST_COMMUNICATION`, `LAST_ACTIVITY`, `DIAL_ATTEMPTS` (org-wide dials), `MY_LAST_CALL`, `MY_LAST_TEXT`, `LAST_UPDATED`, `CREATED_AT`, `TASK_HIGHLIGHT`, `AUCTION_DATE` (earliest upcoming auction; none sort last), `AGENT` (the point person's name; ignored without the team directory), `ADDRESS` (the main property), `SENTIMENT` (by label), `LAST_OUTBOUND_CALL`, `LAST_OUTBOUND_TEXT`, `LAST_OUTBOUND_EMAIL`; blanks sort last. Any other field is silently IGNORED. `participants`: its assignees (REVOKED: no longer assigned).
      *
      * @remarks Requires the READ scope.
      *
@@ -1327,7 +1327,7 @@ export class GoliathClient extends GoliathClientCore {
     findSharedPropertyAddresses: (variables?: T.FindSharedPropertyAddressesQueryVariables, options?: RequestOptions): Promise<T.FindSharedPropertyAddressesQuery> =>
       this.request('findSharedPropertyAddresses', variables, options, { operationType: 'query' }),
     /**
-     * MERGED IDS RESOLVE: an id merged into another contact returns the SURVIVING record, so the `id` that comes back can differ from the one you sent. Use the returned id from then on, never the old one; it is not an error. A merge chain that leads nowhere answers as not-found. Fetch one contact by id, the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties (`property.id` feeds getRelatedProperties), tags, lists, CUSTOM-FIELD VALUES, teammates + roles, teams, notes (with `isPinned`, `isHidden` and `replies`), linked pipeline items (`isArchived: true` is not live), seller-intent score, enrichment/archive flags. Each email's `emailCheck` is its latest email check (`result` DELIVERABLE, RISKY, UNDELIVERABLE or UNKNOWN, when, by whom), null until one runs (checkContactEmail). A note is the team's record, never a message from the contact; calls are not here (listContactActivities [CALL]). A note's or reply's `author` { kind: USER | AI, id, name } is who WROTE it; read that, not `createdByUser`, which is null on a note an AI assistant wrote for a teammate. A hidden note or reply is shown only to admins; `replies` also omits ones you may not see (e.g. an outside author's), so a missing reply is not proof it is gone. CUSTOM FIELDS: the ONLY read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues (listContactCustomFields returns definitions, never values). `customFields` is the organization's field catalog, not this contact's answers, listed whether or not the contact has one, so its length says nothing about the contact (fields sharing a normalized name collapse to one entry, so it can differ from listContactCustomFields). The value is in `values`, NULL when this contact has none: null means UNSET, not missing, unreadable or an error. Read the ONE sub-field matching the field `type`; the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number as written, NOT cents); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, the selected option LABELS (not option ids), at most one entry unless `allowMultiple` is true. Reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host gains its scheme), so compare what you wrote with what comes back rather than assume byte equality.
+     * MERGED IDS RESOLVE: an id merged into another contact returns the SURVIVING record, so the `id` that comes back can differ from the one you sent. Use the returned id from then on, never the old one; it is not an error. A merge chain that leads nowhere answers as not-found. Fetch one contact by id, the full record: identity, emails, phones (with DNC status), mailing addresses, subject properties (`property.id` feeds getRelatedProperties), tags, lists, CUSTOM-FIELD VALUES, teammates + roles, notes (with `isPinned`, `isHidden` and `replies`), linked pipeline items (`isArchived: true` is not live), seller-intent score, enrichment/archive flags. Each email's `emailCheck` is its latest email check (`result` DELIVERABLE, RISKY, UNDELIVERABLE or UNKNOWN, when, by whom), null until one runs (checkContactEmail). A note is the team's record, never a message from the contact; calls are not here (listContactActivities [CALL]). A note's or reply's `author` { kind: USER | AI, id, name } is who WROTE it; read that, not `createdByUser`, which is null on a note an AI assistant wrote for a teammate. A hidden note or reply is shown only to admins; `replies` also omits ones you may not see (e.g. an outside author's), so a missing reply is not proof it is gone. CUSTOM FIELDS: the ONLY read-back for values written via createContact.addCustomFieldValues / updateContact.updateCustomFieldValues (listContactCustomFields returns definitions, never values). `customFields` is the organization's field catalog, not this contact's answers, listed whether or not the contact has one, so its length says nothing about the contact (fields sharing a normalized name collapse to one entry, so it can differ from listContactCustomFields). The value is in `values`, NULL when this contact has none: null means UNSET, not missing, unreadable or an error. Read the ONE sub-field matching the field `type`; the other three stay null on every type: TEXT and LINK → `values.textValue`; NUMBER and DOLLAR → `values.numberValue` (DOLLAR is a plain number as written, NOT cents); DATE → `values.dateValue` (ISO 8601); DROPDOWN → `values.dropdownSelectedValues`, the selected option LABELS (not option ids), at most one entry unless `allowMultiple` is true. Reading the wrong one reports an unset field for a contact that has an answer. A LINK value is stored normalized (a bare host gains its scheme), so compare what you wrote with what comes back rather than assume byte equality.
      *
      * @remarks Requires the READ scope.
      */
@@ -1631,15 +1631,6 @@ export class GoliathClient extends GoliathClientCore {
     setContactsCustomField: (variables: T.SetContactsCustomFieldMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactsCustomFieldMutation> =>
       this.request('setContactsCustomField', variables, options, { operationType: 'mutation' }),
     /**
-     * Put contacts on teams (addTeamIds, from listTeams) and take them off (removeTeamIds); replaceExisting makes addTeamIds the exact set. addTeamIds is required: pass [] to only take them off. A bulk task (bulkTaskId, getBulkTask).
-     *
-     * @remarks Requires the WRITE scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setContactsTeams: (variables: T.SetContactsTeamsMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactsTeamsMutation> =>
-      this.request('setContactsTeams', variables, options, { operationType: 'mutation' }),
-    /**
      * The USER role a teammate on the contact plays (getContact participants); the contact owner stays the owner. roleId null clears it. An Only-one role moves off its previous holder.
      *
      * @remarks Requires the WRITE scope.
@@ -1685,7 +1676,7 @@ export class GoliathClient extends GoliathClientCore {
     unlinkRelatedContact: (variables: T.UnlinkRelatedContactMutationVariables, options?: IdempotentRequestOptions): Promise<T.UnlinkRelatedContactMutation> =>
       this.request('unlinkRelatedContact', variables, options, { operationType: 'mutation' }),
     /**
-     * Update a contact by contactId: the general-purpose per-contact write. All of it, contactId too, is one `input` variable the docs cannot expand, so this list is the contract. Identity: `name`, `isArchived` (false RESTORES one archived contact; unarchiveContacts for many), `importantNote` (the record's important-note field, not a timeline note: addContactNote writes those, changeNotePinned pins one). Channels: addPhoneNumbers (verificationStatus: UNVERIFIED unless the person was reached on it) / updatePhoneNumbers / removePhoneNumbers (updatePhoneNumbers sets only verificationStatus, phoneType, note, ranking: a new number is remove-then-add; a US number is stored as 10 digits and formatted for display, so reformatting needs no write), addEmails / updateEmails / removeEmails, addMailingAddresses / updateMailingAddresses / removeMailingAddresses (their home or mailing address: "lives at X, not Y" replaces it here, never as a property; an edit is remove-then-add; removeMailingAddresses takes the MAPPING-row id from mailingAddresses[].id, not an address id). Subject properties: addProperties / updateProperties / removeProperties, how "add 123 Oak St to this contact" is done; addProperties takes a propertyId from findProperties/getProperty plus a verificationStatus. Relatives: `subContacts` (upsert; omit the id to create) and removeSubContacts. Custom fields (an org's own status or stage; ids from listContactCustomFields): updateCustomFieldValues, each { contactId, customFieldId, exactly ONE of textValue / numberValue / dateValue / dropdownSelectedValues per the field type (getContact shows the per-type read-back); dropdownSelectedValues takes the option LABELS (an option id is read as its label), and a value the field has no option for is refused with the field options listed }; the response echoes `customFields` so you can confirm the value landed. Files: deleteFileIds (detaches by UploadedFile id). Tags, lists, teams: addTagIds/removeTagIds, addToListIds/removeFromListIds, addUserGroupIds/removeUserGroupIds. Teammates: addCollaborators/removeCollaborators. Each teammate in getContact `participants` handles the contact (status POINT_PERSON is its Agent), and so does each team in `userGroups`. removeCollaborators removes exactly the named userIds from every seat they hold, and no other teammate: "take X off" sends X alone; "no human handling them" sends every participant (and removeUserGroupIds for its teams). The response's `participants` is who is left, and its POINT_PERSON (if any) the Agent now; none means no Agent. Name whoever remains in your reply, never "X is off" alone as if the contact were cleared. `participants` comes back empty when the key owner removed themselves: they lost access, it does not mean nobody is on. Synchronous; returns the contact. Omitted fields are untouched; each add*\/remove* pair is a delta, not a replacement. For MANY contacts use the bulk ops (addContactTags/removeContactTags, addContactsToList/removeContactsFromList, assignContact/unassignContact, archiveContacts/unarchiveContacts), which are async and return a bulkTaskId.
+     * Update a contact by contactId: the general-purpose per-contact write. All of it, contactId too, is one `input` variable the docs cannot expand, so this list is the contract. Identity: `name`, `isArchived` (false RESTORES one archived contact; unarchiveContacts for many), `importantNote` (the record's important-note field, not a timeline note: addContactNote writes those, changeNotePinned pins one). Channels: addPhoneNumbers (verificationStatus: UNVERIFIED unless the person was reached on it) / updatePhoneNumbers / removePhoneNumbers (updatePhoneNumbers sets only verificationStatus, phoneType, note, ranking: a new number is remove-then-add; a US number is stored as 10 digits and formatted for display, so reformatting needs no write), addEmails / updateEmails / removeEmails, addMailingAddresses / updateMailingAddresses / removeMailingAddresses (their home or mailing address: "lives at X, not Y" replaces it here, never as a property; an edit is remove-then-add; removeMailingAddresses takes the MAPPING-row id from mailingAddresses[].id, not an address id). Subject properties: addProperties / updateProperties / removeProperties, how "add 123 Oak St to this contact" is done; addProperties takes a propertyId from findProperties/getProperty plus a verificationStatus. Relatives: `subContacts` (upsert; omit the id to create) and removeSubContacts. Custom fields (an org's own status or stage; ids from listContactCustomFields): updateCustomFieldValues, each { contactId, customFieldId, exactly ONE of textValue / numberValue / dateValue / dropdownSelectedValues per the field type (getContact shows the per-type read-back); dropdownSelectedValues takes the option LABELS (an option id is read as its label), and a value the field has no option for is refused with the field options listed }; the response echoes `customFields` so you can confirm the value landed. Files: deleteFileIds (detaches by UploadedFile id). Tags and lists: addTagIds/removeTagIds, addToListIds/removeFromListIds. Teammates: addCollaborators/removeCollaborators. Each teammate in getContact `participants` handles the contact (status POINT_PERSON is its Agent). removeCollaborators removes exactly the named userIds from every seat they hold, and no other teammate: "take X off" sends X alone; "no human handling them" sends every participant. The response's `participants` is who is left, and its POINT_PERSON (if any) the Agent now; none means no Agent. Name whoever remains in your reply, never "X is off" alone as if the contact were cleared. `participants` comes back empty when the key owner removed themselves: they lost access, it does not mean nobody is on. Synchronous; returns the contact. Omitted fields are untouched; each add*\/remove* pair is a delta, not a replacement. For MANY contacts use the bulk ops (addContactTags/removeContactTags, addContactsToList/removeContactsFromList, assignContact/unassignContact, archiveContacts/unarchiveContacts), which are async and return a bulkTaskId.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4473,15 +4464,6 @@ export class GoliathClient extends GoliathClientCore {
     createGoalPlan: (variables: T.CreateGoalPlanMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateGoalPlanMutation> =>
       this.request('createGoalPlan', variables, options, { operationType: 'mutation' }),
     /**
-     * Create a team (name, optional description, emoji, color, memberUserIds). Organization admins only.
-     *
-     * @remarks Requires the ADMIN scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    createTeam: (variables: T.CreateTeamMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateTeamMutation> =>
-      this.request('createTeam', variables, options, { operationType: 'mutation' }),
-    /**
      * Create a team-member invitation. userType: ADMIN or MEMBER (default MEMBER). Either emails (each address is EMAILED its own single-use invite: say so) or isPermanent: true, the reusable link, which emails nobody and invites as MEMBER (a live older link is returned with its own role). No email-less one-time link exists. Never paste an acceptUrl in chat (it goes by email); show the permanent link only on request.
      *
      * @remarks Requires the ADMIN scope.
@@ -4508,15 +4490,6 @@ export class GoliathClient extends GoliathClientCore {
      */
     deletePersonalGoal: (variables: T.DeletePersonalGoalMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeletePersonalGoalMutation> =>
       this.request('deletePersonalGoal', variables, options, { operationType: 'mutation' }),
-    /**
-     * Delete a team for good. Refused while workflows, forms or filters still use it: pass getDeletionImpact's dependencyResolution (targetKind USER_GROUP). Organization admins only.
-     *
-     * @remarks Requires the ADMIN scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    deleteTeam: (variables: T.DeleteTeamMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteTeamMutation> =>
-      this.request('deleteTeam', variables, options, { operationType: 'mutation' }),
     /**
      * A teammate's plan (`userId`, ADMIN; the key owner must be an org admin who sees the team directory): deletePersonalGoal for them (for good; ARCHIVED status keeps it); ids from getTeammateGoalPlan.
      *
@@ -4634,13 +4607,6 @@ export class GoliathClient extends GoliathClientCore {
     listTeamMembers: (variables?: T.ListTeamMembersQueryVariables, options?: RequestOptions): Promise<T.ListTeamMembersQuery> =>
       this.request('listTeamMembers', variables, options, { operationType: 'query' }),
     /**
-     * The organization's teams (groups of teammates a contact or form can be given to), newest first, with their members; `search` narrows by name.
-     *
-     * @remarks Requires the READ scope.
-     */
-    listTeams: (variables?: T.ListTeamsQueryVariables, options?: RequestOptions): Promise<T.ListTeamsQuery> =>
-      this.request('listTeams', variables, options, { operationType: 'query' }),
-    /**
      * Publish a DRAFT plan (planId from getGoalPlan): it becomes the month's active plan, the one Agent Performance tracks, and the previous active plan is archived. Confirm with the user first. Your own plan; a teammate’s is the *Teammate* op (ADMIN).
      *
      * @remarks Requires the WRITE scope.
@@ -4708,15 +4674,6 @@ export class GoliathClient extends GoliathClientCore {
     revokeTeamMemberCapability: (variables: T.RevokeTeamMemberCapabilityMutationVariables, options?: IdempotentRequestOptions): Promise<T.RevokeTeamMemberCapabilityMutation> =>
       this.request('revokeTeamMemberCapability', variables, options, { operationType: 'mutation' }),
     /**
-     * Set a team's members. memberUserIds (active teammates, listTeamMembers) REPLACES the whole member list. Organization admins only.
-     *
-     * @remarks Requires the ADMIN scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setTeamMembers: (variables: T.SetTeamMembersMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetTeamMembersMutation> =>
-      this.request('setTeamMembers', variables, options, { operationType: 'mutation' }),
-    /**
      * Mark a personal goal ACTIVE, COMPLETED or ARCHIVED, on a draft or active plan (not an archived one). goalPlanId/goalId from getGoalPlan. Your own plan; a teammate’s is the *Teammate* op (ADMIN).
      *
      * @remarks Requires the WRITE scope.
@@ -4725,15 +4682,6 @@ export class GoliathClient extends GoliathClientCore {
      */
     updatePersonalGoalStatus: (variables: T.UpdatePersonalGoalStatusMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdatePersonalGoalStatusMutation> =>
       this.request('updatePersonalGoalStatus', variables, options, { operationType: 'mutation' }),
-    /**
-     * Edit a team (teamId from listTeams); omitted fields are untouched. memberUserIds (active teammates, listTeamMembers) REPLACES the whole member list. Organization admins only.
-     *
-     * @remarks Requires the ADMIN scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    updateTeam: (variables: T.UpdateTeamMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateTeamMutation> =>
-      this.request('updateTeam', variables, options, { operationType: 'mutation' }),
     /**
      * A teammate's plan (`userId`, ADMIN; the key owner must be an org admin who sees the team directory): updatePersonalGoalStatus for them; ids from getTeammateGoalPlan.
      *

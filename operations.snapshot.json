@@ -1999,7 +1999,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "contactId:ID!",
-    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"name\":true,\"createdAt\":true,\"isArchived\":true,\"isEnriched\":true,\"sellerIntentScore\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"doNotContactSetBy\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true,\"emailCheck\":{\"result\":true,\"reason\":true,\"checkedAt\":true,\"source\":true,\"checkedBy\":true}},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true,\"dncStatus\":{\"isDnc\":true,\"isLitigator\":true}},\"mailingAddresses\":{\"id\":true,\"rawText\":true,\"verificationStatus\":true,\"address\":{\"addressFull\":true}},\"properties\":{\"id\":true,\"propertyString\":true,\"status\":true,\"verificationStatus\":true,\"property\":{\"id\":true},\"type\":true,\"role\":{\"id\":true,\"name\":true}},\"relatedPeople\":{\"id\":true,\"kind\":true,\"name\":true,\"relation\":true,\"relationshipRole\":{\"id\":true,\"name\":true},\"inContacts\":true},\"relatedTo\":{\"mainContactId\":true,\"mainContactName\":true,\"relation\":true},\"relationshipRole\":{\"id\":true,\"name\":true},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}},\"participants\":{\"status\":true,\"role\":{\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"userGroups\":{\"id\":true,\"name\":true},\"notes\":{\"id\":true,\"body\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"isPinned\":true,\"isHidden\":true,\"replies\":{\"id\":true,\"body\":true,\"isHidden\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}}},\"pipelineItems\":{\"id\":true,\"title\":true,\"priceCents\":true,\"isArchived\":true,\"priceFormatted\":true,\"stage\":{\"id\":true,\"name\":true}}}}}"
+    "responseShape": "{\"contactQuery\":{\"contact\":{\"id\":true,\"name\":true,\"createdAt\":true,\"isArchived\":true,\"isEnriched\":true,\"sellerIntentScore\":true,\"doNotContact\":true,\"doNotContactReason\":true,\"doNotContactSetAt\":true,\"doNotContactSetBy\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true,\"emailCheck\":{\"result\":true,\"reason\":true,\"checkedAt\":true,\"source\":true,\"checkedBy\":true}},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true,\"dncStatus\":{\"isDnc\":true,\"isLitigator\":true}},\"mailingAddresses\":{\"id\":true,\"rawText\":true,\"verificationStatus\":true,\"address\":{\"addressFull\":true}},\"properties\":{\"id\":true,\"propertyString\":true,\"status\":true,\"verificationStatus\":true,\"property\":{\"id\":true},\"type\":true,\"role\":{\"id\":true,\"name\":true}},\"relatedPeople\":{\"id\":true,\"kind\":true,\"name\":true,\"relation\":true,\"relationshipRole\":{\"id\":true,\"name\":true},\"inContacts\":true},\"relatedTo\":{\"mainContactId\":true,\"mainContactName\":true,\"relation\":true},\"relationshipRole\":{\"id\":true,\"name\":true},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}},\"participants\":{\"status\":true,\"role\":{\"id\":true,\"name\":true},\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"notes\":{\"id\":true,\"body\":true,\"createdAt\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true},\"createdByUser\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"isPinned\":true,\"isHidden\":true,\"replies\":{\"id\":true,\"body\":true,\"isHidden\":true,\"author\":{\"kind\":true,\"id\":true,\"name\":true}}},\"pipelineItems\":{\"id\":true,\"title\":true,\"priceCents\":true,\"isArchived\":true,\"priceFormatted\":true,\"stage\":{\"id\":true,\"name\":true}}}}}"
   },
   {
     "operationId": "getContactConnections",
@@ -2457,19 +2457,6 @@
     "responseShape": "{\"contactMutation\":{\"setContactsCustomField\":{\"mode\":true,\"bulkTaskId\":true}}}"
   },
   {
-    "operationId": "setContactsTeams",
-    "domain": "contacts",
-    "operationType": "mutation",
-    "requiredScope": "WRITE",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "contactIds:[String!]!,addTeamIds:[ID!]!,removeTeamIds:[ID!],replaceExisting:Boolean",
-    "responseShape": "{\"contactMutation\":{\"bulkAssignUserGroupsOnContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
-  },
-  {
     "operationId": "setContactUserRole",
     "domain": "contacts",
     "operationType": "mutation",
@@ -2545,7 +2532,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "input:UpdateContactInput!",
-    "responseShape": "{\"contactMutation\":{\"updateContact\":{\"id\":true,\"name\":true,\"isArchived\":true,\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"participants\":{\"status\":true,\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"userGroups\":{\"id\":true,\"name\":true},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}}}}}"
+    "responseShape": "{\"contactMutation\":{\"updateContact\":{\"id\":true,\"name\":true,\"isArchived\":true,\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true},\"tags\":{\"id\":true,\"name\":true},\"lists\":{\"id\":true,\"name\":true},\"participants\":{\"status\":true,\"user\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}},\"customFields\":{\"id\":true,\"name\":true,\"type\":true,\"allowMultiple\":true,\"values\":{\"textValue\":true,\"dateValue\":true,\"numberValue\":true,\"dropdownSelectedValues\":true}}}}}"
   },
   {
     "operationId": "updateContactCustomField",
@@ -6695,19 +6682,6 @@
     "responseShape": "{\"agentGoalsMutation\":{\"createAgentGoalPlan\":{\"id\":true,\"userId\":true,\"periodStartDate\":true,\"periodEndDate\":true,\"status\":true,\"publishedAt\":true,\"commissionGoals\":{\"id\":true,\"pipelineId\":true,\"pipelineName\":true,\"metric\":true,\"targetCents\":true},\"personalGoals\":{\"id\":true,\"title\":true,\"description\":true,\"status\":true,\"displayOrder\":true}}}}"
   },
   {
-    "operationId": "createTeam",
-    "domain": "team",
-    "operationType": "mutation",
-    "requiredScope": "ADMIN",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "name:String!,description:String,emoji:String,color:String,memberUserIds:[ID!]",
-    "responseShape": "{\"userGroupMutation\":{\"create\":{\"id\":true,\"name\":true,\"memberCount\":true}}}"
-  },
-  {
     "operationId": "createTeamInvite",
     "domain": "team",
     "operationType": "mutation",
@@ -6745,19 +6719,6 @@
     "hasAuthorize": false,
     "variableSignature": "goalId:ID!",
     "responseShape": "{\"agentGoalsMutation\":{\"deleteAgentPersonalGoal\":true}}"
-  },
-  {
-    "operationId": "deleteTeam",
-    "domain": "team",
-    "operationType": "mutation",
-    "requiredScope": "ADMIN",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "teamId:ID!,dependencyResolution:DependencyResolutionInput",
-    "responseShape": "{\"userGroupMutation\":{\"delete\":true}}"
   },
   {
     "operationId": "deleteTeammatePersonalGoal",
@@ -6942,19 +6903,6 @@
     "responseShape": "{\"teamQuery\":{\"listTeamMembers\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true,\"phoneNumber\":true,\"organizationRole\":true,\"organizationMembershipStatus\":true,\"createdAt\":true}}}"
   },
   {
-    "operationId": "listTeams",
-    "domain": "team",
-    "operationType": "query",
-    "requiredScope": "READ",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": false,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "search:String",
-    "responseShape": "{\"userGroupQuery\":{\"list\":{\"id\":true,\"name\":true,\"description\":true,\"memberCount\":true,\"members\":{\"id\":true,\"firstName\":true,\"lastName\":true,\"email\":true}}}}"
-  },
-  {
     "operationId": "publishGoalPlan",
     "domain": "team",
     "operationType": "mutation",
@@ -7046,19 +6994,6 @@
     "responseShape": "{\"teamMutation\":{\"revokeTeamMemberCapability\":{\"id\":true}}}"
   },
   {
-    "operationId": "setTeamMembers",
-    "domain": "team",
-    "operationType": "mutation",
-    "requiredScope": "ADMIN",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "teamId:ID!,memberUserIds:[ID!]!",
-    "responseShape": "{\"userGroupMutation\":{\"setMembers\":{\"id\":true,\"memberCount\":true,\"members\":{\"id\":true,\"email\":true}}}}"
-  },
-  {
     "operationId": "updatePersonalGoalStatus",
     "domain": "team",
     "operationType": "mutation",
@@ -7070,19 +7005,6 @@
     "hasAuthorize": false,
     "variableSignature": "goalId:ID!,status:AgentPersonalGoalStatus!",
     "responseShape": "{\"agentGoalsMutation\":{\"updateAgentPersonalGoalStatus\":{\"id\":true,\"goalPlanId\":true,\"title\":true,\"status\":true}}}"
-  },
-  {
-    "operationId": "updateTeam",
-    "domain": "team",
-    "operationType": "mutation",
-    "requiredScope": "ADMIN",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": true,
-    "variableSignature": "teamId:ID!,name:String,description:String,emoji:String,color:String,memberUserIds:[ID!]",
-    "responseShape": "{\"userGroupMutation\":{\"update\":{\"id\":true,\"name\":true,\"description\":true,\"memberCount\":true}}}"
   },
   {
     "operationId": "updateTeammatePersonalGoalStatus",
