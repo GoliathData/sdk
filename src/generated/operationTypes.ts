@@ -1926,6 +1926,18 @@ export type PropertySignalType =
   | 'STATE_LIEN'
   | 'SUBSTITUTION_OF_TRUSTEE'
   | 'TAX_DEED_SALE'
+  /**
+   * A scheduled tax deed sale the county's own board called off for that day
+   * without payment (cancelled, pulled or withdrawn; never a redemption), read off
+   * the board (INT-20013).
+   */
+  | 'TAX_DEED_SALE_CANCELLED'
+  /**
+   * A tax deed sale that was held and sold, read off the county's own sale board
+   * (INT-20013): the tax case's outcome, so it counts toward no benchmark family
+   * and is not a seller-motivation event.
+   */
+  | 'TAX_DEED_SALE_COMPLETED'
   | 'TAX_DELINQUENCY'
   | 'TAX_LIEN_SALE'
   | 'TENANT_COMPLAINT'
