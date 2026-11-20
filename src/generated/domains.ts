@@ -3691,7 +3691,7 @@ export class GoliathClient extends GoliathClientCore {
     reorderFolders: (variables: T.ReorderFoldersMutationVariables, options?: IdempotentRequestOptions): Promise<T.ReorderFoldersMutation> =>
       this.request('reorderFolders', variables, options, { operationType: 'mutation' }),
     /**
-     * Ask for coverage of places ("Cook County, IL"; a county keys to its cell, anything else comes back in gaps) for signals by name (signals, always sent: [] when asking by family), or families picked outright (FORECLOSURE, PREFORECLOSURE, PROBATE, PREPROBATE, TAX_DELINQUENCY, CODE_VIOLATION). For those six, read listMyCoverageRequests first: one already asked is not asked again. Any other signal (liens, evictions) is recorded and reaches sales, but no read returns it: ask it once and give no date. Only Goliath's own organizations; any other gets FORBIDDEN "Contact support to request new counties."
+     * Ask for coverage of places ("Cook County, IL"; a county keys to its cell, anything else comes back in gaps) for signals by name (signals, always sent: [] when asking by family), or families picked outright (FORECLOSURE, PREFORECLOSURE, PROBATE, PREPROBATE, TAX_DELINQUENCY, CODE_VIOLATION). For those six, read listMyCoverageRequests first: one already asked is not asked again. Any other signal (liens, evictions) is recorded and reaches sales, but no read returns it: ask it once and give no date. Only Goliath's own organizations; any other gets FORBIDDEN "Contact our sales team to request new counties."
      *
      * @remarks Requires the WRITE scope.
      *
