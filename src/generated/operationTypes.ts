@@ -200,6 +200,7 @@ export type AgentGoalPlanStatus =
   | 'DRAFT';
 
 export type AgentOrigin =
+  | 'AI_LIST'
   | 'CUSTOM'
   | 'LEAD_NURTURER'
   | 'LIVE_GATE'
