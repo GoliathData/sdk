@@ -4361,7 +4361,7 @@ export type AddContactTagsMutationVariables = Exact<{
   newTagNames?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
 }>;
 
-export type AddContactTagsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', addTagsToContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
+export type AddContactTagsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', addTagsToContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null, tagIds?: Array<string> | null } | null } | null };
 
 export type AssignContactMutationVariables = Exact<{
   contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;

@@ -40,7 +40,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
   "contactMutation": {
     "addTagsToContacts": {
       "mode": true,
-      "bulkTaskId": true
+      "bulkTaskId": true,
+      "tagIds": true
     }
   }
 }

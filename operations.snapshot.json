@@ -1518,7 +1518,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,tagIds:[String!]!,newTagNames:[String!]",
-    "responseShape": "{\"contactMutation\":{\"addTagsToContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
+    "responseShape": "{\"contactMutation\":{\"addTagsToContacts\":{\"mode\":true,\"bulkTaskId\":true,\"tagIds\":true}}}"
   },
   {
     "operationId": "archiveContacts",

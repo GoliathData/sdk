@@ -5062,7 +5062,8 @@
         "contactMutation": {
           "addTagsToContacts": {
             "mode": true,
-            "bulkTaskId": true
+            "bulkTaskId": true,
+            "tagIds": true
           }
         }
       }
