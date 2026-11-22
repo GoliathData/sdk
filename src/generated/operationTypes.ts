@@ -3918,7 +3918,7 @@ export type SendEmailMutationVariables = Exact<{
   contactId?: InputMaybe<Scalars['ID']['input']>;
 }>;
 
-export type SendEmailMutation = { __typename?: 'RootMutation', emailMutation?: { __typename?: 'EmailMutation', sendEmail?: { __typename?: 'SendEmailResult', ok: boolean, failureReason?: SendEmailFailureReason | null, failureMessage?: string | null, contact?: { __typename?: 'Contact', id: string } | null } | null } | null };
+export type SendEmailMutation = { __typename?: 'RootMutation', emailMutation?: { __typename?: 'EmailMutation', sendEmail?: { __typename?: 'SendEmailResult', ok: boolean, emailMessageId?: string | null, failureReason?: SendEmailFailureReason | null, failureMessage?: string | null, contact?: { __typename?: 'Contact', id: string } | null } | null } | null };
 
 export type GetSendConsentAttestationQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -1232,7 +1232,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "fromClientId:String!,fromEmail:String!,to:[String!]!,cc:[String!],bcc:[String!],subject:String!,bodyHtml:String,appendSignature:Boolean=true,contactId:ID",
-    "responseShape": "{\"emailMutation\":{\"sendEmail\":{\"ok\":true,\"failureReason\":true,\"failureMessage\":true,\"contact\":{\"id\":true}}}}"
+    "responseShape": "{\"emailMutation\":{\"sendEmail\":{\"ok\":true,\"emailMessageId\":true,\"failureReason\":true,\"failureMessage\":true,\"contact\":{\"id\":true}}}}"
   },
   {
     "operationId": "sendInstagramMessage",

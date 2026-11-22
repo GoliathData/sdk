@@ -43,6 +43,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
   "emailMutation": {
     "sendEmail": {
       "ok": true,
+      "emailMessageId": true,
       "failureReason": true,
       "failureMessage": true,
       "contact": {

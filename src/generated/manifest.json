@@ -4099,6 +4099,7 @@
         "emailMutation": {
           "sendEmail": {
             "ok": true,
+            "emailMessageId": true,
             "failureReason": true,
             "failureMessage": true,
             "contact": {
