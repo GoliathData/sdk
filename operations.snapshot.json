@@ -1482,6 +1482,19 @@
     "responseShape": "{\"noteMutation\":{\"createNote\":{\"id\":true,\"name\":true}}}"
   },
   {
+    "operationId": "addContactNotes",
+    "domain": "contacts",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,body:String!",
+    "responseShape": "{\"contactMutation\":{\"addNoteToContacts\":{\"mode\":true,\"bulkTaskId\":true}}}"
+  },
+  {
     "operationId": "addContactsToList",
     "domain": "contacts",
     "operationType": "mutation",

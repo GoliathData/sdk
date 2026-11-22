@@ -4288,6 +4288,16 @@ export type ArchiveContactsMutationVariables = Exact<{
 
 export type ArchiveContactsMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', archiveContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
 
+export type AddContactNotesMutationVariables = Exact<{
+  contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
+  filterId?: InputMaybe<Scalars['ID']['input']>;
+  filterTree?: InputMaybe<Scalars['JSON']['input']>;
+  selectCount?: InputMaybe<Scalars['Int']['input']>;
+  body: Scalars['String']['input'];
+}>;
+
+export type AddContactNotesMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', addNoteToContacts?: { __typename?: 'ContactsBulkActionResponse', mode: ContactsBulkActionMode, bulkTaskId?: string | null } | null } | null };
+
 export type UnarchiveContactsMutationVariables = Exact<{
   contactIds?: InputMaybe<Array<Scalars['String']['input']> | Scalars['String']['input']>;
   filterId?: InputMaybe<Scalars['ID']['input']>;

@@ -986,6 +986,15 @@ export class GoliathClient extends GoliathClientCore {
     addContactNote: (variables: T.AddContactNoteMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddContactNoteMutation> =>
       this.request('addContactNote', variables, options, { operationType: 'mutation' }),
     /**
+     * Add ONE note, the same `body`, to every contact of a selection: the many-contact form of addContactNote (one call, never one per contact). Each contact gets its own timeline note, written as the key owner. A different note per contact is addContactNote per contact. Async bulk job: poll `bulkTaskId` with getBulkTask; a read-back right away will NOT show it. A body that @mentions anyone is refused (it would notify once per contact): mention them on one contact instead. A replayed task adds no second copy. Notes start no workflow. An AI employee adds its notes one contact at a time. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    addContactNotes: (variables: T.AddContactNotesMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddContactNotesMutation> =>
+      this.request('addContactNotes', variables, options, { operationType: 'mutation' }),
+    /**
      * Add contacts to one or more LISTS (segments) by list id (searchContactTags `lists` / createContactList): the selection-wide form of updateContact’s addToListIds; removeContactsFromList is the twin. Async bulk job: returns a bulkTaskId to poll with getBulkTask; an immediate read-back will not show the change. A contact already on the list is skipped, not failed, so re-running is harmless. LIST ids only: a free-form tag or custom-field id is refused at the gateway (the underlying worker would silently drop it and complete having changed nothing). POTENTIALLY OUTBOUND: list membership publishes the same tags-changed event tags do, so a CONTACT workflow triggered on this list can start a run and send. Check the org’s workflows or confirm with the user before a large selection. SELECTION, one of two forms: `contactIds`, or a contact filter (`filterId` from listContactFilters, or an inline `filterTree` in saveFilter’s CONTACT DSL, parsed strictly) with `selectCount: N`, the first N matches: count the filter with countContacts and pass that count. A filter without selectCount, or beside contactIds, is refused. At most 20,000 contacts per call.
      *
      * @remarks Requires the WRITE scope.
