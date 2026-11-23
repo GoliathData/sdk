@@ -530,7 +530,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "participants:[String!],startDate:DateTime,endDate:DateTime,completed:Boolean,searchTerm:String,limit:Int=25,cursor:String",
-    "responseShape": "{\"users\":{\"getUserAppointments\":{\"tasks\":{\"id\":true,\"title\":true,\"startDate\":true,\"endDate\":true,\"timezone\":true,\"location\":true,\"description\":true,\"outcome\":true,\"completedAt\":true,\"appointmentReminderWorkflowGroupId\":true,\"participants\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true}},\"total\":true,\"canFetchNext\":true}}}"
+    "responseShape": "{\"users\":{\"getUserAppointments\":{\"tasks\":{\"id\":true,\"title\":true,\"startDate\":true,\"endDate\":true,\"timezone\":true,\"location\":true,\"description\":true,\"outcome\":true,\"completedAt\":true,\"appointmentReminderWorkflowGroupId\":true,\"syncedCalendar\":true,\"externalAttendees\":true,\"participants\":{\"id\":true,\"firstName\":true,\"lastName\":true},\"contacts\":{\"id\":true,\"name\":true}},\"total\":true,\"canFetchNext\":true}}}"
   },
   {
     "operationId": "setDefaultAppointmentReminder",

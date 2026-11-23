@@ -50,6 +50,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "outcome": true,
         "completedAt": true,
         "appointmentReminderWorkflowGroupId": true,
+        "syncedCalendar": true,
+        "externalAttendees": true,
         "participants": {
           "id": true,
           "firstName": true,
