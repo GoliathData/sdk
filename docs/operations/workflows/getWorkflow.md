@@ -61,6 +61,7 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "name": true,
         "status": true,
         "publishedAt": true,
+        "pausedAt": true,
         "createdAt": true,
         "updatedAt": true
       },

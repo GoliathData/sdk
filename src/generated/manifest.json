@@ -25835,6 +25835,7 @@
               "name": true,
               "status": true,
               "publishedAt": true,
+              "pausedAt": true,
               "createdAt": true,
               "updatedAt": true
             },
