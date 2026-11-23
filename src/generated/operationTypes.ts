@@ -2953,8 +2953,6 @@ export type VoiceTrustRegistrationState =
 
 /** What a Work through card IS: it picks the card's frame on the client and which body field is set. */
 export type WorkThroughFamily =
-  /** A deterministic bundle: ownership transfers, distress tags, skip traces, merges. Always grouped, never one per contact. */
-  | 'BUNDLE'
   /** A workflow or AI employee send the viewer owns, held on a blank required value: finished on the send screen. */
   | 'CONTRACT_HELD'
   /** A contract out for signature whose turn is the viewer's: signed on the signing page, opened over the card. */
