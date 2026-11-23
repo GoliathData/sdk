@@ -2939,8 +2939,6 @@ export type VoiceTrustRegistrationState =
 
 /** What a Work through card IS: it picks the card's frame on the client and which body field is set. */
 export type WorkThroughFamily =
-  /** Outreach (F): archive, turn off or rename what clutters the account. Organization only; never changes results. */
-  | 'ACCOUNT_CLEANUP'
   /** A deterministic bundle: ownership transfers, distress tags, skip traces, merges. Always grouped, never one per contact. */
   | 'BUNDLE'
   /** A workflow or AI employee send the viewer owns, held on a blank required value: finished on the send screen. */
@@ -2957,11 +2955,6 @@ export type WorkThroughFamily =
   | 'IGNORED_TASK_STEP'
   /** The weekly low-reply-rate step. */
   | 'LOW_REPLY_STEP'
-  /**
-   * Whole-mailbox sync: which groups of the people a mailbox's first backfill sorted become contacts (`suggestion`
-   * carries the groups, their counts and names). Nothing is sent.
-   */
-  | 'MAILBOX_CONTACTS'
   /** A targeted dream's proposed change to one memory, an AI employee's or the viewer's own (one card per memory). */
   | 'MEMORY_CHANGE'
   /** An AI employee's draft: a text, email or Slack message. */
@@ -2975,18 +2968,10 @@ export type WorkThroughFamily =
    * untick, sent in one press through `decideContactSuggestionsInBulk` with only the ticked, shown ids. Never a rule.
    */
   | 'REPLY_BATCH'
-  /** Outreach (A): buy more numbers so texts held by one number's daily limit go out. Spends money. */
-  | 'SENDING_ROOM'
-  /** Outreach (B): skip trace a saved property filter into a workflow. Spends skip trace credits (`costCredits`). */
-  | 'SKIP_TRACE_MORE'
-  /** Outreach (H): start a saved contact filter's first N contacts in a workflow. Texts them; the press is consent. */
-  | 'START_CONTACTS'
   /** A workflow trigger lost its number: pick a new one. */
   | 'TRIGGER_LOST_NUMBER'
   /** A trust move proposed to the viewer (one per kind, revised in place). */
   | 'TRUST_MOVE'
-  /** Outreach (D): turn a paused AI employee or workflow back on while people reply positively. */
-  | 'TURN_BACK_ON'
   /** Outreach (C): publish a workflow fix Goliath drafted. */
   | 'WORKFLOW_FIX'
   /** A workflow rewrite after a carrier suspension: publishes the rewrite and resumes runs. */
