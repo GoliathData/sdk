@@ -29,7 +29,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 
 | Domain | Operations |
 |---|---|
-| `account` | 34 |
+| `account` | 33 |
 | `appointments` | 12 |
 | `askGoliath` | 8 |
 | `automationMap` | 4 |
