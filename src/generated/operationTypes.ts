@@ -7679,6 +7679,7 @@ export type RestoreWorkflowMutation = { __typename?: 'RootMutation', workflowAut
 export type TriggerWorkflowRunMutationVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];
   recordId: Scalars['ID']['input'];
+  recordType?: InputMaybe<WorkflowDomain>;
 }>;
 
 export type TriggerWorkflowRunMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', triggerWorkflowRun?: { __typename?: 'WorkflowAutomationRun', id: string, status: WorkflowAutomationRunStatus, dryRun: boolean, createdAt: any, scheduledExecution?: any | null } | null } | null };

@@ -27741,7 +27741,7 @@
       "domain": "workflows",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Manually start one run of a workflow's ACTIVE version against a record. recordId must match the workflow's domain: a contactId for CONTACT workflows, propertyId for PROPERTY, pipelineItemId for DEAL, taskId for APPOINTMENT.",
+      "description": "Manually start one run of a workflow's ACTIVE version against a record: a contactId, propertyId, pipelineItemId (DEAL) or taskId (APPOINTMENT). recordType says which (CONTACT, PROPERTY, DEAL, APPOINTMENT); a workflow of several lanes starts the record on the lane about that type. Omitted, recordId must match the workflow's own domain. A Workflows v1 workflow is about one type and ignores recordType.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -27758,6 +27758,12 @@
           "name": "recordId",
           "type": "ID!",
           "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "recordType",
+          "type": "WorkflowDomain",
+          "required": false,
           "defaultValue": null
         }
       ],

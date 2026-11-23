@@ -5306,7 +5306,7 @@ export class GoliathClient extends GoliathClientCore {
     stopWorkflowRun: (variables: T.StopWorkflowRunMutationVariables, options?: IdempotentRequestOptions): Promise<T.StopWorkflowRunMutation> =>
       this.request('stopWorkflowRun', variables, options, { operationType: 'mutation' }),
     /**
-     * Manually start one run of a workflow's ACTIVE version against a record. recordId must match the workflow's domain: a contactId for CONTACT workflows, propertyId for PROPERTY, pipelineItemId for DEAL, taskId for APPOINTMENT.
+     * Manually start one run of a workflow's ACTIVE version against a record: a contactId, propertyId, pipelineItemId (DEAL) or taskId (APPOINTMENT). recordType says which (CONTACT, PROPERTY, DEAL, APPOINTMENT); a workflow of several lanes starts the record on the lane about that type. Omitted, recordId must match the workflow's own domain. A Workflows v1 workflow is about one type and ignores recordType.
      *
      * @remarks Requires the WRITE scope.
      *

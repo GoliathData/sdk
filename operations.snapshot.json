@@ -7952,7 +7952,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "workflowGroupId:ID!,recordId:ID!",
+    "variableSignature": "workflowGroupId:ID!,recordId:ID!,recordType:WorkflowDomain",
     "responseShape": "{\"workflowAutomationsMutation\":{\"triggerWorkflowRun\":{\"id\":true,\"status\":true,\"dryRun\":true,\"createdAt\":true,\"scheduledExecution\":true}}}"
   },
   {

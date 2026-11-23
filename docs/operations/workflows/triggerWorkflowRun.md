@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Manually start one run of a workflow's ACTIVE version against a record. recordId must match the workflow's domain: a contactId for CONTACT workflows, propertyId for PROPERTY, pipelineItemId for DEAL, taskId for APPOINTMENT.
+Manually start one run of a workflow's ACTIVE version against a record: a contactId, propertyId, pipelineItemId (DEAL) or taskId (APPOINTMENT). recordType says which (CONTACT, PROPERTY, DEAL, APPOINTMENT); a workflow of several lanes starts the record on the lane about that type. Omitted, recordId must match the workflow's own domain. A Workflows v1 workflow is about one type and ignores recordType.
 
 ## Call
 
@@ -21,6 +21,7 @@ const result = await client.workflows.triggerWorkflowRun({ workflowGroupId: '<id
 |---|---|---|---|
 | `workflowGroupId` | `ID!` | yes | — |
 | `recordId` | `ID!` | yes | — |
+| `recordType` | `WorkflowDomain` | no | — |
 
 ## Gateway notes
 
