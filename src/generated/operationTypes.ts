@@ -571,6 +571,20 @@ export type ContactDataProblem =
   /** A stored phone that is not the 10-digit US form every phone write normalizes to. */
   | 'PHONE_NOT_NORMALIZED';
 
+export type ContactImportLabelAnswerInput = {
+  choice: ContactImportLabelChoice;
+  kind: ContactImportLabelKind;
+};
+
+export type ContactImportLabelChoice =
+  | 'LEAVE'
+  | 'MARK';
+
+export type ContactImportLabelKind =
+  | 'DNC'
+  | 'LITIGATOR'
+  | 'OPT_OUT';
+
 /** Which kind of list: one people made, an import's upload list, or an export's list. */
 export type ContactListKind =
   | 'EXPORT'
@@ -4004,7 +4018,7 @@ export type PreviewContactImportQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
 }>;
 
-export type PreviewContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', contactTransformerRowCount?: number | null, contactTransformerRowFindings?: { __typename?: 'ContactTransformerRowFindings', checkedRows: number, namelessRowIndexes: Array<number>, unstorablePhoneRowIndexes: Array<number>, repeats: Array<{ __typename?: 'ContactTransformerRepeatedRow', rowIndex: number, sameAsRowIndex: number, name: string }>, flaggedRowChannels: Array<{ __typename?: 'ContactTransformerFlaggedRowChannels', rowIndex: number, name?: string | null, phone?: string | null, email?: string | null, droppedPhone?: string | null }> } | null, contactTransformerPreview?: Array<{ __typename?: 'ContactPreviewResult', rowIndex: number, error?: string | null, mappedNoteBody?: string | null, unlandedCells: Array<string>, contact?: { __typename?: 'Contact', name?: string | null, subContacts?: Array<{ __typename?: 'SubContact', name: string, relation?: string | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', phoneNumber: string, phoneType: PhoneType }> | null, emails?: Array<{ __typename?: 'ContactEmail', email: string }> | null, properties?: Array<{ __typename?: 'ContactProperty', propertyString?: string | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', rawText?: string | null, address?: { __typename?: 'Address', line1: string, line2?: string | null, city: string, state: string, zip: string } | null }> | null, tags?: Array<{ __typename?: 'Tag', name: string }> | null, lists?: Array<{ __typename?: 'ContactList', name: string }> | null, pipelineItems?: Array<{ __typename?: 'Deal', title: string, stage?: { __typename?: 'PipelineStage', name: string } | null, pipeline?: { __typename?: 'Pipeline', name: string } | null }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', name: string, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, numberValue?: number | null, calendarDate?: string | null, dropdownSelectedValues?: Array<string> | null } | null }> | null } | null }> | null } | null };
+export type PreviewContactImportQuery = { __typename?: 'RootQuery', fileProcessingTaskQuery?: { __typename?: 'FileProcessingTaskQuery', contactTransformerRowCount?: number | null, contactTransformerRowFindings?: { __typename?: 'ContactTransformerRowFindings', checkedRows: number, namelessRowIndexes: Array<number>, unstorablePhoneRowIndexes: Array<number>, repeats: Array<{ __typename?: 'ContactTransformerRepeatedRow', rowIndex: number, sameAsRowIndex: number, name: string }>, doNotContactLabels: Array<{ __typename?: 'ContactTransformerLabelGroup', kind: ContactImportLabelKind, values: number, contacts: number, relativeValues: number }>, flaggedRowChannels: Array<{ __typename?: 'ContactTransformerFlaggedRowChannels', rowIndex: number, name?: string | null, phone?: string | null, email?: string | null, droppedPhone?: string | null }> } | null, contactTransformerPreview?: Array<{ __typename?: 'ContactPreviewResult', rowIndex: number, error?: string | null, mappedNoteBody?: string | null, unlandedCells: Array<string>, contact?: { __typename?: 'Contact', name?: string | null, subContacts?: Array<{ __typename?: 'SubContact', name: string, relation?: string | null }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', phoneNumber: string, phoneType: PhoneType }> | null, emails?: Array<{ __typename?: 'ContactEmail', email: string }> | null, properties?: Array<{ __typename?: 'ContactProperty', propertyString?: string | null }> | null, mailingAddresses?: Array<{ __typename?: 'ContactMailingAddress', rawText?: string | null, address?: { __typename?: 'Address', line1: string, line2?: string | null, city: string, state: string, zip: string } | null }> | null, tags?: Array<{ __typename?: 'Tag', name: string }> | null, lists?: Array<{ __typename?: 'ContactList', name: string }> | null, pipelineItems?: Array<{ __typename?: 'Deal', title: string, stage?: { __typename?: 'PipelineStage', name: string } | null, pipeline?: { __typename?: 'Pipeline', name: string } | null }> | null, customFields?: Array<{ __typename?: 'ContactCustomField', name: string, values?: { __typename?: 'ContactCustomFieldValue', textValue?: string | null, numberValue?: number | null, calendarDate?: string | null, dropdownSelectedValues?: Array<string> | null } | null }> | null } | null }> | null } | null };
 
 export type ConfirmContactImportMutationVariables = Exact<{
   fileProcessingTaskId: Scalars['ID']['input'];
@@ -4012,6 +4026,7 @@ export type ConfirmContactImportMutationVariables = Exact<{
   attestationAccepted: Scalars['Boolean']['input'];
   reviveArchivedMatches?: InputMaybe<Scalars['Boolean']['input']>;
   optOutTagName?: InputMaybe<Scalars['String']['input']>;
+  doNotContactLabels?: InputMaybe<Array<ContactImportLabelAnswerInput> | ContactImportLabelAnswerInput>;
 }>;
 
 export type ConfirmContactImportMutation = { __typename?: 'RootMutation', fileProcessingTaskMutation?: { __typename?: 'FileProcessingTaskMutation', confirmContactTransformerUpload?: { __typename?: 'FileProcessingTask', id: string, status?: FileProcessingTaskStatus | null } | null } | null };

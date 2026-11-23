@@ -1335,7 +1335,7 @@
     "idempotent": true,
     "orgIdVariable": null,
     "hasAuthorize": false,
-    "variableSignature": "fileProcessingTaskId:ID!,tagName:String,attestationAccepted:Boolean!,reviveArchivedMatches:Boolean,optOutTagName:String",
+    "variableSignature": "fileProcessingTaskId:ID!,tagName:String,attestationAccepted:Boolean!,reviveArchivedMatches:Boolean,optOutTagName:String,doNotContactLabels:[ContactImportLabelAnswerInput!]",
     "responseShape": "{\"fileProcessingTaskMutation\":{\"confirmContactTransformerUpload\":{\"id\":true,\"status\":true}}}"
   },
   {
@@ -1375,7 +1375,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "fileProcessingTaskId:ID!,limit:Int=8",
-    "responseShape": "{\"fileProcessingTaskQuery\":{\"contactTransformerRowCount\":true,\"contactTransformerRowFindings\":{\"checkedRows\":true,\"repeats\":{\"rowIndex\":true,\"sameAsRowIndex\":true,\"name\":true},\"namelessRowIndexes\":true,\"unstorablePhoneRowIndexes\":true,\"flaggedRowChannels\":{\"rowIndex\":true,\"name\":true,\"phone\":true,\"email\":true,\"droppedPhone\":true}},\"contactTransformerPreview\":{\"rowIndex\":true,\"error\":true,\"mappedNoteBody\":true,\"unlandedCells\":true,\"contact\":{\"name\":true,\"subContacts\":{\"name\":true,\"relation\":true},\"phoneNumbers\":{\"phoneNumber\":true,\"phoneType\":true},\"emails\":{\"email\":true},\"properties\":{\"propertyString\":true},\"mailingAddresses\":{\"rawText\":true,\"address\":{\"line1\":true,\"line2\":true,\"city\":true,\"state\":true,\"zip\":true}},\"tags\":{\"name\":true},\"lists\":{\"name\":true},\"pipelineItems\":{\"title\":true,\"stage\":{\"name\":true},\"pipeline\":{\"name\":true}},\"customFields\":{\"name\":true,\"values\":{\"textValue\":true,\"numberValue\":true,\"calendarDate\":true,\"dropdownSelectedValues\":true}}}}}}"
+    "responseShape": "{\"fileProcessingTaskQuery\":{\"contactTransformerRowCount\":true,\"contactTransformerRowFindings\":{\"checkedRows\":true,\"repeats\":{\"rowIndex\":true,\"sameAsRowIndex\":true,\"name\":true},\"namelessRowIndexes\":true,\"unstorablePhoneRowIndexes\":true,\"doNotContactLabels\":{\"kind\":true,\"values\":true,\"contacts\":true,\"relativeValues\":true},\"flaggedRowChannels\":{\"rowIndex\":true,\"name\":true,\"phone\":true,\"email\":true,\"droppedPhone\":true}},\"contactTransformerPreview\":{\"rowIndex\":true,\"error\":true,\"mappedNoteBody\":true,\"unlandedCells\":true,\"contact\":{\"name\":true,\"subContacts\":{\"name\":true,\"relation\":true},\"phoneNumbers\":{\"phoneNumber\":true,\"phoneType\":true},\"emails\":{\"email\":true},\"properties\":{\"propertyString\":true},\"mailingAddresses\":{\"rawText\":true,\"address\":{\"line1\":true,\"line2\":true,\"city\":true,\"state\":true,\"zip\":true}},\"tags\":{\"name\":true},\"lists\":{\"name\":true},\"pipelineItems\":{\"title\":true,\"stage\":{\"name\":true},\"pipeline\":{\"name\":true}},\"customFields\":{\"name\":true,\"values\":{\"textValue\":true,\"numberValue\":true,\"calendarDate\":true,\"dropdownSelectedValues\":true}}}}}}"
   },
   {
     "operationId": "reviseContactImportMapping",

@@ -4363,7 +4363,7 @@
       "domain": "contactImports",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Import every row of the spreadsheet as contacts: the step the Import page’s Import button runs. Rows that match an existing contact update it instead of duplicating it. Every import puts its contacts on its own list, “Contacts from <file name>”; tagName adds a second list of that name (optional; a list, not a tag), so pass it only for a list the person named or picked, never one you made from the file’s name. attestationAccepted records that the person affirmed they have a lawful basis to contact everyone on the list; the import is refused without it, so pass true only on their yes (in a chat, their yes on the import task’s approval card, which shows the attestation). reviveArchivedMatches (default true) restores archived contacts the file matches. optOutTagName is the tag the mapping puts on the file’s opt-outs (a DNC column or tag, for example \"DNC\"): when the import finishes, every contact it imported that carries that tag is marked Do Not Contact, as part of the import, so nothing waits on it to mark them; omit it when the file marks nobody. Only after the person has seen the preview and said yes to importing this file, with this list. It starts a background task and returns at once; the chat that started it is told when it finishes, so never wait on it.",
+      "description": "Import every row of the spreadsheet as contacts: the step the Import page’s Import button runs. Rows that match an existing contact update it instead of duplicating it. Every import puts its contacts on its own list, “Contacts from <file name>”; tagName adds a second list of that name (optional; a list, not a tag), so pass it only for a list the person named or picked, never one you made from the file’s name. attestationAccepted records that the person affirmed they have a lawful basis to contact everyone on the list; the import is refused without it, so pass true only on their yes (in a chat, their yes on the import task’s approval card, which shows the attestation). reviveArchivedMatches (default true) restores archived contacts the file matches. optOutTagName is the tag the mapping puts on the file’s opt-outs (a DNC column or tag, for example \"DNC\"): when the import finishes, every contact it imported that carries that tag is marked Do Not Contact, as part of the import, so nothing waits on it to mark them; omit it when the file marks nobody. doNotContactLabels answers, as one { kind, choice } per kind of label the preview’s contactTransformerRowFindings.doNotContactLabels lists (DNC = a DNC registry mark, OPT_OUT = the list owner’s own opt-out such as \"Do not call\" or \"Internal DNC\", LITIGATOR), what the import does: MARK blocks those numbers and marks those contacts Do Not Contact (a relative’s labeled number is blocked alone), LEAVE imports them unblocked and unmarked so Goliath’s own DNC and litigator checks apply. Ask the person each kind’s answer with buttons before the import, naming how many contacts each covers (for DNC, recommend LEAVE: Goliath’s DNC check); never choose MARK for them. A kind left out keeps its labeled numbers blocked one by one and marks nobody. The import marks nobody Do Not Contact unless the person chose MARK. Never pass optOutTagName for these labels: it marks every contact carrying its tag whatever was answered, so it is only for an opt-out the file marks for a whole row (its own column), on the person’s yes. Only after the person has seen the preview and said yes to importing this file, with this list. It starts a background task and returns at once; the chat that started it is told when it finishes, so never wait on it.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -4397,6 +4397,12 @@
         {
           "name": "optOutTagName",
           "type": "String",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "doNotContactLabels",
+          "type": "[ContactImportLabelAnswerInput!]",
           "required": false,
           "defaultValue": null
         }
@@ -4489,7 +4495,7 @@
       "domain": "contactImports",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "The first rows of an import as the contacts they will become, in the app’s own fields: name, phones, emails, property addresses, mailing addresses, tags, lists, pipeline items, and custom fields (every custom field of the organization is listed; the ones with values are the ones this row fills). contactTransformerRowCount is the number of rows the import will read. A row with error set and no contact will be skipped. contactTransformerRowFindings names the rows to tell the person about before they approve the import: a likely repeat of an earlier row (the same name and a shared phone or email, or for a nameless row a shared phone or email; the import usually merges it into that contact, so say it likely will, never that it will) and a row with no name (it lands under its phone or email), with 0-based row indexes, over the file’s first checkedRows rows; null means the check did not run, so never say the file has no repeats. limit is 1 to 10 (default 8). Show these rows to the person as a table, one row per contact, a column per field that any row fills, and say how many rows the file has. Read only; nothing is imported.",
+      "description": "The first rows of an import as the contacts they will become, in the app’s own fields: name, phones, emails, property addresses, mailing addresses, tags, lists, pipeline items, and custom fields (every custom field of the organization is listed; the ones with values are the ones this row fills). contactTransformerRowCount is the number of rows the import will read. A row with error set and no contact will be skipped. contactTransformerRowFindings names the rows to tell the person about before they approve the import: a likely repeat of an earlier row (the same name and a shared phone or email, or for a nameless row a shared phone or email; the import usually merges it into that contact, so say it likely will, never that it will) a row with no name (it lands under its phone or email), and doNotContactLabels (each kind of do-not-contact label the rows put on a phone or email, with how many values and contacts; ask the person about each before the import, see confirmContactImport), with 0-based row indexes, over the file’s first checkedRows rows; null means the check did not run, so never say the file has no repeats. limit is 1 to 10 (default 8). Show these rows to the person as a table, one row per contact, a column per field that any row fills, and say how many rows the file has. Read only; nothing is imported.",
       "resultCap": 10,
       "rateLimited": false,
       "idempotent": false,
@@ -4521,6 +4527,12 @@
             },
             "namelessRowIndexes": true,
             "unstorablePhoneRowIndexes": true,
+            "doNotContactLabels": {
+              "kind": true,
+              "values": true,
+              "contacts": true,
+              "relativeValues": true
+            },
             "flaggedRowChannels": {
               "rowIndex": true,
               "name": true,
