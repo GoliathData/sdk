@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-661 operations across 33 domains — small enough to read whole. One line each:
+663 operations across 34 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -69,6 +69,11 @@ Full detail per operation (variables, call example, gateway notes, response shap
 - `sendAgentMessage` (mutation, WRITE) [idempotent] — Send a `message` in one of the key owner's chats (`conversationId`), as if they typed it. Returns the turn (getAgentTurn). Waits up to `waitSeconds` (0-25, default 25) for the reply; poll getAgentTurn after. `confirmSends`: an approval card for a text or email carries its `draft`; trust decides if it asks.
 - `startAgentConversation` (mutation, WRITE) [idempotent] — Start a new Ask Goliath chat as the key owner with its first `message`; it shows in their chat list as "via" this key's name. Returns the turn (getAgentTurn). Waits up to `waitSeconds` (0-25, default 25) for the reply; poll getAgentTurn after. `confirmSends`: an approval card for a text or email carries its `draft`; trust decides if it asks.
 - `submitFeedback` (mutation, WRITE) [idempotent] — Send our team a BUG report, FEATURE_REQUEST or QUESTION as the key owner: a one-line `title`, the `message` (10+ characters) and optional `details`. It lands on our board (added to the organization's open card for the same problem, when there is one); keep the returned `ticket` name to refer to it.
+
+## askGoliathTools
+
+- `generateImage` (mutation, WRITE) [idempotent] — Draw an image from `prompt` (subject, style, colors; words that must appear go in double quotes) and save it to the key owner's My files as `name`.jpg. `shape`: square, landscape or portrait. `quality`: low, medium or high (high costs most). Only from inside one of their own Ask Goliath chat turns, so a key's own call is refused; a per-person hourly limit applies.
+- `notifyMe` (mutation, WRITE) [idempotent] — Send the key owner themself, and no one else, an in-app notification, also in their five-minute email digest: `text` (up to 1,000 characters) under `title` (default "Ask Goliath"). Never a text message; a per-person hourly limit applies.
 
 ## automationMap
 

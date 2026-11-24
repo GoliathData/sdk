@@ -3795,6 +3795,22 @@ export type SubmitFeedbackMutationVariables = Exact<{
 
 export type SubmitFeedbackMutation = { __typename?: 'RootMutation', externalAgentChatMutation?: { __typename?: 'ExternalAgentChatMutation', submitFeedback?: { __typename?: 'ExternalFeedbackResult', status: ExternalFeedbackStatus, error?: string | null, ticket?: { __typename?: 'ExternalFeedbackTicket', ticket: string, title: string, stage?: string | null } | null, otherOpenTickets: Array<{ __typename?: 'ExternalFeedbackTicket', ticket: string, title: string, stage?: string | null }> } | null } | null };
 
+export type GenerateImageMutationVariables = Exact<{
+  prompt: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  shape: Scalars['String']['input'];
+  quality: Scalars['String']['input'];
+}>;
+
+export type GenerateImageMutation = { __typename?: 'RootMutation', agentChatMutation?: { __typename?: 'AgentChatMutation', generateImage?: any | null } | null };
+
+export type NotifyMeMutationVariables = Exact<{
+  text: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type NotifyMeMutation = { __typename?: 'RootMutation', agentChatMutation?: { __typename?: 'AgentChatMutation', notifyMe?: any | null } | null };
+
 export type GetAutomationMapQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAutomationMapQuery = { __typename?: 'RootQuery', automationPagesQuery?: { __typename?: 'AutomationPagesQuery', map?: { __typename?: 'AutomationMap', pageId: string, version: number, story?: any | null, refStates: Array<{ __typename?: 'AutomationMapRefState', kind: string, id: string, name: string, state: string, editing: boolean, domain?: string | null, channels: Array<string>, facts: Array<{ __typename?: 'AutomationMapFact', label: string, value: string }> }>, changedSince: Array<{ __typename?: 'AutomationMapChange', kind: string, id: string, name: string, onMap: boolean, change: string }> } | null } | null };

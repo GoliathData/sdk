@@ -2187,6 +2187,80 @@
       }
     },
     {
+      "operationId": "generateImage",
+      "domain": "askGoliathTools",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Draw an image from `prompt` (subject, style, colors; words that must appear go in double quotes) and save it to the key owner's My files as `name`.jpg. `shape`: square, landscape or portrait. `quality`: low, medium or high (high costs most). Only from inside one of their own Ask Goliath chat turns, so a key's own call is refused; a per-person hourly limit applies.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "prompt",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "name",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "shape",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "quality",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "agentChatMutation": {
+          "generateImage": true
+        }
+      }
+    },
+    {
+      "operationId": "notifyMe",
+      "domain": "askGoliathTools",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Send the key owner themself, and no one else, an in-app notification, also in their five-minute email digest: `text` (up to 1,000 characters) under `title` (default \"Ask Goliath\"). Never a text message; a per-person hourly limit applies.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "text",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "title",
+          "type": "String",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "agentChatMutation": {
+          "notifyMe": true
+        }
+      }
+    },
+    {
       "operationId": "getAutomationMap",
       "domain": "automationMap",
       "operationType": "query",

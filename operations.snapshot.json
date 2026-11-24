@@ -689,6 +689,32 @@
     "responseShape": "{\"externalAgentChatMutation\":{\"submitFeedback\":{\"status\":true,\"ticket\":{\"ticket\":true,\"title\":true,\"stage\":true},\"otherOpenTickets\":{\"ticket\":true,\"title\":true,\"stage\":true},\"error\":true}}}"
   },
   {
+    "operationId": "generateImage",
+    "domain": "askGoliathTools",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "prompt:String!,name:String!,shape:String!,quality:String!",
+    "responseShape": "{\"agentChatMutation\":{\"generateImage\":true}}"
+  },
+  {
+    "operationId": "notifyMe",
+    "domain": "askGoliathTools",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "text:String!,title:String",
+    "responseShape": "{\"agentChatMutation\":{\"notifyMe\":true}}"
+  },
+  {
     "operationId": "getAutomationMap",
     "domain": "automationMap",
     "operationType": "query",

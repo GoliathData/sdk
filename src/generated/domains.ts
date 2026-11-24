@@ -469,6 +469,27 @@ export class GoliathClient extends GoliathClientCore {
       this.request('submitFeedback', variables, options, { operationType: 'mutation' }),
   }
 
+  readonly askGoliathTools = {
+    /**
+     * Draw an image from `prompt` (subject, style, colors; words that must appear go in double quotes) and save it to the key owner's My files as `name`.jpg. `shape`: square, landscape or portrait. `quality`: low, medium or high (high costs most). Only from inside one of their own Ask Goliath chat turns, so a key's own call is refused; a per-person hourly limit applies.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    generateImage: (variables: T.GenerateImageMutationVariables, options?: IdempotentRequestOptions): Promise<T.GenerateImageMutation> =>
+      this.request('generateImage', variables, options, { operationType: 'mutation' }),
+    /**
+     * Send the key owner themself, and no one else, an in-app notification, also in their five-minute email digest: `text` (up to 1,000 characters) under `title` (default "Ask Goliath"). Never a text message; a per-person hourly limit applies.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    notifyMe: (variables: T.NotifyMeMutationVariables, options?: IdempotentRequestOptions): Promise<T.NotifyMeMutation> =>
+      this.request('notifyMe', variables, options, { operationType: 'mutation' }),
+  }
+
   readonly automationMap = {
     /**
      * Your organization's Automations Map. When there is none, this read draws it from the organization's workflows and AI employees (no agent turn) and saves it; null when there is nothing to draw. `story` (a MapStory: journeys, steps, edges and each step's detail, as JSON), `refStates` (each workflow or AI employee a step stands for, with its state now: on, off or draft, and its setup as label/value `facts`), and `changedSince` (records saved after this version: the Map may be out of date until the Automations chat redraws it). `story` null means the current version cannot be read. `pageId` and `version` are what the version ops take.
