@@ -37,7 +37,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "ok": true,
       "refusals": true,
       "previewId": true,
-      "draftUrl": true,
       "liveUrl": true,
       "rolledBack": true,
       "ignored": true,

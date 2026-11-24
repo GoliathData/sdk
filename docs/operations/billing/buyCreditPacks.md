@@ -4,7 +4,7 @@
 
 mutation · domain `billing` · requires the ADMIN scope
 
-Buy credit packs now on the card on file, as the Billing page does: one `{ creditType, packCode }` per credit type from getCreditPrices; `expectedAmountCents` is their summed `priceCents`, refused when it moved. `attemptKey` is new per purchase (8-128 of letters, digits, - or _), reused only to retry it. It never turns auto-recharge on: that is setCreditAutoRecharge, on its own card. Org admins only, on its own card naming the packs, the exact total, that it is non-refundable, and the card (getCreditAutoRecharge). `status`: PAID, PENDING (bank debit clearing), DECLINED (`message`), REQUIRES_ACTION (send getCreditsPurchaseUrl), NOTHING_DUE.
+Buy credit packs now on the card on file, as the Billing page does: one `{ creditType, packCode }` per credit type from getCreditPrices; `expectedAmountCents` is their summed `priceCents`, refused when it moved. `attemptKey` is new per purchase (8-128 of letters, digits, - or _), reused only to retry it. It never turns auto-recharge on: that is setCreditAutoRecharge, on its own card. Org admins only. When asked first, its card names the packs, the exact total, that it is non-refundable, and the card (getCreditAutoRecharge). `status`: PAID, PENDING (bank debit clearing), DECLINED (`message`), REQUIRES_ACTION (send getCreditsPurchaseUrl), NOTHING_DUE.
 
 ## Call
 

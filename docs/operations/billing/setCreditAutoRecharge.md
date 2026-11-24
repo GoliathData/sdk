@@ -4,7 +4,7 @@
 
 mutation · domain `billing` · requires the ADMIN scope
 
-Save one credit type's auto-recharge, as Billing > Credits does: on, it buys `selectedPackCode` (`rechargeAmountCents` its price) on the card on file when the balance falls below `thresholdUnits`, at most `maxBudgetCents` a billing period. Switching it on saves every field: read getCreditAutoRecharge, send the rest unchanged, and take `rechargeAmountCents` from getCreditPrices for the selected pack (refused when it moved); `enabled: false` only switches it off. Org admins only. Every save is asked on its own card that only a tap answers; one that turns it on must name the pack's exact price (`rechargeAmountCents`, getCreditPrices', refused when it moved), the period budget, that a pack is non-refundable, the threshold and the card. Saving may buy a pack at once if the balance is already low.
+Save one credit type's auto-recharge, as Billing > Credits does: on, it buys `selectedPackCode` (`rechargeAmountCents` its price) on the card on file when the balance falls below `thresholdUnits`, at most `maxBudgetCents` a billing period. Switching it on saves every field: read getCreditAutoRecharge, send the rest unchanged, and take `rechargeAmountCents` from getCreditPrices for the selected pack (refused when it moved); `enabled: false` only switches it off. Org admins only. When asked first, the card of a save that turns it on names the pack's exact price (`rechargeAmountCents`, getCreditPrices', refused when it moved), the period budget, that a pack is non-refundable, the threshold and the card. Saving may buy a pack at once if the balance is already low.
 
 ## Call
 

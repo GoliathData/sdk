@@ -4286,14 +4286,14 @@ export type PreviewComplianceSiteEditMutationVariables = Exact<{
   edit: ComplianceSiteEditInput;
 }>;
 
-export type PreviewComplianceSiteEditMutation = { __typename?: 'RootMutation', complianceSiteMutation?: { __typename?: 'ComplianceSiteMutation', previewEdit?: { __typename?: 'ComplianceSiteEditResult', ok: boolean, refusals: Array<string>, previewId?: string | null, draftUrl?: string | null, liveUrl?: string | null, rolledBack: boolean, ignored: Array<string>, facts?: { __typename?: 'ComplianceSiteFacts', businessName: string, legalEntityName?: string | null, tagline: string, contactEmail: string, contactPhone: string, contactName?: string | null, contactTitle?: string | null, markets: Array<string>, seed?: string | null } | null } | null } | null };
+export type PreviewComplianceSiteEditMutation = { __typename?: 'RootMutation', complianceSiteMutation?: { __typename?: 'ComplianceSiteMutation', previewEdit?: { __typename?: 'ComplianceSiteEditResult', ok: boolean, refusals: Array<string>, previewId?: string | null, liveUrl?: string | null, rolledBack: boolean, ignored: Array<string>, facts?: { __typename?: 'ComplianceSiteFacts', businessName: string, legalEntityName?: string | null, tagline: string, contactEmail: string, contactPhone: string, contactName?: string | null, contactTitle?: string | null, markets: Array<string>, seed?: string | null } | null } | null } | null };
 
 export type RepublishComplianceSiteMutationVariables = Exact<{
   edit: ComplianceSiteEditInput;
   previewId: Scalars['String']['input'];
 }>;
 
-export type RepublishComplianceSiteMutation = { __typename?: 'RootMutation', complianceSiteMutation?: { __typename?: 'ComplianceSiteMutation', republish?: { __typename?: 'ComplianceSiteEditResult', ok: boolean, refusals: Array<string>, previewId?: string | null, draftUrl?: string | null, liveUrl?: string | null, rolledBack: boolean, ignored: Array<string>, facts?: { __typename?: 'ComplianceSiteFacts', businessName: string, legalEntityName?: string | null, tagline: string, contactEmail: string, contactPhone: string, contactName?: string | null, contactTitle?: string | null, markets: Array<string>, seed?: string | null } | null } | null } | null };
+export type RepublishComplianceSiteMutation = { __typename?: 'RootMutation', complianceSiteMutation?: { __typename?: 'ComplianceSiteMutation', republish?: { __typename?: 'ComplianceSiteEditResult', ok: boolean, refusals: Array<string>, previewId?: string | null, liveUrl?: string | null, rolledBack: boolean, ignored: Array<string>, facts?: { __typename?: 'ComplianceSiteFacts', businessName: string, legalEntityName?: string | null, tagline: string, contactEmail: string, contactPhone: string, contactName?: string | null, contactTitle?: string | null, markets: Array<string>, seed?: string | null } | null } | null } | null };
 
 export type FindContactDataProblemsQueryVariables = Exact<{
   problem?: InputMaybe<ContactDataProblem>;

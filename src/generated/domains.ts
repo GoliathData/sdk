@@ -525,7 +525,7 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly billing = {
     /**
-     * Buy credit packs now on the card on file, as the Billing page does: one `{ creditType, packCode }` per credit type from getCreditPrices; `expectedAmountCents` is their summed `priceCents`, refused when it moved. `attemptKey` is new per purchase (8-128 of letters, digits, - or _), reused only to retry it. It never turns auto-recharge on: that is setCreditAutoRecharge, on its own card. Org admins only, on its own card naming the packs, the exact total, that it is non-refundable, and the card (getCreditAutoRecharge). `status`: PAID, PENDING (bank debit clearing), DECLINED (`message`), REQUIRES_ACTION (send getCreditsPurchaseUrl), NOTHING_DUE.
+     * Buy credit packs now on the card on file, as the Billing page does: one `{ creditType, packCode }` per credit type from getCreditPrices; `expectedAmountCents` is their summed `priceCents`, refused when it moved. `attemptKey` is new per purchase (8-128 of letters, digits, - or _), reused only to retry it. It never turns auto-recharge on: that is setCreditAutoRecharge, on its own card. Org admins only. When asked first, its card names the packs, the exact total, that it is non-refundable, and the card (getCreditAutoRecharge). `status`: PAID, PENDING (bank debit clearing), DECLINED (`message`), REQUIRES_ACTION (send getCreditsPurchaseUrl), NOTHING_DUE.
      *
      * @remarks Requires the ADMIN scope.
      *
@@ -569,7 +569,7 @@ export class GoliathClient extends GoliathClientCore {
     getCreditAutoRecharge: (options?: RequestOptions): Promise<T.GetCreditAutoRechargeQuery> =>
       this.request('getCreditAutoRecharge', undefined, options, { operationType: 'query' }),
     /**
-     * Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. An admin's agent buys a pack with buyCreditPacks, on its own card only the person's tap answers; any other agent hands over getCreditsPurchaseUrl.
+     * Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. An admin's agent buys a pack with buyCreditPacks; any other agent hands over getCreditsPurchaseUrl.
      *
      * @remarks Requires the READ scope.
      */
@@ -625,7 +625,7 @@ export class GoliathClient extends GoliathClientCore {
     listInvoices: (variables?: T.ListInvoicesQueryVariables, options?: RequestOptions): Promise<T.ListInvoicesQuery> =>
       this.request('listInvoices', variables, options, { operationType: 'query' }),
     /**
-     * Pay one OPEN invoice on the card on file: `number`, and from getInvoicePayment read just before `expectedAmountCents` (its `amountRemainingCents`) and `expectedCardLast4` (its `card.last4`). Its card names the invoice number, the exact dollars, the card ("Visa ending 4242") and that it is non-refundable; only a tap pays. Refused when the amount or the card changed (read again), it is already paid, or no card is on file. `status`: PAID, PENDING (bank debit settling), REQUIRES_ACTION (send `hostedInvoiceUrl`) or DECLINED (`message`; another card goes on the Billing page). Never a staff member acting as the customer. Needs the spending permission.
+     * Pay one OPEN invoice on the card on file: `number`, and from getInvoicePayment read just before `expectedAmountCents` (its `amountRemainingCents`) and `expectedCardLast4` (its `card.last4`). When asked first, its card names the invoice number, the exact dollars, the card ("Visa ending 4242") and that it is non-refundable. Refused when the amount or the card changed (read again), it is already paid, or no card is on file. `status`: PAID, PENDING (bank debit settling), REQUIRES_ACTION (send `hostedInvoiceUrl`) or DECLINED (`message`; another card goes on the Billing page). Never a staff member acting as the customer. Needs the spending permission.
      *
      * @remarks Requires the ADMIN scope.
      *
@@ -634,7 +634,7 @@ export class GoliathClient extends GoliathClientCore {
     payInvoice: (variables: T.PayInvoiceMutationVariables, options?: IdempotentRequestOptions): Promise<T.PayInvoiceMutation> =>
       this.request('payInvoice', variables, options, { operationType: 'mutation' }),
     /**
-     * Save one credit type's auto-recharge, as Billing > Credits does: on, it buys `selectedPackCode` (`rechargeAmountCents` its price) on the card on file when the balance falls below `thresholdUnits`, at most `maxBudgetCents` a billing period. Switching it on saves every field: read getCreditAutoRecharge, send the rest unchanged, and take `rechargeAmountCents` from getCreditPrices for the selected pack (refused when it moved); `enabled: false` only switches it off. Org admins only. Every save is asked on its own card that only a tap answers; one that turns it on must name the pack's exact price (`rechargeAmountCents`, getCreditPrices', refused when it moved), the period budget, that a pack is non-refundable, the threshold and the card. Saving may buy a pack at once if the balance is already low.
+     * Save one credit type's auto-recharge, as Billing > Credits does: on, it buys `selectedPackCode` (`rechargeAmountCents` its price) on the card on file when the balance falls below `thresholdUnits`, at most `maxBudgetCents` a billing period. Switching it on saves every field: read getCreditAutoRecharge, send the rest unchanged, and take `rechargeAmountCents` from getCreditPrices for the selected pack (refused when it moved); `enabled: false` only switches it off. Org admins only. When asked first, the card of a save that turns it on names the pack's exact price (`rechargeAmountCents`, getCreditPrices', refused when it moved), the period budget, that a pack is non-refundable, the threshold and the card. Saving may buy a pack at once if the balance is already low.
      *
      * @remarks Requires the ADMIN scope.
      *
@@ -955,7 +955,7 @@ export class GoliathClient extends GoliathClientCore {
     getComplianceSite: (options?: RequestOptions): Promise<T.GetComplianceSiteQuery> =>
       this.request('getComplianceSite', undefined, options, { operationType: 'query' }),
     /**
-     * Preview a compliance-site edit (org admins): only the facts that change (tagline, contactEmail, contactPhone, contactName, contactTitle, markets; null clears). Refused when it would move the business name, legal entity or opt-in wording; else a draft link and the previewId to republish. Nothing live changes.
+     * Preview a compliance-site edit (org admins): only the facts that change (tagline, contactEmail, contactPhone, contactName, contactTitle, markets; null clears). Refused when it would move the business name, legal entity or opt-in wording; else what the site would show and the previewId to republish. Nothing is published.
      *
      * @remarks Requires the WRITE scope.
      *

@@ -4,7 +4,7 @@
 
 mutation · domain `complianceSites` · requires the WRITE scope
 
-Preview a compliance-site edit (org admins): only the facts that change (tagline, contactEmail, contactPhone, contactName, contactTitle, markets; null clears). Refused when it would move the business name, legal entity or opt-in wording; else a draft link and the previewId to republish. Nothing live changes.
+Preview a compliance-site edit (org admins): only the facts that change (tagline, contactEmail, contactPhone, contactName, contactTitle, markets; null clears). Refused when it would move the business name, legal entity or opt-in wording; else what the site would show and the previewId to republish. Nothing is published.
 
 ## Call
 
@@ -36,7 +36,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "ok": true,
       "refusals": true,
       "previewId": true,
-      "draftUrl": true,
       "liveUrl": true,
       "rolledBack": true,
       "ignored": true,

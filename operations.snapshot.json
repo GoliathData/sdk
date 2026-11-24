@@ -1453,7 +1453,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "edit:ComplianceSiteEditInput!",
-    "responseShape": "{\"complianceSiteMutation\":{\"previewEdit\":{\"ok\":true,\"refusals\":true,\"previewId\":true,\"draftUrl\":true,\"liveUrl\":true,\"rolledBack\":true,\"ignored\":true,\"facts\":{\"businessName\":true,\"legalEntityName\":true,\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true,\"seed\":true}}}}"
+    "responseShape": "{\"complianceSiteMutation\":{\"previewEdit\":{\"ok\":true,\"refusals\":true,\"previewId\":true,\"liveUrl\":true,\"rolledBack\":true,\"ignored\":true,\"facts\":{\"businessName\":true,\"legalEntityName\":true,\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true,\"seed\":true}}}}"
   },
   {
     "operationId": "republishComplianceSite",
@@ -1466,7 +1466,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "edit:ComplianceSiteEditInput!,previewId:String!",
-    "responseShape": "{\"complianceSiteMutation\":{\"republish\":{\"ok\":true,\"refusals\":true,\"previewId\":true,\"draftUrl\":true,\"liveUrl\":true,\"rolledBack\":true,\"ignored\":true,\"facts\":{\"businessName\":true,\"legalEntityName\":true,\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true,\"seed\":true}}}}"
+    "responseShape": "{\"complianceSiteMutation\":{\"republish\":{\"ok\":true,\"refusals\":true,\"previewId\":true,\"liveUrl\":true,\"rolledBack\":true,\"ignored\":true,\"facts\":{\"businessName\":true,\"legalEntityName\":true,\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true,\"seed\":true}}}}"
   },
   {
     "operationId": "authorContactImportMapping",

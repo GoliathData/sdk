@@ -4,7 +4,7 @@
 
 mutation · domain `billing` · requires the ADMIN scope
 
-Pay one OPEN invoice on the card on file: `number`, and from getInvoicePayment read just before `expectedAmountCents` (its `amountRemainingCents`) and `expectedCardLast4` (its `card.last4`). Its card names the invoice number, the exact dollars, the card ("Visa ending 4242") and that it is non-refundable; only a tap pays. Refused when the amount or the card changed (read again), it is already paid, or no card is on file. `status`: PAID, PENDING (bank debit settling), REQUIRES_ACTION (send `hostedInvoiceUrl`) or DECLINED (`message`; another card goes on the Billing page). Never a staff member acting as the customer. Needs the spending permission.
+Pay one OPEN invoice on the card on file: `number`, and from getInvoicePayment read just before `expectedAmountCents` (its `amountRemainingCents`) and `expectedCardLast4` (its `card.last4`). When asked first, its card names the invoice number, the exact dollars, the card ("Visa ending 4242") and that it is non-refundable. Refused when the amount or the card changed (read again), it is already paid, or no card is on file. `status`: PAID, PENDING (bank debit settling), REQUIRES_ACTION (send `hostedInvoiceUrl`) or DECLINED (`message`; another card goes on the Billing page). Never a staff member acting as the customer. Needs the spending permission.
 
 ## Call
 
