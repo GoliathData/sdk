@@ -1201,12 +1201,24 @@ export type EmailDeliverability =
   | 'UNDELIVERABLE'
   | 'UNKNOWN';
 
+/** An outbound email's delivery as its provider reported it. */
+export type EmailDeliveryStatus =
+  | 'BOUNCED'
+  | 'SENT';
+
 /** When a user's notification email digest goes out (INT-12217). */
 export type EmailDigestCadence =
   /** Five minutes after the first notification it collects. */
   | 'AS_IT_HAPPENS'
   /** Once each morning in the user's own timezone, with everything since the last one. */
   | 'DAILY';
+
+export type EmailOptOutSource =
+  | 'EMAIL_COMPLAINT'
+  | 'EMAIL_UNSUBSCRIBE'
+  | 'IMPORT'
+  | 'MANUAL'
+  | 'OTHER';
 
 export type EmailProvider =
   | 'GMAIL'
@@ -3518,7 +3530,7 @@ export type GetIntegrationSetupUrlsQuery = { __typename?: 'RootQuery', oauthQuer
 
 export type ListIntegrationsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type ListIntegrationsQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, connectedEmailIntegrations?: Array<{ __typename?: 'EmailServiceIntegrationStatus', provider: EmailProvider, email?: string | null, isDefaultForSending: boolean }> | null } | null, oauthQuery?: { __typename?: 'OAuthQuery', facebookAccountConnected?: boolean | null, slackIntegrationStatus?: { __typename?: 'SlackIntegrationStatus', connected: boolean, teamId?: string | null } | null, listFacebookPages?: Array<{ __typename?: 'FacebookPage', id: string, name?: string | null, connected: boolean }> | null } | null, organizationQuery?: { __typename?: 'OrganizationQuery', getOrganization?: { __typename?: 'Organization', id: string, callToolsIntegrationStatus?: { __typename?: 'CallToolsIntegrationStatus', connected: boolean } | null, smrtPhoneIntegrationStatus?: { __typename?: 'SmrtPhoneIntegrationStatus', connected: boolean } | null, enzo?: { __typename?: 'DialerIntegrationStatus', connected: boolean, campaignConfigs: Array<{ __typename?: 'DialerCampaignConfigEntry', id: string, campaignName?: string | null }> } | null, readyMode?: { __typename?: 'DialerIntegrationStatus', connected: boolean, campaignConfigs: Array<{ __typename?: 'DialerCampaignConfigEntry', id: string, campaignName?: string | null }> } | null } | null } | null, directMailConnectionQuery?: { __typename?: 'DirectMailConnectionQuery', list?: Array<{ __typename?: 'DirectMailConnectionInfo', id: string, provider: DirectMailProvider, label: string, state: DirectMailConnectionState, authHealth: DirectMailConnectionAuthHealth }> | null } | null, phoneEnrichmentQuery?: { __typename?: 'PhoneEnrichmentQuery', providers?: Array<{ __typename?: 'PhoneEnrichmentProviderStatus', connectionStatus: PhoneEnrichmentConnectionStatus, provider: { __typename?: 'PhoneEnrichmentProvider', key: string, displayName: string } }> | null } | null };
+export type ListIntegrationsQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, connectedEmailIntegrations?: Array<{ __typename?: 'EmailServiceIntegrationStatus', provider: EmailProvider, email?: string | null, isDefaultForSending: boolean }> | null } | null, oauthQuery?: { __typename?: 'OAuthQuery', facebookAccountConnected?: boolean | null, slackIntegrationStatus?: { __typename?: 'SlackIntegrationStatus', connected: boolean, teamId?: string | null } | null, listFacebookPages?: Array<{ __typename?: 'FacebookPage', id: string, name?: string | null, connected: boolean }> | null } | null, organizationQuery?: { __typename?: 'OrganizationQuery', getOrganization?: { __typename?: 'Organization', id: string, callToolsIntegrationStatus?: { __typename?: 'CallToolsIntegrationStatus', connected: boolean } | null, smrtPhoneIntegrationStatus?: { __typename?: 'SmrtPhoneIntegrationStatus', connected: boolean } | null, enzo?: { __typename?: 'DialerIntegrationStatus', connected: boolean, campaignConfigs: Array<{ __typename?: 'DialerCampaignConfigEntry', id: string, campaignName?: string | null }> } | null, readyMode?: { __typename?: 'DialerIntegrationStatus', connected: boolean, campaignConfigs: Array<{ __typename?: 'DialerCampaignConfigEntry', id: string, campaignName?: string | null }> } | null } | null } | null, twilioQuery?: { __typename?: 'TwilioQuery', byoTwilioConnection?: { __typename?: 'ByoTwilioConnection', lastSyncError?: string | null, lastSyncCompletedAt?: any | null } | null } | null, calendarSyncQuery?: { __typename?: 'CalendarSyncQuery', state?: { __typename?: 'CalendarSyncState', mirror?: { __typename?: 'CalendarMirror', lastSyncError?: string | null, lastSyncedAt?: any | null } | null } | null } | null, directMailConnectionQuery?: { __typename?: 'DirectMailConnectionQuery', list?: Array<{ __typename?: 'DirectMailConnectionInfo', id: string, provider: DirectMailProvider, label: string, state: DirectMailConnectionState, authHealth: DirectMailConnectionAuthHealth }> | null } | null, phoneEnrichmentQuery?: { __typename?: 'PhoneEnrichmentQuery', providers?: Array<{ __typename?: 'PhoneEnrichmentProviderStatus', connectionStatus: PhoneEnrichmentConnectionStatus, provider: { __typename?: 'PhoneEnrichmentProvider', key: string, displayName: string } }> | null } | null };
 
 export type DisconnectSlackMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -4920,7 +4932,7 @@ export type GetEmailThreadQueryVariables = Exact<{
   threadId: Scalars['ID']['input'];
 }>;
 
-export type GetEmailThreadQuery = { __typename?: 'RootQuery', inboxQuery?: { __typename?: 'InboxQuery', getEmailThreadMessages?: Array<{ __typename?: 'EmailMessage', id: string, threadId?: string | null, subject?: string | null, snippet?: string | null, textExtract?: string | null, fromEmail?: string | null, fromName?: string | null, toEmails?: Array<string> | null, ccEmails?: Array<string> | null, internalDate?: any | null, direction?: string | null, isRead?: boolean | null, workflowAutomationName?: string | null, attachments?: Array<{ __typename?: 'UploadedFile', id: string, fileName: string }> | null }> | null } | null };
+export type GetEmailThreadQuery = { __typename?: 'RootQuery', inboxQuery?: { __typename?: 'InboxQuery', getEmailThreadMessages?: Array<{ __typename?: 'EmailMessage', id: string, threadId?: string | null, subject?: string | null, snippet?: string | null, textExtract?: string | null, fromEmail?: string | null, fromName?: string | null, toEmails?: Array<string> | null, ccEmails?: Array<string> | null, internalDate?: any | null, direction?: string | null, isRead?: boolean | null, deliveryStatus?: EmailDeliveryStatus | null, bouncedAt?: any | null, workflowAutomationName?: string | null, attachments?: Array<{ __typename?: 'UploadedFile', id: string, fileName: string }> | null }> | null } | null };
 
 export type GetCallRecordingQueryVariables = Exact<{
   callId: Scalars['ID']['input'];
@@ -5014,6 +5026,45 @@ export type ImportPipelineItemMutationVariables = Exact<{
 }>;
 
 export type ImportPipelineItemMutation = { __typename?: 'RootMutation', crmImportMutation?: { __typename?: 'CrmImportMutation', importPipelineItem?: { __typename?: 'ImportPipelineItemResult', pipelineItemId: string, wasCreated: boolean } | null } | null };
+
+export type ListFailedTextsQueryVariables = Exact<{
+  since: Scalars['DateTime']['input'];
+  until: Scalars['DateTime']['input'];
+  userIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+}>;
+
+export type ListFailedTextsQuery = { __typename?: 'RootQuery', teamAnalyticsQuery?: { __typename?: 'TeamAnalyticsQuery', failedTexts?: { __typename?: 'FailedTexts', startDate: any, endDate: any, total: number, groups: Array<{ __typename?: 'FailedTextGroup', errorCode?: string | null, count: number, sampleErrorMessage?: string | null, latestAt: any }> } | null } | null };
+
+export type ListEmailOptOutsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  since?: InputMaybe<Scalars['DateTime']['input']>;
+}>;
+
+export type ListEmailOptOutsQuery = { __typename?: 'RootQuery', contactQuery?: { __typename?: 'ContactsQuery', emailOptOuts?: { __typename?: 'EmailOptOutPage', totalCount?: number | null, notVisibleCount?: number | null, hasMore: boolean, truncated?: boolean | null, items: Array<{ __typename?: 'EmailOptOut', email: string, source: EmailOptOutSource, reason?: string | null, optedOutAt: any, contacts: Array<{ __typename?: 'SmsOptOutContact', id: string, name: string }> }> } | null } | null };
+
+export type ListEmployeeRunErrorsQueryVariables = Exact<{
+  since: Scalars['DateTime']['input'];
+  until: Scalars['DateTime']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListEmployeeRunErrorsQuery = { __typename?: 'RootQuery', deliveryHealthQuery?: { __typename?: 'DeliveryHealthQuery', employeeRunErrors?: Array<{ __typename?: 'EmployeeRunError', runId: string, employeeId: string, employeeName: string, contactId?: string | null, status: string, finishReason?: string | null, endReason?: string | null, failureCategory?: string | null, startedAt: any, finishedAt?: any | null }> | null } | null };
+
+export type ListWorkflowRunErrorsQueryVariables = Exact<{
+  statuses?: InputMaybe<Array<WorkflowAutomationRunStatus> | WorkflowAutomationRunStatus>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListWorkflowRunErrorsQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', listWorkflowRuns?: Array<{ __typename?: 'WorkflowAutomationRun', id: string, status: WorkflowAutomationRunStatus, createdAt: any, updatedAt: any, failureReason?: string | null, stoppedReason?: string | null, pausedReason?: string | null, pauseCause?: string | null, sendFailureCode?: string | null, currentNodeId?: string | null, workflowAutomation?: { __typename?: 'WorkflowAutomation', id: string, name: string } | null, contact?: { __typename?: 'Contact', id: string, name?: string | null } | null }> | null } | null };
+
+export type GetSendingDomainStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type GetSendingDomainStatusQuery = { __typename?: 'RootQuery', customerDnsQuery?: { __typename?: 'CustomerDnsQuery', domains?: Array<{ __typename?: 'CustomerDomain', domain: string, hostnames: Array<string>, origin: CustomerDomainOrigin, status: CustomerDomainStatus, readAt?: any | null, awaitingSnapshot: boolean, adding: Array<{ __typename?: 'CustomerDnsRecordValues', type: string, name: string }>, failures: Array<{ __typename?: 'CustomerDnsChangeFailure', action: CustomerDnsChangeAction, reason: string, settledAt: any }> }> | null } | null };
+
+export type GetPlatformStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type GetPlatformStatusQuery = { __typename?: 'RootQuery', deliveryHealthQuery?: { __typename?: 'DeliveryHealthQuery', platformStatus?: { __typename?: 'PlatformStatus', windowMinutes: number, measuredAt: any, texts: { __typename?: 'PlatformTextQueueLag', acceptedCount?: number | null, p50LagSeconds?: number | null, p95LagSeconds?: number | null, waitingCount?: number | null, p95WaitingSeconds?: number | null } } | null } | null };
 
 export type GetDialingPoolQueryVariables = Exact<{ [key: string]: never; }>;
 

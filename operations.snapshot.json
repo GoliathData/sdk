@@ -231,7 +231,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"currentUser\":{\"id\":true,\"connectedEmailIntegrations\":{\"provider\":true,\"email\":true,\"isDefaultForSending\":true}},\"oauthQuery\":{\"slackIntegrationStatus\":{\"connected\":true,\"teamId\":true},\"facebookAccountConnected\":true,\"listFacebookPages\":{\"id\":true,\"name\":true,\"connected\":true}},\"organizationQuery\":{\"getOrganization\":{\"id\":true,\"callToolsIntegrationStatus\":{\"connected\":true},\"smrtPhoneIntegrationStatus\":{\"connected\":true},\"enzo\":{\"connected\":true,\"campaignConfigs\":{\"id\":true,\"campaignName\":true}},\"readyMode\":{\"connected\":true,\"campaignConfigs\":{\"id\":true,\"campaignName\":true}}}},\"directMailConnectionQuery\":{\"list\":{\"id\":true,\"provider\":true,\"label\":true,\"state\":true,\"authHealth\":true}},\"phoneEnrichmentQuery\":{\"providers\":{\"provider\":{\"key\":true,\"displayName\":true},\"connectionStatus\":true}}}"
+    "responseShape": "{\"currentUser\":{\"id\":true,\"connectedEmailIntegrations\":{\"provider\":true,\"email\":true,\"isDefaultForSending\":true}},\"oauthQuery\":{\"slackIntegrationStatus\":{\"connected\":true,\"teamId\":true},\"facebookAccountConnected\":true,\"listFacebookPages\":{\"id\":true,\"name\":true,\"connected\":true}},\"organizationQuery\":{\"getOrganization\":{\"id\":true,\"callToolsIntegrationStatus\":{\"connected\":true},\"smrtPhoneIntegrationStatus\":{\"connected\":true},\"enzo\":{\"connected\":true,\"campaignConfigs\":{\"id\":true,\"campaignName\":true}},\"readyMode\":{\"connected\":true,\"campaignConfigs\":{\"id\":true,\"campaignName\":true}}}},\"twilioQuery\":{\"byoTwilioConnection\":{\"lastSyncError\":true,\"lastSyncCompletedAt\":true}},\"calendarSyncQuery\":{\"state\":{\"mirror\":{\"lastSyncError\":true,\"lastSyncedAt\":true}}},\"directMailConnectionQuery\":{\"list\":{\"id\":true,\"provider\":true,\"label\":true,\"state\":true,\"authHealth\":true}},\"phoneEnrichmentQuery\":{\"providers\":{\"provider\":{\"key\":true,\"displayName\":true},\"connectionStatus\":true}}}"
   },
   {
     "operationId": "renameOrganization",
@@ -2779,7 +2779,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "threadId:ID!",
-    "responseShape": "{\"inboxQuery\":{\"getEmailThreadMessages\":{\"id\":true,\"threadId\":true,\"subject\":true,\"snippet\":true,\"textExtract\":true,\"fromEmail\":true,\"fromName\":true,\"toEmails\":true,\"ccEmails\":true,\"internalDate\":true,\"direction\":true,\"isRead\":true,\"attachments\":{\"id\":true,\"fileName\":true},\"workflowAutomationName\":true}}}"
+    "responseShape": "{\"inboxQuery\":{\"getEmailThreadMessages\":{\"id\":true,\"threadId\":true,\"subject\":true,\"snippet\":true,\"textExtract\":true,\"fromEmail\":true,\"fromName\":true,\"toEmails\":true,\"ccEmails\":true,\"internalDate\":true,\"direction\":true,\"isRead\":true,\"deliveryStatus\":true,\"bouncedAt\":true,\"attachments\":{\"id\":true,\"fileName\":true},\"workflowAutomationName\":true}}}"
   },
   {
     "operationId": "getTextThreadMessages",
@@ -2923,6 +2923,84 @@
     "hasAuthorize": true,
     "variableSignature": "input:ImportPipelineItemInput!",
     "responseShape": "{\"crmImportMutation\":{\"importPipelineItem\":{\"pipelineItemId\":true,\"wasCreated\":true}}}"
+  },
+  {
+    "operationId": "getPlatformStatus",
+    "domain": "deliveryHealth",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"deliveryHealthQuery\":{\"platformStatus\":{\"windowMinutes\":true,\"measuredAt\":true,\"texts\":{\"acceptedCount\":true,\"p50LagSeconds\":true,\"p95LagSeconds\":true,\"waitingCount\":true,\"p95WaitingSeconds\":true}}}}"
+  },
+  {
+    "operationId": "getSendingDomainStatus",
+    "domain": "deliveryHealth",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"customerDnsQuery\":{\"domains\":{\"domain\":true,\"hostnames\":true,\"origin\":true,\"status\":true,\"readAt\":true,\"awaitingSnapshot\":true,\"adding\":{\"type\":true,\"name\":true},\"failures\":{\"action\":true,\"reason\":true,\"settledAt\":true}}}}"
+  },
+  {
+    "operationId": "listEmailOptOuts",
+    "domain": "deliveryHealth",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": 100,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "limit:Int=25,since:DateTime",
+    "responseShape": "{\"contactQuery\":{\"emailOptOuts\":{\"items\":{\"email\":true,\"source\":true,\"reason\":true,\"optedOutAt\":true,\"contacts\":{\"id\":true,\"name\":true}},\"totalCount\":true,\"notVisibleCount\":true,\"hasMore\":true,\"truncated\":true}}}"
+  },
+  {
+    "operationId": "listEmployeeRunErrors",
+    "domain": "deliveryHealth",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": 100,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "since:DateTime!,until:DateTime!,limit:Int=25",
+    "responseShape": "{\"deliveryHealthQuery\":{\"employeeRunErrors\":{\"runId\":true,\"employeeId\":true,\"employeeName\":true,\"contactId\":true,\"status\":true,\"finishReason\":true,\"endReason\":true,\"failureCategory\":true,\"startedAt\":true,\"finishedAt\":true}}}"
+  },
+  {
+    "operationId": "listFailedTexts",
+    "domain": "deliveryHealth",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "since:DateTime!,until:DateTime!,userIds:[ID!]",
+    "responseShape": "{\"teamAnalyticsQuery\":{\"failedTexts\":{\"startDate\":true,\"endDate\":true,\"total\":true,\"groups\":{\"errorCode\":true,\"count\":true,\"sampleErrorMessage\":true,\"latestAt\":true}}}}"
+  },
+  {
+    "operationId": "listWorkflowRunErrors",
+    "domain": "deliveryHealth",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": 25,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "statuses:[WorkflowAutomationRunStatus!]=[FAILED, PAUSED],limit:Int=25,offset:Int=0",
+    "responseShape": "{\"workflowAutomationsQuery\":{\"listWorkflowRuns\":{\"id\":true,\"status\":true,\"createdAt\":true,\"updatedAt\":true,\"failureReason\":true,\"stoppedReason\":true,\"pausedReason\":true,\"pauseCause\":true,\"sendFailureCode\":true,\"currentNodeId\":true,\"workflowAutomation\":{\"id\":true,\"name\":true},\"contact\":{\"id\":true,\"name\":true}}}}"
   },
   {
     "operationId": "checkContactEmail",

@@ -4,7 +4,7 @@
 
 query · domain `account` · requires the ADMIN scope
 
-Every integration on the app's Integrations page and whether it is CONNECTED, in one read: currentUser.connectedEmailIntegrations (the key owner's own Google/Microsoft mailboxes; email is per person, so a teammate's mailbox is not here), oauthQuery.slackIntegrationStatus, Facebook Lead Ads through the key owner's own Facebook account (oauthQuery.listFacebookPages: Lead Ads is CONNECTED only when a Page has connected: true, the way the card reads it; facebookAccountConnected is just the account sign-in, and a null page list means Facebook did not answer), organizationQuery.getOrganization callTools / smrtPhone / enzo / readyMode (the dialers; a connected Enzo or ReadyMode lists its campaigns), directMailConnectionQuery.list (Lob, PostGrid, OLC: state ACTIVE | PENDING_VERIFICATION | DISCONNECTED, authHealth; rows outlive a disconnect, so an empty list means no account was ever connected), and phoneEnrichmentQuery.providers (phone enrichment such as Trestle: connectionStatus ACTIVE | NOT_CONNECTED | REVOKED | UNVERIFIED). Zapier, incoming webhooks and API keys are not listed. To connect anything, send the user the link from getIntegrationSetupUrls: connecting needs their own login. Organization admins only.
+Every integration on the app's Integrations page and whether it is CONNECTED, in one read: currentUser.connectedEmailIntegrations (the key owner's own Google/Microsoft mailboxes; email is per person, so a teammate's mailbox is not here), oauthQuery.slackIntegrationStatus, Facebook Lead Ads through the key owner's own Facebook account (oauthQuery.listFacebookPages: Lead Ads is CONNECTED only when a Page has connected: true, the way the card reads it; facebookAccountConnected is just the account sign-in, and a null page list means Facebook did not answer), organizationQuery.getOrganization callTools / smrtPhone / enzo / readyMode (the dialers; a connected Enzo or ReadyMode lists its campaigns), directMailConnectionQuery.list (Lob, PostGrid, OLC: state ACTIVE | PENDING_VERIFICATION | DISCONNECTED, authHealth; rows outlive a disconnect, so an empty list means no account was ever connected), and phoneEnrichmentQuery.providers (phone enrichment such as Trestle: connectionStatus ACTIVE | NOT_CONNECTED | REVOKED | UNVERIFIED). Sync errors where the row records one: twilioQuery.byoTwilioConnection (the organization's own Twilio account, null when none: lastSyncError, already in plain words, and lastSyncCompletedAt) and calendarSyncQuery.state.mirror (the key owner's calendar sync: lastSyncError and lastSyncedAt; null when they sync none). Zapier, incoming webhooks and API keys are not listed. To connect anything, send the user the link from getIntegrationSetupUrls: connecting needs their own login. Organization admins only.
 
 ## Call
 
@@ -67,6 +67,20 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
           "id": true,
           "campaignName": true
         }
+      }
+    }
+  },
+  "twilioQuery": {
+    "byoTwilioConnection": {
+      "lastSyncError": true,
+      "lastSyncCompletedAt": true
+    }
+  },
+  "calendarSyncQuery": {
+    "state": {
+      "mirror": {
+        "lastSyncError": true,
+        "lastSyncedAt": true
       }
     }
   },
