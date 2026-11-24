@@ -50,7 +50,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `libraryFileRuns` | 5 |
 | `memory` | 1 |
 | `notifications` | 20 |
-| `phoneNumbers` | 17 |
+| `phoneNumbers` | 18 |
 | `pipelineItems` | 55 |
 | `properties` | 47 |
 | `scheduledTasks` | 7 |
@@ -58,7 +58,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `tasks` | 16 |
 | `team` | 33 |
 | `websites` | 5 |
-| `workflows` | 72 |
+| `workflows` | 74 |
 
 ## Live catalog (needs an API key)
 

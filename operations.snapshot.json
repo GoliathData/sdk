@@ -4277,6 +4277,19 @@
     "responseShape": "{\"twilioMutation\":{\"provisionPhoneNumber\":{\"id\":true,\"e164Number\":true,\"isPrimary\":true,\"canSendSms\":true}}}"
   },
   {
+    "operationId": "releasePhoneNumber",
+    "domain": "phoneNumbers",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "phoneLineId:ID!,dependencyResolution:DependencyResolutionInput!,leaveDialingRotation:Boolean",
+    "responseShape": "{\"twilioMutation\":{\"transferPhoneNumber\":{\"id\":true}}}"
+  },
+  {
     "operationId": "removeNumbersFromDialingPool",
     "domain": "phoneNumbers",
     "operationType": "mutation",
@@ -7540,6 +7553,19 @@
     "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomation\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"description\":true,\"status\":true,\"channels\":true,\"workflowDomain\":true,\"stepKinds\":true,\"updatedAt\":true,\"inWords\":{\"triggers\":true,\"triggerOperator\":true,\"stopsWhen\":true,\"names\":{\"id\":true,\"name\":true,\"kind\":true}},\"graph\":true}}}"
   },
   {
+    "operationId": "getWorkflowVersionLanes",
+    "domain": "workflows",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "workflowAutomationId:ID!",
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomationLanes\":{\"workflowGroupId\":true,\"lanes\":true,\"readOnlyNodeIds\":true,\"updatedAt\":true,\"createdAt\":true}}}"
+  },
+  {
     "operationId": "getWorkflowVersionStats",
     "domain": "workflows",
     "operationType": "query",
@@ -8110,6 +8136,19 @@
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!,workflowGraph:SuperJSON!,expectedUpdatedAt:DateTime,acknowledgeGraphWeakening:Boolean",
     "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationGraph\":{\"id\":true,\"workflowGroupId\":true,\"name\":true,\"status\":true,\"stepKinds\":true,\"updatedAt\":true,\"workflowGroup\":{\"id\":true,\"status\":true,\"draftValidation\":{\"isValid\":true,\"errors\":true},\"draftSetupFindings\":{\"checkId\":true,\"severity\":true,\"nodeId\":true,\"message\":true,\"fixHint\":true,\"fieldKey\":true}}}}}"
+  },
+  {
+    "operationId": "updateWorkflowLanes",
+    "domain": "workflows",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "workflowAutomationId:ID!,workflowLanes:SuperJSON!,expectedUpdatedAt:DateTime,acknowledgeGraphWeakening:Boolean",
+    "responseShape": "{\"workflowAutomationsMutation\":{\"updateWorkflowAutomationLanes\":{\"workflowGroupId\":true,\"lanes\":true,\"readOnlyNodeIds\":true,\"updatedAt\":true}}}"
   },
   {
     "operationId": "updateWorkflowPriority",

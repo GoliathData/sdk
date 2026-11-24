@@ -2865,6 +2865,15 @@ export class GoliathClient extends GoliathClientCore {
     provisionPhoneNumber: (variables: T.ProvisionPhoneNumberMutationVariables, options?: IdempotentRequestOptions): Promise<T.ProvisionPhoneNumberMutation> =>
       this.request('provisionPhoneNumber', variables, options, { operationType: 'mutation' }),
     /**
+     * Release (delete) a phone line the org owns, as Settings › Phone's Release does. IRREVERSIBLE: the number goes back to the carrier and is lost for good; contacts who know it can no longer reach the org on it, and it cannot be bought back. Calls and texts already on it stay in the history. The plan's extra-number charge is lowered only at the next renewal, not refunded now. Call getDeletionImpact first (targetKind TWILIO_PHONE_NUMBER, targetId the line id) and pass its impactVersion as dependencyResolution, with a replacement line for each dependent it says needs one (an empty `replacements` when none). A line in the bulk-dialing rotation (getDialingPool) is refused unless `leaveDialingRotation: true`, sent only once the person agreed it leaves the rotation. Name each number and its holder and get the person's yes before you call; release one line per call. Admins only.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    releasePhoneNumber: (variables: T.ReleasePhoneNumberMutationVariables, options?: IdempotentRequestOptions): Promise<T.ReleasePhoneNumberMutation> =>
+      this.request('releasePhoneNumber', variables, options, { operationType: 'mutation' }),
+    /**
      * Take numbers out of the rotation; they stay owned. Their warm-up restarts if they come back (addNumbersToDialingPool). Admins only.
      *
      * @remarks Requires the WRITE scope.
@@ -5040,6 +5049,13 @@ export class GoliathClient extends GoliathClientCore {
     getWorkflowVersionGraph: (variables: T.GetWorkflowVersionGraphQueryVariables, options?: RequestOptions): Promise<T.GetWorkflowVersionGraphQuery> =>
       this.request('getWorkflowVersionGraph', variables, options, { operationType: 'query' }),
     /**
+     * Fetch one Workflows v2 version (`workflowAutomationId`, from getWorkflow.versions/currentVersion/pendingDraft) as the editor draws it: its LANES, one per record type it runs on. Read this when getWorkflowVersionGraph refuses a version as not drawable (WORKFLOW_NOT_DRAWABLE: several lanes, or a hand-off). Returns `workflowGroupId`, `lanes` (superjson `{lanes: [...]}`, in lane order), `readOnlyNodeIds` (steps drawn read-only, in every lane), `updatedAt` (the token updateWorkflowLanes takes as `expectedUpdatedAt`) and `createdAt`. A lane is {legId, laneName, domain, config, triggers, nodes, edges, entries}: one record type's graph (nodes {id, type, config}, edges {id, parentNodeId, childNodeId, config}, as getWorkflowVersionGraph's), its own trigger node, `entries` the ways in at a later step ({id, stepId, triggers, triggerOperator, triggerWindow}). A `wf_v2_read_only_step` node is a step this editor carries whole: send it back byte for byte. Webhook secrets read as a sentinel: send it back unchanged. On Workflows v1: WORKFLOWS_V2_NOT_AVAILABLE_HERE.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getWorkflowVersionLanes: (variables: T.GetWorkflowVersionLanesQueryVariables, options?: RequestOptions): Promise<T.GetWorkflowVersionLanesQuery> =>
+      this.request('getWorkflowVersionLanes', variables, options, { operationType: 'query' }),
+    /**
      * Performance summary for one VERSION (by workflowAutomationId, from getWorkflow.versions), the shape of getWorkflowStats: compare a new version against the one it replaced. Also `sendingCapacity`: how many of its runs are queued behind sending capacity now (`queuedRuns`), the soonest `nextAttemptAt` and the main `reason` (DAILY_CAP | SEND_WINDOW | WINDOW_LIMIT | OUT_OF_SMS_CREDITS); null when nothing is queued. It tells a workflow that is PACING from one that has stopped.
      *
      * @remarks Requires the READ scope.
@@ -5419,6 +5435,15 @@ export class GoliathClient extends GoliathClientCore {
      */
     updateWorkflowGraph: (variables: T.UpdateWorkflowGraphMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateWorkflowGraphMutation> =>
       this.request('updateWorkflowGraph', variables, options, { operationType: 'mutation' }),
+    /**
+     * Save a Workflows v2 DRAFT's lanes, the editor's own save and its validation. Variables: `workflowAutomationId` (the draft version), `workflowLanes` (superjson `{lanes: [...]}`) and `expectedUpdatedAt` (getWorkflowVersionLanes's `updatedAt`; a save since is refused with CONFLICT: re-read and redo). Lanes are saved WHOLE: send every lane from getWorkflowVersionLanes, changed or not; a lane left out of a draft's save is removed. A lane is {legId, laneName, domain, config, triggers, nodes, edges, entries}: one record type's graph (nodes {id, type, config}, edges {id, parentNodeId, childNodeId, config}, as getWorkflowVersionGraph's), its own trigger node, `entries` the ways in at a later step ({id, stepId, triggers, triggerOperator, triggerWindow}). A `wf_v2_read_only_step` node is a step this editor carries whole: send it back byte for byte. What it saves today: a step added to a lane (kept by its `legId`), and a new CONTACT lane with no `triggers` (a new uuid as its `legId`, its steps under its own trigger node); a new lane of any other record needs a way in. It cannot build a hand-off: a `wf_v2_read_only_step` the draft does not already hold is refused. A save that turns off a lane's text screening or stop-on-reply exit, adds a Contact or Deal lane with less of either than the workflow's other lanes (or a new workflow's defaults), removes a lane that texts or stops on a reply (a lane resent under a new legId removes its stored one), or leaves no step, is refused with the sentence to ask the person; resend with `acknowledgeGraphWeakening: true` only on their yes. Returns the saved lanes and the new `updatedAt`. Read getWorkflow.draftValidation before publishing.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    updateWorkflowLanes: (variables: T.UpdateWorkflowLanesMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpdateWorkflowLanesMutation> =>
+      this.request('updateWorkflowLanes', variables, options, { operationType: 'mutation' }),
     /**
      * Set a workflow's priority, which orders its runs and sends against the org's other workflows (higher wins): 1.25 Low, 1.5 Normal (the default), 1.75 High; any other value is refused. Takes a version id (getWorkflow currentVersion.id); applies to the whole workflow at once, live included, and re-orders sends already queued.
      *

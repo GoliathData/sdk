@@ -5836,6 +5836,14 @@ export type SetPhoneLineRingPolicyMutationVariables = Exact<{
 
 export type SetPhoneLineRingPolicyMutation = { __typename?: 'RootMutation', ringPolicyMutation?: { __typename?: 'RingPolicyMutation', setPhoneLineRingPolicy?: { __typename?: 'RingPolicy', id: string } | null } | null };
 
+export type ReleasePhoneNumberMutationVariables = Exact<{
+  phoneLineId: Scalars['ID']['input'];
+  dependencyResolution: DependencyResolutionInput;
+  leaveDialingRotation?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+export type ReleasePhoneNumberMutation = { __typename?: 'RootMutation', twilioMutation?: { __typename?: 'TwilioMutation', transferPhoneNumber?: Array<{ __typename?: 'TwilioPhoneNumber', id: string }> | null } | null };
+
 export type AssignPhoneLineMutationVariables = Exact<{
   phoneLineId: Scalars['ID']['input'];
   userId: Scalars['ID']['input'];
@@ -7652,6 +7660,12 @@ export type GetWorkflowVersionGraphQueryVariables = Exact<{
 
 export type GetWorkflowVersionGraphQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomation?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, description?: string | null, status: WorkflowAutomationStatus, channels?: Array<WorkflowCommChannel> | null, workflowDomain: WorkflowDomain, stepKinds?: Array<string> | null, updatedAt: any, graph?: any | null, inWords?: { __typename?: 'WorkflowVersionInWords', triggers: Array<string>, triggerOperator: string, stopsWhen?: string | null, names: Array<{ __typename?: 'WorkflowReferencedName', id: string, name: string, kind: string }> } | null } | null } | null };
 
+export type GetWorkflowVersionLanesQueryVariables = Exact<{
+  workflowAutomationId: Scalars['ID']['input'];
+}>;
+
+export type GetWorkflowVersionLanesQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomationLanes?: { __typename?: 'WorkflowLanesSnapshot', workflowGroupId: string, lanes: any, readOnlyNodeIds: Array<string>, updatedAt: any, createdAt: any } | null } | null };
+
 export type ListWorkflowRunsQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
   statuses?: InputMaybe<Array<WorkflowAutomationRunStatus> | WorkflowAutomationRunStatus>;
@@ -7729,6 +7743,15 @@ export type UpdateWorkflowGraphMutationVariables = Exact<{
 }>;
 
 export type UpdateWorkflowGraphMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationGraph?: { __typename?: 'WorkflowAutomation', id: string, workflowGroupId: string, name: string, status: WorkflowAutomationStatus, stepKinds?: Array<string> | null, updatedAt: any, workflowGroup: { __typename?: 'WorkflowGroup', id: string, status: WorkflowGroupStatus, draftValidation?: { __typename?: 'WorkflowDraftValidation', isValid: boolean, errors: Array<string> } | null, draftSetupFindings: Array<{ __typename?: 'WorkflowSetupFinding', checkId: string, severity: WorkflowSetupFindingSeverity, nodeId?: string | null, message: string, fixHint?: string | null, fieldKey?: string | null }> } } | null } | null };
+
+export type UpdateWorkflowLanesMutationVariables = Exact<{
+  workflowAutomationId: Scalars['ID']['input'];
+  workflowLanes: Scalars['SuperJSON']['input'];
+  expectedUpdatedAt?: InputMaybe<Scalars['DateTime']['input']>;
+  acknowledgeGraphWeakening?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+export type UpdateWorkflowLanesMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowAutomationLanes?: { __typename?: 'WorkflowLanesSnapshot', workflowGroupId: string, lanes: any, readOnlyNodeIds: Array<string>, updatedAt: any } | null } | null };
 
 export type PatchWorkflowGraphMutationVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
