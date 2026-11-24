@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. Buying a pack from chat is being built; for now name the pack and its price and hand over getCreditsPurchaseUrl.
+Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. An admin's agent buys a pack with buyCreditPacks, on its own card only the person's tap answers; any other agent hands over getCreditsPurchaseUrl.
 
 ## Call
 

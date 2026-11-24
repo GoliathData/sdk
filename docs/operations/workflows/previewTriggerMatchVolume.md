@@ -4,7 +4,7 @@
 
 query · domain `workflows` · requires the READ scope
 
-How many properties a PROPERTY workflow's signal trigger matches: `lastSevenDays` and `allTime`, the two numbers its trigger panel shows (`...IsLowerBound`: more than that). Reads the draft unless `useDraft: false` (the live version). Anything else (not a property workflow, no version, a trigger the panel cannot count) comes back `ok: false` with the sentence in `diagnostics`. Not on Workflows v2 yet.
+How many properties a PROPERTY workflow's signal trigger matches: `lastSevenDays` and `allTime`, the two numbers its trigger panel shows (`...IsLowerBound`: more than that). Reads the draft unless `useDraft: false` (the live version). Anything else (not a property workflow, no version, a trigger the panel cannot count) comes back `ok: false` with the sentence in `diagnostics`.
 
 ## Call
 

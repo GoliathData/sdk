@@ -767,6 +767,19 @@
     "responseShape": "{\"automationPagesMutation\":{\"restorePageVersion\":{\"id\":true,\"currentVersion\":true,\"updatedAt\":true}}}"
   },
   {
+    "operationId": "buyCreditPacks",
+    "domain": "billing",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "items:[CreditPackPurchaseItemInput!]!,attemptKey:String!,expectedAmountCents:Int!",
+    "responseShape": "{\"billingMutation\":{\"buyCreditPacks\":{\"status\":true,\"amountCents\":true,\"message\":true}}}"
+  },
+  {
     "operationId": "checkBillingAction",
     "domain": "billing",
     "operationType": "query",
@@ -817,6 +830,19 @@
     "hasAuthorize": false,
     "variableSignature": "",
     "responseShape": "{\"subscriptionQuery\":{\"getOrganizationBilling\":{\"id\":true,\"planType\":true,\"status\":true,\"isAnnualPlan\":true,\"isGrandfathered\":true,\"currentUnitAmountCents\":true,\"trialEnds\":true,\"cancelAt\":true,\"pendingPlanCode\":true,\"pendingPlanIsAnnual\":true,\"pendingPlanEffectiveAt\":true,\"featureLimits\":{\"seatsCap\":true,\"skiptraceCap\":true,\"emailVerificationCap\":true,\"exportPropertiesCap\":true,\"aiCreditsCap\":true,\"smsCreditsCap\":true,\"phoneNumbersCap\":true,\"callingMinutesCap\":true},\"extraSeats\":{\"seatsCap\":true,\"seatsUsed\":true,\"extraSeatQuantity\":true,\"unusedPaidSeats\":true,\"unusedPaidSeatsReleaseAt\":true},\"creditLedger\":{\"type\":true,\"unitBalance\":true},\"planUsage\":{\"type\":true,\"planCap\":true,\"usedThisPeriod\":true,\"planRemaining\":true,\"planCreditsLocked\":true,\"purchasedBalance\":true,\"available\":true,\"periodResetsAt\":true}}}}"
+  },
+  {
+    "operationId": "getCreditAutoRecharge",
+    "domain": "billing",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"orgCreditAutoRecharge\":{\"getConfigs\":{\"creditType\":true,\"enabled\":true,\"thresholdUnits\":true,\"selectedPackCode\":true,\"requiresPackSelection\":true,\"rechargeAmountCents\":true,\"maxBudgetCents\":true,\"spentThisPeriodCents\":true,\"currentBalanceUnits\":true,\"hasPaymentMethod\":true,\"paymentMethodBrand\":true,\"paymentMethodLast4\":true,\"periodResetsAt\":true,\"pausedByPaymentFailures\":true,\"paymentFailedRetrying\":true}}}"
   },
   {
     "operationId": "getCreditPrices",
@@ -908,6 +934,19 @@
     "hasAuthorize": false,
     "variableSignature": "count:Int",
     "responseShape": "{\"subscriptionQuery\":{\"invoices\":{\"id\":true,\"number\":true,\"status\":true,\"createdAt\":true,\"dueAt\":true,\"totalCents\":true,\"amountPaidCents\":true,\"amountRemainingCents\":true,\"currency\":true,\"hostedInvoiceUrl\":true}}}"
+  },
+  {
+    "operationId": "setCreditAutoRecharge",
+    "domain": "billing",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "creditType:CreditType!,enabled:Boolean!,thresholdUnits:Int!,selectedPackCode:String,rechargeAmountCents:Int!,maxBudgetCents:Int!",
+    "responseShape": "{\"orgCreditAutoRechargeMutation\":{\"update\":{\"creditType\":true,\"enabled\":true,\"thresholdUnits\":true,\"selectedPackCode\":true,\"rechargeAmountCents\":true,\"maxBudgetCents\":true,\"spentThisPeriodCents\":true}}}"
   },
   {
     "operationId": "getBulkTask",

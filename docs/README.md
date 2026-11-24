@@ -34,7 +34,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `askGoliath` | 8 |
 | `askGoliathTools` | 2 |
 | `automationMap` | 4 |
-| `billing` | 11 |
+| `billing` | 14 |
 | `bulkTasks` | 1 |
 | `callLists` | 10 |
 | `communications` | 24 |

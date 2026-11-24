@@ -2407,6 +2407,47 @@
       }
     },
     {
+      "operationId": "buyCreditPacks",
+      "domain": "billing",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Buy credit packs now on the card on file, as the Billing page does: one `{ creditType, packCode }` per credit type from getCreditPrices; `expectedAmountCents` is their summed `priceCents`, refused when it moved. `attemptKey` is new per purchase (8-128 of letters, digits, - or _), reused only to retry it. It never turns auto-recharge on: that is setCreditAutoRecharge, on its own card. Org admins only, on its own card naming the packs, the exact total, that it is non-refundable, and the card (getCreditAutoRecharge). `status`: PAID, PENDING (bank debit clearing), DECLINED (`message`), REQUIRES_ACTION (send getCreditsPurchaseUrl), NOTHING_DUE.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "items",
+          "type": "[CreditPackPurchaseItemInput!]!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "attemptKey",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "expectedAmountCents",
+          "type": "Int!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "billingMutation": {
+          "buyCreditPacks": {
+            "status": true,
+            "amountCents": true,
+            "message": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "checkBillingAction",
       "domain": "billing",
       "operationType": "query",
@@ -2566,11 +2607,45 @@
       }
     },
     {
+      "operationId": "getCreditAutoRecharge",
+      "domain": "billing",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "Auto-recharge per credit type, as Billing > Credits shows it: on or off, the balance that triggers it (`thresholdUnits`), the pack it buys (`selectedPackCode`, `rechargeAmountCents` its price), the period budget and spend, the card on file, and payment-failure pauses. Read-only.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [],
+      "responseShape": {
+        "orgCreditAutoRecharge": {
+          "getConfigs": {
+            "creditType": true,
+            "enabled": true,
+            "thresholdUnits": true,
+            "selectedPackCode": true,
+            "requiresPackSelection": true,
+            "rechargeAmountCents": true,
+            "maxBudgetCents": true,
+            "spentThisPeriodCents": true,
+            "currentBalanceUnits": true,
+            "hasPaymentMethod": true,
+            "paymentMethodBrand": true,
+            "paymentMethodLast4": true,
+            "periodResetsAt": true,
+            "pausedByPaymentFailures": true,
+            "paymentFailedRetrying": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "getCreditPrices",
       "domain": "billing",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. Buying a pack from chat is being built; for now name the pack and its price and hand over getCreditsPurchaseUrl.",
+      "description": "Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. An admin's agent buys a pack with buyCreditPacks, on its own card only the person's tap answers; any other agent hands over getCreditsPurchaseUrl.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -2596,7 +2671,7 @@
       "domain": "billing",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "The in-app Billing > Credits page URL where a person buys credits. Buying from chat is being built; for now send this link, with the pack and its price, when a balance is low or the AI paywall is hit.",
+      "description": "The in-app Billing > Credits page URL where a person buys credits: send it when a balance is low or the AI paywall is hit and the agent cannot buy (not an admin, no card on file, the bank asked to confirm). An admin's agent buys with buyCreditPacks.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -2755,6 +2830,69 @@
             "amountRemainingCents": true,
             "currency": true,
             "hostedInvoiceUrl": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "setCreditAutoRecharge",
+      "domain": "billing",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Save one credit type's auto-recharge, as Billing > Credits does: on, it buys `selectedPackCode` (`rechargeAmountCents` its price) on the card on file when the balance falls below `thresholdUnits`, at most `maxBudgetCents` a billing period. Switching it on saves every field: read getCreditAutoRecharge, send the rest unchanged, and take `rechargeAmountCents` from getCreditPrices for the selected pack (refused when it moved); `enabled: false` only switches it off. Org admins only. Every save is asked on its own card that only a tap answers; one that turns it on must name the pack's exact price (`rechargeAmountCents`, getCreditPrices', refused when it moved), the period budget, that a pack is non-refundable, the threshold and the card. Saving may buy a pack at once if the balance is already low.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "creditType",
+          "type": "CreditType!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "enabled",
+          "type": "Boolean!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "thresholdUnits",
+          "type": "Int!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "selectedPackCode",
+          "type": "String",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "rechargeAmountCents",
+          "type": "Int!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "maxBudgetCents",
+          "type": "Int!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "orgCreditAutoRechargeMutation": {
+          "update": {
+            "creditType": true,
+            "enabled": true,
+            "thresholdUnits": true,
+            "selectedPackCode": true,
+            "rechargeAmountCents": true,
+            "maxBudgetCents": true,
+            "spentThisPeriodCents": true
           }
         }
       }
@@ -27294,7 +27432,7 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "One record's run of a workflow, step by step: steps entered and when, branches taken, where it is now, why it stopped or paused (`stopReason`) and whether it may be enrolled again (`canReenroll`; say both), and who enrolled it (`enrolledHow`, `enrolledBy`). Give `workflowAutomationRunId`, or `recordName` for the newest run you may open whose record matches. Not on Workflows v2 yet.",
+      "description": "One record's run of a workflow, step by step: steps entered and when, branches taken, where it is now, why it stopped or paused (`stopReason`) and whether it may be enrolled again (`canReenroll`; say both), and who enrolled it (`enrolledHow`, `enrolledBy`). Give `workflowAutomationRunId`, or `recordName` for the newest run you may open whose record matches.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -27411,7 +27549,7 @@
       "domain": "workflows",
       "operationType": "mutation",
       "requiredScope": "WRITE",
-      "description": "Enroll the records that already match a workflow's live trigger, as planEnrollExistingMatches counted them: its `liveVersionId` as `expectedLiveVersionId`, its `count` as `confirmedCount`, the same `signalWindowDays`. Nothing is enrolled, for contacts or properties, when another version went live or more match now than `confirmedCount`. Each starts a real run that sends: only on the person's yes to that number. Runs in the background; for a property workflow, plan again only once these runs appear. A refusal is `ok: false` with its sentence. Not on Workflows v2 yet.",
+      "description": "Enroll the records that already match a workflow's live trigger, as planEnrollExistingMatches counted them: its `liveVersionId` as `expectedLiveVersionId`, its `count` as `confirmedCount`, the same `signalWindowDays`. Nothing is enrolled, for contacts or properties, when another version went live or more match now than `confirmedCount`. Each starts a real run that sends: only on the person's yes to that number. Runs in the background; for a property workflow, plan again only once these runs appear. A refusal is `ok: false` with its sentence.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": true,
@@ -28886,7 +29024,7 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "What enrolling the records that ALREADY match a workflow's live trigger would do: `count` and the `liveVersionId` they would run on. A property workflow needs `signalWindowDays` (1 to 365) and counts properties with a signal in that window it has not run on; `spendsSkipTraces` says each run spends a credit (`creditsLeft` today). `available: false` says why in `reason`. Tell the person the number and what it spends, then call enrollExistingMatches with this `liveVersionId` and `count`. Not on Workflows v2 yet.",
+      "description": "What enrolling the records that ALREADY match a workflow's live trigger would do: `count` and the `liveVersionId` they would run on. A property workflow needs `signalWindowDays` (1 to 365) and counts properties with a signal in that window it has not run on; `spendsSkipTraces` says each run spends a credit (`creditsLeft` today). `available: false` says why in `reason`. Tell the person the number and what it spends, then call enrollExistingMatches with this `liveVersionId` and `count`.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,
@@ -28924,7 +29062,7 @@
       "domain": "workflows",
       "operationType": "query",
       "requiredScope": "READ",
-      "description": "How many properties a PROPERTY workflow's signal trigger matches: `lastSevenDays` and `allTime`, the two numbers its trigger panel shows (`...IsLowerBound`: more than that). Reads the draft unless `useDraft: false` (the live version). Anything else (not a property workflow, no version, a trigger the panel cannot count) comes back `ok: false` with the sentence in `diagnostics`. Not on Workflows v2 yet.",
+      "description": "How many properties a PROPERTY workflow's signal trigger matches: `lastSevenDays` and `allTime`, the two numbers its trigger panel shows (`...IsLowerBound`: more than that). Reads the draft unless `useDraft: false` (the live version). Anything else (not a property workflow, no version, a trigger the panel cannot count) comes back `ok: false` with the sentence in `diagnostics`.",
       "resultCap": null,
       "rateLimited": false,
       "idempotent": false,

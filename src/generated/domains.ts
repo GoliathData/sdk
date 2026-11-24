@@ -525,6 +525,15 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly billing = {
     /**
+     * Buy credit packs now on the card on file, as the Billing page does: one `{ creditType, packCode }` per credit type from getCreditPrices; `expectedAmountCents` is their summed `priceCents`, refused when it moved. `attemptKey` is new per purchase (8-128 of letters, digits, - or _), reused only to retry it. It never turns auto-recharge on: that is setCreditAutoRecharge, on its own card. Org admins only, on its own card naming the packs, the exact total, that it is non-refundable, and the card (getCreditAutoRecharge). `status`: PAID, PENDING (bank debit clearing), DECLINED (`message`), REQUIRES_ACTION (send getCreditsPurchaseUrl), NOTHING_DUE.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    buyCreditPacks: (variables: T.BuyCreditPacksMutationVariables, options?: IdempotentRequestOptions): Promise<T.BuyCreditPacksMutation> =>
+      this.request('buyCreditPacks', variables, options, { operationType: 'mutation' }),
+    /**
      * The check the app runs before a skip trace, export or email verification of `count` records. Read `state` and `reason` first: a BLOCKED org (payment needed) shows 0 whatever it holds. For those three, `unitsAvailable` is what the action can spend, unused plan allowance (none during a trial) PLUS wallet credits (bought or granted): what answers "how many skip traces are left". For other actions it is not credits (null, or seat slots for an invite). It checks the org, not the person: skip traces still need an admin. `willTriggerAutoRecharge.chargeCents` is a card charge: say so and get a yes first; when null, mention no card. Read-only.
      *
      * @remarks Requires the READ scope.
@@ -553,14 +562,21 @@ export class GoliathClient extends GoliathClientCore {
     getBillingSummary: (options?: RequestOptions): Promise<T.GetBillingSummaryQuery> =>
       this.request('getBillingSummary', undefined, options, { operationType: 'query' }),
     /**
-     * Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. Buying a pack from chat is being built; for now name the pack and its price and hand over getCreditsPurchaseUrl.
+     * Auto-recharge per credit type, as Billing > Credits shows it: on or off, the balance that triggers it (`thresholdUnits`), the pack it buys (`selectedPackCode`, `rechargeAmountCents` its price), the period budget and spend, the card on file, and payment-failure pauses. Read-only.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getCreditAutoRecharge: (options?: RequestOptions): Promise<T.GetCreditAutoRechargeQuery> =>
+      this.request('getCreditAutoRecharge', undefined, options, { operationType: 'query' }),
+    /**
+     * Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. An admin's agent buys a pack with buyCreditPacks, on its own card only the person's tap answers; any other agent hands over getCreditsPurchaseUrl.
      *
      * @remarks Requires the READ scope.
      */
     getCreditPrices: (options?: RequestOptions): Promise<T.GetCreditPricesQuery> =>
       this.request('getCreditPrices', undefined, options, { operationType: 'query' }),
     /**
-     * The in-app Billing > Credits page URL where a person buys credits. Buying from chat is being built; for now send this link, with the pack and its price, when a balance is low or the AI paywall is hit.
+     * The in-app Billing > Credits page URL where a person buys credits: send it when a balance is low or the AI paywall is hit and the agent cannot buy (not an admin, no card on file, the bank asked to confirm). An admin's agent buys with buyCreditPacks.
      *
      * @remarks Requires the READ scope.
      */
@@ -601,6 +617,15 @@ export class GoliathClient extends GoliathClientCore {
      */
     listInvoices: (variables?: T.ListInvoicesQueryVariables, options?: RequestOptions): Promise<T.ListInvoicesQuery> =>
       this.request('listInvoices', variables, options, { operationType: 'query' }),
+    /**
+     * Save one credit type's auto-recharge, as Billing > Credits does: on, it buys `selectedPackCode` (`rechargeAmountCents` its price) on the card on file when the balance falls below `thresholdUnits`, at most `maxBudgetCents` a billing period. Switching it on saves every field: read getCreditAutoRecharge, send the rest unchanged, and take `rechargeAmountCents` from getCreditPrices for the selected pack (refused when it moved); `enabled: false` only switches it off. Org admins only. Every save is asked on its own card that only a tap answers; one that turns it on must name the pack's exact price (`rechargeAmountCents`, getCreditPrices', refused when it moved), the period budget, that a pack is non-refundable, the threshold and the card. Saving may buy a pack at once if the balance is already low.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    setCreditAutoRecharge: (variables: T.SetCreditAutoRechargeMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetCreditAutoRechargeMutation> =>
+      this.request('setCreditAutoRecharge', variables, options, { operationType: 'mutation' }),
   }
 
   readonly bulkTasks = {
@@ -5220,7 +5245,7 @@ export class GoliathClient extends GoliathClientCore {
     deleteWorkflowTable: (variables: T.DeleteWorkflowTableMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteWorkflowTableMutation> =>
       this.request('deleteWorkflowTable', variables, options, { operationType: 'mutation' }),
     /**
-     * One record's run of a workflow, step by step: steps entered and when, branches taken, where it is now, why it stopped or paused (`stopReason`) and whether it may be enrolled again (`canReenroll`; say both), and who enrolled it (`enrolledHow`, `enrolledBy`). Give `workflowAutomationRunId`, or `recordName` for the newest run you may open whose record matches. Not on Workflows v2 yet.
+     * One record's run of a workflow, step by step: steps entered and when, branches taken, where it is now, why it stopped or paused (`stopReason`) and whether it may be enrolled again (`canReenroll`; say both), and who enrolled it (`enrolledHow`, `enrolledBy`). Give `workflowAutomationRunId`, or `recordName` for the newest run you may open whose record matches.
      *
      * @remarks Requires the READ scope.
      */
@@ -5245,7 +5270,7 @@ export class GoliathClient extends GoliathClientCore {
     duplicateWorkflow: (variables: T.DuplicateWorkflowMutationVariables, options?: IdempotentRequestOptions): Promise<T.DuplicateWorkflowMutation> =>
       this.request('duplicateWorkflow', variables, options, { operationType: 'mutation' }),
     /**
-     * Enroll the records that already match a workflow's live trigger, as planEnrollExistingMatches counted them: its `liveVersionId` as `expectedLiveVersionId`, its `count` as `confirmedCount`, the same `signalWindowDays`. Nothing is enrolled, for contacts or properties, when another version went live or more match now than `confirmedCount`. Each starts a real run that sends: only on the person's yes to that number. Runs in the background; for a property workflow, plan again only once these runs appear. A refusal is `ok: false` with its sentence. Not on Workflows v2 yet.
+     * Enroll the records that already match a workflow's live trigger, as planEnrollExistingMatches counted them: its `liveVersionId` as `expectedLiveVersionId`, its `count` as `confirmedCount`, the same `signalWindowDays`. Nothing is enrolled, for contacts or properties, when another version went live or more match now than `confirmedCount`. Each starts a real run that sends: only on the person's yes to that number. Runs in the background; for a property workflow, plan again only once these runs appear. A refusal is `ok: false` with its sentence.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -5494,14 +5519,14 @@ export class GoliathClient extends GoliathClientCore {
     pauseWorkflowRun: (variables: T.PauseWorkflowRunMutationVariables, options?: IdempotentRequestOptions): Promise<T.PauseWorkflowRunMutation> =>
       this.request('pauseWorkflowRun', variables, options, { operationType: 'mutation' }),
     /**
-     * What enrolling the records that ALREADY match a workflow's live trigger would do: `count` and the `liveVersionId` they would run on. A property workflow needs `signalWindowDays` (1 to 365) and counts properties with a signal in that window it has not run on; `spendsSkipTraces` says each run spends a credit (`creditsLeft` today). `available: false` says why in `reason`. Tell the person the number and what it spends, then call enrollExistingMatches with this `liveVersionId` and `count`. Not on Workflows v2 yet.
+     * What enrolling the records that ALREADY match a workflow's live trigger would do: `count` and the `liveVersionId` they would run on. A property workflow needs `signalWindowDays` (1 to 365) and counts properties with a signal in that window it has not run on; `spendsSkipTraces` says each run spends a credit (`creditsLeft` today). `available: false` says why in `reason`. Tell the person the number and what it spends, then call enrollExistingMatches with this `liveVersionId` and `count`.
      *
      * @remarks Requires the READ scope.
      */
     planEnrollExistingMatches: (variables: T.PlanEnrollExistingMatchesQueryVariables, options?: RequestOptions): Promise<T.PlanEnrollExistingMatchesQuery> =>
       this.request('planEnrollExistingMatches', variables, options, { operationType: 'query' }),
     /**
-     * How many properties a PROPERTY workflow's signal trigger matches: `lastSevenDays` and `allTime`, the two numbers its trigger panel shows (`...IsLowerBound`: more than that). Reads the draft unless `useDraft: false` (the live version). Anything else (not a property workflow, no version, a trigger the panel cannot count) comes back `ok: false` with the sentence in `diagnostics`. Not on Workflows v2 yet.
+     * How many properties a PROPERTY workflow's signal trigger matches: `lastSevenDays` and `allTime`, the two numbers its trigger panel shows (`...IsLowerBound`: more than that). Reads the draft unless `useDraft: false` (the live version). Anything else (not a property workflow, no version, a trigger the panel cannot count) comes back `ok: false` with the sentence in `diagnostics`.
      *
      * @remarks Requires the READ scope.
      */

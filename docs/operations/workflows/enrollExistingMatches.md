@@ -4,7 +4,7 @@
 
 mutation · domain `workflows` · requires the WRITE scope
 
-Enroll the records that already match a workflow's live trigger, as planEnrollExistingMatches counted them: its `liveVersionId` as `expectedLiveVersionId`, its `count` as `confirmedCount`, the same `signalWindowDays`. Nothing is enrolled, for contacts or properties, when another version went live or more match now than `confirmedCount`. Each starts a real run that sends: only on the person's yes to that number. Runs in the background; for a property workflow, plan again only once these runs appear. A refusal is `ok: false` with its sentence. Not on Workflows v2 yet.
+Enroll the records that already match a workflow's live trigger, as planEnrollExistingMatches counted them: its `liveVersionId` as `expectedLiveVersionId`, its `count` as `confirmedCount`, the same `signalWindowDays`. Nothing is enrolled, for contacts or properties, when another version went live or more match now than `confirmedCount`. Each starts a real run that sends: only on the person's yes to that number. Runs in the background; for a property workflow, plan again only once these runs appear. A refusal is `ok: false` with its sentence.
 
 ## Call
 

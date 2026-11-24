@@ -4,7 +4,7 @@
 
 query · domain `workflows` · requires the READ scope
 
-One record's run of a workflow, step by step: steps entered and when, branches taken, where it is now, why it stopped or paused (`stopReason`) and whether it may be enrolled again (`canReenroll`; say both), and who enrolled it (`enrolledHow`, `enrolledBy`). Give `workflowAutomationRunId`, or `recordName` for the newest run you may open whose record matches. Not on Workflows v2 yet.
+One record's run of a workflow, step by step: steps entered and when, branches taken, where it is now, why it stopped or paused (`stopReason`) and whether it may be enrolled again (`canReenroll`; say both), and who enrolled it (`enrolledHow`, `enrolledBy`). Give `workflowAutomationRunId`, or `recordName` for the newest run you may open whose record matches.
 
 ## Call
 

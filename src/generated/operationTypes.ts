@@ -869,6 +869,13 @@ export type CreateTaskInput = {
   title: Scalars['String']['input'];
 };
 
+/** One credit pack bought from a Dashboard alert, charged to the card on file. */
+export type CreditPackPurchaseItemInput = {
+  creditType: CreditType;
+  /** Stable fixed-pack code returned by BillingQuery.getCreditPrices. */
+  packCode: Scalars['String']['input'];
+};
+
 export type CreditType =
   /** AI agent usage (AI Agent Credits). Purchase-only: 1 credit = 1 cent. */
   | 'AI_CREDITS'
@@ -981,6 +988,22 @@ export type CustomerWebsiteRequestStatus =
   | 'QUEUED'
   /** Goliath is still working on the website's last change. */
   | 'STILL_WORKING';
+
+/** What one charge made from a Dashboard alert came to. */
+export type DashboardPaymentStatus =
+  /** The card was declined; `message` says how. Nothing was charged. */
+  | 'DECLINED'
+  /** Nothing was owed, so nothing was charged. */
+  | 'NOTHING_DUE'
+  /** Charged; the credits or the plan are in. */
+  | 'PAID'
+  /**
+   * A bank debit (US bank account) still settling, usually 3-5 business days: nothing to confirm, and the credits are
+   * granted once it clears.
+   */
+  | 'PENDING'
+  /** The bank wants the customer to confirm (3D Secure): the browser confirms `clientSecret` in place. */
+  | 'REQUIRES_ACTION';
 
 export type DataExportStatus =
   | 'COMPLETED'
@@ -3887,6 +3910,29 @@ export type GetCreditUsageByTypeQueryVariables = Exact<{
 }>;
 
 export type GetCreditUsageByTypeQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', dailyCreditUsage?: { __typename?: 'DailyCreditUsage', periodStart: any, periodEnd: any, series: Array<{ __typename?: 'DailyCreditUsageSeries', creditType: CreditType, totalUnits: number }> } | null } | null };
+
+export type BuyCreditPacksMutationVariables = Exact<{
+  items: Array<CreditPackPurchaseItemInput> | CreditPackPurchaseItemInput;
+  attemptKey: Scalars['String']['input'];
+  expectedAmountCents: Scalars['Int']['input'];
+}>;
+
+export type BuyCreditPacksMutation = { __typename?: 'RootMutation', billingMutation?: { __typename?: 'BillingMutation', buyCreditPacks?: { __typename?: 'DashboardPaymentOutcome', status: DashboardPaymentStatus, amountCents?: number | null, message?: string | null } | null } | null };
+
+export type GetCreditAutoRechargeQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type GetCreditAutoRechargeQuery = { __typename?: 'RootQuery', orgCreditAutoRecharge?: { __typename?: 'OrgCreditAutoRechargeQuery', getConfigs?: Array<{ __typename?: 'OrgCreditAutoRecharge', creditType: CreditType, enabled: boolean, thresholdUnits: number, selectedPackCode?: string | null, requiresPackSelection: boolean, rechargeAmountCents: number, maxBudgetCents: number, spentThisPeriodCents: number, currentBalanceUnits: number, hasPaymentMethod: boolean, paymentMethodBrand?: string | null, paymentMethodLast4?: string | null, periodResetsAt?: any | null, pausedByPaymentFailures: boolean, paymentFailedRetrying: boolean }> | null } | null };
+
+export type SetCreditAutoRechargeMutationVariables = Exact<{
+  creditType: CreditType;
+  enabled: Scalars['Boolean']['input'];
+  thresholdUnits: Scalars['Int']['input'];
+  selectedPackCode?: InputMaybe<Scalars['String']['input']>;
+  rechargeAmountCents: Scalars['Int']['input'];
+  maxBudgetCents: Scalars['Int']['input'];
+}>;
+
+export type SetCreditAutoRechargeMutation = { __typename?: 'RootMutation', orgCreditAutoRechargeMutation?: { __typename?: 'OrgCreditAutoRechargeMutation', update?: { __typename?: 'OrgCreditAutoRecharge', creditType: CreditType, enabled: boolean, thresholdUnits: number, selectedPackCode?: string | null, rechargeAmountCents: number, maxBudgetCents: number, spentThisPeriodCents: number } | null } | null };
 
 export type GetBulkTaskQueryVariables = Exact<{
   bulkTaskId: Scalars['ID']['input'];

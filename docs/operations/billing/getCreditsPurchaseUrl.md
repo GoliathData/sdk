@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-The in-app Billing > Credits page URL where a person buys credits. Buying from chat is being built; for now send this link, with the pack and its price, when a balance is low or the AI paywall is hit.
+The in-app Billing > Credits page URL where a person buys credits: send it when a balance is low or the AI paywall is hit and the agent cannot buy (not an admin, no card on file, the bank asked to confirm). An admin's agent buys with buyCreditPacks.
 
 ## Call
 
