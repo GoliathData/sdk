@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Accept or dismiss any card in the suggestion feed — a contact's, an AI employee's or an account card — by its id (`verb` ACCEPT or DISMISS), the same door Work through uses. DISMISS takes `reason` and optionally `note` (their words). An account card's ACCEPT runs only the actions named in `selectedProposalKeys`; a card with a question of its own takes its answer in `decisions`. Accepting a reply sends it, under every gate the app's Accept runs; an account card's accept needs an org admin. Only on the person's word. Behind the send consent attestation and Pause everything, a DISMISS too. Returns id, kind, status.
+Accept or dismiss any card in the suggestion feed — a contact's, an AI employee's or an account card — by its id (`verb` ACCEPT or DISMISS), the same door Work through uses. DISMISS takes `reason` and optionally `note` (their words). An account card's ACCEPT runs only the actions named in `selectedProposalKeys`; a card with a question of its own takes its answer in `decisions`. Accepting a reply sends it, under every gate the app's Accept runs; an account card's accept needs an org admin. Only on the person's word. An API key's call is behind the send consent attestation; every call, a DISMISS too, is behind Pause everything. Returns id, kind, status.
 
 ## Call
 

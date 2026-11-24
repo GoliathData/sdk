@@ -4,7 +4,7 @@
 
 query · domain `communications` · requires the READ scope
 
-Whether the organization's send consent attestation stands: an org admin's one-time statement that every contact the organization texts or emails through the developer API consented. Every operation that messages a contact (sendText, sendEmail, accepting a card that sends, a contract's emails to its signers), or causes a send (enrolling, publishing or resuming a workflow or a run, putting an AI employee to work on contacts), is refused (403 send_consent_not_attested) until `attested` is true; `attestedAt` and `attestedByUserId` say when and who. Set it with setSendConsentAttestation (ADMIN).
+Whether the organization's send consent attestation stands: an org admin's one-time statement that every contact the organization texts or emails through the developer API consented. Every operation that messages a contact (sendText, sendEmail, accepting a card that sends, a contract's emails to its signers), or causes a send (enrolling, publishing or resuming a workflow or a run, putting an AI employee to work on contacts), is refused for an API key (403 send_consent_not_attested) until `attested` is true; `attestedAt` and `attestedByUserId` say when and who. Set it with setSendConsentAttestation (ADMIN). It gates API keys; a person's own send inside Goliath (the app's composer, or Goliath's assistant on their Yes) never reads it.
 
 ## Call
 

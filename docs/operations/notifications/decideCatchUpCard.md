@@ -4,7 +4,7 @@
 
 mutation · domain `notifications` · requires the WRITE scope
 
-Decide one HARVEST or BUNDLE card (`family`; the others are answered through their own operations) as the decision bar does, on the person's word: `verb` ACCEPT or DISMISS, `shownIds` every row the card showed (listCatchUpCards), `suggestionIds` the ticked ones (ACCEPT sets the unticked aside; DISMISS dismisses them), `reason` for a DISMISS. An ACCEPT runs each row's action (a record change, a merge, a skip trace that spends credits and is queued as `bulkTaskId`, or a send). Behind the send consent attestation and Pause everything. `remainingIds` are rows still on the card.
+Decide one HARVEST or BUNDLE card (`family`; the others are answered through their own operations) as the decision bar does, on the person's word: `verb` ACCEPT or DISMISS, `shownIds` every row the card showed (listCatchUpCards), `suggestionIds` the ticked ones (ACCEPT sets the unticked aside; DISMISS dismisses them), `reason` for a DISMISS. An ACCEPT runs each row's action (a record change, a merge, a skip trace that spends credits and is queued as `bulkTaskId`, or a send). An API key's call is behind the send consent attestation; every call is behind Pause everything. `remainingIds` are rows still on the card.
 
 ## Call
 
