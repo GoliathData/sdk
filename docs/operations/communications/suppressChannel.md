@@ -4,7 +4,7 @@
 
 mutation · domain `communications` · requires the WRITE scope
 
-Value-level opt-out: block a phone number or email address for your organization on one medium (SMS, VOICE or EMAIL). Keyed on the normalized VALUE, not a contact: every contact carrying it, now and later, is blocked on send. SMS/VOICE take a phone in any format, EMAIL an address; an unparseable one is rejected (INVALID_PHONE_NUMBER / INVALID_INPUT). Idempotent. Blocks only the medium named (send VOICE too for calls). A person in the app clears it, or a developer-API key with clearChannelSuppression. Returns organizationId, normalizedValue, medium.
+Value-level opt-out: block a phone number or email address for your organization on one medium (SMS, VOICE or EMAIL). Keyed on the normalized VALUE, not a contact: every contact carrying it, now and later, is blocked on send. SMS/VOICE take a phone in any format, EMAIL an address; an unparseable one is rejected (INVALID_PHONE_NUMBER / INVALID_INPUT). Idempotent. Blocks only the medium named (send VOICE too for calls). A person in the app clears it, or clearChannelSuppression (a key, or Ask Goliath for the member themself). Returns organizationId, normalizedValue, medium.
 
 ## Call
 

@@ -4,7 +4,7 @@
 
 mutation · domain `contacts` · requires the WRITE scope
 
-Mark a contact Do Not Contact (optional reason): every text, email and call to it is blocked, its workflow runs stop for good and its AI employees come off. This API cannot clear it; it is cleared on the contact page in the app. Use the id getContact returns (a merged-away id writes the retired record). Confirm first. A card counts.
+Mark a contact Do Not Contact (optional reason): every text, email and call to it is blocked, its workflow runs stop for good and its AI employees come off. clearContactDoNotContact lifts it; the stopped runs and AI employees stay off. Use the id getContact returns (a merged-away id writes the retired record). Confirm first. A card counts.
 
 ## Call
 

@@ -849,7 +849,7 @@ export class GoliathClient extends GoliathClientCore {
     setSendConsentAttestation: (variables: T.SetSendConsentAttestationMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetSendConsentAttestationMutation> =>
       this.request('setSendConsentAttestation', variables, options, { operationType: 'mutation' }),
     /**
-     * Value-level opt-out: block a phone number or email address for your organization on one medium (SMS, VOICE or EMAIL). Keyed on the normalized VALUE, not a contact: every contact carrying it, now and later, is blocked on send. SMS/VOICE take a phone in any format, EMAIL an address; an unparseable one is rejected (INVALID_PHONE_NUMBER / INVALID_INPUT). Idempotent. Blocks only the medium named (send VOICE too for calls). A person in the app clears it, or a developer-API key with clearChannelSuppression. Returns organizationId, normalizedValue, medium.
+     * Value-level opt-out: block a phone number or email address for your organization on one medium (SMS, VOICE or EMAIL). Keyed on the normalized VALUE, not a contact: every contact carrying it, now and later, is blocked on send. SMS/VOICE take a phone in any format, EMAIL an address; an unparseable one is rejected (INVALID_PHONE_NUMBER / INVALID_INPUT). Idempotent. Blocks only the medium named (send VOICE too for calls). A person in the app clears it, or clearChannelSuppression (a key, or Ask Goliath for the member themself). Returns organizationId, normalizedValue, medium.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -1595,7 +1595,7 @@ export class GoliathClient extends GoliathClientCore {
     setContactCustomFieldVisibility: (variables: T.SetContactCustomFieldVisibilityMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetContactCustomFieldVisibilityMutation> =>
       this.request('setContactCustomFieldVisibility', variables, options, { operationType: 'mutation' }),
     /**
-     * Mark a contact Do Not Contact (optional reason): every text, email and call to it is blocked, its workflow runs stop for good and its AI employees come off. This API cannot clear it; it is cleared on the contact page in the app. Use the id getContact returns (a merged-away id writes the retired record). Confirm first. A card counts.
+     * Mark a contact Do Not Contact (optional reason): every text, email and call to it is blocked, its workflow runs stop for good and its AI employees come off. clearContactDoNotContact lifts it; the stopped runs and AI employees stay off. Use the id getContact returns (a merged-away id writes the retired record). Confirm first. A card counts.
      *
      * @remarks Requires the WRITE scope.
      *
