@@ -4124,7 +4124,7 @@ export class GoliathClient extends GoliathClientCore {
     completeSpaceUpload: (variables: T.CompleteSpaceUploadMutationVariables, options?: IdempotentRequestOptions): Promise<T.CompleteSpaceUploadMutation> =>
       this.request('completeSpaceUpload', variables, options, { operationType: 'mutation' }),
     /**
-     * Copy a FILE into a folder or root you can edit. The copy is yours and starts with no sharing; copying somewhere with a different audience needs MANAGER on the source unless it was already open to the whole team, and an AI agent makes such a copy only on the person's own tap on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders cannot be copied yet.
+     * Copy a FILE into a folder or root you can edit. The copy is yours and starts with no sharing; copying somewhere with a different audience needs MANAGER on the source unless it was already open to the whole team, and an AI agent makes such a copy only on the person's own Yes (tapped or typed) on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders cannot be copied yet.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4377,7 +4377,7 @@ export class GoliathClient extends GoliathClientCore {
     listSpaceTrash: (options?: RequestOptions): Promise<T.ListSpaceTrashQuery> =>
       this.request('listSpaceTrash', undefined, options, { operationType: 'query' }),
     /**
-     * Move up to 200 items into a folder or a root (`destination.folderId` omitted), all or nothing. Needs edit access on both sides; a move that would change who can see an item (out of a restricted folder, or between My files and Team) also needs MANAGER on it unless it was already open to the whole team, and an AI agent makes such a move only on the person's own tap on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders move with everything in them.
+     * Move up to 200 items into a folder or a root (`destination.folderId` omitted), all or nothing. Needs edit access on both sides; a move that would change who can see an item (out of a restricted folder, or between My files and Team) also needs MANAGER on it unless it was already open to the whole team, and an AI agent makes such a move only on the person's own Yes (tapped or typed) on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders move with everything in them.
      *
      * @remarks Requires the WRITE scope.
      *

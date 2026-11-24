@@ -4,7 +4,7 @@
 
 mutation · domain `spaces` · requires the WRITE scope
 
-Copy a FILE into a folder or root you can edit. The copy is yours and starts with no sharing; copying somewhere with a different audience needs MANAGER on the source unless it was already open to the whole team, and an AI agent makes such a copy only on the person's own tap on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders cannot be copied yet.
+Copy a FILE into a folder or root you can edit. The copy is yours and starts with no sharing; copying somewhere with a different audience needs MANAGER on the source unless it was already open to the whole team, and an AI agent makes such a copy only on the person's own Yes (tapped or typed) on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders cannot be copied yet.
 
 ## Call
 
