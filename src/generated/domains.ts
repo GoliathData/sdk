@@ -532,14 +532,14 @@ export class GoliathClient extends GoliathClientCore {
     getBillingSummary: (options?: RequestOptions): Promise<T.GetBillingSummaryQuery> =>
       this.request('getBillingSummary', undefined, options, { operationType: 'query' }),
     /**
-     * Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. The agent cannot buy: hand over getCreditsPurchaseUrl.
+     * Fixed credit packs for EVERY credit type. Quote `packs` (credit type, code, units, whole-pack price in cents); skip a pack whose `available` is false. AI Agent Credits: 1 credit = 1 cent of AI cost. Texting Credits: 1 credit = 1 outbound text segment; inbound texts are free. No credit pays for mail: the provider bills the org’s own account at rates Goliath cannot see; never quote a price or range. Buying a pack from chat is being built; for now name the pack and its price and hand over getCreditsPurchaseUrl.
      *
      * @remarks Requires the READ scope.
      */
     getCreditPrices: (options?: RequestOptions): Promise<T.GetCreditPricesQuery> =>
       this.request('getCreditPrices', undefined, options, { operationType: 'query' }),
     /**
-     * The in-app Billing > Credits page URL where a human buys credits. The agent cannot buy: send this link when a balance is low or the AI paywall is hit.
+     * The in-app Billing > Credits page URL where a person buys credits. Buying from chat is being built; for now send this link, with the pack and its price, when a balance is low or the AI paywall is hit.
      *
      * @remarks Requires the READ scope.
      */
@@ -567,14 +567,14 @@ export class GoliathClient extends GoliathClientCore {
     getPlanCatalog: (options?: RequestOptions): Promise<T.GetPlanCatalogQuery> =>
       this.request('getPlanCatalog', undefined, options, { operationType: 'query' }),
     /**
-     * The in-app Billing page URL where a human buys extra seats. The agent cannot buy. Decide "at cap" from getBillingSummary's `extraSeats.seatsUsed` vs `extraSeats.seatsCap` (total, purchased seats included), never the plan-only `featureLimits.seatsCap`. Price: getAddOnPrices.
+     * The in-app Billing page URL where a person buys extra seats. Buying from chat is being built; for now name the seat price and send this link. Decide "at cap" from getBillingSummary's `extraSeats.seatsUsed` vs `extraSeats.seatsCap` (total, purchased seats included), never the plan-only `featureLimits.seatsCap`. Price: getAddOnPrices.
      *
      * @remarks Requires the READ scope.
      */
     getSeatsPurchaseUrl: (options?: RequestOptions): Promise<T.GetSeatsPurchaseUrlQuery> =>
       this.request('getSeatsPurchaseUrl', undefined, options, { operationType: 'query' }),
     /**
-     * The org's invoice history, newest first: `count` (1..24, default 12) finalized invoices, never drafts. Each has `number`, `status` (open, paid, uncollectible, void), `createdAt`, `dueAt` (an emailed invoice's due date, kept after payment, so read `status`), `totalCents`, `amountPaidCents`, `amountRemainingCents` (still owed), `currency` and `hostedInvoiceUrl`, the page where a person views, downloads or pays it; link it, never paste amounts as a receipt. Amounts are cents: divide by 100. An empty list means no finalized invoice among the org's recent Stripe invoices, not proof it was never billed. Read-only; the agent cannot pay. Needs the spending permission: refused without it (the refusal text is the generic spending one), tell the person an admin or a teammate who manages spending sees invoices on Settings > Billing.
+     * The org's invoice history, newest first: `count` (1..24, default 12) finalized invoices, never drafts. Each has `number`, `status` (open, paid, uncollectible, void), `createdAt`, `dueAt` (an emailed invoice's due date, kept after payment, so read `status`), `totalCents`, `amountPaidCents`, `amountRemainingCents` (still owed), `currency` and `hostedInvoiceUrl`, the page where a person views, downloads or pays it; link it, never paste amounts as a receipt. Amounts are cents: divide by 100. An empty list means no finalized invoice among the org's recent Stripe invoices, not proof it was never billed. Read-only. Paying from chat is being built; for now link the invoice's hostedInvoiceUrl with its amount and due date. Needs the spending permission: refused without it (the refusal text is the generic spending one), tell the person an admin or a teammate who manages spending sees invoices on Settings > Billing.
      *
      * @remarks Requires the ADMIN scope.
      */
@@ -646,7 +646,7 @@ export class GoliathClient extends GoliathClientCore {
     getCallList: (variables: T.GetCallListQueryVariables, options?: RequestOptions): Promise<T.GetCallListQuery> =>
       this.request('getCallList', variables, options, { operationType: 'query' }),
     /**
-     * The in-app link that opens a call list in the dialer, where a person presses Start: `dialPath` is a path inside the app (`/contacts?callListId=…`). Show it to the person as a button (open_url with that path). Calls are always placed by a person in the app, never through the API. `lockedByUser` says who is dialing it right now, if anyone; an ENDED list cannot be dialed again.
+     * The in-app link that opens a call list in the dialer, where a person presses Start: `dialPath` is a path inside the app (`/contacts?callListId=…`). Show it to the person as a button (open_url with that path). A call is placed by the person pressing Start; placing one from chat is being built, so for now have the list ready to dial and show this button. `lockedByUser` says who is dialing it right now, if anyone; an ENDED list cannot be dialed again.
      *
      * @remarks Requires the READ scope.
      */
@@ -3973,7 +3973,7 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly scheduledTasks = {
     /**
-     * Schedule Ask Goliath to run `instruction` as the key owner: give exactly one of `cronExpression` (recurring, 5 fields) or `fireAt` (once), read in `timezone` (IANA). Optional `expiresAt` (it stops after). Each run asks the owner before any action (no abilities). Refused while scheduled tasks are off for the organization.
+     * Schedule Ask Goliath to run `instruction` as the key owner: give exactly one of `cronExpression` (recurring, 5 fields) or `fireAt` (once), read in `timezone` (IANA). Optional `expiresAt` (it stops after). It is granted no abilities: each run makes no change on its own (it reads and reports, or asks the owner first). Refused while scheduled tasks are off for the organization.
      *
      * @remarks Requires the WRITE scope.
      *

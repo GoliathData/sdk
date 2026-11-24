@@ -4,7 +4,7 @@
 
 query · domain `callLists` · requires the READ scope
 
-The in-app link that opens a call list in the dialer, where a person presses Start: `dialPath` is a path inside the app (`/contacts?callListId=…`). Show it to the person as a button (open_url with that path). Calls are always placed by a person in the app, never through the API. `lockedByUser` says who is dialing it right now, if anyone; an ENDED list cannot be dialed again.
+The in-app link that opens a call list in the dialer, where a person presses Start: `dialPath` is a path inside the app (`/contacts?callListId=…`). Show it to the person as a button (open_url with that path). A call is placed by the person pressing Start; placing one from chat is being built, so for now have the list ready to dial and show this button. `lockedByUser` says who is dialing it right now, if anyone; an ENDED list cannot be dialed again.
 
 ## Call
 
