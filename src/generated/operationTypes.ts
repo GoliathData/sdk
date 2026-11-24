@@ -585,6 +585,15 @@ export type ContactDataProblem =
   /** A stored phone that is not the 10-digit US form every phone write normalizes to. */
   | 'PHONE_NOT_NORMALIZED';
 
+/** What an enrichContact call did (INT-20989). Only a new trace spends a skip trace credit; a reuse spends none. */
+export type ContactEnrichStart =
+  /** An earlier trace of this contact is still running and this call joined it: no credit was used. */
+  | 'ALREADY_RUNNING'
+  /** An earlier trace of this contact found someone and was reused: nothing new ran and no credit was used. */
+  | 'ALREADY_TRACED'
+  /** A new lookup started for this call. It spends one credit only when it runs a new trace, given back when that trace finds no one or fails. */
+  | 'STARTED';
+
 export type ContactImportLabelAnswerInput = {
   choice: ContactImportLabelChoice;
   kind: ContactImportLabelKind;
@@ -3888,6 +3897,20 @@ export type ListInvoicesQueryVariables = Exact<{
 
 export type ListInvoicesQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', invoices?: Array<{ __typename?: 'InvoiceSummary', id: string, number?: string | null, status: string, createdAt: any, dueAt?: any | null, totalCents: number, amountPaidCents: number, amountRemainingCents: number, currency: string, hostedInvoiceUrl?: string | null }> | null } | null };
 
+export type GetInvoicePaymentQueryVariables = Exact<{
+  number: Scalars['String']['input'];
+}>;
+
+export type GetInvoicePaymentQuery = { __typename?: 'RootQuery', subscriptionQuery?: { __typename?: 'SubscriptionQuery', invoicePayment?: { __typename?: 'InvoicePayment', number: string, amountRemainingCents: number, currency: string, dueAt?: any | null, hostedInvoiceUrl?: string | null, card?: { __typename?: 'PaymentCard', brand?: string | null, last4?: string | null } | null } | null } | null };
+
+export type PayInvoiceMutationVariables = Exact<{
+  number: Scalars['String']['input'];
+  expectedAmountCents: Scalars['Int']['input'];
+  expectedCardLast4: Scalars['String']['input'];
+}>;
+
+export type PayInvoiceMutation = { __typename?: 'RootMutation', billingMutation?: { __typename?: 'BillingMutation', payInvoice?: { __typename?: 'InvoicePaymentOutcome', status: DashboardPaymentStatus, invoiceNumber: string, amountCents?: number | null, message?: string | null, hostedInvoiceUrl?: string | null, card?: { __typename?: 'PaymentCard', brand?: string | null, last4?: string | null } | null } | null } | null };
+
 export type GetAiCreditUsageQueryVariables = Exact<{
   windowDays?: InputMaybe<Scalars['Int']['input']>;
 }>;
@@ -4593,7 +4616,7 @@ export type EnrichContactMutationVariables = Exact<{
   contactId: Scalars['ID']['input'];
 }>;
 
-export type EnrichContactMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', enrichContact?: { __typename?: 'Contact', id: string, name?: string | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus }> | null } | null } | null };
+export type EnrichContactMutation = { __typename?: 'RootMutation', contactMutation?: { __typename?: 'ContactMutation', enrichContact?: { __typename?: 'Contact', id: string, enrichStart?: ContactEnrichStart | null, name?: string | null, emails?: Array<{ __typename?: 'ContactEmail', id: string, email: string, verificationStatus: VerificationStatus }> | null, phoneNumbers?: Array<{ __typename?: 'ContactPhoneNumber', id: string, phoneNumber: string, phoneType: PhoneType, verificationStatus: VerificationStatus }> | null } | null } | null };
 
 export type CreateContactFromPropertyMutationVariables = Exact<{
   propertyId: Scalars['ID']['input'];
@@ -8112,7 +8135,7 @@ export type GetWorkflowVersionLanesQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
 }>;
 
-export type GetWorkflowVersionLanesQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomationLanes?: { __typename?: 'WorkflowLanesSnapshot', workflowGroupId: string, lanes: any, readOnlyNodeIds: Array<string>, updatedAt: any, createdAt: any } | null } | null };
+export type GetWorkflowVersionLanesQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowAutomationLanes?: { __typename?: 'WorkflowLanesSnapshot', workflowGroupId: string, lanes: any, readOnlyNodeIds: Array<string>, updatedAt: any, createdAt: any, lanePauses: Array<{ __typename?: 'WorkflowLanePause', legId: string, pausedAt: any }> } | null } | null };
 
 export type ListWorkflowRunsQueryVariables = Exact<{
   workflowAutomationId: Scalars['ID']['input'];
@@ -8244,6 +8267,21 @@ export type UpdateWorkflowSendWindowMutationVariables = Exact<{
 }>;
 
 export type UpdateWorkflowSendWindowMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', updateWorkflowGroupSendWindow?: { __typename?: 'WorkflowGroup', id: string, name: string } | null } | null };
+
+export type PauseWorkflowLaneMutationVariables = Exact<{
+  workflowGroupId: Scalars['ID']['input'];
+  legId: Scalars['ID']['input'];
+  pauseInFlightRuns: Scalars['Boolean']['input'];
+}>;
+
+export type PauseWorkflowLaneMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', pauseWorkflowLane?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus } | null } | null };
+
+export type ResumeWorkflowLaneMutationVariables = Exact<{
+  workflowGroupId: Scalars['ID']['input'];
+  legId: Scalars['ID']['input'];
+}>;
+
+export type ResumeWorkflowLaneMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', resumeWorkflowLane?: { __typename?: 'WorkflowGroup', id: string, name: string, status: WorkflowGroupStatus } | null } | null };
 
 export type ResumeWorkflowMutationVariables = Exact<{
   workflowGroupId: Scalars['ID']['input'];

@@ -590,6 +590,13 @@ export class GoliathClient extends GoliathClientCore {
     getCreditUsageByType: (variables?: T.GetCreditUsageByTypeQueryVariables, options?: RequestOptions): Promise<T.GetCreditUsageByTypeQuery> =>
       this.request('getCreditUsageByType', variables, options, { operationType: 'query' }),
     /**
+     * One OPEN invoice by `number` (listInvoices), as the person is asked to pay it: `amountRemainingCents` (what paying charges, cents), `dueAt`, `hostedInvoiceUrl` and the `card` on file (`brand`, `last4`; null: no card, so it cannot be paid here). Null when no open invoice has that number. Read it right before asking. Needs the spending permission.
+     *
+     * @remarks Requires the ADMIN scope.
+     */
+    getInvoicePayment: (variables: T.GetInvoicePaymentQueryVariables, options?: RequestOptions): Promise<T.GetInvoicePaymentQuery> =>
+      this.request('getInvoicePayment', variables, options, { operationType: 'query' }),
+    /**
      * The in-app Team & Phones page URL where a person registers and buys phone numbers themself. An admin's Ask Goliath buys one with provisionPhoneNumber once the person agrees to its monthly charge; any other agent sends this link.
      *
      * @remarks Requires the READ scope.
@@ -611,12 +618,21 @@ export class GoliathClient extends GoliathClientCore {
     getSeatsPurchaseUrl: (options?: RequestOptions): Promise<T.GetSeatsPurchaseUrlQuery> =>
       this.request('getSeatsPurchaseUrl', undefined, options, { operationType: 'query' }),
     /**
-     * The org's invoice history, newest first: `count` (1..24, default 12) finalized invoices, never drafts. Each has `number`, `status` (open, paid, uncollectible, void), `createdAt`, `dueAt` (an emailed invoice's due date, kept after payment, so read `status`), `totalCents`, `amountPaidCents`, `amountRemainingCents` (still owed), `currency` and `hostedInvoiceUrl`, the page where a person views, downloads or pays it; link it, never paste amounts as a receipt. Amounts are cents: divide by 100. An empty list means no finalized invoice among the org's recent Stripe invoices, not proof it was never billed. Read-only. Paying from chat is being built; for now link the invoice's hostedInvoiceUrl with its amount and due date. Needs the spending permission: refused without it (the refusal text is the generic spending one), tell the person an admin or a teammate who manages spending sees invoices on Settings > Billing.
+     * The org's invoice history, newest first: `count` (1..24, default 12) finalized invoices, never drafts. Each has `number`, `status` (open, paid, uncollectible, void), `createdAt`, `dueAt` (an emailed invoice's due date, kept after payment, so read `status`), `totalCents`, `amountPaidCents`, `amountRemainingCents` (still owed), `currency` and `hostedInvoiceUrl`, the page where a person views, downloads or pays it; link it, never paste amounts as a receipt. Amounts are cents: divide by 100. An empty list means no finalized invoice among the org's recent Stripe invoices, not proof it was never billed. Read-only. An open one an admin pays from chat with getInvoicePayment then payInvoice; else link its hostedInvoiceUrl with its amount and due date. Needs the spending permission: refused without it (the refusal text is the generic spending one), tell the person an admin or a teammate who manages spending sees invoices on Settings > Billing.
      *
      * @remarks Requires the ADMIN scope.
      */
     listInvoices: (variables?: T.ListInvoicesQueryVariables, options?: RequestOptions): Promise<T.ListInvoicesQuery> =>
       this.request('listInvoices', variables, options, { operationType: 'query' }),
+    /**
+     * Pay one OPEN invoice on the card on file: `number`, and from getInvoicePayment read just before `expectedAmountCents` (its `amountRemainingCents`) and `expectedCardLast4` (its `card.last4`). Its card names the invoice number, the exact dollars, the card ("Visa ending 4242") and that it is non-refundable; only a tap pays. Refused when the amount or the card changed (read again), it is already paid, or no card is on file. `status`: PAID, PENDING (bank debit settling), REQUIRES_ACTION (send `hostedInvoiceUrl`) or DECLINED (`message`; another card goes on the Billing page). Never a staff member acting as the customer. Needs the spending permission.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    payInvoice: (variables: T.PayInvoiceMutationVariables, options?: IdempotentRequestOptions): Promise<T.PayInvoiceMutation> =>
+      this.request('payInvoice', variables, options, { operationType: 'mutation' }),
     /**
      * Save one credit type's auto-recharge, as Billing > Credits does: on, it buys `selectedPackCode` (`rechargeAmountCents` its price) on the card on file when the balance falls below `thresholdUnits`, at most `maxBudgetCents` a billing period. Switching it on saves every field: read getCreditAutoRecharge, send the rest unchanged, and take `rechargeAmountCents` from getCreditPrices for the selected pack (refused when it moved); `enabled: false` only switches it off. Org admins only. Every save is asked on its own card that only a tap answers; one that turns it on must name the pack's exact price (`rechargeAmountCents`, getCreditPrices', refused when it moved), the period budget, that a pack is non-refundable, the threshold and the card. Saving may buy a pack at once if the balance is already low.
      *
@@ -1356,7 +1372,7 @@ export class GoliathClient extends GoliathClientCore {
     editNoteReply: (variables: T.EditNoteReplyMutationVariables, options?: IdempotentRequestOptions): Promise<T.EditNoteReplyMutation> =>
       this.request('editNoteReply', variables, options, { operationType: 'mutation' }),
     /**
-     * Skip-trace a contact to discover phone numbers and emails. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. The response shows the contact as it is now, and phones and emails the trace finds can appear on it later (getContact). An earlier enrichment of the contact that is still running, or that found something, is reused instead of a new trace. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
+     * Skip-trace a contact to discover phone numbers and emails. The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. The response shows the contact as it is now, and phones and emails the trace finds can appear on it later (getContact). An earlier enrichment of the contact that is still running, or that found something, is reused instead of a new trace, at no credit: `enrichStart` says which (STARTED, ALREADY_TRACED or ALREADY_RUNNING). A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
      *
      * @remarks Requires the ADMIN scope.
      *
@@ -5337,7 +5353,7 @@ export class GoliathClient extends GoliathClientCore {
     getWorkflowVersionGraph: (variables: T.GetWorkflowVersionGraphQueryVariables, options?: RequestOptions): Promise<T.GetWorkflowVersionGraphQuery> =>
       this.request('getWorkflowVersionGraph', variables, options, { operationType: 'query' }),
     /**
-     * Fetch one Workflows v2 version (`workflowAutomationId`, from getWorkflow.versions/currentVersion/pendingDraft) as the editor draws it: its LANES, one per record type it runs on. Read this when getWorkflowVersionGraph refuses a version as not drawable (WORKFLOW_NOT_DRAWABLE: several lanes, or a hand-off). Returns `workflowGroupId`, `lanes` (superjson `{lanes: [...]}`, in lane order), `readOnlyNodeIds` (steps drawn read-only, in every lane), `updatedAt` (the token updateWorkflowLanes takes as `expectedUpdatedAt`) and `createdAt`. A lane is {legId, laneName, domain, config, triggers, nodes, edges, entries} and its own header (workflowAutomationId, name, priority, status, systemCategory, userId, organizationId): one record type's graph (nodes {id, type, config}, edges {id, parentNodeId, childNodeId, config}, as getWorkflowVersionGraph's), its own trigger node, `entries` the ways in at a later step ({id, stepId, triggers, triggerOperator, triggerWindow}). A `wf_v2_read_only_step` node is a step this editor carries whole: send it back byte for byte. Send each lane back as read, its header included (a lane whose `workflowAutomationId` is missing or not the version being saved is refused, naming its legId), and each trigger with its `createdAt`/`updatedAt` (ISO strings are fine). Webhook secrets read as a sentinel: send it back unchanged. On Workflows v1: WORKFLOWS_V2_NOT_AVAILABLE_HERE.
+     * Fetch one Workflows v2 version (`workflowAutomationId`, from getWorkflow.versions/currentVersion/pendingDraft) as the editor draws it: its LANES, one per record type it runs on. Read this when getWorkflowVersionGraph refuses a version as not drawable (WORKFLOW_NOT_DRAWABLE: several lanes, or a hand-off). Returns `workflowGroupId`, `lanes` (superjson `{lanes: [...]}`, in lane order), `readOnlyNodeIds` (steps drawn read-only, in every lane), `updatedAt` (the token updateWorkflowLanes takes as `expectedUpdatedAt`), `createdAt` and `lanePauses` (`{legId, pausedAt}`, the lanes paused now). A lane is {legId, laneName, domain, config, triggers, nodes, edges, entries} and its own header (workflowAutomationId, name, priority, status, systemCategory, userId, organizationId): one record type's graph (nodes {id, type, config}, edges {id, parentNodeId, childNodeId, config}, as getWorkflowVersionGraph's), its own trigger node, `entries` the ways in at a later step ({id, stepId, triggers, triggerOperator, triggerWindow}). A `wf_v2_read_only_step` node is a step this editor carries whole: send it back byte for byte. Send each lane back as read, its header included (a lane whose `workflowAutomationId` is missing or not the version being saved is refused, naming its legId), and each trigger with its `createdAt`/`updatedAt` (ISO strings are fine). Webhook secrets read as a sentinel: send it back unchanged. On Workflows v1: WORKFLOWS_V2_NOT_AVAILABLE_HERE.
      *
      * @remarks Requires the READ scope.
      */
@@ -5510,6 +5526,15 @@ export class GoliathClient extends GoliathClientCore {
     pauseWorkflow: (variables: T.PauseWorkflowMutationVariables, options?: IdempotentRequestOptions): Promise<T.PauseWorkflowMutation> =>
       this.request('pauseWorkflow', variables, options, { operationType: 'mutation' }),
     /**
+     * Pause ONE lane (a chapter of the canvas) of a Workflows v2 workflow, as its Pause does: records entering it are held, and pauseInFlightRuns=true also pauses the runs in it (false lets them finish); the rest runs on. `legId` as getWorkflowVersionLanes returns it; one the workflow has no lane for is BAD_USER_INPUT "That chapter is not part of this workflow." v2 only.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    pauseWorkflowLane: (variables: T.PauseWorkflowLaneMutationVariables, options?: IdempotentRequestOptions): Promise<T.PauseWorkflowLaneMutation> =>
+      this.request('pauseWorkflowLane', variables, options, { operationType: 'mutation' }),
+    /**
      * Pause one in-flight run (PENDING or RUNNING → PAUSED). Get run ids from listWorkflowRuns.
      *
      * @remarks Requires the WRITE scope.
@@ -5638,6 +5663,15 @@ export class GoliathClient extends GoliathClientCore {
      */
     resumeWorkflow: (variables: T.ResumeWorkflowMutationVariables, options?: IdempotentRequestOptions): Promise<T.ResumeWorkflowMutation> =>
       this.request('resumeWorkflow', variables, options, { operationType: 'mutation' }),
+    /**
+     * Resume ONE paused lane: its held runs continue at their step and send (under a paused workflow, with resumeWorkflow); runs paused for another reason stay paused. Asks the workflow's channels first. `legId` as getWorkflowVersionLanes returns it; one the workflow has no lane for is BAD_USER_INPUT "That chapter is not part of this workflow." v2 only.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    resumeWorkflowLane: (variables: T.ResumeWorkflowLaneMutationVariables, options?: IdempotentRequestOptions): Promise<T.ResumeWorkflowLaneMutation> =>
+      this.request('resumeWorkflowLane', variables, options, { operationType: 'mutation' }),
     /**
      * Resume one paused run (PAUSED → PENDING) and kick its executor.
      *

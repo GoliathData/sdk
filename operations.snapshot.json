@@ -884,6 +884,19 @@
     "responseShape": "{\"subscriptionQuery\":{\"dailyCreditUsage\":{\"periodStart\":true,\"periodEnd\":true,\"series\":{\"creditType\":true,\"totalUnits\":true}}}}"
   },
   {
+    "operationId": "getInvoicePayment",
+    "domain": "billing",
+    "operationType": "query",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "number:String!",
+    "responseShape": "{\"subscriptionQuery\":{\"invoicePayment\":{\"number\":true,\"amountRemainingCents\":true,\"currency\":true,\"dueAt\":true,\"hostedInvoiceUrl\":true,\"card\":{\"brand\":true,\"last4\":true}}}}"
+  },
+  {
     "operationId": "getPhoneNumbersPurchaseUrl",
     "domain": "billing",
     "operationType": "query",
@@ -934,6 +947,19 @@
     "hasAuthorize": false,
     "variableSignature": "count:Int",
     "responseShape": "{\"subscriptionQuery\":{\"invoices\":{\"id\":true,\"number\":true,\"status\":true,\"createdAt\":true,\"dueAt\":true,\"totalCents\":true,\"amountPaidCents\":true,\"amountRemainingCents\":true,\"currency\":true,\"hostedInvoiceUrl\":true}}}"
+  },
+  {
+    "operationId": "payInvoice",
+    "domain": "billing",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "number:String!,expectedAmountCents:Int!,expectedCardLast4:String!",
+    "responseShape": "{\"billingMutation\":{\"payInvoice\":{\"status\":true,\"invoiceNumber\":true,\"amountCents\":true,\"message\":true,\"hostedInvoiceUrl\":true,\"card\":{\"brand\":true,\"last4\":true}}}}"
   },
   {
     "operationId": "setCreditAutoRecharge",
@@ -2038,7 +2064,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "contactId:ID!",
-    "responseShape": "{\"contactMutation\":{\"enrichContact\":{\"id\":true,\"name\":true,\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true}}}}"
+    "responseShape": "{\"contactMutation\":{\"enrichContact\":{\"id\":true,\"enrichStart\":true,\"name\":true,\"emails\":{\"id\":true,\"email\":true,\"verificationStatus\":true},\"phoneNumbers\":{\"id\":true,\"phoneNumber\":true,\"phoneType\":true,\"verificationStatus\":true}}}}"
   },
   {
     "operationId": "filterContacts",
@@ -8005,7 +8031,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "workflowAutomationId:ID!",
-    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomationLanes\":{\"workflowGroupId\":true,\"lanes\":true,\"readOnlyNodeIds\":true,\"updatedAt\":true,\"createdAt\":true}}}"
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowAutomationLanes\":{\"workflowGroupId\":true,\"lanes\":true,\"readOnlyNodeIds\":true,\"updatedAt\":true,\"createdAt\":true,\"lanePauses\":{\"legId\":true,\"pausedAt\":true}}}}"
   },
   {
     "operationId": "getWorkflowVersionStats",
@@ -8268,6 +8294,19 @@
     "responseShape": "{\"workflowAutomationsMutation\":{\"pauseWorkflow\":{\"id\":true,\"name\":true,\"status\":true}}}"
   },
   {
+    "operationId": "pauseWorkflowLane",
+    "domain": "workflows",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "workflowGroupId:ID!,legId:ID!,pauseInFlightRuns:Boolean!",
+    "responseShape": "{\"workflowAutomationsMutation\":{\"pauseWorkflowLane\":{\"id\":true,\"name\":true,\"status\":true}}}"
+  },
+  {
     "operationId": "pauseWorkflowRun",
     "domain": "workflows",
     "operationType": "mutation",
@@ -8461,6 +8500,19 @@
     "hasAuthorize": false,
     "variableSignature": "workflowGroupId:ID!",
     "responseShape": "{\"workflowAutomationsMutation\":{\"resumeMostRecentlyPausedWorkflow\":{\"id\":true,\"name\":true,\"status\":true,\"currentVersion\":{\"id\":true,\"status\":true}}}}"
+  },
+  {
+    "operationId": "resumeWorkflowLane",
+    "domain": "workflows",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "workflowGroupId:ID!,legId:ID!",
+    "responseShape": "{\"workflowAutomationsMutation\":{\"resumeWorkflowLane\":{\"id\":true,\"name\":true,\"status\":true}}}"
   },
   {
     "operationId": "resumeWorkflowRun",
