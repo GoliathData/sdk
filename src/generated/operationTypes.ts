@@ -2928,6 +2928,26 @@ export type TransformerAuthoringState =
   | 'NOT_APPLICABLE'
   | 'STRANDED';
 
+/**
+ * Simplified registration status for frontend display.
+ * The backend maps granular Prisma states to these statuses.
+ */
+export type TwilioRegistrationStatus =
+  /** The customer has a verification code to confirm before carrier review can finish (INT-8437) */
+  | 'AWAITING_VERIFICATION'
+  /** Twilio subaccount has been permanently closed — user must contact support to create a new one */
+  | 'CLOSED'
+  /** Registration is complete and approved */
+  | 'COMPLETE'
+  /** Registration failed due to OTP issue that requires user action */
+  | 'FAILED'
+  /** Registration submitted, awaiting Goliath team review before Twilio submission */
+  | 'GOLIATH_REVIEW'
+  /** Registration has not been started */
+  | 'NOT_STARTED'
+  /** Registration is in progress (submitted, pending review, etc.) */
+  | 'UNDER_PROCESSING';
+
 export type UpcomingAgentRunKind =
   | 'CRON'
   | 'FOLLOW_UP';
@@ -4147,6 +4167,31 @@ export type ClearContactDoNotContactMutation = { __typename?: 'RootMutation', co
 export type GetTextingRegistrationStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTextingRegistrationStatusQuery = { __typename?: 'RootQuery', twilioQuery?: { __typename?: 'TwilioQuery', a2pRegistrations?: Array<{ __typename?: 'A2pRegistration', id: string, brandName: string, useCaseLabel: string, status: A2pRegistrationStatus, statusLabel: string, sendingCampaigns: Array<{ __typename?: 'A2pSendingCampaign', id: string, status: A2pRegistrationStatus, statusLabel: string, sendReady: boolean, rejectionReasons: Array<string> }> }> | null } | null };
+
+export type GetTextingRegistrationFormQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type GetTextingRegistrationFormQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, organization?: { __typename?: 'Organization', id: string, twilioRegistration?: { __typename?: 'TwilioRegistration', status: TwilioRegistrationStatus, message?: string | null, failureField?: string | null, filedAt?: any | null } | null, twilioRegistrationPrefill?: { __typename?: 'TwilioRegistrationPrefill', fromEarlierFiling: boolean, fromWorkspace: boolean, fromProfile: boolean, einLetterRemoved: boolean, draft: { __typename?: 'TwilioRegistrationDraft', businessName?: string | null, businessEmail?: string | null, businessType?: string | null, registrationNumber?: string | null, street?: string | null, unit?: string | null, city?: string | null, region?: string | null, postalCode?: string | null, rep1FirstName?: string | null, rep1LastName?: string | null, rep1Title?: string | null, rep1JobPos?: string | null, rep1Email?: string | null, rep1Phone?: string | null, einLetterFileId?: string | null } } | null } | null } | null };
+
+export type FileTextingRegistrationMutationVariables = Exact<{
+  businessName: Scalars['String']['input'];
+  businessEmail: Scalars['String']['input'];
+  businessType: Scalars['String']['input'];
+  registrationNumber: Scalars['String']['input'];
+  street: Scalars['String']['input'];
+  unit?: InputMaybe<Scalars['String']['input']>;
+  city: Scalars['String']['input'];
+  state: Scalars['String']['input'];
+  postalCode: Scalars['String']['input'];
+  rep1FirstName: Scalars['String']['input'];
+  rep1LastName: Scalars['String']['input'];
+  rep1Email: Scalars['String']['input'];
+  rep1Phone: Scalars['String']['input'];
+  rep1JobPos: Scalars['String']['input'];
+  rep1Title: Scalars['String']['input'];
+  einConfirmationLetterUploadedFileId?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+export type FileTextingRegistrationMutation = { __typename?: 'RootMutation', twilioMutation?: { __typename?: 'TwilioMutation', createBusinessSubAccount?: { __typename?: 'Organization', id: string, twilioRegistration?: { __typename?: 'TwilioRegistration', status: TwilioRegistrationStatus, message?: string | null, filedAt?: any | null } | null } | null } | null };
 
 export type GetComplianceSiteQueryVariables = Exact<{ [key: string]: never; }>;
 

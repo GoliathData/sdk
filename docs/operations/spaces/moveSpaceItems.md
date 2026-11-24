@@ -4,7 +4,7 @@
 
 mutation · domain `spaces` · requires the WRITE scope
 
-Move up to 200 items into a folder or a root (`destination.folderId` omitted), all or nothing. Needs edit access on both sides; a move that would change who can see an item (out of a restricted folder, or between My files and Team) also needs MANAGER on it unless it was already open to the whole team — and an AI agent can never make that kind of move: ask the person to do it in Library. Folders move with everything in them.
+Move up to 200 items into a folder or a root (`destination.folderId` omitted), all or nothing. Needs edit access on both sides; a move that would change who can see an item (out of a restricted folder, or between My files and Team) also needs MANAGER on it unless it was already open to the whole team, and an AI agent makes such a move only on the person's own tap on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders move with everything in them.
 
 ## Call
 

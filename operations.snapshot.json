@@ -1066,6 +1066,19 @@
     "responseShape": "{\"callsMutation\":{\"deleteVoicemailTemplate\":true}}"
   },
   {
+    "operationId": "fileTextingRegistration",
+    "domain": "communications",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": true,
+    "variableSignature": "businessName:String!,businessEmail:String!,businessType:String!,registrationNumber:String!,street:String!,unit:String,city:String!,state:String!,postalCode:String!,rep1FirstName:String!,rep1LastName:String!,rep1Email:String!,rep1Phone:String!,rep1JobPos:String!,rep1Title:String!,einConfirmationLetterUploadedFileId:ID",
+    "responseShape": "{\"twilioMutation\":{\"createBusinessSubAccount\":{\"id\":true,\"twilioRegistration\":{\"status\":true,\"message\":true,\"filedAt\":true}}}}"
+  },
+  {
     "operationId": "getCallWorkspaceSettings",
     "domain": "communications",
     "operationType": "query",
@@ -1116,6 +1129,19 @@
     "hasAuthorize": false,
     "variableSignature": "",
     "responseShape": "{\"currentUser\":{\"id\":true,\"organization\":{\"id\":true,\"textingReadiness\":{\"canText\":true,\"reason\":true},\"twilioPhoneNumbers\":{\"id\":true,\"e164Number\":true,\"canSendSms\":true,\"isBurned\":true,\"smsDailyThrottle\":{\"used\":true,\"cap\":true,\"remaining\":true},\"smsWarmUpVolume\":{\"last7Days\":true}},\"smsBrandBudgets\":{\"id\":true,\"phoneNumberIds\":true,\"dailyThrottle\":{\"used\":true,\"cap\":true,\"remaining\":true,\"utcDayEnd\":true}}}},\"oauthQuery\":{\"myActiveEmailIdentities\":{\"id\":true,\"email\":true,\"dailyMessagesThrottle\":{\"used\":true,\"cap\":true,\"remaining\":true},\"dailyRecipientsThrottle\":{\"used\":true,\"cap\":true,\"remaining\":true}}},\"workflowAutomationsQuery\":{\"sendingQueue\":{\"queued\":true,\"held\":true,\"heldReason\":true,\"heldUntil\":true,\"nextSendAt\":true}}}"
+  },
+  {
+    "operationId": "getTextingRegistrationForm",
+    "domain": "communications",
+    "operationType": "query",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"currentUser\":{\"id\":true,\"organization\":{\"id\":true,\"twilioRegistration\":{\"status\":true,\"message\":true,\"failureField\":true,\"filedAt\":true},\"twilioRegistrationPrefill\":{\"fromEarlierFiling\":true,\"fromWorkspace\":true,\"fromProfile\":true,\"einLetterRemoved\":true,\"draft\":{\"businessName\":true,\"businessEmail\":true,\"businessType\":true,\"registrationNumber\":true,\"street\":true,\"unit\":true,\"city\":true,\"region\":true,\"postalCode\":true,\"rep1FirstName\":true,\"rep1LastName\":true,\"rep1Title\":true,\"rep1JobPos\":true,\"rep1Email\":true,\"rep1Phone\":true,\"einLetterFileId\":true}}}}}"
   },
   {
     "operationId": "getTextingRegistrationStatus",

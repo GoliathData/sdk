@@ -553,7 +553,7 @@ export class GoliathClient extends GoliathClientCore {
     getCreditUsageByType: (variables?: T.GetCreditUsageByTypeQueryVariables, options?: RequestOptions): Promise<T.GetCreditUsageByTypeQuery> =>
       this.request('getCreditUsageByType', variables, options, { operationType: 'query' }),
     /**
-     * The in-app Team & Phones page URL where a human registers and buys phone numbers. The agent cannot buy numbers.
+     * The in-app Team & Phones page URL where a person registers and buys phone numbers themself. An admin's Ask Goliath buys one with provisionPhoneNumber once the person agrees to its monthly charge; any other agent sends this link.
      *
      * @remarks Requires the READ scope.
      */
@@ -708,6 +708,15 @@ export class GoliathClient extends GoliathClientCore {
     deleteVoicemailTemplate: (variables: T.DeleteVoicemailTemplateMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteVoicemailTemplateMutation> =>
       this.request('deleteVoicemailTemplate', variables, options, { operationType: 'mutation' }),
     /**
+     * File or refile the organization's texting registration (A2P 10DLC), as the form's Submit in Settings → Phone → Registration does. Send getTextingRegistrationForm's draft (state is its region; registrationNumber is the EIN, like 12-3456789; state a code, like CO). businessType: Co-operative, Corporation, Limited Liability Corporation, Non-profit Corporation, Partnership or Sole Proprietorship. rep1JobPos: Director, GM, VP, CEO, CFO, General Counsel or Other; rep1Title is the position itself, or their title for Other (an owner: Other, Owner). einConfirmationLetterUploadedFileId: the draft einLetterFileId; null removes the letter, omitted keeps it. Card summary: the business name, EIN, type, address and representative it files; Goliath reviews it, then the carriers (days). Goliath's team adds the website and the use case. Refused on a trial (end it in the app) or a plan without texting. Admins only.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    fileTextingRegistration: (variables: T.FileTextingRegistrationMutationVariables, options?: IdempotentRequestOptions): Promise<T.FileTextingRegistrationMutation> =>
+      this.request('fileTextingRegistration', variables, options, { operationType: 'mutation' }),
+    /**
      * The dialer's settings (Settings → Calls): auto-advance, the after-call actions in order, callCardFieldIds (contact custom fields shown on the call card) and callerIdTableColumnId; plus a person's voicemail drops (userId, default the key owner).
      *
      * @remarks Requires the READ scope.
@@ -731,14 +740,21 @@ export class GoliathClient extends GoliathClientCore {
     getSendConsentAttestation: (options?: RequestOptions): Promise<T.GetSendConsentAttestationQuery> =>
       this.request('getSendConsentAttestation', undefined, options, { operationType: 'query' }),
     /**
-     * How much can we text and email today? Per line, brand (team) and mailbox: used / cap / remaining today (text segments; null cap = no limit; a mailbox also meters recipients, and the tighter of its two binds), a line's last-7-day volume, and the sending queue. Read-only. Count only lines with canSendSms and not isBurned. textingReadiness is the org's texting registration: canText, and reason when not (NO_REGISTRATION = none filed; MANAGED_* = Goliath-managed registration in review or failed; BYO_* = their own Twilio account). Read it first for a registration question; never fill in or submit one for them.
+     * How much can we text and email today? Per line, brand (team) and mailbox: used / cap / remaining today (text segments; null cap = no limit; a mailbox also meters recipients, and the tighter of its two binds), a line's last-7-day volume, and the sending queue. Read-only. Count only lines with canSendSms and not isBurned. textingReadiness is the org's texting registration: canText, and reason when not (NO_REGISTRATION = none filed; MANAGED_* = Goliath-managed registration in review or failed; BYO_* = their own Twilio account). Read it first for a registration question; getTextingRegistrationForm and fileTextingRegistration file one.
      *
      * @remarks Requires the READ scope.
      */
     getSendingLimits: (options?: RequestOptions): Promise<T.GetSendingLimitsQuery> =>
       this.request('getSendingLimits', undefined, options, { operationType: 'query' }),
     /**
-     * The organization's A2P 10DLC texting registration, STATUS ONLY: each brand (`status`, `statusLabel`, `useCaseLabel`) and its sending campaigns (`sendReady` true = approved and able to text; `rejectionReasons` when a carrier refused it). Read-only: registering, resubmitting or retrying happens in the Goliath app (Settings → Phone → Registration). For whether the org can text at all right now, listCommunicationChannels' textingReadiness.
+     * The texting registration form (A2P 10DLC) as Settings → Phone → Registration opens it, prefilled from the saved draft, an earlier filing, the workspace and the filer's profile. registrationNumber is the EIN; ask for it when empty. twilioRegistration is the filing on record (null: none; message and failureField: what the carriers refused). Read before fileTextingRegistration. Admins only.
+     *
+     * @remarks Requires the ADMIN scope.
+     */
+    getTextingRegistrationForm: (options?: RequestOptions): Promise<T.GetTextingRegistrationFormQuery> =>
+      this.request('getTextingRegistrationForm', undefined, options, { operationType: 'query' }),
+    /**
+     * The organization's A2P 10DLC texting registration, STATUS ONLY: each brand (`status`, `statusLabel`, `useCaseLabel`) and its sending campaigns (`sendReady` true = approved and able to text; `rejectionReasons` when a carrier refused it). Read-only: file or refile the registration with getTextingRegistrationForm then fileTextingRegistration (admins); a sending campaign's resubmit is in the Goliath app (Settings → Phone → Registration). For whether the org can text at all right now, listCommunicationChannels' textingReadiness.
      *
      * @remarks Requires the READ scope.
      */
@@ -4046,7 +4062,7 @@ export class GoliathClient extends GoliathClientCore {
     completeSpaceUpload: (variables: T.CompleteSpaceUploadMutationVariables, options?: IdempotentRequestOptions): Promise<T.CompleteSpaceUploadMutation> =>
       this.request('completeSpaceUpload', variables, options, { operationType: 'mutation' }),
     /**
-     * Copy a FILE into a folder or root you can edit. The copy is yours and starts with no sharing; copying somewhere with a different audience needs MANAGER on the source unless it was already open to the whole team, and an AI agent can never make that kind of copy. Folders cannot be copied yet.
+     * Copy a FILE into a folder or root you can edit. The copy is yours and starts with no sharing; copying somewhere with a different audience needs MANAGER on the source unless it was already open to the whole team, and an AI agent makes such a copy only on the person's own tap on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders cannot be copied yet.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4055,7 +4071,7 @@ export class GoliathClient extends GoliathClientCore {
     copySpaceItem: (variables: T.CopySpaceItemMutationVariables, options?: IdempotentRequestOptions): Promise<T.CopySpaceItemMutation> =>
       this.request('copySpaceItem', variables, options, { operationType: 'mutation' }),
     /**
-     * Copy an upload's original file (listFiles `uploads[].file.id`) into a folder or root you can edit, as Uploads' "Copy to My files" does: a new file of your own, independent of the upload. Needs EDITOR there.
+     * Copy an upload's original file (listFiles `uploads[].file.id`) into a folder or root you can edit, as Uploads' "Copy to My files" does: a new file of your own, independent of the upload. Needs EDITOR there; a copy into a different audience follows copySpaceItem's rule.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4073,7 +4089,7 @@ export class GoliathClient extends GoliathClientCore {
     createSpaceFolder: (variables: T.CreateSpaceFolderMutationVariables, options?: IdempotentRequestOptions): Promise<T.CreateSpaceFolderMutation> =>
       this.request('createSpaceFolder', variables, options, { operationType: 'mutation' }),
     /**
-     * Save text as a new file — a report, notes, a JSON or CSV export, a memo — in a folder you can edit. The NAME decides the type (`.md`, `.json`, `.csv`, `.txt`, `.html`, `.ts` …); binary types are refused (they are uploaded in the app). Up to 5 MB. The file is yours, labelled as made by AI for you when an agent writes it. An `.html` file saved here is an ordinary file, never a Page (Pages are made only by Ask Goliath's page tools). Pass `creationKey` to make a retry safe. Default to the person's My files unless they named a folder.
+     * Save text as a new file — a report, notes, a JSON or CSV export, a memo — in a folder you can edit. The NAME decides the type (`.md`, `.json`, `.csv`, `.txt`, `.html`, `.ts` …); binary types are refused (they are uploaded in the app). Up to 5 MB. The file is yours, labelled as made by AI for you when an agent writes it. An `.html` file saved here is an ordinary file, never a Page (Pages are made only by Ask Goliath's page tools). Pass `creationKey` to make a retry safe: a key is for one text, so new text needs a new key (never one made from the name alone). Default to the person's My files unless they named a folder.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4299,7 +4315,7 @@ export class GoliathClient extends GoliathClientCore {
     listSpaceTrash: (options?: RequestOptions): Promise<T.ListSpaceTrashQuery> =>
       this.request('listSpaceTrash', undefined, options, { operationType: 'query' }),
     /**
-     * Move up to 200 items into a folder or a root (`destination.folderId` omitted), all or nothing. Needs edit access on both sides; a move that would change who can see an item (out of a restricted folder, or between My files and Team) also needs MANAGER on it unless it was already open to the whole team — and an AI agent can never make that kind of move: ask the person to do it in Library. Folders move with everything in them.
+     * Move up to 200 items into a folder or a root (`destination.folderId` omitted), all or nothing. Needs edit access on both sides; a move that would change who can see an item (out of a restricted folder, or between My files and Team) also needs MANAGER on it unless it was already open to the whole team, and an AI agent makes such a move only on the person's own tap on a write card that names who gains access, which only the organization's Goliath agent shows; any other agent (the chat's own write tools, an AI employee) is refused, so it asks the person to do it in Library. Folders move with everything in them.
      *
      * @remarks Requires the WRITE scope.
      *

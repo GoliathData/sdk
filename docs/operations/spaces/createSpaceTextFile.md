@@ -4,7 +4,7 @@
 
 mutation · domain `spaces` · requires the WRITE scope
 
-Save text as a new file — a report, notes, a JSON or CSV export, a memo — in a folder you can edit. The NAME decides the type (`.md`, `.json`, `.csv`, `.txt`, `.html`, `.ts` …); binary types are refused (they are uploaded in the app). Up to 5 MB. The file is yours, labelled as made by AI for you when an agent writes it. An `.html` file saved here is an ordinary file, never a Page (Pages are made only by Ask Goliath's page tools). Pass `creationKey` to make a retry safe. Default to the person's My files unless they named a folder.
+Save text as a new file — a report, notes, a JSON or CSV export, a memo — in a folder you can edit. The NAME decides the type (`.md`, `.json`, `.csv`, `.txt`, `.html`, `.ts` …); binary types are refused (they are uploaded in the app). Up to 5 MB. The file is yours, labelled as made by AI for you when an agent writes it. An `.html` file saved here is an ordinary file, never a Page (Pages are made only by Ask Goliath's page tools). Pass `creationKey` to make a retry safe: a key is for one text, so new text needs a new key (never one made from the name alone). Default to the person's My files unless they named a folder.
 
 ## Call
 

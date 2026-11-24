@@ -4,7 +4,7 @@
 
 mutation · domain `spaces` · requires the WRITE scope
 
-Copy an upload's original file (listFiles `uploads[].file.id`) into a folder or root you can edit, as Uploads' "Copy to My files" does: a new file of your own, independent of the upload. Needs EDITOR there.
+Copy an upload's original file (listFiles `uploads[].file.id`) into a folder or root you can edit, as Uploads' "Copy to My files" does: a new file of your own, independent of the upload. Needs EDITOR there; a copy into a different audience follows copySpaceItem's rule.
 
 ## Call
 

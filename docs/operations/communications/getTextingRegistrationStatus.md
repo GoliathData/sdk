@@ -4,7 +4,7 @@
 
 query · domain `communications` · requires the READ scope
 
-The organization's A2P 10DLC texting registration, STATUS ONLY: each brand (`status`, `statusLabel`, `useCaseLabel`) and its sending campaigns (`sendReady` true = approved and able to text; `rejectionReasons` when a carrier refused it). Read-only: registering, resubmitting or retrying happens in the Goliath app (Settings → Phone → Registration). For whether the org can text at all right now, listCommunicationChannels' textingReadiness.
+The organization's A2P 10DLC texting registration, STATUS ONLY: each brand (`status`, `statusLabel`, `useCaseLabel`) and its sending campaigns (`sendReady` true = approved and able to text; `rejectionReasons` when a carrier refused it). Read-only: file or refile the registration with getTextingRegistrationForm then fileTextingRegistration (admins); a sending campaign's resubmit is in the Goliath app (Settings → Phone → Registration). For whether the org can text at all right now, listCommunicationChannels' textingReadiness.
 
 ## Call
 

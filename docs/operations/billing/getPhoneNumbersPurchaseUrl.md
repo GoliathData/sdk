@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-The in-app Team & Phones page URL where a human registers and buys phone numbers. The agent cannot buy numbers.
+The in-app Team & Phones page URL where a person registers and buys phone numbers themself. An admin's Ask Goliath buys one with provisionPhoneNumber once the person agrees to its monthly charge; any other agent sends this link.
 
 ## Call
 

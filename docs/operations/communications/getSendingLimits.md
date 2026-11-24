@@ -4,7 +4,7 @@
 
 query · domain `communications` · requires the READ scope
 
-How much can we text and email today? Per line, brand (team) and mailbox: used / cap / remaining today (text segments; null cap = no limit; a mailbox also meters recipients, and the tighter of its two binds), a line's last-7-day volume, and the sending queue. Read-only. Count only lines with canSendSms and not isBurned. textingReadiness is the org's texting registration: canText, and reason when not (NO_REGISTRATION = none filed; MANAGED_* = Goliath-managed registration in review or failed; BYO_* = their own Twilio account). Read it first for a registration question; never fill in or submit one for them.
+How much can we text and email today? Per line, brand (team) and mailbox: used / cap / remaining today (text segments; null cap = no limit; a mailbox also meters recipients, and the tighter of its two binds), a line's last-7-day volume, and the sending queue. Read-only. Count only lines with canSendSms and not isBurned. textingReadiness is the org's texting registration: canText, and reason when not (NO_REGISTRATION = none filed; MANAGED_* = Goliath-managed registration in review or failed; BYO_* = their own Twilio account). Read it first for a registration question; getTextingRegistrationForm and fileTextingRegistration file one.
 
 ## Call
 
