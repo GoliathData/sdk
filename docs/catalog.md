@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-647 operations across 32 domains — small enough to read whole. One line each:
+650 operations across 33 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -132,6 +132,12 @@ Full detail per operation (variables, call example, gateway notes, response shap
 - `setSendConsentAttestation` (mutation, ADMIN) [idempotent] — Attest (`attested: true`) or withdraw (`false`) the organization's send consent: the org admin who owns this key states, once for the whole organization, that every contact it texts or emails through the developer API consented to be contacted. It opens the operations that message contacts (sendText, sendEmail, and accepting a card that sends, a contract's emails to its signers) to the organization's developer-API keys; it replaces no check — every send still runs opt-out, Do Not Contact and A2P registration, and Pause everything still holds them. Only on the admin's own word: never attest for them. ADMIN scope; the key owner must currently be an org admin. Returns attested, attestedAt, attestedByUserId.
 - `suppressChannel` (mutation, WRITE) [idempotent] — Value-level opt-out: block a phone number or email address for your organization on one medium (SMS, VOICE or EMAIL). Keyed on the normalized VALUE, not a contact: every contact carrying it, now and later, is blocked on send. SMS/VOICE take a phone in any format, EMAIL an address; an unparseable one is rejected (INVALID_PHONE_NUMBER / INVALID_INPUT). Idempotent. Blocks only the medium named (send VOICE too for calls). A person in the app clears it, or clearChannelSuppression (a key, or Ask Goliath for the member themself). Returns organizationId, normalizedValue, medium.
 - `updateCallOutcome` (mutation, WRITE) [idempotent] — Record or correct a call's outcome (disposition) and its note (at most 280 characters), as the dialer's outcome gate does. By callSid, or by contactId for the key owner's latest outbound call to that contact. Sends nothing.
+
+## complianceSites
+
+- `getComplianceSite` (query, READ) — The organization's A2P compliance site (the pages Goliath hosts for its texting registration): domain, live URLs, the facts it shows and the saved ones, and which facts are locked or editable. Null when none.
+- `previewComplianceSiteEdit` (mutation, WRITE) [idempotent] — Preview a compliance-site edit (org admins): only the facts that change (tagline, contactEmail, contactPhone, contactName, contactTitle, markets; null clears). Refused when it would move the business name, legal entity or opt-in wording; else a draft link and the previewId to republish. Nothing live changes.
+- `republishComplianceSite` (mutation, ADMIN) [idempotent] — Put a previewed compliance-site edit live (org admins): the same edit and its previewId. Verified against the carrier checklist on the live pages, or put back as it was (rolledBack) with the reasons.
 
 ## contactImports
 

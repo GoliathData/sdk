@@ -4345,6 +4345,146 @@
       }
     },
     {
+      "operationId": "getComplianceSite",
+      "domain": "complianceSites",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "The organization's A2P compliance site (the pages Goliath hosts for its texting registration): domain, live URLs, the facts it shows and the saved ones, and which facts are locked or editable. Null when none.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [],
+      "responseShape": {
+        "complianceSiteQuery": {
+          "site": {
+            "domain": true,
+            "status": true,
+            "homeUrl": true,
+            "privacyUrl": true,
+            "termsUrl": true,
+            "contactUrl": true,
+            "facts": {
+              "businessName": true,
+              "legalEntityName": true,
+              "tagline": true,
+              "contactEmail": true,
+              "contactPhone": true,
+              "contactName": true,
+              "contactTitle": true,
+              "markets": true,
+              "seed": true
+            },
+            "saved": {
+              "tagline": true,
+              "contactEmail": true,
+              "contactPhone": true,
+              "contactName": true,
+              "contactTitle": true,
+              "markets": true
+            },
+            "lockedFacts": true,
+            "editableFacts": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "previewComplianceSiteEdit",
+      "domain": "complianceSites",
+      "operationType": "mutation",
+      "requiredScope": "WRITE",
+      "description": "Preview a compliance-site edit (org admins): only the facts that change (tagline, contactEmail, contactPhone, contactName, contactTitle, markets; null clears). Refused when it would move the business name, legal entity or opt-in wording; else a draft link and the previewId to republish. Nothing live changes.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "edit",
+          "type": "ComplianceSiteEditInput!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "complianceSiteMutation": {
+          "previewEdit": {
+            "ok": true,
+            "refusals": true,
+            "previewId": true,
+            "draftUrl": true,
+            "liveUrl": true,
+            "rolledBack": true,
+            "ignored": true,
+            "facts": {
+              "businessName": true,
+              "legalEntityName": true,
+              "tagline": true,
+              "contactEmail": true,
+              "contactPhone": true,
+              "contactName": true,
+              "contactTitle": true,
+              "markets": true,
+              "seed": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "republishComplianceSite",
+      "domain": "complianceSites",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Put a previewed compliance-site edit live (org admins): the same edit and its previewId. Verified against the carrier checklist on the live pages, or put back as it was (rolledBack) with the reasons.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "edit",
+          "type": "ComplianceSiteEditInput!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "previewId",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "complianceSiteMutation": {
+          "republish": {
+            "ok": true,
+            "refusals": true,
+            "previewId": true,
+            "draftUrl": true,
+            "liveUrl": true,
+            "rolledBack": true,
+            "ignored": true,
+            "facts": {
+              "businessName": true,
+              "legalEntityName": true,
+              "tagline": true,
+              "contactEmail": true,
+              "contactPhone": true,
+              "contactName": true,
+              "contactTitle": true,
+              "markets": true,
+              "seed": true
+            }
+          }
+        }
+      }
+    },
+    {
       "operationId": "authorContactImportMapping",
       "domain": "contactImports",
       "operationType": "mutation",

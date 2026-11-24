@@ -467,6 +467,20 @@ export type CommunicationDirection =
   | 'INBOUND'
   | 'OUTBOUND';
 
+/**
+ * An edit of a compliance site. Give only what changes; null clears a saved value. `businessName` is accepted only
+ * to be refused: the name is the brand registration's.
+ */
+export type ComplianceSiteEditInput = {
+  businessName?: InputMaybe<Scalars['String']['input']>;
+  contactEmail?: InputMaybe<Scalars['String']['input']>;
+  contactName?: InputMaybe<Scalars['String']['input']>;
+  contactPhone?: InputMaybe<Scalars['String']['input']>;
+  contactTitle?: InputMaybe<Scalars['String']['input']>;
+  markets?: InputMaybe<Array<Scalars['String']['input']>>;
+  tagline?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type ContactAgentCallScheduleDayInput = {
   close: Scalars['String']['input'];
   day: ContactAgentDayOfWeek;
@@ -4133,6 +4147,23 @@ export type ClearContactDoNotContactMutation = { __typename?: 'RootMutation', co
 export type GetTextingRegistrationStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTextingRegistrationStatusQuery = { __typename?: 'RootQuery', twilioQuery?: { __typename?: 'TwilioQuery', a2pRegistrations?: Array<{ __typename?: 'A2pRegistration', id: string, brandName: string, useCaseLabel: string, status: A2pRegistrationStatus, statusLabel: string, sendingCampaigns: Array<{ __typename?: 'A2pSendingCampaign', id: string, status: A2pRegistrationStatus, statusLabel: string, sendReady: boolean, rejectionReasons: Array<string> }> }> | null } | null };
+
+export type GetComplianceSiteQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type GetComplianceSiteQuery = { __typename?: 'RootQuery', complianceSiteQuery?: { __typename?: 'ComplianceSiteQuery', site?: { __typename?: 'ComplianceSite', domain?: string | null, status: string, homeUrl?: string | null, privacyUrl?: string | null, termsUrl?: string | null, contactUrl?: string | null, lockedFacts: Array<string>, editableFacts: Array<string>, facts?: { __typename?: 'ComplianceSiteFacts', businessName: string, legalEntityName?: string | null, tagline: string, contactEmail: string, contactPhone: string, contactName?: string | null, contactTitle?: string | null, markets: Array<string>, seed?: string | null } | null, saved: { __typename?: 'ComplianceSiteSavedFacts', tagline?: string | null, contactEmail?: string | null, contactPhone?: string | null, contactName?: string | null, contactTitle?: string | null, markets?: Array<string> | null } } | null } | null };
+
+export type PreviewComplianceSiteEditMutationVariables = Exact<{
+  edit: ComplianceSiteEditInput;
+}>;
+
+export type PreviewComplianceSiteEditMutation = { __typename?: 'RootMutation', complianceSiteMutation?: { __typename?: 'ComplianceSiteMutation', previewEdit?: { __typename?: 'ComplianceSiteEditResult', ok: boolean, refusals: Array<string>, previewId?: string | null, draftUrl?: string | null, liveUrl?: string | null, rolledBack: boolean, ignored: Array<string>, facts?: { __typename?: 'ComplianceSiteFacts', businessName: string, legalEntityName?: string | null, tagline: string, contactEmail: string, contactPhone: string, contactName?: string | null, contactTitle?: string | null, markets: Array<string>, seed?: string | null } | null } | null } | null };
+
+export type RepublishComplianceSiteMutationVariables = Exact<{
+  edit: ComplianceSiteEditInput;
+  previewId: Scalars['String']['input'];
+}>;
+
+export type RepublishComplianceSiteMutation = { __typename?: 'RootMutation', complianceSiteMutation?: { __typename?: 'ComplianceSiteMutation', republish?: { __typename?: 'ComplianceSiteEditResult', ok: boolean, refusals: Array<string>, previewId?: string | null, draftUrl?: string | null, liveUrl?: string | null, rolledBack: boolean, ignored: Array<string>, facts?: { __typename?: 'ComplianceSiteFacts', businessName: string, legalEntityName?: string | null, tagline: string, contactEmail: string, contactPhone: string, contactName?: string | null, contactTitle?: string | null, markets: Array<string>, seed?: string | null } | null } | null } | null };
 
 export type FindContactDataProblemsQueryVariables = Exact<{
   problem?: InputMaybe<ContactDataProblem>;

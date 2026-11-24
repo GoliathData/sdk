@@ -1313,6 +1313,45 @@
     "responseShape": "{\"callsMutation\":{\"updateCallDisposition\":true}}"
   },
   {
+    "operationId": "getComplianceSite",
+    "domain": "complianceSites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"complianceSiteQuery\":{\"site\":{\"domain\":true,\"status\":true,\"homeUrl\":true,\"privacyUrl\":true,\"termsUrl\":true,\"contactUrl\":true,\"facts\":{\"businessName\":true,\"legalEntityName\":true,\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true,\"seed\":true},\"saved\":{\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true},\"lockedFacts\":true,\"editableFacts\":true}}}"
+  },
+  {
+    "operationId": "previewComplianceSiteEdit",
+    "domain": "complianceSites",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "edit:ComplianceSiteEditInput!",
+    "responseShape": "{\"complianceSiteMutation\":{\"previewEdit\":{\"ok\":true,\"refusals\":true,\"previewId\":true,\"draftUrl\":true,\"liveUrl\":true,\"rolledBack\":true,\"ignored\":true,\"facts\":{\"businessName\":true,\"legalEntityName\":true,\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true,\"seed\":true}}}}"
+  },
+  {
+    "operationId": "republishComplianceSite",
+    "domain": "complianceSites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "edit:ComplianceSiteEditInput!,previewId:String!",
+    "responseShape": "{\"complianceSiteMutation\":{\"republish\":{\"ok\":true,\"refusals\":true,\"previewId\":true,\"draftUrl\":true,\"liveUrl\":true,\"rolledBack\":true,\"ignored\":true,\"facts\":{\"businessName\":true,\"legalEntityName\":true,\"tagline\":true,\"contactEmail\":true,\"contactPhone\":true,\"contactName\":true,\"contactTitle\":true,\"markets\":true,\"seed\":true}}}}"
+  },
+  {
     "operationId": "authorContactImportMapping",
     "domain": "contactImports",
     "operationType": "mutation",

@@ -868,6 +868,34 @@ export class GoliathClient extends GoliathClientCore {
       this.request('updateCallOutcome', variables, options, { operationType: 'mutation' }),
   }
 
+  readonly complianceSites = {
+    /**
+     * The organization's A2P compliance site (the pages Goliath hosts for its texting registration): domain, live URLs, the facts it shows and the saved ones, and which facts are locked or editable. Null when none.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getComplianceSite: (options?: RequestOptions): Promise<T.GetComplianceSiteQuery> =>
+      this.request('getComplianceSite', undefined, options, { operationType: 'query' }),
+    /**
+     * Preview a compliance-site edit (org admins): only the facts that change (tagline, contactEmail, contactPhone, contactName, contactTitle, markets; null clears). Refused when it would move the business name, legal entity or opt-in wording; else a draft link and the previewId to republish. Nothing live changes.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    previewComplianceSiteEdit: (variables: T.PreviewComplianceSiteEditMutationVariables, options?: IdempotentRequestOptions): Promise<T.PreviewComplianceSiteEditMutation> =>
+      this.request('previewComplianceSiteEdit', variables, options, { operationType: 'mutation' }),
+    /**
+     * Put a previewed compliance-site edit live (org admins): the same edit and its previewId. Verified against the carrier checklist on the live pages, or put back as it was (rolledBack) with the reasons.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    republishComplianceSite: (variables: T.RepublishComplianceSiteMutationVariables, options?: IdempotentRequestOptions): Promise<T.RepublishComplianceSiteMutation> =>
+      this.request('republishComplianceSite', variables, options, { operationType: 'mutation' }),
+  }
+
   readonly contactImports = {
     /**
      * Bring an import from startContactImport to a ready mapping when it was not ready yet (transformerAuthoringState IN_PROGRESS, or hasAuthoredTransformer false). It returns at once when the mapping already exists. Same result fields as startContactImport. Nothing is imported.
