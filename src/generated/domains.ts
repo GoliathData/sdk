@@ -2901,7 +2901,7 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly phoneNumbers = {
     /**
-     * Put numbers the org already owns (listCommunicationChannels) into the dialer's rotation. A teammate's line is allowed; an AI employee's is refused. Admins only.
+     * Put numbers the org already owns (listCommunicationChannels) into the dialer's rotation. A teammate's line is allowed; an AI employee's is refused. Admins only. A line the dialer cannot use (not a Twilio line, no Twilio number behind it, or an AI list's line) is skipped with no error: compare the ids you sent with the returned rows marked `isDialingPoolLine: true`, and any other stayed out. Say which joined and which stayed out, as the app does ("1 of those numbers couldn't join"), never a success for a line that stayed out.
      *
      * @remarks Requires the WRITE scope.
      *
