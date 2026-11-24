@@ -5433,6 +5433,19 @@ export type CommentOnEmployeeSuggestionMutationVariables = Exact<{
 
 export type CommentOnEmployeeSuggestionMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', commentOnContactAgentSuggestion: { __typename?: 'SuggestionCardComment', heard: boolean } } | null };
 
+export type GetEmployeeCapabilitiesQueryVariables = Exact<{
+  employeeId: Scalars['ID']['input'];
+}>;
+
+export type GetEmployeeCapabilitiesQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', contactAgentCapabilities?: { __typename?: 'ContactAgentCapabilities', abilities: Array<{ __typename?: 'ContactAgentAbility', tool: string, label: string, on: boolean, explicitlySet: boolean, gate?: string | null }>, alwaysOn: Array<{ __typename?: 'ContactAgentAlwaysOnAbility', tool: string, label: string }>, limits: Array<{ __typename?: 'ContactAgentPlatformLimit', truth: string, nearestAlternative?: string | null }> } | null } | null };
+
+export type SetOrgMissedCallCoverMutationVariables = Exact<{
+  employeeId: Scalars['ID']['input'];
+  enable: Scalars['Boolean']['input'];
+}>;
+
+export type SetOrgMissedCallCoverMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', setOrgMissedCallCover?: { __typename?: 'ContactAgentRoutingSwitchResult', ok: boolean, changed?: boolean | null, diagnostics: Array<string> } | null } | null };
+
 export type ListFilesQueryVariables = Exact<{
   filterTree?: InputMaybe<Scalars['JSON']['input']>;
   limit?: InputMaybe<Scalars['Int']['input']>;
@@ -5936,6 +5949,15 @@ export type DeleteNotificationsMutationVariables = Exact<{
 }>;
 
 export type DeleteNotificationsMutation = { __typename?: 'RootMutation', notificationMutation?: { __typename?: 'NotificationMutation', deleteNotifications?: number | null } | null };
+
+export type SetHandoffNotificationsMutationVariables = Exact<{
+  sms?: InputMaybe<Scalars['Boolean']['input']>;
+  email?: InputMaybe<Scalars['Boolean']['input']>;
+  inApp?: InputMaybe<Scalars['Boolean']['input']>;
+  push?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+export type SetHandoffNotificationsMutation = { __typename?: 'RootMutation', aiEmployeesMutation?: { __typename?: 'AiEmployeesMutation', setHandoffNotifications?: { __typename?: 'HandoffNotificationsResult', ok: boolean, diagnostics: Array<string>, channels?: { __typename?: 'HandoffNotificationChannels', sms: boolean, email: boolean, inApp: boolean, push: boolean } | null } | null } | null };
 
 export type GetOrganizationSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7857,6 +7879,56 @@ export type AddLibraryFileFromArtifactMutationVariables = Exact<{
 }>;
 
 export type AddLibraryFileFromArtifactMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', createLibraryFileFromArtifact?: { __typename?: 'LibraryFile', id: string, name: string, folderId?: string | null, contentType?: string | null } | null } | null };
+
+export type ScoreSmsCarrierRiskQueryVariables = Exact<{
+  bodies: Array<Scalars['String']['input']> | Scalars['String']['input'];
+  brandName?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type ScoreSmsCarrierRiskQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', smsCarrierRiskScores?: Array<{ __typename?: 'SmsCarrierRiskScore', body: string, score: number, band: string, wouldBlockPublish: boolean, reasons: Array<string>, phrases: Array<string> }> | null } | null };
+
+export type PreviewTriggerMatchVolumeQueryVariables = Exact<{
+  workflowGroupId: Scalars['ID']['input'];
+  useDraft?: InputMaybe<Scalars['Boolean']['input']>;
+}>;
+
+export type PreviewTriggerMatchVolumeQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowTriggerMatchVolume?: { __typename?: 'WorkflowTriggerMatchVolume', ok: boolean, diagnostics: Array<string>, lastSevenDays?: number | null, lastSevenDaysIsLowerBound: boolean, allTime?: number | null, allTimeIsLowerBound: boolean } | null } | null };
+
+export type DescribeWorkflowRunQueryVariables = Exact<{
+  workflowGroupId: Scalars['ID']['input'];
+  workflowAutomationRunId?: InputMaybe<Scalars['ID']['input']>;
+  recordName?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type DescribeWorkflowRunQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowRunStory?: { __typename?: 'WorkflowRunStory', ok: boolean, diagnostics: Array<string>, workflowAutomationRunId?: string | null, status?: string | null, record?: string | null, history?: string | null, enrolledHow?: string | null, enrolledBy?: string | null, stopReason?: string | null, canReenroll?: boolean | null } | null } | null };
+
+export type PlanEnrollExistingMatchesQueryVariables = Exact<{
+  workflowGroupId: Scalars['ID']['input'];
+  signalWindowDays?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type PlanEnrollExistingMatchesQuery = { __typename?: 'RootQuery', workflowAutomationsQuery?: { __typename?: 'WorkflowAutomationsQuery', workflowLiveMatchEnrollmentPlan?: { __typename?: 'WorkflowLiveMatchEnrollmentPlan', available: boolean, reason?: string | null, liveVersionId?: string | null, count: number, spendsSkipTraces?: boolean | null, creditsLeft?: number | null } | null } | null };
+
+export type ExplainOutcomeQueryVariables = Exact<{
+  contactId?: InputMaybe<Scalars['ID']['input']>;
+  workflowGroupId?: InputMaybe<Scalars['ID']['input']>;
+  workflowAutomationRunId?: InputMaybe<Scalars['ID']['input']>;
+  agentSessionId?: InputMaybe<Scalars['ID']['input']>;
+  employeeId?: InputMaybe<Scalars['ID']['input']>;
+  days?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type ExplainOutcomeQuery = { __typename?: 'RootQuery', aiEmployeesQuery?: { __typename?: 'AiEmployeesQuery', explainOutcome?: any | null } | null };
+
+export type EnrollExistingMatchesMutationVariables = Exact<{
+  workflowGroupId: Scalars['ID']['input'];
+  expectedLiveVersionId: Scalars['ID']['input'];
+  confirmedCount: Scalars['Int']['input'];
+  signalWindowDays?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type EnrollExistingMatchesMutation = { __typename?: 'RootMutation', workflowAutomationsMutation?: { __typename?: 'WorkflowAutomationsMutation', enrollExistingWorkflowMatches?: { __typename?: 'WorkflowAgentActResult', ok: boolean, diagnostics: Array<string>, detail?: string | null } | null } | null };
 
 export type ListWorkflowTablesQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;

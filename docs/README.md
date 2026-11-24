@@ -46,13 +46,13 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `crmImport` | 3 |
 | `deliveryHealth` | 6 |
 | `emailChecks` | 3 |
-| `employees` | 35 |
+| `employees` | 37 |
 | `files` | 16 |
 | `forms` | 15 |
 | `libraryFileRuns` | 5 |
 | `memory` | 1 |
 | `myChats` | 3 |
-| `notifications` | 20 |
+| `notifications` | 21 |
 | `phoneNumbers` | 18 |
 | `pipelineItems` | 55 |
 | `properties` | 47 |
@@ -61,7 +61,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `tasks` | 16 |
 | `team` | 33 |
 | `websites` | 14 |
-| `workflows` | 74 |
+| `workflows` | 80 |
 
 ## Live catalog (needs an API key)
 

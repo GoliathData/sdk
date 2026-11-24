@@ -3289,6 +3289,19 @@
     "responseShape": "{\"aiEmployeesQuery\":{\"contactAgent\":{\"id\":true,\"name\":true,\"title\":true,\"status\":true,\"origin\":true,\"canAnswerCalls\":true,\"cannotAnswerReason\":true,\"dailyRunCap\":true,\"dailyCallCap\":true,\"configDocument\":true,\"textHours\":true,\"quietHoursNotice\":true,\"abilities\":{\"tool\":true,\"label\":true,\"on\":true,\"explicitlySet\":true,\"gate\":true},\"config\":{\"wakes\":{\"inboundText\":true,\"inboundEmail\":true,\"callEnded\":true,\"meetingSummary\":true,\"formSubmitted\":true,\"inboundSlack\":true,\"teammateText\":true,\"teammateEmail\":true,\"teammateSlack\":true,\"otherEmployeeCallEnded\":true,\"pipelineStageEntered\":true,\"pipelineItemCreated\":true,\"contactNoteAdded\":true,\"pipelineItemNoteAdded\":true,\"taskCreated\":true,\"taskCompleted\":true,\"appointmentCreated\":true,\"appointmentChanged\":true,\"contactFieldChanged\":true}},\"mailboxes\":{\"id\":true,\"emailAddress\":true,\"provider\":true,\"hasActiveConnection\":true},\"triggerForms\":{\"id\":true,\"name\":true,\"status\":true},\"defaultAssignees\":{\"mode\":true,\"assigneeUserIds\":true},\"commitments\":{\"assignedContactCount\":true,\"scheduledContactCount\":true,\"bookedFollowUpContactCount\":true,\"openSessionCount\":true},\"createdAt\":true,\"updatedAt\":true}}}"
   },
   {
+    "operationId": "getEmployeeCapabilities",
+    "domain": "employees",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "employeeId:ID!",
+    "responseShape": "{\"aiEmployeesQuery\":{\"contactAgentCapabilities\":{\"abilities\":{\"tool\":true,\"label\":true,\"on\":true,\"explicitlySet\":true,\"gate\":true},\"alwaysOn\":{\"tool\":true,\"label\":true},\"limits\":{\"truth\":true,\"nearestAlternative\":true}}}}"
+  },
+  {
     "operationId": "getEmployeeCaseload",
     "domain": "employees",
     "operationType": "query",
@@ -3495,6 +3508,19 @@
     "hasAuthorize": false,
     "variableSignature": "employeeId:ID!,formIds:[ID!]!",
     "responseShape": "{\"aiEmployeesMutation\":{\"setContactAgentTriggerForms\":{\"id\":true,\"triggerForms\":{\"id\":true,\"name\":true,\"status\":true},\"updatedAt\":true}}}"
+  },
+  {
+    "operationId": "setOrgMissedCallCover",
+    "domain": "employees",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "employeeId:ID!,enable:Boolean!",
+    "responseShape": "{\"aiEmployeesMutation\":{\"setOrgMissedCallCover\":{\"ok\":true,\"changed\":true,\"diagnostics\":true}}}"
   },
   {
     "operationId": "stopEmployeeRuns",
@@ -4275,6 +4301,19 @@
     "hasAuthorize": false,
     "variableSignature": "cadence:EmailDigestCadence!",
     "responseShape": "{\"notificationMutation\":{\"setEmailDigestCadence\":{\"id\":true,\"emailDigestCadence\":true}}}"
+  },
+  {
+    "operationId": "setHandoffNotifications",
+    "domain": "notifications",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "sms:Boolean,email:Boolean,inApp:Boolean,push:Boolean",
+    "responseShape": "{\"aiEmployeesMutation\":{\"setHandoffNotifications\":{\"ok\":true,\"channels\":{\"sms\":true,\"email\":true,\"inApp\":true,\"push\":true},\"diagnostics\":true}}}"
   },
   {
     "operationId": "skipOnToday",
@@ -7709,6 +7748,19 @@
     "responseShape": "{\"workflowAutomationsMutation\":{\"deleteWorkflowTable\":{\"id\":true}}}"
   },
   {
+    "operationId": "describeWorkflowRun",
+    "domain": "workflows",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "workflowGroupId:ID!,workflowAutomationRunId:ID,recordName:String",
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowRunStory\":{\"ok\":true,\"diagnostics\":true,\"workflowAutomationRunId\":true,\"status\":true,\"record\":true,\"history\":true,\"enrolledHow\":true,\"enrolledBy\":true,\"stopReason\":true,\"canReenroll\":true}}}"
+  },
+  {
     "operationId": "discardWorkflowDraft",
     "domain": "workflows",
     "operationType": "mutation",
@@ -7735,6 +7787,19 @@
     "responseShape": "{\"workflowAutomationsMutation\":{\"duplicateWorkflowGroup\":{\"id\":true,\"name\":true,\"status\":true,\"channels\":true,\"workflowDomain\":true}}}"
   },
   {
+    "operationId": "enrollExistingMatches",
+    "domain": "workflows",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "workflowGroupId:ID!,expectedLiveVersionId:ID!,confirmedCount:Int!,signalWindowDays:Int",
+    "responseShape": "{\"workflowAutomationsMutation\":{\"enrollExistingWorkflowMatches\":{\"ok\":true,\"diagnostics\":true,\"detail\":true}}}"
+  },
+  {
     "operationId": "enrollInWorkflow",
     "domain": "workflows",
     "operationType": "mutation",
@@ -7746,6 +7811,19 @@
     "hasAuthorize": true,
     "variableSignature": "workflowGroupId:ID!,contactIds:[String!],filterId:ID,filterTree:JSON,selectCount:Int,excludeIds:[String!]",
     "responseShape": "{\"contactMutation\":{\"createBulkTriggerWorkflowTask\":{\"mode\":true,\"bulkTaskId\":true}}}"
+  },
+  {
+    "operationId": "explainOutcome",
+    "domain": "workflows",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "contactId:ID,workflowGroupId:ID,workflowAutomationRunId:ID,agentSessionId:ID,employeeId:ID,days:Int,before:String",
+    "responseShape": "{\"aiEmployeesQuery\":{\"explainOutcome\":true}}"
   },
   {
     "operationId": "getContentTemplate",
@@ -8112,6 +8190,32 @@
     "responseShape": "{\"workflowAutomationsMutation\":{\"pauseWorkflowRun\":{\"id\":true,\"status\":true}}}"
   },
   {
+    "operationId": "planEnrollExistingMatches",
+    "domain": "workflows",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "workflowGroupId:ID!,signalWindowDays:Int",
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowLiveMatchEnrollmentPlan\":{\"available\":true,\"reason\":true,\"liveVersionId\":true,\"count\":true,\"spendsSkipTraces\":true,\"creditsLeft\":true}}}"
+  },
+  {
+    "operationId": "previewTriggerMatchVolume",
+    "domain": "workflows",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "workflowGroupId:ID!,useDraft:Boolean",
+    "responseShape": "{\"workflowAutomationsQuery\":{\"workflowTriggerMatchVolume\":{\"ok\":true,\"diagnostics\":true,\"lastSevenDays\":true,\"lastSevenDaysIsLowerBound\":true,\"allTime\":true,\"allTimeIsLowerBound\":true}}}"
+  },
+  {
     "operationId": "previewWorkflowAiText",
     "domain": "workflows",
     "operationType": "mutation",
@@ -8331,6 +8435,19 @@
     "hasAuthorize": false,
     "variableSignature": "input:SaveWorkflowTableRowsInput!",
     "responseShape": "{\"workflowAutomationsMutation\":{\"saveWorkflowTableRows\":{\"id\":true,\"name\":true,\"description\":true,\"keyKind\":true,\"keyFieldPath\":true,\"keyShape\":{\"levels\":{\"parts\":{\"kind\":true,\"fieldPath\":true,\"match\":true}}},\"rowCount\":true,\"isProvisioned\":true,\"updatedAt\":true,\"columns\":{\"id\":true,\"name\":true,\"kind\":true,\"displayOrder\":true,\"tokenKey\":true,\"options\":{\"value\":true,\"label\":true}}}}}"
+  },
+  {
+    "operationId": "scoreSmsCarrierRisk",
+    "domain": "workflows",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "bodies:[String!]!,brandName:String",
+    "responseShape": "{\"workflowAutomationsQuery\":{\"smsCarrierRiskScores\":{\"body\":true,\"score\":true,\"band\":true,\"wouldBlockPublish\":true,\"reasons\":true,\"phrases\":true}}}"
   },
   {
     "operationId": "setSkipTraceDailyCap",
