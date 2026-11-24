@@ -14030,6 +14030,113 @@
       }
     },
     {
+      "operationId": "readMyChat",
+      "domain": "myChats",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "A page of one of the key owner's own chats (`chatId` from searchMyChats): what was said and done in it, by turn. `fromTurn`/`toTurn` pick the turns; null reads the most recent page.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "chatId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "fromTurn",
+          "type": "Int",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "toTurn",
+          "type": "Int",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "agentChatQuery": {
+          "readMyChat": true
+        }
+      }
+    },
+    {
+      "operationId": "readMyChatFile",
+      "domain": "myChats",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "A file on one of the key owner's own chats, by its id (an attachment's id is on its message's \"[Attached files: …]\" line): a text file's words (CSV, TSV, JSON, text), a ZIP's listing or one file in it (`entryPath`). Any other file (an image, a PDF) answers with a `downloadUrl` that opens it for 15 minutes.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "artifactId",
+          "type": "ID!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "entryPath",
+          "type": "String",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "agentChatQuery": {
+          "readMyChatFile": true
+        }
+      }
+    },
+    {
+      "operationId": "searchMyChats",
+      "domain": "myChats",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "Search the key owner's own Ask Goliath chats by words or meaning (\"refin\" finds the refinance chat, \"exact phrases\", -excluded words), archived ones included: best match first, each chat with the matching passage (`snippet`). Open one with readMyChat.",
+      "resultCap": 50,
+      "rateLimited": true,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "query",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "limit",
+          "type": "Int",
+          "required": false,
+          "defaultValue": "20"
+        }
+      ],
+      "responseShape": {
+        "agentChatQuery": {
+          "searchMyChats": {
+            "snippet": true,
+            "chat": {
+              "id": true,
+              "title": true,
+              "lastActivityAt": true,
+              "archived": true
+            }
+          }
+        }
+      }
+    },
+    {
       "operationId": "addPageToMyHome",
       "domain": "notifications",
       "operationType": "mutation",

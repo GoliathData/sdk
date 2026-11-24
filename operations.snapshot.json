@@ -3978,6 +3978,45 @@
     "responseShape": "{\"memoryEntryMutation\":{\"addEntries\":{\"organizationId\":true,\"added\":true,\"alreadyAdded\":true,\"excluded\":{\"externalId\":true,\"reason\":true}}}}"
   },
   {
+    "operationId": "readMyChat",
+    "domain": "myChats",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "chatId:ID!,fromTurn:Int,toTurn:Int",
+    "responseShape": "{\"agentChatQuery\":{\"readMyChat\":true}}"
+  },
+  {
+    "operationId": "readMyChatFile",
+    "domain": "myChats",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "artifactId:ID!,entryPath:String",
+    "responseShape": "{\"agentChatQuery\":{\"readMyChatFile\":true}}"
+  },
+  {
+    "operationId": "searchMyChats",
+    "domain": "myChats",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": 50,
+    "rateLimited": true,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "query:String!,limit:Int=20",
+    "responseShape": "{\"agentChatQuery\":{\"searchMyChats\":{\"snippet\":true,\"chat\":{\"id\":true,\"title\":true,\"lastActivityAt\":true,\"archived\":true}}}}"
+  },
+  {
     "operationId": "addPageToMyHome",
     "domain": "notifications",
     "operationType": "mutation",

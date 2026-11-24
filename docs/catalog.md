@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-644 operations across 31 domains — small enough to read whole. One line each:
+647 operations across 32 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -376,6 +376,12 @@ Full detail per operation (variables, call example, gateway notes, response shap
 ## memory
 
 - `addMemoryEntries` (mutation, IMPORT) [idempotent] — Add conversation records from another system to your memory, idempotent on `externalId`. Your people's words (FROM_ACCOUNT) are learned from; the other side's are context. Hidden records, typed notes and calendar emails are refused.
+
+## myChats
+
+- `readMyChat` (query, READ) — A page of one of the key owner's own chats (`chatId` from searchMyChats): what was said and done in it, by turn. `fromTurn`/`toTurn` pick the turns; null reads the most recent page.
+- `readMyChatFile` (query, READ) — A file on one of the key owner's own chats, by its id (an attachment's id is on its message's "[Attached files: …]" line): a text file's words (CSV, TSV, JSON, text), a ZIP's listing or one file in it (`entryPath`). Any other file (an image, a PDF) answers with a `downloadUrl` that opens it for 15 minutes.
+- `searchMyChats` (query, READ) [max limit 50; rate-limited] — Search the key owner's own Ask Goliath chats by words or meaning ("refin" finds the refinance chat, "exact phrases", -excluded words), archived ones included: best match first, each chat with the matching passage (`snippet`). Open one with readMyChat.
 
 ## notifications
 

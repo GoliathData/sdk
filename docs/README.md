@@ -50,6 +50,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `forms` | 15 |
 | `libraryFileRuns` | 5 |
 | `memory` | 1 |
+| `myChats` | 3 |
 | `notifications` | 20 |
 | `phoneNumbers` | 18 |
 | `pipelineItems` | 55 |

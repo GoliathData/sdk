@@ -5830,6 +5830,28 @@ export type AddMemoryEntriesMutationVariables = Exact<{
 
 export type AddMemoryEntriesMutation = { __typename?: 'RootMutation', memoryEntryMutation?: { __typename?: 'MemoryEntryMutation', addEntries?: { __typename?: 'AddMemoryEntriesResult', organizationId: string, added: number, alreadyAdded: number, excluded: Array<{ __typename?: 'MemoryEntryExclusion', externalId: string, reason: MemoryEntryExclusionReason }> } | null } | null };
 
+export type SearchMyChatsQueryVariables = Exact<{
+  query: Scalars['String']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type SearchMyChatsQuery = { __typename?: 'RootQuery', agentChatQuery?: { __typename?: 'AgentChatQuery', searchMyChats?: Array<{ __typename?: 'ChatSearchHit', snippet?: string | null, chat: { __typename?: 'AgentSessionListItem', id: string, title?: string | null, lastActivityAt: any, archived: boolean } }> | null } | null };
+
+export type ReadMyChatQueryVariables = Exact<{
+  chatId: Scalars['ID']['input'];
+  fromTurn?: InputMaybe<Scalars['Int']['input']>;
+  toTurn?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ReadMyChatQuery = { __typename?: 'RootQuery', agentChatQuery?: { __typename?: 'AgentChatQuery', readMyChat?: any | null } | null };
+
+export type ReadMyChatFileQueryVariables = Exact<{
+  artifactId: Scalars['ID']['input'];
+  entryPath?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type ReadMyChatFileQuery = { __typename?: 'RootQuery', agentChatQuery?: { __typename?: 'AgentChatQuery', readMyChatFile?: any | null } | null };
+
 export type ListNotificationsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']['input']>;
   cursor?: InputMaybe<Scalars['String']['input']>;

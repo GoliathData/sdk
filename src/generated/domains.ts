@@ -2666,6 +2666,34 @@ export class GoliathClient extends GoliathClientCore {
       this.request('addMemoryEntries', variables, options, { operationType: 'mutation' }),
   }
 
+  readonly myChats = {
+    /**
+     * A page of one of the key owner's own chats (`chatId` from searchMyChats): what was said and done in it, by turn. `fromTurn`/`toTurn` pick the turns; null reads the most recent page.
+     *
+     * @remarks Requires the READ scope.
+     */
+    readMyChat: (variables: T.ReadMyChatQueryVariables, options?: RequestOptions): Promise<T.ReadMyChatQuery> =>
+      this.request('readMyChat', variables, options, { operationType: 'query' }),
+    /**
+     * A file on one of the key owner's own chats, by its id (an attachment's id is on its message's "[Attached files: …]" line): a text file's words (CSV, TSV, JSON, text), a ZIP's listing or one file in it (`entryPath`). Any other file (an image, a PDF) answers with a `downloadUrl` that opens it for 15 minutes.
+     *
+     * @remarks Requires the READ scope.
+     */
+    readMyChatFile: (variables: T.ReadMyChatFileQueryVariables, options?: RequestOptions): Promise<T.ReadMyChatFileQuery> =>
+      this.request('readMyChatFile', variables, options, { operationType: 'query' }),
+    /**
+     * Search the key owner's own Ask Goliath chats by words or meaning ("refin" finds the refinance chat, "exact phrases", -excluded words), archived ones included: best match first, each chat with the matching passage (`snippet`). Open one with readMyChat.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * The `limit` variable is clamped server-side to a maximum of 50.
+     *
+     * Rate limited: shares the per-key analytics bucket (60/min); 429s carry Retry-After.
+     */
+    searchMyChats: (variables: T.SearchMyChatsQueryVariables, options?: RequestOptions): Promise<T.SearchMyChatsQuery> =>
+      this.request('searchMyChats', variables, options, { operationType: 'query' }),
+  }
+
   readonly notifications = {
     /**
      * Put a Page on your own Home as a tile: first after Catch up, or with `replaceTileId` in place of that idea tile (kind idea), which goes. `size`: small 1x1, wide 2x1, large 2x2 or full 4x1; `style`: plain, sky, sage, dusk or sand; `draft` true shows it with a Draft mark until the person keeps it. A page already on Home is not added twice: its tile takes the new size, style and draft. Refused for a page you cannot open and on a full Home. Returns Home after it.
