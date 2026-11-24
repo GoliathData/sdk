@@ -7150,6 +7150,19 @@
     "responseShape": "{\"agentGoalsMutation\":{\"upsertAgentPersonalGoal\":{\"id\":true,\"goalPlanId\":true,\"title\":true,\"description\":true,\"status\":true,\"displayOrder\":true}}}"
   },
   {
+    "operationId": "deleteWebsiteArticle",
+    "domain": "websites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!,slug:String!",
+    "responseShape": "{\"websiteArticlesMutation\":{\"delete\":{\"outcome\":true,\"violations\":true,\"slug\":true,\"pullNumber\":true,\"headSha\":true}}}"
+  },
+  {
     "operationId": "discardWebsiteChange",
     "domain": "websites",
     "operationType": "mutation",
@@ -7163,6 +7176,32 @@
     "responseShape": "{\"customerWebsiteMutation\":{\"discard\":{\"ok\":true,\"published\":true,\"refused\":true,\"details\":true}}}"
   },
   {
+    "operationId": "getWebsiteArticle",
+    "domain": "websites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!,slug:String!",
+    "responseShape": "{\"websiteArticlesQuery\":{\"article\":{\"slug\":true,\"title\":true,\"description\":true,\"date\":true,\"author\":true,\"cover\":true,\"body\":true}}}"
+  },
+  {
+    "operationId": "getWebsiteArticlePreview",
+    "domain": "websites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!,headSha:String!",
+    "responseShape": "{\"websiteArticlesQuery\":{\"preview\":{\"state\":true,\"previewUrl\":true,\"detailsUrl\":true}}}"
+  },
+  {
     "operationId": "getWebsiteChange",
     "domain": "websites",
     "operationType": "query",
@@ -7174,6 +7213,45 @@
     "hasAuthorize": false,
     "variableSignature": "websiteId:String!",
     "responseShape": "{\"customerWebsiteQuery\":{\"website\":{\"id\":true,\"name\":true,\"primaryDomain\":true,\"liveUrl\":true,\"working\":true,\"openChangeUnreadable\":true,\"openChange\":{\"previewId\":true,\"preview\":true,\"previewUrl\":true,\"working\":true,\"sentForPublishing\":true,\"request\":true,\"agentNote\":true}}}}"
+  },
+  {
+    "operationId": "listDomainDnsRecords",
+    "domain": "websites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"customerDnsQuery\":{\"domains\":{\"domain\":true,\"hostnames\":true,\"origin\":true,\"status\":true,\"readAt\":true,\"awaitingSnapshot\":true,\"contentInCms\":true,\"records\":{\"id\":true,\"type\":true,\"name\":true,\"content\":true,\"ttl\":true,\"proxied\":true,\"priority\":true,\"access\":true,\"accessNote\":true,\"applying\":true},\"adding\":{\"type\":true,\"name\":true,\"content\":true,\"ttl\":true,\"proxied\":true,\"priority\":true},\"failures\":{\"action\":true,\"record\":{\"type\":true,\"name\":true,\"content\":true,\"ttl\":true,\"proxied\":true,\"priority\":true},\"reason\":true,\"settledAt\":true}}}}"
+  },
+  {
+    "operationId": "listWebsiteArticles",
+    "domain": "websites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!",
+    "responseShape": "{\"websiteArticlesQuery\":{\"articles\":{\"collection\":{\"directory\":true,\"route\":true},\"reason\":true,\"articles\":{\"slug\":true,\"title\":true,\"description\":true,\"date\":true,\"author\":true,\"cover\":true,\"pendingChange\":true}}}}"
+  },
+  {
+    "operationId": "listWebsiteCmsContent",
+    "domain": "websites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "collection:WebsiteCmsCollection!,status:WebsiteCmsDocumentStatus,page:Int",
+    "responseShape": "{\"websiteArticlesQuery\":{\"cmsContent\":{\"documents\":{\"id\":true,\"title\":true,\"path\":true,\"date\":true,\"updatedAt\":true,\"published\":true,\"author\":true,\"editUrl\":true},\"total\":true,\"page\":true,\"pages\":true,\"createUrl\":true}}}"
   },
   {
     "operationId": "listWebsites",
@@ -7202,6 +7280,32 @@
     "responseShape": "{\"customerWebsiteMutation\":{\"publish\":{\"ok\":true,\"published\":true,\"refused\":true,\"details\":true}}}"
   },
   {
+    "operationId": "refreshDomainDnsRecords",
+    "domain": "websites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "domain:String!",
+    "responseShape": "{\"customerDnsMutation\":{\"refresh\":{\"outcome\":true,\"reason\":true,\"warning\":true}}}"
+  },
+  {
+    "operationId": "requestDomainDnsChange",
+    "domain": "websites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "input:RequestCustomerDnsChangeInput!",
+    "responseShape": "{\"customerDnsMutation\":{\"requestChange\":{\"outcome\":true,\"reason\":true,\"warning\":true}}}"
+  },
+  {
     "operationId": "requestWebsiteChange",
     "domain": "websites",
     "operationType": "mutation",
@@ -7213,6 +7317,19 @@
     "hasAuthorize": false,
     "variableSignature": "websiteId:String!,instruction:String!,photoArtifactIds:[ID!]",
     "responseShape": "{\"customerWebsiteMutation\":{\"requestChange\":{\"ok\":true,\"status\":true,\"error\":true}}}"
+  },
+  {
+    "operationId": "saveWebsiteArticle",
+    "domain": "websites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "input:SaveWebsiteArticleInput!",
+    "responseShape": "{\"websiteArticlesMutation\":{\"save\":{\"outcome\":true,\"violations\":true,\"slug\":true,\"pullNumber\":true,\"headSha\":true}}}"
   },
   {
     "operationId": "addLibraryFileFromArtifact",

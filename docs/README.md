@@ -57,7 +57,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `spaces` | 54 |
 | `tasks` | 16 |
 | `team` | 33 |
-| `websites` | 5 |
+| `websites` | 14 |
 | `workflows` | 74 |
 
 ## Live catalog (needs an API key)

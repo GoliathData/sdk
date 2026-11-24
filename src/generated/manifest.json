@@ -25219,6 +25219,43 @@
       }
     },
     {
+      "operationId": "deleteWebsiteArticle",
+      "domain": "websites",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Remove an article from a website. Org admins only. Nothing goes live: it opens a website change in the sites repo, which getWebsiteChange follows and publishWebsiteChange puts live on the person's yes.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "websiteId",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "slug",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "websiteArticlesMutation": {
+          "delete": {
+            "outcome": true,
+            "violations": true,
+            "slug": true,
+            "pullNumber": true,
+            "headSha": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "discardWebsiteChange",
       "domain": "websites",
       "operationType": "mutation",
@@ -25250,6 +25287,80 @@
             "published": true,
             "refused": true,
             "details": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "getWebsiteArticle",
+      "domain": "websites",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "One article of a website with its Markdown body; null when there is no such article. Org admins only.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "websiteId",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "slug",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "websiteArticlesQuery": {
+          "article": {
+            "slug": true,
+            "title": true,
+            "description": true,
+            "date": true,
+            "author": true,
+            "cover": true,
+            "body": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "getWebsiteArticlePreview",
+      "domain": "websites",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "The preview build of an article change (`headSha` from saveWebsiteArticle or deleteWebsiteArticle): BUILDING, READY with its URL, or FAILED with the build page. Org admins only.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "websiteId",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "headSha",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "websiteArticlesQuery": {
+          "preview": {
+            "state": true,
+            "previewUrl": true,
+            "detailsUrl": true
           }
         }
       }
@@ -25291,6 +25402,157 @@
               "request": true,
               "agentNote": true
             }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "listDomainDnsRecords",
+      "domain": "websites",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "The organization's domains and their DNS records as last read: each record's id (what requestDomainDnsChange names), values and `access` (LOCKED: never editable; MAIL: carries email; OPEN), plus edits applying or refused in the last 15 minutes. Org admins; null while domains are off.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [],
+      "responseShape": {
+        "customerDnsQuery": {
+          "domains": {
+            "domain": true,
+            "hostnames": true,
+            "origin": true,
+            "status": true,
+            "readAt": true,
+            "awaitingSnapshot": true,
+            "contentInCms": true,
+            "records": {
+              "id": true,
+              "type": true,
+              "name": true,
+              "content": true,
+              "ttl": true,
+              "proxied": true,
+              "priority": true,
+              "access": true,
+              "accessNote": true,
+              "applying": true
+            },
+            "adding": {
+              "type": true,
+              "name": true,
+              "content": true,
+              "ttl": true,
+              "proxied": true,
+              "priority": true
+            },
+            "failures": {
+              "action": true,
+              "record": {
+                "type": true,
+                "name": true,
+                "content": true,
+                "ttl": true,
+                "proxied": true,
+                "priority": true
+              },
+              "reason": true,
+              "settledAt": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "listWebsiteArticles",
+      "domain": "websites",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "One website's articles (`websiteId` from listWebsites), live ones and those its open change adds: slug, title, description, date, author, cover, and what its open change does to each (`pendingChange`; a NEW one cannot be read, edited or removed here until that change is published). `collection` null with a `reason`: the site has no article collection, so none can be added. Org admins only.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "websiteId",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "websiteArticlesQuery": {
+          "articles": {
+            "collection": {
+              "directory": true,
+              "route": true
+            },
+            "reason": true,
+            "articles": {
+              "slug": true,
+              "title": true,
+              "description": true,
+              "date": true,
+              "author": true,
+              "cover": true,
+              "pendingChange": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "operationId": "listWebsiteCmsContent",
+      "domain": "websites",
+      "operationType": "query",
+      "requiredScope": "READ",
+      "description": "A page of goliathdata.com's CMS content of one kind, newest edit first, with each document's path and CMS edit link; null for any other organization. Edited in the CMS, not here. Org admins.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": false,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "collection",
+          "type": "WebsiteCmsCollection!",
+          "required": true,
+          "defaultValue": null
+        },
+        {
+          "name": "status",
+          "type": "WebsiteCmsDocumentStatus",
+          "required": false,
+          "defaultValue": null
+        },
+        {
+          "name": "page",
+          "type": "Int",
+          "required": false,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "websiteArticlesQuery": {
+          "cmsContent": {
+            "documents": {
+              "id": true,
+              "title": true,
+              "path": true,
+              "date": true,
+              "updatedAt": true,
+              "published": true,
+              "author": true,
+              "editUrl": true
+            },
+            "total": true,
+            "page": true,
+            "pages": true,
+            "createUrl": true
           }
         }
       }
@@ -25366,6 +25628,64 @@
       }
     },
     {
+      "operationId": "refreshDomainDnsRecords",
+      "domain": "websites",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Read one domain's DNS records again from Cloudflare now; listDomainDnsRecords shows them once read. Org admins only.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "domain",
+          "type": "String!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "customerDnsMutation": {
+          "refresh": {
+            "outcome": true,
+            "reason": true,
+            "warning": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "requestDomainDnsChange",
+      "domain": "websites",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Queue one DNS record edit (CREATE, UPDATE or DELETE by `recordId`), live within a minute. LOCKED records are refused; a MAIL record's `warning` says what a wrong value breaks. Org admins, on the person's yes.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "input",
+          "type": "RequestCustomerDnsChangeInput!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "customerDnsMutation": {
+          "requestChange": {
+            "outcome": true,
+            "reason": true,
+            "warning": true
+          }
+        }
+      }
+    },
+    {
       "operationId": "requestWebsiteChange",
       "domain": "websites",
       "operationType": "mutation",
@@ -25402,6 +25722,37 @@
             "ok": true,
             "status": true,
             "error": true
+          }
+        }
+      }
+    },
+    {
+      "operationId": "saveWebsiteArticle",
+      "domain": "websites",
+      "operationType": "mutation",
+      "requiredScope": "ADMIN",
+      "description": "Write a new article on a website (`input.folder` is the websiteId; no slug: made from the title), or edit one by slug. Body is Markdown, raw HTML refused; a cover is an uploaded image id. `outcome` REFUSED lists `violations`. Org admins only. Nothing goes live: it opens a website change in the sites repo, which getWebsiteChange follows and publishWebsiteChange puts live on the person's yes.",
+      "resultCap": null,
+      "rateLimited": false,
+      "idempotent": true,
+      "orgIdVariable": null,
+      "hasAuthorize": false,
+      "variables": [
+        {
+          "name": "input",
+          "type": "SaveWebsiteArticleInput!",
+          "required": true,
+          "defaultValue": null
+        }
+      ],
+      "responseShape": {
+        "websiteArticlesMutation": {
+          "save": {
+            "outcome": true,
+            "violations": true,
+            "slug": true,
+            "pullNumber": true,
+            "headSha": true
           }
         }
       }

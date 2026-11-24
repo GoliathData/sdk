@@ -882,6 +882,52 @@ export type CustomerCoverageStatus =
   | 'NOT_REQUESTED'
   | 'WAITING_ON_COUNTY';
 
+export type CustomerDnsChangeAction =
+  | 'CREATE'
+  | 'DELETE'
+  | 'UPDATE';
+
+/** What a customer may do to one DNS record (`dnsRecordAccess`, plan §4). */
+export type CustomerDnsRecordAccess =
+  /** Goliath manages it — the website, Goliath's email sending, or certificates. `accessNote` says which. */
+  | 'LOCKED'
+  /** Editable, but it carries the organization's email. `accessNote` is the warning. */
+  | 'MAIL'
+  /** The customer's to change. */
+  | 'OPEN';
+
+export type CustomerDnsRecordInput = {
+  content: Scalars['String']['input'];
+  /** The full hostname, on the domain being edited. */
+  name: Scalars['String']['input'];
+  /** MX and SRV only. */
+  priority?: InputMaybe<Scalars['Int']['input']>;
+  proxied: Scalars['Boolean']['input'];
+  /** Seconds; 1 is automatic. */
+  ttl: Scalars['Int']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type CustomerDnsRequestOutcome =
+  /** Queued; it applies within a minute or so. */
+  | 'QUEUED'
+  /** Not queued; `reason` says why. */
+  | 'REFUSED';
+
+/** How a domain came to be served by Goliath. */
+export type CustomerDomainOrigin =
+  /** Goliath bought it (compliance provisioning). */
+  | 'BOUGHT'
+  /** The customer's own DNS, which Goliath does not serve: its records cannot be changed here. */
+  | 'EXTERNAL'
+  /** The customer owned it and moved its DNS onto Goliath. */
+  | 'MOVED_IN';
+
+export type CustomerDomainStatus =
+  | 'ACTIVE'
+  /** On Goliath's account, but its nameservers are not pointed at it yet. */
+  | 'PENDING';
+
 /** Where a website change's preview deploy is. */
 export type CustomerWebsitePreviewState =
   | 'BUILDING'
@@ -2100,6 +2146,15 @@ export type ReplySentiment =
   | 'POSITIVE'
   | 'UNREACHABLE';
 
+export type RequestCustomerDnsChangeInput = {
+  action: CustomerDnsChangeAction;
+  domain: Scalars['String']['input'];
+  /** What to write. Required for CREATE and UPDATE; omitted for a DELETE. */
+  record?: InputMaybe<CustomerDnsRecordInput>;
+  /** The record to UPDATE or DELETE, by id. Omitted for a CREATE. */
+  recordId?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type RingPolicyAiRotation =
   | 'ROUND_ROBIN'
   | 'SINGLE';
@@ -2167,6 +2222,27 @@ export type SaveSpaceTextFileInput = {
    */
   editSessionId?: InputMaybe<Scalars['ID']['input']>;
   itemId: Scalars['ID']['input'];
+};
+
+export type SaveWebsiteArticleInput = {
+  author?: InputMaybe<Scalars['String']['input']>;
+  /** The body, Markdown. Raw HTML is refused. */
+  body: Scalars['String']['input'];
+  /**
+   * A new cover photo: an id handed back by `fileUpload.standardFileUpload`, from the caller's own
+   * organization. PNG, JPEG or WebP; re-encoded as WebP. Omitted keeps the current cover.
+   */
+  coverUploadedFileId?: InputMaybe<Scalars['ID']['input']>;
+  date?: InputMaybe<Scalars['String']['input']>;
+  /** For `description`, `date` and `author`: omitted keeps what the article has, null or empty removes it. */
+  description?: InputMaybe<Scalars['String']['input']>;
+  folder: Scalars['String']['input'];
+  /** Drop the current cover. Refused together with `coverUploadedFileId`. */
+  removeCover?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The article being edited. Omitted for a new article, whose slug is made from its title. */
+  slug?: InputMaybe<Scalars['String']['input']>;
+  /** At most 200 characters. */
+  title: Scalars['String']['input'];
 };
 
 export type SaveWorkflowTableCellInput = {
@@ -3014,6 +3090,38 @@ export type VoiceTrustRegistrationState =
   | 'REGISTERING'
   /** The organization uses its own Twilio account and registers there itself. */
   | 'SELF_MANAGED';
+
+export type WebsiteArticleChangeOutcome =
+  /** The change is a `website-change` pull request in the sites repo. */
+  | 'PROPOSED'
+  /** The change was refused before anything was committed; `violations` says why. */
+  | 'REFUSED';
+
+/** What a site's open change, not live yet, does to one article. */
+export type WebsiteArticlePendingChange =
+  /** The change removes it. */
+  | 'DELETE'
+  /** The change adds it. */
+  | 'NEW'
+  /** The change edits it. */
+  | 'SAVE';
+
+export type WebsiteArticlePreviewState =
+  | 'BUILDING'
+  | 'FAILED'
+  | 'READY';
+
+/** The kinds of content goliathdata.com's CMS holds. */
+export type WebsiteCmsCollection =
+  | 'ARTICLES'
+  | 'ENCYCLOPEDIA'
+  | 'GUIDES'
+  | 'PAGES';
+
+/** A document's state in Goliath's CMS: its latest save, so a live one with unpublished edits is a DRAFT. */
+export type WebsiteCmsDocumentStatus =
+  | 'DRAFT'
+  | 'PUBLISHED';
 
 /** What a Work through card IS: it picks the card's frame on the client and which body field is set. */
 export type WorkThroughFamily =
@@ -7497,6 +7605,63 @@ export type DiscardWebsiteChangeMutationVariables = Exact<{
 }>;
 
 export type DiscardWebsiteChangeMutation = { __typename?: 'RootMutation', customerWebsiteMutation?: { __typename?: 'CustomerWebsiteMutation', discard?: { __typename?: 'CustomerWebsiteActionResult', ok: boolean, published: boolean, refused?: CustomerWebsiteRefusal | null, details: Array<string> } | null } | null };
+
+export type ListDomainDnsRecordsQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type ListDomainDnsRecordsQuery = { __typename?: 'RootQuery', customerDnsQuery?: { __typename?: 'CustomerDnsQuery', domains?: Array<{ __typename?: 'CustomerDomain', domain: string, hostnames: Array<string>, origin: CustomerDomainOrigin, status: CustomerDomainStatus, readAt?: any | null, awaitingSnapshot: boolean, contentInCms: boolean, records: Array<{ __typename?: 'CustomerDnsRecord', id: string, type: string, name: string, content: string, ttl: number, proxied: boolean, priority?: number | null, access: CustomerDnsRecordAccess, accessNote?: string | null, applying?: CustomerDnsChangeAction | null }>, adding: Array<{ __typename?: 'CustomerDnsRecordValues', type: string, name: string, content: string, ttl: number, proxied: boolean, priority?: number | null }>, failures: Array<{ __typename?: 'CustomerDnsChangeFailure', action: CustomerDnsChangeAction, reason: string, settledAt: any, record?: { __typename?: 'CustomerDnsRecordValues', type: string, name: string, content: string, ttl: number, proxied: boolean, priority?: number | null } | null }> }> | null } | null };
+
+export type RequestDomainDnsChangeMutationVariables = Exact<{
+  input: RequestCustomerDnsChangeInput;
+}>;
+
+export type RequestDomainDnsChangeMutation = { __typename?: 'RootMutation', customerDnsMutation?: { __typename?: 'CustomerDnsMutation', requestChange?: { __typename?: 'CustomerDnsRequestResult', outcome: CustomerDnsRequestOutcome, reason?: string | null, warning?: string | null } | null } | null };
+
+export type RefreshDomainDnsRecordsMutationVariables = Exact<{
+  domain: Scalars['String']['input'];
+}>;
+
+export type RefreshDomainDnsRecordsMutation = { __typename?: 'RootMutation', customerDnsMutation?: { __typename?: 'CustomerDnsMutation', refresh?: { __typename?: 'CustomerDnsRequestResult', outcome: CustomerDnsRequestOutcome, reason?: string | null, warning?: string | null } | null } | null };
+
+export type ListWebsiteArticlesQueryVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+}>;
+
+export type ListWebsiteArticlesQuery = { __typename?: 'RootQuery', websiteArticlesQuery?: { __typename?: 'WebsiteArticlesQuery', articles?: { __typename?: 'WebsiteArticleList', reason?: string | null, collection?: { __typename?: 'WebsiteArticleCollection', directory: string, route: string } | null, articles: Array<{ __typename?: 'WebsiteArticleSummary', slug: string, title: string, description?: string | null, date?: string | null, author?: string | null, cover?: string | null, pendingChange?: WebsiteArticlePendingChange | null }> } | null } | null };
+
+export type GetWebsiteArticleQueryVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+}>;
+
+export type GetWebsiteArticleQuery = { __typename?: 'RootQuery', websiteArticlesQuery?: { __typename?: 'WebsiteArticlesQuery', article?: { __typename?: 'WebsiteArticle', slug: string, title: string, description?: string | null, date?: string | null, author?: string | null, cover?: string | null, body: string } | null } | null };
+
+export type GetWebsiteArticlePreviewQueryVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+  headSha: Scalars['String']['input'];
+}>;
+
+export type GetWebsiteArticlePreviewQuery = { __typename?: 'RootQuery', websiteArticlesQuery?: { __typename?: 'WebsiteArticlesQuery', preview?: { __typename?: 'WebsiteArticlePreview', state: WebsiteArticlePreviewState, previewUrl?: string | null, detailsUrl?: string | null } | null } | null };
+
+export type ListWebsiteCmsContentQueryVariables = Exact<{
+  collection: WebsiteCmsCollection;
+  status?: InputMaybe<WebsiteCmsDocumentStatus>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type ListWebsiteCmsContentQuery = { __typename?: 'RootQuery', websiteArticlesQuery?: { __typename?: 'WebsiteArticlesQuery', cmsContent?: { __typename?: 'WebsiteCmsDocumentPage', total: number, page: number, pages: number, createUrl: string, documents: Array<{ __typename?: 'WebsiteCmsDocument', id: string, title: string, path?: string | null, date?: any | null, updatedAt?: any | null, published: boolean, author?: string | null, editUrl: string }> } | null } | null };
+
+export type SaveWebsiteArticleMutationVariables = Exact<{
+  input: SaveWebsiteArticleInput;
+}>;
+
+export type SaveWebsiteArticleMutation = { __typename?: 'RootMutation', websiteArticlesMutation?: { __typename?: 'WebsiteArticlesMutation', save?: { __typename?: 'WebsiteArticleChangeResult', outcome: WebsiteArticleChangeOutcome, violations: Array<string>, slug?: string | null, pullNumber?: number | null, headSha?: string | null } | null } | null };
+
+export type DeleteWebsiteArticleMutationVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+  slug: Scalars['String']['input'];
+}>;
+
+export type DeleteWebsiteArticleMutation = { __typename?: 'RootMutation', websiteArticlesMutation?: { __typename?: 'WebsiteArticlesMutation', delete?: { __typename?: 'WebsiteArticleChangeResult', outcome: WebsiteArticleChangeOutcome, violations: Array<string>, slug?: string | null, pullNumber?: number | null, headSha?: string | null } | null } | null };
 
 export type ListLibraryFilesQueryVariables = Exact<{
   folderId?: InputMaybe<Scalars['ID']['input']>;

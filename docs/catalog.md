@@ -2,7 +2,7 @@
 
 # Operation catalog — @goliathdata/sdk
 
-629 operations across 30 domains — small enough to read whole. One line each:
+638 operations across 30 domains — small enough to read whole. One line each:
 
 `operationId` (type, required scope) [flags] — what it does
 
@@ -644,11 +644,20 @@ Full detail per operation (variables, call example, gateway notes, response shap
 
 ## websites
 
+- `deleteWebsiteArticle` (mutation, ADMIN) [idempotent] — Remove an article from a website. Org admins only. Nothing goes live: it opens a website change in the sites repo, which getWebsiteChange follows and publishWebsiteChange puts live on the person's yes.
 - `discardWebsiteChange` (mutation, ADMIN) [idempotent] — Throw a website's open change away for good. Org admins only, on the person's yes. Bound to the preview it names (previewId from getWebsiteChange): a newer one refuses STALE_PREVIEW.
+- `getWebsiteArticle` (query, READ) — One article of a website with its Markdown body; null when there is no such article. Org admins only.
+- `getWebsiteArticlePreview` (query, READ) — The preview build of an article change (`headSha` from saveWebsiteArticle or deleteWebsiteArticle): BUILDING, READY with its URL, or FAILED with the build page. Org admins only.
 - `getWebsiteChange` (query, READ) — One website (`websiteId` from listWebsites) and its open change, to follow a requested change: `working` while Goliath queues or makes it, then `openChange` with its preview. Null when it is not one of the organization's.
+- `listDomainDnsRecords` (query, READ) — The organization's domains and their DNS records as last read: each record's id (what requestDomainDnsChange names), values and `access` (LOCKED: never editable; MAIL: carries email; OPEN), plus edits applying or refused in the last 15 minutes. Org admins; null while domains are off.
+- `listWebsiteArticles` (query, READ) — One website's articles (`websiteId` from listWebsites), live ones and those its open change adds: slug, title, description, date, author, cover, and what its open change does to each (`pendingChange`; a NEW one cannot be read, edited or removed here until that change is published). `collection` null with a `reason`: the site has no article collection, so none can be added. Org admins only.
+- `listWebsiteCmsContent` (query, READ) — A page of goliathdata.com's CMS content of one kind, newest edit first, with each document's path and CMS edit link; null for any other organization. Edited in the CMS, not here. Org admins.
 - `listWebsites` (query, READ) — The organization's websites (id, name, domain, live URL) and each one's open change: its preview (state, URL once READY, previewId), the request and the editing agent's note, and whether Goliath is still working on it. Null while websites are off for the organization.
 - `publishWebsiteChange` (mutation, ADMIN) [idempotent] — Put a website change live: merged and deployed to the public site (`published` false: it went to the team to put live). Org admins only, on the person's yes to that preview. Bound to the preview it names (previewId from getWebsiteChange): a newer one refuses STALE_PREVIEW.
+- `refreshDomainDnsRecords` (mutation, ADMIN) [idempotent] — Read one domain's DNS records again from Cloudflare now; listDomainDnsRecords shows them once read. Org admins only.
+- `requestDomainDnsChange` (mutation, ADMIN) [idempotent] — Queue one DNS record edit (CREATE, UPDATE or DELETE by `recordId`), live within a minute. LOCKED records are refused; a MAIL record's `warning` says what a wrong value breaks. Org admins, on the person's yes.
 - `requestWebsiteChange` (mutation, ADMIN) [idempotent] — Ask Goliath to change one website, in the person's own words (new text, a new photo, a section moved). Org admins only. It runs in the background, about 5 minutes, one change per website at a time, and reports into the Ask Goliath chat that asked with a preview to review; nothing goes live until it is published. `photoArtifactIds`: images on that chat (PNG, JPEG, GIF or WebP), at most 10. Refused NO_CHAT outside a chat, CHANGE_OPEN while a change waits (publish or discard it first), STILL_WORKING while one is being made.
+- `saveWebsiteArticle` (mutation, ADMIN) [idempotent] — Write a new article on a website (`input.folder` is the websiteId; no slug: made from the title), or edit one by slug. Body is Markdown, raw HTML refused; a cover is an uploaded image id. `outcome` REFUSED lists `violations`. Org admins only. Nothing goes live: it opens a website change in the sites repo, which getWebsiteChange follows and publishWebsiteChange puts live on the person's yes.
 
 ## workflows
 
