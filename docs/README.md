@@ -38,7 +38,7 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `callLists` | 10 |
 | `communications` | 22 |
 | `contactImports` | 7 |
-| `contacts` | 90 |
+| `contacts` | 91 |
 | `contracts` | 12 |
 | `conversations` | 9 |
 | `coverage` | 2 |
@@ -49,14 +49,15 @@ Transport, retries, typed errors, and idempotency semantics are documented in th
 | `forms` | 15 |
 | `libraryFileRuns` | 5 |
 | `memory` | 1 |
-| `notifications` | 17 |
+| `notifications` | 20 |
 | `phoneNumbers` | 17 |
 | `pipelineItems` | 55 |
-| `properties` | 46 |
+| `properties` | 47 |
 | `scheduledTasks` | 7 |
 | `spaces` | 54 |
 | `tasks` | 16 |
 | `team` | 33 |
+| `websites` | 5 |
 | `workflows` | 72 |
 
 ## Live catalog (needs an API key)

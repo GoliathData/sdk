@@ -882,6 +882,46 @@ export type CustomerCoverageStatus =
   | 'NOT_REQUESTED'
   | 'WAITING_ON_COUNTY';
 
+/** Where a website change's preview deploy is. */
+export type CustomerWebsitePreviewState =
+  | 'BUILDING'
+  | 'FAILED'
+  | 'READY';
+
+/** Why a Publish or Discard was refused. The server re-checks every rule; the screen only explains it. */
+export type CustomerWebsiteRefusal =
+  /** Goliath is still working on the change. */
+  | 'CHANGE_LIVE'
+  | 'CHECKS_NOT_PASSED'
+  | 'FAILED_SAFETY_CHECK'
+  | 'NOT_ADMIN'
+  /** Not one of the organization's websites. */
+  | 'NOT_FOUND'
+  | 'NO_OPEN_CHANGE'
+  /** The `websites` flag is off for the organization. */
+  | 'OFF'
+  /** The preview the person saw is no longer the change's newest. */
+  | 'STALE_PREVIEW';
+
+/**
+ * What a change request came to: QUEUED, or why nothing was started. NO_CHAT: no Ask Goliath chat made the call, and
+ * the change reports back into the chat that asked (and takes its photos from it).
+ */
+export type CustomerWebsiteRequestStatus =
+  /** A photo id that is not a PNG, JPEG, GIF or WebP image on the asking chat. */
+  | 'BAD_PHOTO'
+  /** The website already has a change waiting: publish or discard it first. */
+  | 'CHANGE_OPEN'
+  /** That request already ran. */
+  | 'DUPLICATE'
+  | 'NOT_ADMIN'
+  | 'NOT_FOUND'
+  | 'NO_CHAT'
+  | 'OFF'
+  | 'QUEUED'
+  /** Goliath is still working on the website's last change. */
+  | 'STILL_WORKING';
+
 export type DataExportStatus =
   | 'COMPLETED'
   | 'FAILED'
@@ -1286,6 +1326,30 @@ export type FolderScope =
   | 'TASKS_VIEW'
   | 'USER'
   | 'WORKFLOW';
+
+/** Where a Home layout came from: the person's own, the organization's template, or the computed default. */
+export type HomeLayoutSource =
+  | 'DEFAULT'
+  | 'ORG_TEMPLATE'
+  | 'USER';
+
+/** One change to one Home tile (`editMyHomeLayout`): name the tile by `pageId` or `tileId`; null fields are unchanged. */
+export type HomeTileChangeInput = {
+  /** True: clear a page tile's draft mark. */
+  keep?: InputMaybe<Scalars['Boolean']['input']>;
+  /** The 0-based index to move the tile to; 1 is first after Catch up. */
+  moveTo?: InputMaybe<Scalars['Int']['input']>;
+  /** A page tile, by its page. */
+  pageId?: InputMaybe<Scalars['ID']['input']>;
+  /** True: take the tile off Home. Catch up cannot be removed. */
+  remove?: InputMaybe<Scalars['Boolean']['input']>;
+  /** small, wide, large or full; Catch up's are hero, full and compact. */
+  size?: InputMaybe<Scalars['String']['input']>;
+  /** plain, sky, sage, dusk or sand. */
+  style?: InputMaybe<Scalars['String']['input']>;
+  /** Any tile, by the tileId a Home read or edit returned. */
+  tileId?: InputMaybe<Scalars['String']['input']>;
+};
 
 export type ImportContactInput = {
   /**
@@ -4074,6 +4138,14 @@ export type CommentOnSuggestionCardMutationVariables = Exact<{
 
 export type CommentOnSuggestionCardMutation = { __typename?: 'RootMutation', contactSuggestionMutation?: { __typename?: 'ContactSuggestionMutation', commentOnSuggestionCard: { __typename?: 'SuggestionCardComment', heard: boolean, routedToSession: boolean, replyChanged: boolean } } | null };
 
+export type EditContactSuggestionMutationVariables = Exact<{
+  suggestionId: Scalars['ID']['input'];
+  text: Scalars['String']['input'];
+  subject?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type EditContactSuggestionMutation = { __typename?: 'RootMutation', contactSuggestionMutation?: { __typename?: 'ContactSuggestionMutation', editContactSuggestion?: { __typename?: 'ContactSuggestionWords', id: string, contactId: string, subject?: string | null, text: string } | null } | null };
+
 export type AcceptContactSuggestionMutationVariables = Exact<{
   suggestionId: Scalars['ID']['input'];
   senderUserId?: InputMaybe<Scalars['ID']['input']>;
@@ -5534,6 +5606,26 @@ export type CreateFormContactLinkMutationVariables = Exact<{
 
 export type CreateFormContactLinkMutation = { __typename?: 'RootMutation', embedFormMutation?: { __typename?: 'EmbedFormMutation', createContactLink: { __typename?: 'EmbedFormContactLink', id: string, url: string, shortUrl: string, formName: string, prefill: boolean, prefillFieldCount: number } } | null };
 
+export type GetMyHomeLayoutQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type GetMyHomeLayoutQuery = { __typename?: 'RootQuery', dashboardQuery?: { __typename?: 'DashboardQuery', myHomeLayout?: { __typename?: 'HomeLayout', source: HomeLayoutSource, summaries: Array<{ __typename?: 'HomeTileSummary', tileId: string, kind: string, pageId?: string | null, size: string, style?: string | null, draft: boolean }> } | null } | null };
+
+export type AddPageToMyHomeMutationVariables = Exact<{
+  pageId: Scalars['ID']['input'];
+  size: Scalars['String']['input'];
+  style?: InputMaybe<Scalars['String']['input']>;
+  draft?: InputMaybe<Scalars['Boolean']['input']>;
+  replaceTileId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+export type AddPageToMyHomeMutation = { __typename?: 'RootMutation', todayMutation?: { __typename?: 'TodayMutation', addPageToMyHome?: { __typename?: 'HomeTileEdit', layoutId: string, tileId?: string | null, added?: boolean | null, tiles: Array<{ __typename?: 'HomeTileSummary', tileId: string, kind: string, pageId?: string | null, size: string, style?: string | null, draft: boolean }> } | null } | null };
+
+export type EditMyHomeLayoutMutationVariables = Exact<{
+  changes: Array<HomeTileChangeInput> | HomeTileChangeInput;
+}>;
+
+export type EditMyHomeLayoutMutation = { __typename?: 'RootMutation', todayMutation?: { __typename?: 'TodayMutation', editMyHomeLayout?: { __typename?: 'HomeTileEdit', layoutId: string, tiles: Array<{ __typename?: 'HomeTileSummary', tileId: string, kind: string, pageId?: string | null, size: string, style?: string | null, draft: boolean }> } | null } | null };
+
 export type StartLibraryFileRunMutationVariables = Exact<{
   spaceItemId: Scalars['ID']['input'];
   skipTrace: Scalars['Boolean']['input'];
@@ -6352,6 +6444,13 @@ export type ListFilterFieldsQueryVariables = Exact<{
 }>;
 
 export type ListFilterFieldsQuery = { __typename?: 'RootQuery', filterQuery?: { __typename?: 'FilterQuery', listFilterFields?: Array<{ __typename?: 'FilterFieldDescriptor', fieldId: string, label: string, category: string, description?: string | null, component: string, acceptedValueKeys?: Array<string> | null, hidden: boolean, retired: boolean, valueShapes?: Array<{ __typename?: 'FilterFieldValueShape', discriminatorKey?: string | null, discriminatorValue?: string | null, scalar?: { __typename?: 'FilterFieldScalarShape', type: string, acceptedValues?: Array<string> | null } | null, keys: Array<{ __typename?: 'FilterFieldValueKey', key: string, required: boolean, acceptedValues?: Array<string> | null }> }> | null, options?: Array<{ __typename?: 'FilterFieldOption', label: string, value?: string | null }> | null }> | null } | null };
+
+export type LookupAddressQueryVariables = Exact<{
+  address: Scalars['String']['input'];
+  nearby?: InputMaybe<Scalars['JSON']['input']>;
+}>;
+
+export type LookupAddressQuery = { __typename?: 'RootQuery', property?: { __typename?: 'PropertyQuery', lookupAddress?: any | null } | null };
 
 export type CountRecordsQueryVariables = Exact<{
   spec: Scalars['JSON']['input'];
@@ -7358,6 +7457,38 @@ export type HideTaskSourceOnTodayMutationVariables = Exact<{
 }>;
 
 export type HideTaskSourceOnTodayMutation = { __typename?: 'RootMutation', subjectStateMutation?: { __typename?: 'SubjectStateMutation', hideTodaySource?: { __typename?: 'UserSubjectState', subjectGrn: string, kind: string, dismissedAt?: any | null } | null } | null };
+
+export type ListWebsitesQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type ListWebsitesQuery = { __typename?: 'RootQuery', customerWebsiteQuery?: { __typename?: 'CustomerWebsiteQuery', websites?: Array<{ __typename?: 'CustomerWebsite', id: string, name: string, primaryDomain: string, liveUrl: string, working: boolean, openChangeUnreadable: boolean, openChange?: { __typename?: 'CustomerWebsiteChange', previewId: string, preview: CustomerWebsitePreviewState, previewUrl?: string | null, working: boolean, sentForPublishing: boolean, request?: string | null, agentNote?: string | null } | null }> | null } | null };
+
+export type GetWebsiteChangeQueryVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+}>;
+
+export type GetWebsiteChangeQuery = { __typename?: 'RootQuery', customerWebsiteQuery?: { __typename?: 'CustomerWebsiteQuery', website?: { __typename?: 'CustomerWebsite', id: string, name: string, primaryDomain: string, liveUrl: string, working: boolean, openChangeUnreadable: boolean, openChange?: { __typename?: 'CustomerWebsiteChange', previewId: string, preview: CustomerWebsitePreviewState, previewUrl?: string | null, working: boolean, sentForPublishing: boolean, request?: string | null, agentNote?: string | null } | null } | null } | null };
+
+export type RequestWebsiteChangeMutationVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+  instruction: Scalars['String']['input'];
+  photoArtifactIds?: InputMaybe<Array<Scalars['ID']['input']> | Scalars['ID']['input']>;
+}>;
+
+export type RequestWebsiteChangeMutation = { __typename?: 'RootMutation', customerWebsiteMutation?: { __typename?: 'CustomerWebsiteMutation', requestChange?: { __typename?: 'CustomerWebsiteRequestResult', ok: boolean, status: CustomerWebsiteRequestStatus, error?: string | null } | null } | null };
+
+export type PublishWebsiteChangeMutationVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+  previewId: Scalars['String']['input'];
+}>;
+
+export type PublishWebsiteChangeMutation = { __typename?: 'RootMutation', customerWebsiteMutation?: { __typename?: 'CustomerWebsiteMutation', publish?: { __typename?: 'CustomerWebsiteActionResult', ok: boolean, published: boolean, refused?: CustomerWebsiteRefusal | null, details: Array<string> } | null } | null };
+
+export type DiscardWebsiteChangeMutationVariables = Exact<{
+  websiteId: Scalars['String']['input'];
+  previewId: Scalars['String']['input'];
+}>;
+
+export type DiscardWebsiteChangeMutation = { __typename?: 'RootMutation', customerWebsiteMutation?: { __typename?: 'CustomerWebsiteMutation', discard?: { __typename?: 'CustomerWebsiteActionResult', ok: boolean, published: boolean, refused?: CustomerWebsiteRefusal | null, details: Array<string> } | null } | null };
 
 export type ListLibraryFilesQueryVariables = Exact<{
   folderId?: InputMaybe<Scalars['ID']['input']>;

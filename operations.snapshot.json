@@ -1872,6 +1872,19 @@
     "responseShape": "{\"noteMutation\":{\"editNote\":{\"id\":true,\"body\":true,\"updatedAt\":true,\"contact\":{\"id\":true,\"name\":true}}}}"
   },
   {
+    "operationId": "editContactSuggestion",
+    "domain": "contacts",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "suggestionId:ID!,text:String!,subject:String",
+    "responseShape": "{\"contactSuggestionMutation\":{\"editContactSuggestion\":{\"id\":true,\"contactId\":true,\"subject\":true,\"text\":true}}}"
+  },
+  {
     "operationId": "editNoteReply",
     "domain": "contacts",
     "operationType": "mutation",
@@ -3887,6 +3900,19 @@
     "responseShape": "{\"memoryEntryMutation\":{\"addEntries\":{\"organizationId\":true,\"added\":true,\"alreadyAdded\":true,\"excluded\":{\"externalId\":true,\"reason\":true}}}}"
   },
   {
+    "operationId": "addPageToMyHome",
+    "domain": "notifications",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "pageId:ID!,size:String!,style:String,draft:Boolean,replaceTileId:String",
+    "responseShape": "{\"todayMutation\":{\"addPageToMyHome\":{\"layoutId\":true,\"tileId\":true,\"added\":true,\"tiles\":{\"tileId\":true,\"kind\":true,\"pageId\":true,\"size\":true,\"style\":true,\"draft\":true}}}}"
+  },
+  {
     "operationId": "clearOnToday",
     "domain": "notifications",
     "operationType": "mutation",
@@ -3926,6 +3952,19 @@
     "responseShape": "{\"notificationMutation\":{\"deleteNotifications\":true}}"
   },
   {
+    "operationId": "editMyHomeLayout",
+    "domain": "notifications",
+    "operationType": "mutation",
+    "requiredScope": "WRITE",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "changes:[HomeTileChangeInput!]!",
+    "responseShape": "{\"todayMutation\":{\"editMyHomeLayout\":{\"layoutId\":true,\"tiles\":{\"tileId\":true,\"kind\":true,\"pageId\":true,\"size\":true,\"style\":true,\"draft\":true}}}}"
+  },
+  {
     "operationId": "getAvailableNotificationTypes",
     "domain": "notifications",
     "operationType": "query",
@@ -3937,6 +3976,19 @@
     "hasAuthorize": false,
     "variableSignature": "",
     "responseShape": "{\"notificationQuery\":{\"getAvailableNotificationTypes\":{\"notificationType\":true,\"description\":true,\"category\":true}}}"
+  },
+  {
+    "operationId": "getMyHomeLayout",
+    "domain": "notifications",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"dashboardQuery\":{\"myHomeLayout\":{\"source\":true,\"summaries\":{\"tileId\":true,\"kind\":true,\"pageId\":true,\"size\":true,\"style\":true,\"draft\":true}}}}"
   },
   {
     "operationId": "getNotificationCounts",
@@ -5393,6 +5445,19 @@
     "hasAuthorize": false,
     "variableSignature": "",
     "responseShape": "{\"filterQuery\":{\"getFilters\":{\"id\":true,\"name\":true,\"description\":true,\"folderId\":true,\"isPrivate\":true,\"isDefault\":true,\"userId\":true,\"createdAt\":true,\"criteriaSummary\":true}}}"
+  },
+  {
+    "operationId": "lookupAddress",
+    "domain": "properties",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": true,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "address:String!,nearby:JSON",
+    "responseShape": "{\"property\":{\"lookupAddress\":true}}"
   },
   {
     "operationId": "manualSkiptrace",
@@ -7070,6 +7135,71 @@
     "hasAuthorize": true,
     "variableSignature": "userId:ID!,goalPlanId:ID!,id:ID,title:String!,description:String,displayOrder:Int",
     "responseShape": "{\"agentGoalsMutation\":{\"upsertAgentPersonalGoal\":{\"id\":true,\"goalPlanId\":true,\"title\":true,\"description\":true,\"status\":true,\"displayOrder\":true}}}"
+  },
+  {
+    "operationId": "discardWebsiteChange",
+    "domain": "websites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!,previewId:String!",
+    "responseShape": "{\"customerWebsiteMutation\":{\"discard\":{\"ok\":true,\"published\":true,\"refused\":true,\"details\":true}}}"
+  },
+  {
+    "operationId": "getWebsiteChange",
+    "domain": "websites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!",
+    "responseShape": "{\"customerWebsiteQuery\":{\"website\":{\"id\":true,\"name\":true,\"primaryDomain\":true,\"liveUrl\":true,\"working\":true,\"openChangeUnreadable\":true,\"openChange\":{\"previewId\":true,\"preview\":true,\"previewUrl\":true,\"working\":true,\"sentForPublishing\":true,\"request\":true,\"agentNote\":true}}}}"
+  },
+  {
+    "operationId": "listWebsites",
+    "domain": "websites",
+    "operationType": "query",
+    "requiredScope": "READ",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": false,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "",
+    "responseShape": "{\"customerWebsiteQuery\":{\"websites\":{\"id\":true,\"name\":true,\"primaryDomain\":true,\"liveUrl\":true,\"working\":true,\"openChangeUnreadable\":true,\"openChange\":{\"previewId\":true,\"preview\":true,\"previewUrl\":true,\"working\":true,\"sentForPublishing\":true,\"request\":true,\"agentNote\":true}}}}"
+  },
+  {
+    "operationId": "publishWebsiteChange",
+    "domain": "websites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!,previewId:String!",
+    "responseShape": "{\"customerWebsiteMutation\":{\"publish\":{\"ok\":true,\"published\":true,\"refused\":true,\"details\":true}}}"
+  },
+  {
+    "operationId": "requestWebsiteChange",
+    "domain": "websites",
+    "operationType": "mutation",
+    "requiredScope": "ADMIN",
+    "resultCap": null,
+    "rateLimited": false,
+    "idempotent": true,
+    "orgIdVariable": null,
+    "hasAuthorize": false,
+    "variableSignature": "websiteId:String!,instruction:String!,photoArtifactIds:[ID!]",
+    "responseShape": "{\"customerWebsiteMutation\":{\"requestChange\":{\"ok\":true,\"status\":true,\"error\":true}}}"
   },
   {
     "operationId": "addLibraryFileFromArtifact",

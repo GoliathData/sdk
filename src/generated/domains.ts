@@ -1248,6 +1248,15 @@ export class GoliathClient extends GoliathClientCore {
     editContactNote: (variables: T.EditContactNoteMutationVariables, options?: IdempotentRequestOptions): Promise<T.EditContactNoteMutation> =>
       this.request('editContactNote', variables, options, { operationType: 'mutation' }),
     /**
+     * Rewrite a pending text, email or Slack reply card's words WITHOUT sending it, when the person asks for different words: `text` is the whole new message (start from the card's current words in listContactSuggestions and keep what they did not ask to change; a multi-bubble text's bubbles a blank line apart), `subject` an email's new subject (omit to keep it). The words become the person's own: no AI employee redrafts over them, and the card still waits for someone to send it. Refused for a card no longer waiting, one that is not a message, or a teammate's. Returns the words as saved.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    editContactSuggestion: (variables: T.EditContactSuggestionMutationVariables, options?: IdempotentRequestOptions): Promise<T.EditContactSuggestionMutation> =>
+      this.request('editContactSuggestion', variables, options, { operationType: 'mutation' }),
+    /**
      * Replace a reply's body (replyId from getContact notes[].replies); echoes the saved body. Same authorship rule as editContactNote.
      *
      * @remarks Requires the WRITE scope.
@@ -2608,6 +2617,15 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly notifications = {
     /**
+     * Put a Page on your own Home as a tile: first after Catch up, or with `replaceTileId` in place of that idea tile (kind idea), which goes. `size`: small 1x1, wide 2x1, large 2x2 or full 4x1; `style`: plain, sky, sage, dusk or sand; `draft` true shows it with a Draft mark until the person keeps it. A page already on Home is not added twice: its tile takes the new size, style and draft. Refused for a page you cannot open and on a full Home. Returns Home after it.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    addPageToMyHome: (variables: T.AddPageToMyHomeMutationVariables, options?: IdempotentRequestOptions): Promise<T.AddPageToMyHomeMutation> =>
+      this.request('addPageToMyHome', variables, options, { operationType: 'mutation' }),
+    /**
      * "Dealt with": the row leaves the key owner's Today until something newer than anchorAt happens to it. subjectGrn is `<Model>_<id>` of what the row is about (TextConversation, EmailThread, Deal, Call, Task); kind is TODAY.
      *
      * @remarks Requires the WRITE scope.
@@ -2635,12 +2653,28 @@ export class GoliathClient extends GoliathClientCore {
     deleteNotifications: (variables: T.DeleteNotificationsMutationVariables, options?: IdempotentRequestOptions): Promise<T.DeleteNotificationsMutation> =>
       this.request('deleteNotifications', variables, options, { operationType: 'mutation' }),
     /**
+     * Change tiles on your own Home, in order, all or nothing: each change names one tile by `pageId` (a page tile) or `tileId` (getMyHomeLayout), and sets its `size` or `style`, `remove`s it, `keep`s a draft, or `moveTo` a 0-based index (Catch up holds 0 and stays first; its sizes are hero, full and compact). Refused whole, writing nothing, when any change names no tile or does not fit it. Returns Home after it.
+     *
+     * @remarks Requires the WRITE scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    editMyHomeLayout: (variables: T.EditMyHomeLayoutMutationVariables, options?: IdempotentRequestOptions): Promise<T.EditMyHomeLayoutMutation> =>
+      this.request('editMyHomeLayout', variables, options, { operationType: 'mutation' }),
+    /**
      * The catalog of notification types you can filter by — each with its notificationType (the exact string to pass as notificationTypeFilter on listNotifications / getNotificationCounts), a human description, and a category. Call this first to filter reliably: notificationTypeFilter is a free string, so a typo silently returns an empty feed rather than an error.
      *
      * @remarks Requires the READ scope.
      */
     getAvailableNotificationTypes: (options?: RequestOptions): Promise<T.GetAvailableNotificationTypesQuery> =>
       this.request('getAvailableNotificationTypes', undefined, options, { operationType: 'query' }),
+    /**
+     * Your own Home's tiles, in order (`summaries`: each tile's tileId, kind, size, style and, for a page tile, its pageId and draft mark) and where they come from (USER: your own layout; ORG_TEMPLATE: the team's; DEFAULT). The tileIds editMyHomeLayout takes.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getMyHomeLayout: (options?: RequestOptions): Promise<T.GetMyHomeLayoutQuery> =>
+      this.request('getMyHomeLayout', undefined, options, { operationType: 'query' }),
     /**
      * Unread and read counts for your own notification feed (the badge numbers). Optional notificationTypeFilter narrows to one type — use an EXACT value from getAvailableNotificationTypes (an unrecognized string returns 0/0, not an error). Cheap poll for "do I have anything new" before calling listNotifications.
      *
@@ -3600,6 +3634,15 @@ export class GoliathClient extends GoliathClientCore {
      */
     listPropertyFilters: (options?: RequestOptions): Promise<T.ListPropertyFiltersQuery> =>
       this.request('listPropertyFilters', undefined, options, { operationType: 'query' }),
+    /**
+     * An address property search does not find (a side door, a new build): placed, then matched to our property, else read from the county's public parcel record (`status` says which; ESTIMATE marks a parcel found only as the one nearest the point). `nearby` ({ radiusMeters, limit, useClasses }, each optional) lists parcels like it around the address instead. Free and read-only; rate-limited.
+     *
+     * @remarks Requires the READ scope.
+     *
+     * Rate limited: shares the per-key analytics bucket (60/min); 429s carry Retry-After.
+     */
+    lookupAddress: (variables: T.LookupAddressQueryVariables, options?: RequestOptions): Promise<T.LookupAddressQuery> =>
+      this.request('lookupAddress', variables, options, { operationType: 'query' }),
     /**
      * Skip-trace an explicitly-provided owner + mailing address (no property record needed). The trace may still run after this answers (minutes, or hours on a batch vendor), and nothing tells the caller when it ends. It can answer CONFLICT 'Skip trace is running…' after about 20 seconds while the trace keeps going. No operation reads that manual request itself; when its address resolves to a property, the trace counts toward that property's owners (getPropertyOwners) like any other. A later read shows what is on file now, which can come from an earlier trace; no read tells whether the trace this call started has finished. CONSUMES ONE SKIPTRACE CREDIT when it starts a new trace (plan allowance first except in a trial, then real money; checkBillingAction), given back when that trace finds no one or fails without an answer — requires the ADMIN scope, and the key owner must be a team admin.
      *
@@ -4727,6 +4770,50 @@ export class GoliathClient extends GoliathClientCore {
      */
     upsertTeammatePersonalGoal: (variables: T.UpsertTeammatePersonalGoalMutationVariables, options?: IdempotentRequestOptions): Promise<T.UpsertTeammatePersonalGoalMutation> =>
       this.request('upsertTeammatePersonalGoal', variables, options, { operationType: 'mutation' }),
+  }
+
+  readonly websites = {
+    /**
+     * Throw a website's open change away for good. Org admins only, on the person's yes. Bound to the preview it names (previewId from getWebsiteChange): a newer one refuses STALE_PREVIEW.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    discardWebsiteChange: (variables: T.DiscardWebsiteChangeMutationVariables, options?: IdempotentRequestOptions): Promise<T.DiscardWebsiteChangeMutation> =>
+      this.request('discardWebsiteChange', variables, options, { operationType: 'mutation' }),
+    /**
+     * One website (`websiteId` from listWebsites) and its open change, to follow a requested change: `working` while Goliath queues or makes it, then `openChange` with its preview. Null when it is not one of the organization's.
+     *
+     * @remarks Requires the READ scope.
+     */
+    getWebsiteChange: (variables: T.GetWebsiteChangeQueryVariables, options?: RequestOptions): Promise<T.GetWebsiteChangeQuery> =>
+      this.request('getWebsiteChange', variables, options, { operationType: 'query' }),
+    /**
+     * The organization's websites (id, name, domain, live URL) and each one's open change: its preview (state, URL once READY, previewId), the request and the editing agent's note, and whether Goliath is still working on it. Null while websites are off for the organization.
+     *
+     * @remarks Requires the READ scope.
+     */
+    listWebsites: (options?: RequestOptions): Promise<T.ListWebsitesQuery> =>
+      this.request('listWebsites', undefined, options, { operationType: 'query' }),
+    /**
+     * Put a website change live: merged and deployed to the public site (`published` false: it went to the team to put live). Org admins only, on the person's yes to that preview. Bound to the preview it names (previewId from getWebsiteChange): a newer one refuses STALE_PREVIEW.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    publishWebsiteChange: (variables: T.PublishWebsiteChangeMutationVariables, options?: IdempotentRequestOptions): Promise<T.PublishWebsiteChangeMutation> =>
+      this.request('publishWebsiteChange', variables, options, { operationType: 'mutation' }),
+    /**
+     * Ask Goliath to change one website, in the person's own words (new text, a new photo, a section moved). Org admins only. It runs in the background, about 5 minutes, one change per website at a time, and reports into the Ask Goliath chat that asked with a preview to review; nothing goes live until it is published. `photoArtifactIds`: images on that chat (PNG, JPEG, GIF or WebP), at most 10. Refused NO_CHAT outside a chat, CHANGE_OPEN while a change waits (publish or discard it first), STILL_WORKING while one is being made.
+     *
+     * @remarks Requires the ADMIN scope.
+     *
+     * Idempotent: pass `options.idempotencyKey` to make retries safe.
+     */
+    requestWebsiteChange: (variables: T.RequestWebsiteChangeMutationVariables, options?: IdempotentRequestOptions): Promise<T.RequestWebsiteChangeMutation> =>
+      this.request('requestWebsiteChange', variables, options, { operationType: 'mutation' }),
   }
 
   readonly workflows = {
