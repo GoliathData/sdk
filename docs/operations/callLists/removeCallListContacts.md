@@ -4,7 +4,7 @@
 
 mutation · domain `callLists` · requires the WRITE scope
 
-Take contacts off a call list before they are called: their slots close as skipped by hand (`skipReason` USER), so the list keeps its record. A contact being dialed right now, already called, or up next for a rep working the list stays as it is and counts in `notRemovedCount`. A removed contact keeps its slot (and its place toward the 10,000 cap) and cannot be added back to the same list. Needs you to have built the list or be an admin. Refused on an ENDED list.
+Take contacts off a call list before they are called: their slots close as skipped by hand (`skipReason` USER), so the list keeps its record. A contact being dialed right now, already called, or up next for a rep working the list stays as it is and counts in `notRemovedCount`. A removed contact keeps its slot (and its place toward the 10,000 cap); adding them again puts that slot back (at the end once the run has passed it). Needs you to have built the list or be an admin. Refused on an ENDED list.
 
 ## Call
 

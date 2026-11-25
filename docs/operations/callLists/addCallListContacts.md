@@ -4,7 +4,7 @@
 
 mutation · domain `callLists` · requires the WRITE scope
 
-Add contacts to the end of a call list, so they are called after everyone already on it. Needs you to have built the list or be an admin. Contacts already on the list, including ones removed earlier (`alreadyOnListCount`), ones its own rules cannot call (`cannotCallCount`) and ones past the 10,000 cap (`truncatedCount`) are left off and counted. At most 10,000 ids per call. Refused on an ENDED list.
+Add contacts to a call list: new ones at the end, in the order sent, so they are called after everyone already on it. A contact removed earlier (or skipped by hand) and never dialled goes back on its own slot: where it was if the run has not reached it yet, else at the end. Needs you to have built the list or be an admin. Contacts still on the list, already called, or up next for a rep working it (`alreadyOnListCount`), ones its own rules cannot call (`cannotCallCount`) and ones past the 10,000 cap (`truncatedCount`) are left off and counted. At most 10,000 ids per call. Refused on an ENDED list.
 
 ## Call
 
