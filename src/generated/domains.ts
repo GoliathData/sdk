@@ -5743,7 +5743,7 @@ export class GoliathClient extends GoliathClientCore {
     stopWorkflowRun: (variables: T.StopWorkflowRunMutationVariables, options?: IdempotentRequestOptions): Promise<T.StopWorkflowRunMutation> =>
       this.request('stopWorkflowRun', variables, options, { operationType: 'mutation' }),
     /**
-     * Manually start one run of a workflow's ACTIVE version against a record: a contactId, propertyId, pipelineItemId (DEAL) or taskId (APPOINTMENT). recordType says which (CONTACT, PROPERTY, DEAL, APPOINTMENT); a workflow of several lanes starts the record on the lane about that type. Omitted, recordId must match the workflow's own domain. A Workflows v1 workflow is about one type and ignores recordType.
+     * Manually start one run of a workflow's ACTIVE version against a record: a contactId, propertyId, pipelineItemId (DEAL) or taskId (APPOINTMENT). recordType says which (CONTACT, PROPERTY, DEAL, APPOINTMENT); a workflow of several lanes starts the record on the lane about that type. Omitted, recordId must match the workflow's own domain. A Workflows v1 workflow is about one type and ignores recordType. A workflow runs each contact once, so for a contact who already went through it nothing new starts; `allowRerun: true` (contact records only) starts a fresh run for that contact instead, with the same checks as the app's Run again: Do Not Contact, opt-outs and litigators are re-checked, it is refused while the contact has a live run in the workflow, and the workflow's run-once setting is unchanged. A re-run sends every message again from the first step, so confirm with the user first.
      *
      * @remarks Requires the WRITE scope.
      *
