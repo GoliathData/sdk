@@ -1433,7 +1433,7 @@ export class GoliathClient extends GoliathClientCore {
     findSharedPhonesAndEmails: (variables?: T.FindSharedPhonesAndEmailsQueryVariables, options?: RequestOptions): Promise<T.FindSharedPhonesAndEmailsQuery> =>
       this.request('findSharedPhonesAndEmails', variables, options, { operationType: 'query' }),
     /**
-     * Groups of 2+ contacts linked to the same property address (the parcel, else the mailing address row, else the text folded for case and punctuation), largest first, in ONE call: address, propertyId, members with how each is linked (OWNS, MAILING, FORMER_OWNER, RELATED_TO_OWNER). totalCount = groups across everything you see.
+     * Groups of 2+ contacts linked to the same property address (the parcel, else what the address record says (street and unit, 5-digit ZIP, city), else the text folded for case and punctuation), largest first, in ONE call: address, propertyId, members with how each is linked (OWNS, MAILING, FORMER_OWNER, RELATED_TO_OWNER). totalCount = groups across everything you see.
      *
      * @remarks Requires the READ scope.
      *
