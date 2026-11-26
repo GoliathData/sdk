@@ -4,7 +4,7 @@
 
 mutation · domain `scheduledTasks` · requires the WRITE scope
 
-Change a scheduled task; only what you send changes. `timing` is { cronExpression or fireAt, timezone }, exactly one of the two. `clearExpiresAt: true` removes its end (do not send it with `expiresAt`). Only the task's owner or an org admin may change it (`canEdit`).
+Change a scheduled task; only what you send changes. `timing` is { cronExpression, fireAt or runNow: true, timezone }, exactly one of the three (runNow: due again now; a paused task stays paused until resumed). `clearExpiresAt: true` removes its end (do not send it with `expiresAt`). Only the task's owner or an org admin may change it (`canEdit`).
 
 ## Call
 

@@ -2450,6 +2450,7 @@ export type ScheduledTaskStatus =
 export type ScheduledTaskTimingInput = {
   cronExpression?: InputMaybe<Scalars['String']['input']>;
   fireAt?: InputMaybe<Scalars['DateTime']['input']>;
+  runNow?: InputMaybe<Scalars['Boolean']['input']>;
   timezone: Scalars['String']['input'];
 };
 

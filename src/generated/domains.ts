@@ -4035,7 +4035,7 @@ export class GoliathClient extends GoliathClientCore {
 
   readonly scheduledTasks = {
     /**
-     * Schedule Ask Goliath to run `instruction` as the key owner: give exactly one of `cronExpression` (recurring, 5 fields) or `fireAt` (once), read in `timezone` (IANA). Optional `expiresAt` (it stops after). It is granted no abilities: each run makes no change on its own (it reads and reports, or asks the owner first). Refused while scheduled tasks are off for the organization.
+     * Schedule Ask Goliath to run `instruction` as the key owner: give exactly one of `cronExpression` (recurring, 5 fields), `fireAt` (once) or `runNow: true` (once, now: background work that would outlast a chat turn; its run happens in the task’s own chat, `sessionId`, and pushes its owner the result), read in `timezone` (IANA). Optional `expiresAt` (it stops after). It is granted no abilities: each run makes no change on its own (it reads and reports, or asks the owner first). Refused while scheduled tasks are off for the organization.
      *
      * @remarks Requires the WRITE scope.
      *
@@ -4085,7 +4085,7 @@ export class GoliathClient extends GoliathClientCore {
     resumeScheduledTask: (variables: T.ResumeScheduledTaskMutationVariables, options?: IdempotentRequestOptions): Promise<T.ResumeScheduledTaskMutation> =>
       this.request('resumeScheduledTask', variables, options, { operationType: 'mutation' }),
     /**
-     * Change a scheduled task; only what you send changes. `timing` is { cronExpression or fireAt, timezone }, exactly one of the two. `clearExpiresAt: true` removes its end (do not send it with `expiresAt`). Only the task's owner or an org admin may change it (`canEdit`).
+     * Change a scheduled task; only what you send changes. `timing` is { cronExpression, fireAt or runNow: true, timezone }, exactly one of the three (runNow: due again now; a paused task stays paused until resumed). `clearExpiresAt: true` removes its end (do not send it with `expiresAt`). Only the task's owner or an org admin may change it (`canEdit`).
      *
      * @remarks Requires the WRITE scope.
      *
