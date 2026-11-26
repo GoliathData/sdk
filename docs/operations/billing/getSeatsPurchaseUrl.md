@@ -4,7 +4,7 @@
 
 query · domain `billing` · requires the READ scope
 
-The in-app Billing page URL where a person buys extra seats. Buying seats isn't in chat yet; name the seat price and send this link. Decide "at cap" from getBillingSummary's `extraSeats.seatsUsed` vs `extraSeats.seatsCap` (total, purchased seats included), never the plan-only `featureLimits.seatsCap`. Price: getAddOnPrices.
+The in-app Billing page URL where a person buys extra seats. Seats are bought there by the person, never from chat: that is policy, not a missing piece, so nothing is filed; name the seat price and send this link. Decide "at cap" from getBillingSummary's `extraSeats.seatsUsed` vs `extraSeats.seatsCap` (total, purchased seats included), never the plan-only `featureLimits.seatsCap`. Price: getAddOnPrices.
 
 ## Call
 
