@@ -1076,6 +1076,7 @@ export type DependencyResolutionInput = {
 
 export type DependencyTargetKind =
   | 'AGENT'
+  | 'CALL_LIST'
   | 'CONTACT'
   | 'CONTACT_CUSTOM_FIELD'
   | 'CONTACT_CUSTOM_FIELD_OPTION'
