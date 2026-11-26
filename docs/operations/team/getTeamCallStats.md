@@ -37,6 +37,10 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
     "callStats": {
       "startDate": true,
       "endDate": true,
+      "firstDay": true,
+      "lastDay": true,
+      "days": true,
+      "timeZone": true,
       "totals": {
         "outboundCalls": true,
         "inboundCalls": true,

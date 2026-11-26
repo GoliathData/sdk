@@ -43,7 +43,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "isArchived": true,
         "stage": {
           "id": true,
-          "name": true
+          "name": true,
+          "outcome": true
         },
         "users": {
           "id": true,

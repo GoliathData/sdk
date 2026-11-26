@@ -71,7 +71,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       },
       "stage": {
         "id": true,
-        "name": true
+        "name": true,
+        "outcome": true
       },
       "pipeline": {
         "id": true,

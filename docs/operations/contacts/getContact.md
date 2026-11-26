@@ -179,7 +179,8 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
         "priceFormatted": true,
         "stage": {
           "id": true,
-          "name": true
+          "name": true,
+          "outcome": true
         }
       }
     }

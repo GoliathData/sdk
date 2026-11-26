@@ -37,6 +37,10 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
     "outboundTextCounts": {
       "startDate": true,
       "endDate": true,
+      "firstDay": true,
+      "lastDay": true,
+      "days": true,
+      "timeZone": true,
       "total": {
         "sent": true,
         "delivered": true,

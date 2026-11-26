@@ -7406,7 +7406,8 @@
               "priceFormatted": true,
               "stage": {
                 "id": true,
-                "name": true
+                "name": true,
+                "outcome": true
               }
             }
           }
@@ -10686,6 +10687,10 @@
           "failedTexts": {
             "startDate": true,
             "endDate": true,
+            "firstDay": true,
+            "lastDay": true,
+            "days": true,
+            "timeZone": true,
             "total": true,
             "groups": {
               "errorCode": true,
@@ -16824,7 +16829,8 @@
             },
             "stage": {
               "id": true,
-              "name": true
+              "name": true,
+              "outcome": true
             },
             "pipeline": {
               "id": true,
@@ -17177,7 +17183,8 @@
               "isArchived": true,
               "stage": {
                 "id": true,
-                "name": true
+                "name": true,
+                "outcome": true
               },
               "users": {
                 "id": true,
@@ -17322,7 +17329,8 @@
               "teamSplitPercentBps": true,
               "stage": {
                 "id": true,
-                "name": true
+                "name": true,
+                "outcome": true
               },
               "pipeline": {
                 "id": true,
@@ -17539,7 +17547,8 @@
             },
             "stage": {
               "id": true,
-              "name": true
+              "name": true,
+              "outcome": true
             },
             "externalLinks": {
               "id": true,
@@ -18768,7 +18777,8 @@
             },
             "stage": {
               "id": true,
-              "name": true
+              "name": true,
+              "outcome": true
             },
             "pipeline": {
               "id": true,
@@ -24909,6 +24919,10 @@
           "outboundTextCounts": {
             "startDate": true,
             "endDate": true,
+            "firstDay": true,
+            "lastDay": true,
+            "days": true,
+            "timeZone": true,
             "total": {
               "sent": true,
               "delivered": true,
@@ -25284,6 +25298,10 @@
           "memberActivity": {
             "startDate": true,
             "endDate": true,
+            "firstDay": true,
+            "lastDay": true,
+            "days": true,
+            "timeZone": true,
             "userId": true,
             "name": true,
             "texts": {
@@ -25465,6 +25483,10 @@
           "callStats": {
             "startDate": true,
             "endDate": true,
+            "firstDay": true,
+            "lastDay": true,
+            "days": true,
+            "timeZone": true,
             "totals": {
               "outboundCalls": true,
               "inboundCalls": true,
