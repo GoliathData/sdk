@@ -192,7 +192,7 @@
     "orgIdVariable": null,
     "hasAuthorize": false,
     "variableSignature": "",
-    "responseShape": "{\"currentUser\":{\"id\":true,\"organization\":{\"id\":true,\"name\":true,\"slug\":true,\"websiteUrl\":true,\"timezone\":true,\"alwaysExcludeDncTexts\":true,\"aiCoOwnedLineHeadStartSeconds\":true,\"textReplyLinePolicy\":true,\"callLinePolicy\":true,\"inboxDefaultView\":true,\"suggestionAudience\":true,\"meetingNotetakerEnabled\":true,\"isBrandingEnabled\":true,\"outboundPause\":{\"pausedAt\":true,\"pausedBy\":{\"id\":true}},\"leadRouting\":{\"assigneeUserIds\":true}}}}"
+    "responseShape": "{\"currentUser\":{\"id\":true,\"organization\":{\"id\":true,\"name\":true,\"slug\":true,\"websiteUrl\":true,\"timezone\":true,\"alwaysExcludeDncTexts\":true,\"aiCoOwnedLineHeadStartSeconds\":true,\"callLinePolicy\":true,\"inboxDefaultView\":true,\"suggestionAudience\":true,\"meetingNotetakerEnabled\":true,\"isBrandingEnabled\":true,\"outboundPause\":{\"pausedAt\":true,\"pausedBy\":{\"id\":true}},\"leadRouting\":{\"assigneeUserIds\":true}}}}"
   },
   {
     "operationId": "getWorkflowIntakeAssignment",
@@ -362,19 +362,6 @@
     "hasAuthorize": false,
     "variableSignature": "alwaysExcludeDncTexts:Boolean!",
     "responseShape": "{\"organizationMutation\":{\"updateOrganizationTextCompliance\":{\"id\":true,\"alwaysExcludeDncTexts\":true}}}"
-  },
-  {
-    "operationId": "setOrganizationTextReplyLinePolicy",
-    "domain": "account",
-    "operationType": "mutation",
-    "requiredScope": "ADMIN",
-    "resultCap": null,
-    "rateLimited": false,
-    "idempotent": true,
-    "orgIdVariable": null,
-    "hasAuthorize": false,
-    "variableSignature": "policy:TextReplyLinePolicy!",
-    "responseShape": "{\"organizationMutation\":{\"updateOrganizationTextReplyLinePolicy\":{\"id\":true,\"textReplyLinePolicy\":true}}}"
   },
   {
     "operationId": "setOrganizationTimezone",

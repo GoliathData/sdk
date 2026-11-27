@@ -4,7 +4,7 @@
 
 query · domain `account` · requires the READ scope
 
-Your organization's profile and org-wide settings in one read: name, booking-link `slug`, `websiteUrl`, `timezone` (null = never set, not UTC), `alwaysExcludeDncTexts` (texts skip National DNC numbers), `aiCoOwnedLineHeadStartSeconds`, `textReplyLinePolicy` and `callLinePolicy` (which line a text or a manual dial defaults to), `inboxDefaultView`, `suggestionAudience`, `meetingNotetakerEnabled`, `outboundPause` (null = sending is on; else when and by whom everything was paused), `leadRouting.assigneeUserIds` (who gets new skip-traced leads; empty = nobody). `meetingNotetakerEnabled` and `leadRouting` are null when the key owner does not hold VIEW_ORGANIZATION_SETTINGS (or CAN_MANAGE_SPENDING): withheld, not off or nobody, so say a team admin can show them.
+Your organization's profile and org-wide settings in one read: name, booking-link `slug`, `websiteUrl`, `timezone` (null = never set, not UTC), `alwaysExcludeDncTexts` (texts skip National DNC numbers), `aiCoOwnedLineHeadStartSeconds`, `callLinePolicy` (which line a manual dial defaults to; a text reply always goes out on the number the conversation already uses), `inboxDefaultView`, `suggestionAudience`, `meetingNotetakerEnabled`, `outboundPause` (null = sending is on; else when and by whom everything was paused), `leadRouting.assigneeUserIds` (who gets new skip-traced leads; empty = nobody). `meetingNotetakerEnabled` and `leadRouting` are null when the key owner does not hold VIEW_ORGANIZATION_SETTINGS (or CAN_MANAGE_SPENDING): withheld, not off or nobody, so say a team admin can show them.
 
 ## Call
 
@@ -35,7 +35,6 @@ The field tree of the exact selection set the gateway executes (leaf → `true`)
       "timezone": true,
       "alwaysExcludeDncTexts": true,
       "aiCoOwnedLineHeadStartSeconds": true,
-      "textReplyLinePolicy": true,
       "callLinePolicy": true,
       "inboxDefaultView": true,
       "suggestionAudience": true,

@@ -127,7 +127,7 @@ export class GoliathClient extends GoliathClientCore {
     getOrganizationAreasOfOperation: (options?: RequestOptions): Promise<T.GetOrganizationAreasOfOperationQuery> =>
       this.request('getOrganizationAreasOfOperation', undefined, options, { operationType: 'query' }),
     /**
-     * Your organization's profile and org-wide settings in one read: name, booking-link `slug`, `websiteUrl`, `timezone` (null = never set, not UTC), `alwaysExcludeDncTexts` (texts skip National DNC numbers), `aiCoOwnedLineHeadStartSeconds`, `textReplyLinePolicy` and `callLinePolicy` (which line a text or a manual dial defaults to), `inboxDefaultView`, `suggestionAudience`, `meetingNotetakerEnabled`, `outboundPause` (null = sending is on; else when and by whom everything was paused), `leadRouting.assigneeUserIds` (who gets new skip-traced leads; empty = nobody). `meetingNotetakerEnabled` and `leadRouting` are null when the key owner does not hold VIEW_ORGANIZATION_SETTINGS (or CAN_MANAGE_SPENDING): withheld, not off or nobody, so say a team admin can show them.
+     * Your organization's profile and org-wide settings in one read: name, booking-link `slug`, `websiteUrl`, `timezone` (null = never set, not UTC), `alwaysExcludeDncTexts` (texts skip National DNC numbers), `aiCoOwnedLineHeadStartSeconds`, `callLinePolicy` (which line a manual dial defaults to; a text reply always goes out on the number the conversation already uses), `inboxDefaultView`, `suggestionAudience`, `meetingNotetakerEnabled`, `outboundPause` (null = sending is on; else when and by whom everything was paused), `leadRouting.assigneeUserIds` (who gets new skip-traced leads; empty = nobody). `meetingNotetakerEnabled` and `leadRouting` are null when the key owner does not hold VIEW_ORGANIZATION_SETTINGS (or CAN_MANAGE_SPENDING): withheld, not off or nobody, so say a team admin can show them.
      *
      * @remarks Requires the READ scope.
      */
@@ -244,15 +244,6 @@ export class GoliathClient extends GoliathClientCore {
      */
     setOrganizationTextDncSkip: (variables: T.SetOrganizationTextDncSkipMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetOrganizationTextDncSkipMutation> =>
       this.request('setOrganizationTextDncSkip', variables, options, { operationType: 'mutation' }),
-    /**
-     * Which line a contact's text composer opens on: USER_PRIMARY_LINE (the sender's own line) or LAST_THREAD_LINE (the line the contact last talked to, which widens who may text from a line). Organization admins only.
-     *
-     * @remarks Requires the ADMIN scope.
-     *
-     * Idempotent: pass `options.idempotencyKey` to make retries safe.
-     */
-    setOrganizationTextReplyLinePolicy: (variables: T.SetOrganizationTextReplyLinePolicyMutationVariables, options?: IdempotentRequestOptions): Promise<T.SetOrganizationTextReplyLinePolicyMutation> =>
-      this.request('setOrganizationTextReplyLinePolicy', variables, options, { operationType: 'mutation' }),
     /**
      * Set the organization's own clock: an IANA zone the product schedules in ("America/Chicago"; EST, CST, MST, AZ, PST and HST are accepted and normalized). Null clears it. New schedules start from it; stored ones are not rewritten. Organization admins only.
      *

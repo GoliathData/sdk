@@ -2916,29 +2916,6 @@ export type TextMessageStatus =
   | 'SENT'
   | 'SKIPPED';
 
-/**
- * Which line a CONTACT-SIDE text composer defaults to. See
- * `Organization.textReplyLinePolicy`.
- */
-export type TextReplyLinePolicy =
-  /**
-   * The composer opens on the line the contact's most recent organization-wide
-   * conversation lives on, so the contact keeps seeing one number. Falls back to
-   * the sender's primary line when the contact has no prior conversation, or when
-   * the winning line cannot currently send.
-   *
-   * This value also GRANTS PERMISSION: it lets an ordinary member send on a
-   * teammate's line when a conversation with that exact destination already exists
-   * there. Replies then land in the line owner's inbox, not the sender's.
-   */
-  | 'LAST_THREAD_LINE'
-  /**
-   * The composer opens on the sender's own primary sendable line, whatever number
-   * the contact has been talking to. The behavior every organization had before
-   * this setting existed.
-   */
-  | 'USER_PRIMARY_LINE';
-
 export type Timezone =
   | 'AEST'
   | 'AKST'
@@ -6107,7 +6084,7 @@ export type SetHandoffNotificationsMutation = { __typename?: 'RootMutation', aiE
 
 export type GetOrganizationSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetOrganizationSettingsQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, organization?: { __typename?: 'Organization', id: string, name?: string | null, slug?: string | null, websiteUrl?: string | null, timezone?: string | null, alwaysExcludeDncTexts?: boolean | null, aiCoOwnedLineHeadStartSeconds?: number | null, textReplyLinePolicy?: TextReplyLinePolicy | null, callLinePolicy?: CallLinePolicy | null, inboxDefaultView?: InboxDefaultView | null, suggestionAudience?: OrganizationSuggestionAudience | null, meetingNotetakerEnabled?: boolean | null, isBrandingEnabled?: boolean | null, outboundPause?: { __typename?: 'OrganizationOutboundPause', pausedAt: any, pausedBy?: { __typename?: 'User', id: string } | null } | null, leadRouting?: { __typename?: 'OrganizationLeadRouting', assigneeUserIds: Array<string> } | null } | null } | null };
+export type GetOrganizationSettingsQuery = { __typename?: 'RootQuery', currentUser?: { __typename?: 'User', id: string, organization?: { __typename?: 'Organization', id: string, name?: string | null, slug?: string | null, websiteUrl?: string | null, timezone?: string | null, alwaysExcludeDncTexts?: boolean | null, aiCoOwnedLineHeadStartSeconds?: number | null, callLinePolicy?: CallLinePolicy | null, inboxDefaultView?: InboxDefaultView | null, suggestionAudience?: OrganizationSuggestionAudience | null, meetingNotetakerEnabled?: boolean | null, isBrandingEnabled?: boolean | null, outboundPause?: { __typename?: 'OrganizationOutboundPause', pausedAt: any, pausedBy?: { __typename?: 'User', id: string } | null } | null, leadRouting?: { __typename?: 'OrganizationLeadRouting', assigneeUserIds: Array<string> } | null } | null } | null };
 
 export type RenameOrganizationMutationVariables = Exact<{
   name: Scalars['String']['input'];
@@ -6138,12 +6115,6 @@ export type SetOrganizationAiLineHeadStartMutationVariables = Exact<{
 }>;
 
 export type SetOrganizationAiLineHeadStartMutation = { __typename?: 'RootMutation', organizationMutation?: { __typename?: 'OrganizationMutation', updateOrganizationAiCoOwnedLineHeadStart?: { __typename?: 'Organization', id: string, aiCoOwnedLineHeadStartSeconds?: number | null } | null } | null };
-
-export type SetOrganizationTextReplyLinePolicyMutationVariables = Exact<{
-  policy: TextReplyLinePolicy;
-}>;
-
-export type SetOrganizationTextReplyLinePolicyMutation = { __typename?: 'RootMutation', organizationMutation?: { __typename?: 'OrganizationMutation', updateOrganizationTextReplyLinePolicy?: { __typename?: 'Organization', id: string, textReplyLinePolicy?: TextReplyLinePolicy | null } | null } | null };
 
 export type SetOrganizationCallLinePolicyMutationVariables = Exact<{
   policy: CallLinePolicy;
