@@ -7043,7 +7043,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "startDate:DateTime!,endDate:DateTime!,userIds:[ID!]",
-    "responseShape": "{\"teamAnalyticsQuery\":{\"outboundTextCounts\":{\"startDate\":true,\"endDate\":true,\"firstDay\":true,\"lastDay\":true,\"days\":true,\"timeZone\":true,\"total\":{\"sent\":true,\"delivered\":true,\"failed\":true},\"byUser\":{\"userId\":true,\"name\":true,\"sent\":true,\"delivered\":true,\"failed\":true},\"otherSenders\":{\"aiEmployees\":{\"sent\":true,\"delivered\":true,\"failed\":true},\"workflows\":{\"sent\":true,\"delivered\":true,\"failed\":true},\"unattributed\":{\"sent\":true,\"delivered\":true,\"failed\":true}}}}}"
+    "responseShape": "{\"teamAnalyticsQuery\":{\"outboundTextCounts\":{\"startDate\":true,\"endDate\":true,\"firstDay\":true,\"lastDay\":true,\"days\":true,\"timeZone\":true,\"total\":{\"attempted\":true,\"sent\":true,\"delivered\":true,\"failed\":true},\"byUser\":{\"userId\":true,\"name\":true,\"attempted\":true,\"sent\":true,\"delivered\":true,\"failed\":true},\"otherSenders\":{\"aiEmployees\":{\"attempted\":true,\"sent\":true,\"delivered\":true,\"failed\":true},\"workflows\":{\"attempted\":true,\"sent\":true,\"delivered\":true,\"failed\":true},\"unattributed\":{\"attempted\":true,\"sent\":true,\"delivered\":true,\"failed\":true}}}}}"
   },
   {
     "operationId": "createGoalPlan",
@@ -7147,7 +7147,7 @@
     "orgIdVariable": null,
     "hasAuthorize": true,
     "variableSignature": "startDate:DateTime!,endDate:DateTime!,userId:ID",
-    "responseShape": "{\"teamAnalyticsQuery\":{\"memberActivity\":{\"startDate\":true,\"endDate\":true,\"firstDay\":true,\"lastDay\":true,\"days\":true,\"timeZone\":true,\"userId\":true,\"name\":true,\"texts\":{\"sent\":true,\"delivered\":true,\"failed\":true},\"calls\":{\"outboundCalls\":true,\"inboundCalls\":true,\"connectedCalls\":true,\"conversationCalls\":true,\"talkSeconds\":true},\"emailsSent\":true,\"notesWritten\":true,\"tasksCreated\":true,\"appointmentsBooked\":true,\"tasksCompleted\":true,\"pipelineStageMoves\":true}}}"
+    "responseShape": "{\"teamAnalyticsQuery\":{\"memberActivity\":{\"startDate\":true,\"endDate\":true,\"firstDay\":true,\"lastDay\":true,\"days\":true,\"timeZone\":true,\"userId\":true,\"name\":true,\"texts\":{\"attempted\":true,\"sent\":true,\"delivered\":true,\"failed\":true},\"calls\":{\"outboundCalls\":true,\"inboundCalls\":true,\"connectedCalls\":true,\"conversationCalls\":true,\"talkSeconds\":true},\"emailsSent\":true,\"notesWritten\":true,\"tasksCreated\":true,\"appointmentsBooked\":true,\"tasksCompleted\":true,\"pipelineStageMoves\":true}}}"
   },
   {
     "operationId": "getTeamActivityTimeseries",
